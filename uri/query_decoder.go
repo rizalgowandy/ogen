@@ -2,8 +2,11 @@ package uri
 
 import (
 	"net/url"
+	"strings"
 
 	"github.com/go-faster/errors"
+
+	"github.com/ogen-go/ogen/validate"
 )
 
 type QueryDecoder struct {
@@ -50,7 +53,14 @@ func (d *QueryDecoder) HasParam(cfg QueryParameterDecodingConfig) error {
 				}
 
 				if field.Required {
-					return errors.Errorf("query parameter %q not set", qparam)
+					return &validate.Error{
+						Fields: []validate.FieldError{
+							{
+								Name:  qparam,
+								Error: validate.ErrFieldRequired,
+							},
+						},
+					}
 				}
 			}
 
@@ -60,6 +70,18 @@ func (d *QueryDecoder) HasParam(cfg QueryParameterDecodingConfig) error {
 
 			return nil
 		}
+	}
+
+	// For deepObject with no predefined fields (additionalProperties/maps),
+	// check for keys matching the "paramName[" prefix pattern.
+	if cfg.Style == QueryStyleDeepObject && cfg.Explode {
+		prefix := cfg.Name + "["
+		for k := range d.values {
+			if strings.HasPrefix(k, prefix) {
+				return nil
+			}
+		}
+		return errors.Errorf("query parameter %q not set", cfg.Name)
 	}
 
 	if _, ok := d.values[cfg.Name]; !ok {

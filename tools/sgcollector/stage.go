@@ -38,10 +38,10 @@ func (s Stage) String() string {
 		"format",
 		"notImplemented",
 		"good",
-		last - 1: "crash",
+		"crash",
 	}
 	if int(s) >= len(r) {
 		return ""
 	}
-	return r[s]
+	return r[s] // #nosec G602
 }

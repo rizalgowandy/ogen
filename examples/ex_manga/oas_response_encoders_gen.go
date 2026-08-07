@@ -8,11 +8,9 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/trace"
-
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/uri"
+	"go.opentelemetry.io/otel/trace"
 )
 
 func encodeGetBookResponse(response GetBookRes, w http.ResponseWriter, span trace.Span) error {
@@ -20,7 +18,6 @@ func encodeGetBookResponse(response GetBookRes, w http.ResponseWriter, span trac
 	case *Book:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -32,7 +29,6 @@ func encodeGetBookResponse(response GetBookRes, w http.ResponseWriter, span trac
 
 	case *GetBookForbidden:
 		w.WriteHeader(403)
-		span.SetStatus(codes.Error, http.StatusText(403))
 
 		return nil
 
@@ -61,9 +57,11 @@ func encodeGetPageCoverImageResponse(response GetPageCoverImageRes, w http.Respo
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -72,7 +70,6 @@ func encodeGetPageCoverImageResponse(response GetPageCoverImageRes, w http.Respo
 
 	case *GetPageCoverImageForbidden:
 		w.WriteHeader(403)
-		span.SetStatus(codes.Error, http.StatusText(403))
 
 		return nil
 
@@ -101,9 +98,11 @@ func encodeGetPageImageResponse(response GetPageImageRes, w http.ResponseWriter,
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -112,7 +111,6 @@ func encodeGetPageImageResponse(response GetPageImageRes, w http.ResponseWriter,
 
 	case *GetPageImageForbidden:
 		w.WriteHeader(403)
-		span.SetStatus(codes.Error, http.StatusText(403))
 
 		return nil
 
@@ -141,9 +139,11 @@ func encodeGetPageThumbnailImageResponse(response GetPageThumbnailImageRes, w ht
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -152,7 +152,6 @@ func encodeGetPageThumbnailImageResponse(response GetPageThumbnailImageRes, w ht
 
 	case *GetPageThumbnailImageForbidden:
 		w.WriteHeader(403)
-		span.SetStatus(codes.Error, http.StatusText(403))
 
 		return nil
 
@@ -166,7 +165,6 @@ func encodeSearchResponse(response SearchRes, w http.ResponseWriter, span trace.
 	case *SearchOKApplicationJSON:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -178,7 +176,6 @@ func encodeSearchResponse(response SearchRes, w http.ResponseWriter, span trace.
 
 	case *SearchForbidden:
 		w.WriteHeader(403)
-		span.SetStatus(codes.Error, http.StatusText(403))
 
 		return nil
 
@@ -192,7 +189,6 @@ func encodeSearchByTagIDResponse(response SearchByTagIDRes, w http.ResponseWrite
 	case *SearchByTagIDOKApplicationJSON:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -204,7 +200,6 @@ func encodeSearchByTagIDResponse(response SearchByTagIDRes, w http.ResponseWrite
 
 	case *SearchByTagIDForbidden:
 		w.WriteHeader(403)
-		span.SetStatus(codes.Error, http.StatusText(403))
 
 		return nil
 

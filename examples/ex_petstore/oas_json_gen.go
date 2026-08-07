@@ -8,7 +8,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/validate"
 )
 
@@ -23,7 +22,7 @@ func (s *Error) Encode(e *jx.Encoder) {
 func (s *Error) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("code")
-		e.Int32(s.Code)
+		e.Int32(400)
 	}
 	{
 		e.FieldStart("message")

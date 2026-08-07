@@ -7,7 +7,6 @@ import (
 	"strconv"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/uri"
 	"github.com/ogen-go/ogen/validate"
@@ -140,6 +139,66 @@ func (s *OneLevelObject) DecodeURI(d uri.Decoder) error {
 	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// EncodeURI encodes OptionalParametersObject as URI form.
+func (s *OptionalParametersObject) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("key", func(e uri.Encoder) error {
+		if val, ok := s.Key.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"key\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfOptionalParametersObject = [1]string{
+	0: "key",
+}
+
+// DecodeURI decodes OptionalParametersObject from URI form.
+func (s *OptionalParametersObject) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode OptionalParametersObject to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "key":
+			if err := func() error {
+				var sDotKeyVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotKeyVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Key.SetTo(sDotKeyVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"key\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode OptionalParametersObject")
 	}
 
 	return nil

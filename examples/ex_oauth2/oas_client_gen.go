@@ -4,23 +4,28 @@ package api
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 	"time"
 
 	"github.com/go-faster/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
-	"go.opentelemetry.io/otel/trace"
-
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/otelogen"
 	"github.com/ogen-go/ogen/uri"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
+	"go.opentelemetry.io/otel/trace"
 )
+
+func trimTrailingSlashes(u *url.URL) {
+	u.Path = strings.TrimRight(u.Path, "/")
+	u.RawPath = strings.TrimRight(u.RawPath, "/")
+}
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
@@ -44,21 +49,22 @@ type Invoker interface {
 	FindPetByID(ctx context.Context, params FindPetByIDParams) (*Pet, error)
 	// FindPets invokes findPets operation.
 	//
-	// Returns all pets from the system that the user has access to
-	// Nam sed condimentum est. Maecenas tempor sagittis sapien, nec rhoncus sem sagittis sit amet.
-	// Aenean at gravida augue, ac iaculis sem. Curabitur odio lorem, ornare eget elementum nec, cursus
-	// id lectus. Duis mi turpis, pulvinar ac eros ac, tincidunt varius justo. In hac habitasse platea
-	// dictumst. Integer at adipiscing ante, a sagittis ligula. Aenean pharetra tempor ante molestie
-	// imperdiet. Vivamus id aliquam diam. Cras quis velit non tortor eleifend sagittis. Praesent at enim
-	// pharetra urna volutpat venenatis eget eget mauris. In eleifend fermentum facilisis. Praesent enim
-	// enim, gravida ac sodales sed, placerat id erat. Suspendisse lacus dolor, consectetur non augue vel,
-	//  vehicula interdum libero. Morbi euismod sagittis libero sed lacinia.
+	// Returns all pets from the system that the user has access to Nam sed condimentum est. Maecenas
+	// tempor sagittis sapien, nec rhoncus sem sagittis sit amet. Aenean at gravida augue, ac iaculis sem.
+	// Curabitur odio lorem, ornare eget elementum nec, cursus id lectus. Duis mi turpis, pulvinar ac eros
+	// ac, tincidunt varius justo. In hac habitasse platea dictumst. Integer at adipiscing ante, a sagittis
+	// ligula. Aenean pharetra tempor ante molestie imperdiet. Vivamus id aliquam diam. Cras quis velit non
+	// tortor eleifend sagittis. Praesent at enim pharetra urna volutpat venenatis eget eget mauris. In
+	// eleifend fermentum facilisis. Praesent enim enim, gravida ac sodales sed, placerat id erat.
+	// Suspendisse lacus dolor, consectetur non augue vel, vehicula interdum libero. Morbi euismod sagittis
+	// libero sed lacinia.
+	//
 	// Sed tempus felis lobortis leo pulvinar rutrum. Nam mattis velit nisl, eu condimentum ligula luctus
 	// nec. Phasellus semper velit eget aliquet faucibus. In a mattis elit. Phasellus vel urna viverra,
 	// condimentum lorem id, rhoncus nibh. Ut pellentesque posuere elementum. Sed a varius odio. Morbi
 	// rhoncus ligula libero, vel eleifend nunc tristique vitae. Fusce et sem dui. Aenean nec scelerisque
-	// tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit
-	// amet auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce
+	// tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit amet
+	// auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce
 	// sollicitudin massa ut lacinia mattis. Sed vel eleifend lorem. Pellentesque vitae felis pretium,
 	// pulvinar elit eu, euismod sapien.
 	//
@@ -71,19 +77,6 @@ type Client struct {
 	serverURL *url.URL
 	sec       SecuritySource
 	baseClient
-}
-type errorHandler interface {
-	NewError(ctx context.Context, err error) *ErrorStatusCode
-}
-
-var _ Handler = struct {
-	errorHandler
-	*Client
-}{}
-
-func trimTrailingSlashes(u *url.URL) {
-	u.Path = strings.TrimRight(u.Path, "/")
-	u.RawPath = strings.TrimRight(u.RawPath, "/")
 }
 
 // NewClient initializes new Client defined by OAS.
@@ -134,22 +127,23 @@ func (c *Client) sendAddPet(ctx context.Context, request *NewPet) (res *Pet, err
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("addPet"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/pets"),
+		semconv.URLTemplateKey.String("/pets"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "AddPet",
+	ctx, span := c.cfg.Tracer.Start(ctx, AddPetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -184,7 +178,7 @@ func (c *Client) sendAddPet(ctx context.Context, request *NewPet) (res *Pet, err
 		var satisfied bitset
 		{
 			stage = "Security:OAuth2"
-			switch err := c.securityOAuth2(ctx, "AddPet", r); {
+			switch err := c.securityOAuth2(ctx, AddPetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -217,7 +211,14 @@ func (c *Client) sendAddPet(ctx context.Context, request *NewPet) (res *Pet, err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAddPetResponse(resp)
@@ -242,22 +243,23 @@ func (c *Client) sendDeletePet(ctx context.Context, params DeletePetParams) (res
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("deletePet"),
 		semconv.HTTPRequestMethodKey.String("DELETE"),
-		semconv.HTTPRouteKey.String("/pets/{id}"),
+		semconv.URLTemplateKey.String("/pets/{id}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "DeletePet",
+	ctx, span := c.cfg.Tracer.Start(ctx, DeletePetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -307,7 +309,7 @@ func (c *Client) sendDeletePet(ctx context.Context, params DeletePetParams) (res
 		var satisfied bitset
 		{
 			stage = "Security:OAuth2"
-			switch err := c.securityOAuth2(ctx, "DeletePet", r); {
+			switch err := c.securityOAuth2(ctx, DeletePetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -340,7 +342,14 @@ func (c *Client) sendDeletePet(ctx context.Context, params DeletePetParams) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeDeletePetResponse(resp)
@@ -365,22 +374,23 @@ func (c *Client) sendFindPetByID(ctx context.Context, params FindPetByIDParams) 
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("find pet by id"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/pets/{id}"),
+		semconv.URLTemplateKey.String("/pets/{id}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "FindPetByID",
+	ctx, span := c.cfg.Tracer.Start(ctx, FindPetByIDOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -430,7 +440,7 @@ func (c *Client) sendFindPetByID(ctx context.Context, params FindPetByIDParams) 
 		var satisfied bitset
 		{
 			stage = "Security:OAuth2"
-			switch err := c.securityOAuth2(ctx, "FindPetByID", r); {
+			switch err := c.securityOAuth2(ctx, FindPetByIDOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -463,7 +473,14 @@ func (c *Client) sendFindPetByID(ctx context.Context, params FindPetByIDParams) 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeFindPetByIDResponse(resp)
@@ -476,23 +493,22 @@ func (c *Client) sendFindPetByID(ctx context.Context, params FindPetByIDParams) 
 
 // FindPets invokes findPets operation.
 //
-// Returns all pets from the system that the user has access to
-// Nam sed condimentum est. Maecenas tempor sagittis sapien, nec rhoncus sem sagittis sit amet.
-// Aenean at gravida augue, ac iaculis sem. Curabitur odio lorem, ornare eget elementum nec, cursus
-// id lectus. Duis mi turpis, pulvinar ac eros ac, tincidunt varius justo. In hac habitasse platea
-// dictumst. Integer at adipiscing ante, a sagittis ligula. Aenean pharetra tempor ante molestie
-// imperdiet. Vivamus id aliquam diam. Cras quis velit non tortor eleifend sagittis. Praesent at enim
-// pharetra urna volutpat venenatis eget eget mauris. In eleifend fermentum facilisis. Praesent enim
-// enim, gravida ac sodales sed, placerat id erat. Suspendisse lacus dolor, consectetur non augue vel,
-//
-//	vehicula interdum libero. Morbi euismod sagittis libero sed lacinia.
+// Returns all pets from the system that the user has access to Nam sed condimentum est. Maecenas
+// tempor sagittis sapien, nec rhoncus sem sagittis sit amet. Aenean at gravida augue, ac iaculis sem.
+// Curabitur odio lorem, ornare eget elementum nec, cursus id lectus. Duis mi turpis, pulvinar ac eros
+// ac, tincidunt varius justo. In hac habitasse platea dictumst. Integer at adipiscing ante, a sagittis
+// ligula. Aenean pharetra tempor ante molestie imperdiet. Vivamus id aliquam diam. Cras quis velit non
+// tortor eleifend sagittis. Praesent at enim pharetra urna volutpat venenatis eget eget mauris. In
+// eleifend fermentum facilisis. Praesent enim enim, gravida ac sodales sed, placerat id erat.
+// Suspendisse lacus dolor, consectetur non augue vel, vehicula interdum libero. Morbi euismod sagittis
+// libero sed lacinia.
 //
 // Sed tempus felis lobortis leo pulvinar rutrum. Nam mattis velit nisl, eu condimentum ligula luctus
 // nec. Phasellus semper velit eget aliquet faucibus. In a mattis elit. Phasellus vel urna viverra,
 // condimentum lorem id, rhoncus nibh. Ut pellentesque posuere elementum. Sed a varius odio. Morbi
 // rhoncus ligula libero, vel eleifend nunc tristique vitae. Fusce et sem dui. Aenean nec scelerisque
-// tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit
-// amet auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce
+// tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit amet
+// auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce
 // sollicitudin massa ut lacinia mattis. Sed vel eleifend lorem. Pellentesque vitae felis pretium,
 // pulvinar elit eu, euismod sapien.
 //
@@ -506,22 +522,23 @@ func (c *Client) sendFindPets(ctx context.Context, params FindPetsParams) (res [
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("findPets"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/pets"),
+		semconv.URLTemplateKey.String("/pets"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "FindPets",
+	ctx, span := c.cfg.Tracer.Start(ctx, FindPetsOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -600,7 +617,7 @@ func (c *Client) sendFindPets(ctx context.Context, params FindPetsParams) (res [
 		var satisfied bitset
 		{
 			stage = "Security:OAuth2"
-			switch err := c.securityOAuth2(ctx, "FindPets", r); {
+			switch err := c.securityOAuth2(ctx, FindPetsOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -633,7 +650,14 @@ func (c *Client) sendFindPets(ctx context.Context, params FindPetsParams) (res [
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeFindPetsResponse(resp)

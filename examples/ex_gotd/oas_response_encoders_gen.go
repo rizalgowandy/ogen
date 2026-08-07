@@ -7,16 +7,14 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
+	ht "github.com/ogen-go/ogen/http"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
-
-	ht "github.com/ogen-go/ogen/http"
 )
 
 func encodeAddStickerToSetResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -30,7 +28,6 @@ func encodeAddStickerToSetResponse(response *Result, w http.ResponseWriter, span
 func encodeAnswerCallbackQueryResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -44,7 +41,6 @@ func encodeAnswerCallbackQueryResponse(response *Result, w http.ResponseWriter, 
 func encodeAnswerInlineQueryResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -58,7 +54,6 @@ func encodeAnswerInlineQueryResponse(response *Result, w http.ResponseWriter, sp
 func encodeAnswerPreCheckoutQueryResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -72,7 +67,6 @@ func encodeAnswerPreCheckoutQueryResponse(response *Result, w http.ResponseWrite
 func encodeAnswerShippingQueryResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -86,7 +80,6 @@ func encodeAnswerShippingQueryResponse(response *Result, w http.ResponseWriter, 
 func encodeAnswerWebAppQueryResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -100,7 +93,6 @@ func encodeAnswerWebAppQueryResponse(response *Result, w http.ResponseWriter, sp
 func encodeApproveChatJoinRequestResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -114,7 +106,6 @@ func encodeApproveChatJoinRequestResponse(response *Result, w http.ResponseWrite
 func encodeBanChatMemberResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -128,7 +119,6 @@ func encodeBanChatMemberResponse(response *Result, w http.ResponseWriter, span t
 func encodeBanChatSenderChatResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -142,7 +132,6 @@ func encodeBanChatSenderChatResponse(response *Result, w http.ResponseWriter, sp
 func encodeCloseResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -156,7 +145,6 @@ func encodeCloseResponse(response *Result, w http.ResponseWriter, span trace.Spa
 func encodeCopyMessageResponse(response *ResultMessageId, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -170,7 +158,6 @@ func encodeCopyMessageResponse(response *ResultMessageId, w http.ResponseWriter,
 func encodeCreateChatInviteLinkResponse(response *ResultChatInviteLink, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -184,7 +171,6 @@ func encodeCreateChatInviteLinkResponse(response *ResultChatInviteLink, w http.R
 func encodeCreateNewStickerSetResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -198,7 +184,6 @@ func encodeCreateNewStickerSetResponse(response *Result, w http.ResponseWriter, 
 func encodeDeclineChatJoinRequestResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -212,7 +197,6 @@ func encodeDeclineChatJoinRequestResponse(response *Result, w http.ResponseWrite
 func encodeDeleteChatPhotoResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -226,7 +210,6 @@ func encodeDeleteChatPhotoResponse(response *Result, w http.ResponseWriter, span
 func encodeDeleteChatStickerSetResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -240,7 +223,6 @@ func encodeDeleteChatStickerSetResponse(response *Result, w http.ResponseWriter,
 func encodeDeleteMessageResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -254,7 +236,6 @@ func encodeDeleteMessageResponse(response *Result, w http.ResponseWriter, span t
 func encodeDeleteMyCommandsResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -268,7 +249,6 @@ func encodeDeleteMyCommandsResponse(response *Result, w http.ResponseWriter, spa
 func encodeDeleteStickerFromSetResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -282,7 +262,6 @@ func encodeDeleteStickerFromSetResponse(response *Result, w http.ResponseWriter,
 func encodeDeleteWebhookResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -296,7 +275,6 @@ func encodeDeleteWebhookResponse(response *Result, w http.ResponseWriter, span t
 func encodeEditChatInviteLinkResponse(response *ResultChatInviteLink, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -310,7 +288,6 @@ func encodeEditChatInviteLinkResponse(response *ResultChatInviteLink, w http.Res
 func encodeEditMessageCaptionResponse(response *ResultMessageOrBoolean, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -324,7 +301,6 @@ func encodeEditMessageCaptionResponse(response *ResultMessageOrBoolean, w http.R
 func encodeEditMessageLiveLocationResponse(response *ResultMessageOrBoolean, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -338,7 +314,6 @@ func encodeEditMessageLiveLocationResponse(response *ResultMessageOrBoolean, w h
 func encodeEditMessageMediaResponse(response *ResultMessageOrBoolean, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -352,7 +327,6 @@ func encodeEditMessageMediaResponse(response *ResultMessageOrBoolean, w http.Res
 func encodeEditMessageReplyMarkupResponse(response *ResultMessageOrBoolean, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -366,7 +340,6 @@ func encodeEditMessageReplyMarkupResponse(response *ResultMessageOrBoolean, w ht
 func encodeEditMessageTextResponse(response *ResultMessageOrBoolean, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -380,7 +353,6 @@ func encodeEditMessageTextResponse(response *ResultMessageOrBoolean, w http.Resp
 func encodeExportChatInviteLinkResponse(response *ResultString, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -394,7 +366,6 @@ func encodeExportChatInviteLinkResponse(response *ResultString, w http.ResponseW
 func encodeForwardMessageResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -408,7 +379,6 @@ func encodeForwardMessageResponse(response *ResultMessage, w http.ResponseWriter
 func encodeGetChatResponse(response *ResultChat, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -422,7 +392,6 @@ func encodeGetChatResponse(response *ResultChat, w http.ResponseWriter, span tra
 func encodeGetChatAdministratorsResponse(response *ResultArrayOfChatMember, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -436,7 +405,6 @@ func encodeGetChatAdministratorsResponse(response *ResultArrayOfChatMember, w ht
 func encodeGetChatMemberResponse(response *ResultChatMember, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -450,7 +418,6 @@ func encodeGetChatMemberResponse(response *ResultChatMember, w http.ResponseWrit
 func encodeGetChatMemberCountResponse(response *ResultInt, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -464,7 +431,6 @@ func encodeGetChatMemberCountResponse(response *ResultInt, w http.ResponseWriter
 func encodeGetChatMenuButtonResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -478,7 +444,6 @@ func encodeGetChatMenuButtonResponse(response *Result, w http.ResponseWriter, sp
 func encodeGetFileResponse(response *ResultFile, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -492,7 +457,6 @@ func encodeGetFileResponse(response *ResultFile, w http.ResponseWriter, span tra
 func encodeGetGameHighScoresResponse(response *ResultArrayOfGameHighScore, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -506,7 +470,6 @@ func encodeGetGameHighScoresResponse(response *ResultArrayOfGameHighScore, w htt
 func encodeGetMeResponse(response *ResultUser, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -520,7 +483,6 @@ func encodeGetMeResponse(response *ResultUser, w http.ResponseWriter, span trace
 func encodeGetMyCommandsResponse(response *ResultArrayOfBotCommand, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -534,7 +496,6 @@ func encodeGetMyCommandsResponse(response *ResultArrayOfBotCommand, w http.Respo
 func encodeGetMyDefaultAdministratorRightsResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -548,7 +509,6 @@ func encodeGetMyDefaultAdministratorRightsResponse(response *Result, w http.Resp
 func encodeGetStickerSetResponse(response *ResultStickerSet, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -562,7 +522,6 @@ func encodeGetStickerSetResponse(response *ResultStickerSet, w http.ResponseWrit
 func encodeGetUpdatesResponse(response *ResultArrayOfUpdate, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -576,7 +535,6 @@ func encodeGetUpdatesResponse(response *ResultArrayOfUpdate, w http.ResponseWrit
 func encodeGetUserProfilePhotosResponse(response *ResultUserProfilePhotos, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -590,7 +548,6 @@ func encodeGetUserProfilePhotosResponse(response *ResultUserProfilePhotos, w htt
 func encodeGetWebhookInfoResponse(response *ResultWebhookInfo, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -604,7 +561,6 @@ func encodeGetWebhookInfoResponse(response *ResultWebhookInfo, w http.ResponseWr
 func encodeLeaveChatResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -618,7 +574,6 @@ func encodeLeaveChatResponse(response *Result, w http.ResponseWriter, span trace
 func encodeLogOutResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -632,7 +587,6 @@ func encodeLogOutResponse(response *Result, w http.ResponseWriter, span trace.Sp
 func encodePinChatMessageResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -646,7 +600,6 @@ func encodePinChatMessageResponse(response *Result, w http.ResponseWriter, span 
 func encodePromoteChatMemberResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -660,7 +613,6 @@ func encodePromoteChatMemberResponse(response *Result, w http.ResponseWriter, sp
 func encodeRestrictChatMemberResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -674,7 +626,6 @@ func encodeRestrictChatMemberResponse(response *Result, w http.ResponseWriter, s
 func encodeRevokeChatInviteLinkResponse(response *ResultChatInviteLink, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -688,7 +639,6 @@ func encodeRevokeChatInviteLinkResponse(response *ResultChatInviteLink, w http.R
 func encodeSendAnimationResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -702,7 +652,6 @@ func encodeSendAnimationResponse(response *ResultMessage, w http.ResponseWriter,
 func encodeSendAudioResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -716,7 +665,6 @@ func encodeSendAudioResponse(response *ResultMessage, w http.ResponseWriter, spa
 func encodeSendChatActionResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -730,7 +678,6 @@ func encodeSendChatActionResponse(response *Result, w http.ResponseWriter, span 
 func encodeSendContactResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -744,7 +691,6 @@ func encodeSendContactResponse(response *ResultMessage, w http.ResponseWriter, s
 func encodeSendDiceResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -758,7 +704,6 @@ func encodeSendDiceResponse(response *ResultMessage, w http.ResponseWriter, span
 func encodeSendDocumentResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -772,7 +717,6 @@ func encodeSendDocumentResponse(response *ResultMessage, w http.ResponseWriter, 
 func encodeSendGameResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -786,7 +730,6 @@ func encodeSendGameResponse(response *ResultMessage, w http.ResponseWriter, span
 func encodeSendInvoiceResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -800,7 +743,6 @@ func encodeSendInvoiceResponse(response *ResultMessage, w http.ResponseWriter, s
 func encodeSendLocationResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -814,7 +756,6 @@ func encodeSendLocationResponse(response *ResultMessage, w http.ResponseWriter, 
 func encodeSendMediaGroupResponse(response *ResultArrayOfMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -828,7 +769,6 @@ func encodeSendMediaGroupResponse(response *ResultArrayOfMessage, w http.Respons
 func encodeSendMessageResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -842,7 +782,6 @@ func encodeSendMessageResponse(response *ResultMessage, w http.ResponseWriter, s
 func encodeSendPhotoResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -856,7 +795,6 @@ func encodeSendPhotoResponse(response *ResultMessage, w http.ResponseWriter, spa
 func encodeSendPollResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -870,7 +808,6 @@ func encodeSendPollResponse(response *ResultMessage, w http.ResponseWriter, span
 func encodeSendStickerResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -884,7 +821,6 @@ func encodeSendStickerResponse(response *ResultMessage, w http.ResponseWriter, s
 func encodeSendVenueResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -898,7 +834,6 @@ func encodeSendVenueResponse(response *ResultMessage, w http.ResponseWriter, spa
 func encodeSendVideoResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -912,7 +847,6 @@ func encodeSendVideoResponse(response *ResultMessage, w http.ResponseWriter, spa
 func encodeSendVideoNoteResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -926,7 +860,6 @@ func encodeSendVideoNoteResponse(response *ResultMessage, w http.ResponseWriter,
 func encodeSendVoiceResponse(response *ResultMessage, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -940,7 +873,6 @@ func encodeSendVoiceResponse(response *ResultMessage, w http.ResponseWriter, spa
 func encodeSetChatAdministratorCustomTitleResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -954,7 +886,6 @@ func encodeSetChatAdministratorCustomTitleResponse(response *Result, w http.Resp
 func encodeSetChatDescriptionResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -968,7 +899,6 @@ func encodeSetChatDescriptionResponse(response *Result, w http.ResponseWriter, s
 func encodeSetChatMenuButtonResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -982,7 +912,6 @@ func encodeSetChatMenuButtonResponse(response *Result, w http.ResponseWriter, sp
 func encodeSetChatPermissionsResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -996,7 +925,6 @@ func encodeSetChatPermissionsResponse(response *Result, w http.ResponseWriter, s
 func encodeSetChatPhotoResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1010,7 +938,6 @@ func encodeSetChatPhotoResponse(response *Result, w http.ResponseWriter, span tr
 func encodeSetChatStickerSetResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1024,7 +951,6 @@ func encodeSetChatStickerSetResponse(response *Result, w http.ResponseWriter, sp
 func encodeSetChatTitleResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1038,7 +964,6 @@ func encodeSetChatTitleResponse(response *Result, w http.ResponseWriter, span tr
 func encodeSetGameScoreResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1052,7 +977,6 @@ func encodeSetGameScoreResponse(response *Result, w http.ResponseWriter, span tr
 func encodeSetMyCommandsResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1066,7 +990,6 @@ func encodeSetMyCommandsResponse(response *Result, w http.ResponseWriter, span t
 func encodeSetMyDefaultAdministratorRightsResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1080,7 +1003,6 @@ func encodeSetMyDefaultAdministratorRightsResponse(response *Result, w http.Resp
 func encodeSetPassportDataErrorsResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1094,7 +1016,6 @@ func encodeSetPassportDataErrorsResponse(response *Result, w http.ResponseWriter
 func encodeSetStickerPositionInSetResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1108,7 +1029,6 @@ func encodeSetStickerPositionInSetResponse(response *Result, w http.ResponseWrit
 func encodeSetStickerSetThumbResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1122,7 +1042,6 @@ func encodeSetStickerSetThumbResponse(response *Result, w http.ResponseWriter, s
 func encodeSetWebhookResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1136,7 +1055,6 @@ func encodeSetWebhookResponse(response *Result, w http.ResponseWriter, span trac
 func encodeStopMessageLiveLocationResponse(response *ResultMessageOrBoolean, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1150,7 +1068,6 @@ func encodeStopMessageLiveLocationResponse(response *ResultMessageOrBoolean, w h
 func encodeStopPollResponse(response *ResultPoll, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1164,7 +1081,6 @@ func encodeStopPollResponse(response *ResultPoll, w http.ResponseWriter, span tr
 func encodeUnbanChatMemberResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1178,7 +1094,6 @@ func encodeUnbanChatMemberResponse(response *Result, w http.ResponseWriter, span
 func encodeUnbanChatSenderChatResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1192,7 +1107,6 @@ func encodeUnbanChatSenderChatResponse(response *Result, w http.ResponseWriter, 
 func encodeUnpinAllChatMessagesResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1206,7 +1120,6 @@ func encodeUnpinAllChatMessagesResponse(response *Result, w http.ResponseWriter,
 func encodeUnpinChatMessageResponse(response *Result, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1220,7 +1133,6 @@ func encodeUnpinChatMessageResponse(response *Result, w http.ResponseWriter, spa
 func encodeUploadStickerFileResponse(response *ResultFile, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -1239,10 +1151,8 @@ func encodeErrorResponse(response *ErrorStatusCode, w http.ResponseWriter, span 
 		code = http.StatusOK
 	}
 	w.WriteHeader(code)
-	if st := http.StatusText(code); code >= http.StatusBadRequest {
-		span.SetStatus(codes.Error, st)
-	} else {
-		span.SetStatus(codes.Ok, st)
+	if code >= http.StatusInternalServerError {
+		span.SetStatus(codes.Error, http.StatusText(code))
 	}
 
 	e := new(jx.Encoder)

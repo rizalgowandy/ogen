@@ -4,25 +4,60 @@ package api
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 	"time"
 
 	"github.com/go-faster/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
-	"go.opentelemetry.io/otel/trace"
-
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/otelogen"
 	"github.com/ogen-go/ogen/uri"
 	"github.com/ogen-go/ogen/validate"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
+	"go.opentelemetry.io/otel/trace"
 )
+
+func trimTrailingSlashes(u *url.URL) {
+	u.Path = strings.TrimRight(u.Path, "/")
+	u.RawPath = strings.TrimRight(u.RawPath, "/")
+}
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
+	// AllOfWithSiblingExtensions invokes allOfWithSiblingExtensions operation.
+	//
+	// AllOf combined with ogen-specific sibling keywords (must be applied, not dropped).
+	//
+	// POST /allOfWithSiblingExtensions
+	AllOfWithSiblingExtensions(ctx context.Context, request *AllOfWithSiblingExtensionsReq) error
+	// AllOfWithSiblingProperties invokes allOfWithSiblingProperties operation.
+	//
+	// AllOf combined with sibling properties and required (logical AND).
+	//
+	// POST /allOfWithSiblingProperties
+	AllOfWithSiblingProperties(ctx context.Context, request *AllOfWithSiblingPropertiesReq) error
+	// GetAdminFoo invokes getAdminFoo operation.
+	//
+	// Returns Foo + admin-only fields via allOf.
+	//
+	// GET /admin/foo
+	GetAdminFoo(ctx context.Context) (*GetAdminFooOK, error)
+	// GetFoo invokes getFoo operation.
+	//
+	// Returns a Foo (base schema with $ref nested types).
+	//
+	// GET /foo
+	GetFoo(ctx context.Context) (*Foo, error)
+	// MultiAllOfWithSiblingProperties invokes multiAllOfWithSiblingProperties operation.
+	//
+	// Multiple allOf subschemas combined with sibling properties.
+	//
+	// POST /multiAllOfWithSiblingProperties
+	MultiAllOfWithSiblingProperties(ctx context.Context, request *MultiAllOfWithSiblingPropertiesReq) error
 	// NullableStrings invokes nullableStrings operation.
 	//
 	// Nullable strings.
@@ -41,6 +76,12 @@ type Invoker interface {
 	//
 	// POST /objectsWithConflictingProperties
 	ObjectsWithConflictingProperties(ctx context.Context, request *ObjectsWithConflictingPropertiesReq) error
+	// ReferencedAllOfNullable invokes referencedAllOfNullable operation.
+	//
+	// Referenced allOf, but requestBody contains nullable refs.
+	//
+	// POST /referencedAllOfNullable
+	ReferencedAllOfNullable(ctx context.Context, request ReferencedAllOfNullableReq) error
 	// ReferencedAllof invokes referencedAllof operation.
 	//
 	// Referenced allOf.
@@ -77,15 +118,6 @@ type Client struct {
 	baseClient
 }
 
-var _ Handler = struct {
-	*Client
-}{}
-
-func trimTrailingSlashes(u *url.URL) {
-	u.Path = strings.TrimRight(u.Path, "/")
-	u.RawPath = strings.TrimRight(u.RawPath, "/")
-}
-
 // NewClient initializes new Client defined by OAS.
 func NewClient(serverURL string, opts ...ClientOption) (*Client, error) {
 	u, err := url.Parse(serverURL)
@@ -119,6 +151,433 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
+// AllOfWithSiblingExtensions invokes allOfWithSiblingExtensions operation.
+//
+// AllOf combined with ogen-specific sibling keywords (must be applied, not dropped).
+//
+// POST /allOfWithSiblingExtensions
+func (c *Client) AllOfWithSiblingExtensions(ctx context.Context, request *AllOfWithSiblingExtensionsReq) error {
+	_, err := c.sendAllOfWithSiblingExtensions(ctx, request)
+	return err
+}
+
+func (c *Client) sendAllOfWithSiblingExtensions(ctx context.Context, request *AllOfWithSiblingExtensionsReq) (res *AllOfWithSiblingExtensionsOK, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("allOfWithSiblingExtensions"),
+		semconv.HTTPRequestMethodKey.String("POST"),
+		semconv.URLTemplateKey.String("/allOfWithSiblingExtensions"),
+	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, AllOfWithSiblingExtensionsOperation,
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/allOfWithSiblingExtensions"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAllOfWithSiblingExtensionsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	stage = "DecodeResponse"
+	result, err := decodeAllOfWithSiblingExtensionsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AllOfWithSiblingProperties invokes allOfWithSiblingProperties operation.
+//
+// AllOf combined with sibling properties and required (logical AND).
+//
+// POST /allOfWithSiblingProperties
+func (c *Client) AllOfWithSiblingProperties(ctx context.Context, request *AllOfWithSiblingPropertiesReq) error {
+	_, err := c.sendAllOfWithSiblingProperties(ctx, request)
+	return err
+}
+
+func (c *Client) sendAllOfWithSiblingProperties(ctx context.Context, request *AllOfWithSiblingPropertiesReq) (res *AllOfWithSiblingPropertiesOK, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("allOfWithSiblingProperties"),
+		semconv.HTTPRequestMethodKey.String("POST"),
+		semconv.URLTemplateKey.String("/allOfWithSiblingProperties"),
+	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, AllOfWithSiblingPropertiesOperation,
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/allOfWithSiblingProperties"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAllOfWithSiblingPropertiesRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	stage = "DecodeResponse"
+	result, err := decodeAllOfWithSiblingPropertiesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetAdminFoo invokes getAdminFoo operation.
+//
+// Returns Foo + admin-only fields via allOf.
+//
+// GET /admin/foo
+func (c *Client) GetAdminFoo(ctx context.Context) (*GetAdminFooOK, error) {
+	res, err := c.sendGetAdminFoo(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetAdminFoo(ctx context.Context) (res *GetAdminFooOK, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getAdminFoo"),
+		semconv.HTTPRequestMethodKey.String("GET"),
+		semconv.URLTemplateKey.String("/admin/foo"),
+	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, GetAdminFooOperation,
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/admin/foo"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	stage = "DecodeResponse"
+	result, err := decodeGetAdminFooResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetFoo invokes getFoo operation.
+//
+// Returns a Foo (base schema with $ref nested types).
+//
+// GET /foo
+func (c *Client) GetFoo(ctx context.Context) (*Foo, error) {
+	res, err := c.sendGetFoo(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetFoo(ctx context.Context) (res *Foo, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getFoo"),
+		semconv.HTTPRequestMethodKey.String("GET"),
+		semconv.URLTemplateKey.String("/foo"),
+	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, GetFooOperation,
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/foo"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	stage = "DecodeResponse"
+	result, err := decodeGetFooResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// MultiAllOfWithSiblingProperties invokes multiAllOfWithSiblingProperties operation.
+//
+// Multiple allOf subschemas combined with sibling properties.
+//
+// POST /multiAllOfWithSiblingProperties
+func (c *Client) MultiAllOfWithSiblingProperties(ctx context.Context, request *MultiAllOfWithSiblingPropertiesReq) error {
+	_, err := c.sendMultiAllOfWithSiblingProperties(ctx, request)
+	return err
+}
+
+func (c *Client) sendMultiAllOfWithSiblingProperties(ctx context.Context, request *MultiAllOfWithSiblingPropertiesReq) (res *MultiAllOfWithSiblingPropertiesOK, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("multiAllOfWithSiblingProperties"),
+		semconv.HTTPRequestMethodKey.String("POST"),
+		semconv.URLTemplateKey.String("/multiAllOfWithSiblingProperties"),
+	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, MultiAllOfWithSiblingPropertiesOperation,
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/multiAllOfWithSiblingProperties"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeMultiAllOfWithSiblingPropertiesRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	stage = "DecodeResponse"
+	result, err := decodeMultiAllOfWithSiblingPropertiesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // NullableStrings invokes nullableStrings operation.
 //
 // Nullable strings.
@@ -135,13 +594,17 @@ func (c *Client) sendNullableStrings(ctx context.Context, request NilString) (re
 		if value, ok := request.Get(); ok {
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    0,
-					MinLengthSet: false,
-					MaxLength:    0,
-					MaxLengthSet: false,
-					Email:        false,
-					Hostname:     false,
-					Regex:        regexMap["^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"],
+					MinLength:     0,
+					MinLengthSet:  false,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         false,
+					Hostname:      false,
+					Regex:         regexMap["^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"],
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(value)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -157,22 +620,23 @@ func (c *Client) sendNullableStrings(ctx context.Context, request NilString) (re
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("nullableStrings"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/nullableStrings"),
+		semconv.URLTemplateKey.String("/nullableStrings"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "NullableStrings",
+	ctx, span := c.cfg.Tracer.Start(ctx, NullableStringsOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -207,7 +671,14 @@ func (c *Client) sendNullableStrings(ctx context.Context, request NilString) (re
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeNullableStringsResponse(resp)
@@ -241,22 +712,23 @@ func (c *Client) sendObjectsWithConflictingArrayProperty(ctx context.Context, re
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("objectsWithConflictingArrayProperty"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/objectsWithConflictingArrayProperty"),
+		semconv.URLTemplateKey.String("/objectsWithConflictingArrayProperty"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ObjectsWithConflictingArrayProperty",
+	ctx, span := c.cfg.Tracer.Start(ctx, ObjectsWithConflictingArrayPropertyOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -291,7 +763,14 @@ func (c *Client) sendObjectsWithConflictingArrayProperty(ctx context.Context, re
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeObjectsWithConflictingArrayPropertyResponse(resp)
@@ -325,22 +804,23 @@ func (c *Client) sendObjectsWithConflictingProperties(ctx context.Context, reque
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("objectsWithConflictingProperties"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/objectsWithConflictingProperties"),
+		semconv.URLTemplateKey.String("/objectsWithConflictingProperties"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ObjectsWithConflictingProperties",
+	ctx, span := c.cfg.Tracer.Start(ctx, ObjectsWithConflictingPropertiesOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -375,10 +855,125 @@ func (c *Client) sendObjectsWithConflictingProperties(ctx context.Context, reque
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeObjectsWithConflictingPropertiesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReferencedAllOfNullable invokes referencedAllOfNullable operation.
+//
+// Referenced allOf, but requestBody contains nullable refs.
+//
+// POST /referencedAllOfNullable
+func (c *Client) ReferencedAllOfNullable(ctx context.Context, request ReferencedAllOfNullableReq) error {
+	_, err := c.sendReferencedAllOfNullable(ctx, request)
+	return err
+}
+
+func (c *Client) sendReferencedAllOfNullable(ctx context.Context, request ReferencedAllOfNullableReq) (res *ReferencedAllOfNullableOK, err error) {
+	// Validate request before sending.
+	switch request := request.(type) {
+	case *ReferencedAllOfNullableReqEmptyBody:
+		// Validation is not needed for the empty body type.
+	case *ReferencedAllOfNullable:
+		if err := func() error {
+			if err := request.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "validate")
+		}
+	case *ReferencedAllOfNullableMultipart:
+		if err := func() error {
+			if err := request.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "validate")
+		}
+	default:
+		return res, errors.Errorf("unexpected request type: %T", request)
+	}
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("referencedAllOfNullable"),
+		semconv.HTTPRequestMethodKey.String("POST"),
+		semconv.URLTemplateKey.String("/referencedAllOfNullable"),
+	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, ReferencedAllOfNullableOperation,
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/referencedAllOfNullable"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeReferencedAllOfNullableRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	stage = "DecodeResponse"
+	result, err := decodeReferencedAllOfNullableResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -423,22 +1018,23 @@ func (c *Client) sendReferencedAllof(ctx context.Context, request ReferencedAllo
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("referencedAllof"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/referencedAllof"),
+		semconv.URLTemplateKey.String("/referencedAllof"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ReferencedAllof",
+	ctx, span := c.cfg.Tracer.Start(ctx, ReferencedAllofOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -473,7 +1069,14 @@ func (c *Client) sendReferencedAllof(ctx context.Context, request ReferencedAllo
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeReferencedAllofResponse(resp)
@@ -523,22 +1126,23 @@ func (c *Client) sendReferencedAllofOptional(ctx context.Context, request Refere
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("referencedAllofOptional"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/referencedAllofOptional"),
+		semconv.URLTemplateKey.String("/referencedAllofOptional"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ReferencedAllofOptional",
+	ctx, span := c.cfg.Tracer.Start(ctx, ReferencedAllofOptionalOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -573,7 +1177,14 @@ func (c *Client) sendReferencedAllofOptional(ctx context.Context, request Refere
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeReferencedAllofOptionalResponse(resp)
@@ -606,6 +1217,7 @@ func (c *Client) sendSimpleInteger(ctx context.Context, request int) (res *Simpl
 			MaxExclusive:  false,
 			MultipleOfSet: false,
 			MultipleOf:    0,
+			Pattern:       nil,
 		}).Validate(int64(request)); err != nil {
 			return errors.Wrap(err, "int")
 		}
@@ -616,22 +1228,23 @@ func (c *Client) sendSimpleInteger(ctx context.Context, request int) (res *Simpl
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("simpleInteger"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/simpleInteger"),
+		semconv.URLTemplateKey.String("/simpleInteger"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "SimpleInteger",
+	ctx, span := c.cfg.Tracer.Start(ctx, SimpleIntegerOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -666,7 +1279,14 @@ func (c *Client) sendSimpleInteger(ctx context.Context, request int) (res *Simpl
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeSimpleIntegerResponse(resp)
@@ -691,22 +1311,23 @@ func (c *Client) sendSimpleObjects(ctx context.Context, request *SimpleObjectsRe
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("simpleObjects"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/simpleObjects"),
+		semconv.URLTemplateKey.String("/simpleObjects"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "SimpleObjects",
+	ctx, span := c.cfg.Tracer.Start(ctx, SimpleObjectsOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -741,7 +1362,14 @@ func (c *Client) sendSimpleObjects(ctx context.Context, request *SimpleObjectsRe
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeSimpleObjectsResponse(resp)
@@ -766,13 +1394,17 @@ func (c *Client) sendStringsNotype(ctx context.Context, request NilString) (res 
 		if value, ok := request.Get(); ok {
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    0,
-					MinLengthSet: false,
-					MaxLength:    15,
-					MaxLengthSet: true,
-					Email:        false,
-					Hostname:     false,
-					Regex:        nil,
+					MinLength:     0,
+					MinLengthSet:  false,
+					MaxLength:     15,
+					MaxLengthSet:  true,
+					Email:         false,
+					Hostname:      false,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(value)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -788,22 +1420,23 @@ func (c *Client) sendStringsNotype(ctx context.Context, request NilString) (res 
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("stringsNotype"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/stringsNotype"),
+		semconv.URLTemplateKey.String("/stringsNotype"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "StringsNotype",
+	ctx, span := c.cfg.Tracer.Start(ctx, StringsNotypeOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -838,7 +1471,14 @@ func (c *Client) sendStringsNotype(ctx context.Context, request NilString) (res 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeStringsNotypeResponse(resp)

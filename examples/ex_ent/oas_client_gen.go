@@ -4,22 +4,27 @@ package api
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 	"time"
 
 	"github.com/go-faster/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
-	"go.opentelemetry.io/otel/trace"
-
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/otelogen"
 	"github.com/ogen-go/ogen/uri"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
+	"go.opentelemetry.io/otel/trace"
 )
+
+func trimTrailingSlashes(u *url.URL) {
+	u.Path = strings.TrimRight(u.Path, "/")
+	u.RawPath = strings.TrimRight(u.RawPath, "/")
+}
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
@@ -103,15 +108,6 @@ type Client struct {
 	baseClient
 }
 
-var _ Handler = struct {
-	*Client
-}{}
-
-func trimTrailingSlashes(u *url.URL) {
-	u.Path = strings.TrimRight(u.Path, "/")
-	u.RawPath = strings.TrimRight(u.RawPath, "/")
-}
-
 // NewClient initializes new Client defined by OAS.
 func NewClient(serverURL string, opts ...ClientOption) (*Client, error) {
 	u, err := url.Parse(serverURL)
@@ -159,22 +155,23 @@ func (c *Client) sendCreatePet(ctx context.Context, request *CreatePetReq) (res 
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createPet"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/pets"),
+		semconv.URLTemplateKey.String("/pets"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "CreatePet",
+	ctx, span := c.cfg.Tracer.Start(ctx, CreatePetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -209,7 +206,14 @@ func (c *Client) sendCreatePet(ctx context.Context, request *CreatePetReq) (res 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeCreatePetResponse(resp)
@@ -234,22 +238,23 @@ func (c *Client) sendCreatePetCategories(ctx context.Context, request *CreatePet
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createPetCategories"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/pets/{id}/categories"),
+		semconv.URLTemplateKey.String("/pets/{id}/categories"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "CreatePetCategories",
+	ctx, span := c.cfg.Tracer.Start(ctx, CreatePetCategoriesOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -303,7 +308,14 @@ func (c *Client) sendCreatePetCategories(ctx context.Context, request *CreatePet
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeCreatePetCategoriesResponse(resp)
@@ -328,22 +340,23 @@ func (c *Client) sendCreatePetFriends(ctx context.Context, request *CreatePetFri
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createPetFriends"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/pets/{id}/friends"),
+		semconv.URLTemplateKey.String("/pets/{id}/friends"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "CreatePetFriends",
+	ctx, span := c.cfg.Tracer.Start(ctx, CreatePetFriendsOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -397,7 +410,14 @@ func (c *Client) sendCreatePetFriends(ctx context.Context, request *CreatePetFri
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeCreatePetFriendsResponse(resp)
@@ -422,22 +442,23 @@ func (c *Client) sendCreatePetOwner(ctx context.Context, request *CreatePetOwner
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createPetOwner"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/pets/{id}/owner"),
+		semconv.URLTemplateKey.String("/pets/{id}/owner"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "CreatePetOwner",
+	ctx, span := c.cfg.Tracer.Start(ctx, CreatePetOwnerOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -491,7 +512,14 @@ func (c *Client) sendCreatePetOwner(ctx context.Context, request *CreatePetOwner
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeCreatePetOwnerResponse(resp)
@@ -516,22 +544,23 @@ func (c *Client) sendDeletePet(ctx context.Context, params DeletePetParams) (res
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("deletePet"),
 		semconv.HTTPRequestMethodKey.String("DELETE"),
-		semconv.HTTPRouteKey.String("/pets/{id}"),
+		semconv.URLTemplateKey.String("/pets/{id}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "DeletePet",
+	ctx, span := c.cfg.Tracer.Start(ctx, DeletePetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -581,7 +610,14 @@ func (c *Client) sendDeletePet(ctx context.Context, params DeletePetParams) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeDeletePetResponse(resp)
@@ -606,22 +642,23 @@ func (c *Client) sendDeletePetOwner(ctx context.Context, params DeletePetOwnerPa
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("deletePetOwner"),
 		semconv.HTTPRequestMethodKey.String("DELETE"),
-		semconv.HTTPRouteKey.String("/pets/{id}/owner"),
+		semconv.URLTemplateKey.String("/pets/{id}/owner"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "DeletePetOwner",
+	ctx, span := c.cfg.Tracer.Start(ctx, DeletePetOwnerOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -672,7 +709,14 @@ func (c *Client) sendDeletePetOwner(ctx context.Context, params DeletePetOwnerPa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeDeletePetOwnerResponse(resp)
@@ -697,22 +741,23 @@ func (c *Client) sendListPet(ctx context.Context, params ListPetParams) (res Lis
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("listPet"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/pets"),
+		semconv.URLTemplateKey.String("/pets"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ListPet",
+	ctx, span := c.cfg.Tracer.Start(ctx, ListPetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -782,7 +827,14 @@ func (c *Client) sendListPet(ctx context.Context, params ListPetParams) (res Lis
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeListPetResponse(resp)
@@ -807,22 +859,23 @@ func (c *Client) sendListPetCategories(ctx context.Context, params ListPetCatego
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("listPetCategories"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/pets/{id}/categories"),
+		semconv.URLTemplateKey.String("/pets/{id}/categories"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ListPetCategories",
+	ctx, span := c.cfg.Tracer.Start(ctx, ListPetCategoriesOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -911,7 +964,14 @@ func (c *Client) sendListPetCategories(ctx context.Context, params ListPetCatego
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeListPetCategoriesResponse(resp)
@@ -936,22 +996,23 @@ func (c *Client) sendListPetFriends(ctx context.Context, params ListPetFriendsPa
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("listPetFriends"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/pets/{id}/friends"),
+		semconv.URLTemplateKey.String("/pets/{id}/friends"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ListPetFriends",
+	ctx, span := c.cfg.Tracer.Start(ctx, ListPetFriendsOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1040,7 +1101,14 @@ func (c *Client) sendListPetFriends(ctx context.Context, params ListPetFriendsPa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeListPetFriendsResponse(resp)
@@ -1065,22 +1133,23 @@ func (c *Client) sendReadPet(ctx context.Context, params ReadPetParams) (res Rea
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("readPet"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/pets/{id}"),
+		semconv.URLTemplateKey.String("/pets/{id}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ReadPet",
+	ctx, span := c.cfg.Tracer.Start(ctx, ReadPetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1130,7 +1199,14 @@ func (c *Client) sendReadPet(ctx context.Context, params ReadPetParams) (res Rea
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeReadPetResponse(resp)
@@ -1155,22 +1231,23 @@ func (c *Client) sendReadPetOwner(ctx context.Context, params ReadPetOwnerParams
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("readPetOwner"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/pets/{id}/owner"),
+		semconv.URLTemplateKey.String("/pets/{id}/owner"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ReadPetOwner",
+	ctx, span := c.cfg.Tracer.Start(ctx, ReadPetOwnerOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1221,7 +1298,14 @@ func (c *Client) sendReadPetOwner(ctx context.Context, params ReadPetOwnerParams
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeReadPetOwnerResponse(resp)
@@ -1246,22 +1330,23 @@ func (c *Client) sendUpdatePet(ctx context.Context, request *UpdatePetReq, param
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updatePet"),
 		semconv.HTTPRequestMethodKey.String("PATCH"),
-		semconv.HTTPRouteKey.String("/pets/{id}"),
+		semconv.URLTemplateKey.String("/pets/{id}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "UpdatePet",
+	ctx, span := c.cfg.Tracer.Start(ctx, UpdatePetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1314,7 +1399,14 @@ func (c *Client) sendUpdatePet(ctx context.Context, request *UpdatePetReq, param
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeUpdatePetResponse(resp)

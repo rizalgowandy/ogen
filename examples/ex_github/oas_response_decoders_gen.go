@@ -11,7 +11,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/uri"
@@ -24,7 +23,7 @@ func decodeActionsAddRepoAccessToSelfHostedRunnerGroupInOrgResponse(resp *http.R
 		// Code 204.
 		return &ActionsAddRepoAccessToSelfHostedRunnerGroupInOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsAddSelectedRepoToOrgSecretResponse(resp *http.Response) (res ActionsAddSelectedRepoToOrgSecretRes, _ error) {
@@ -36,7 +35,7 @@ func decodeActionsAddSelectedRepoToOrgSecretResponse(resp *http.Response) (res A
 		// Code 409.
 		return &ActionsAddSelectedRepoToOrgSecretConflict{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsAddSelfHostedRunnerToGroupForOrgResponse(resp *http.Response) (res *ActionsAddSelfHostedRunnerToGroupForOrgNoContent, _ error) {
@@ -45,7 +44,7 @@ func decodeActionsAddSelfHostedRunnerToGroupForOrgResponse(resp *http.Response) 
 		// Code 204.
 		return &ActionsAddSelfHostedRunnerToGroupForOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsApproveWorkflowRunResponse(resp *http.Response) (res ActionsApproveWorkflowRunRes, _ error) {
@@ -156,7 +155,7 @@ func decodeActionsApproveWorkflowRunResponse(resp *http.Response) (res ActionsAp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsCancelWorkflowRunResponse(resp *http.Response) (res *ActionsCancelWorkflowRunAccepted, _ error) {
@@ -197,7 +196,7 @@ func decodeActionsCancelWorkflowRunResponse(resp *http.Response) (res *ActionsCa
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsCreateOrUpdateEnvironmentSecretResponse(resp *http.Response) (res ActionsCreateOrUpdateEnvironmentSecretRes, _ error) {
@@ -241,7 +240,7 @@ func decodeActionsCreateOrUpdateEnvironmentSecretResponse(resp *http.Response) (
 		// Code 204.
 		return &ActionsCreateOrUpdateEnvironmentSecretNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsCreateOrUpdateOrgSecretResponse(resp *http.Response) (res ActionsCreateOrUpdateOrgSecretRes, _ error) {
@@ -285,7 +284,7 @@ func decodeActionsCreateOrUpdateOrgSecretResponse(resp *http.Response) (res Acti
 		// Code 204.
 		return &ActionsCreateOrUpdateOrgSecretNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsCreateOrUpdateRepoSecretResponse(resp *http.Response) (res ActionsCreateOrUpdateRepoSecretRes, _ error) {
@@ -329,7 +328,7 @@ func decodeActionsCreateOrUpdateRepoSecretResponse(resp *http.Response) (res Act
 		// Code 204.
 		return &ActionsCreateOrUpdateRepoSecretNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsCreateRegistrationTokenForOrgResponse(resp *http.Response) (res *AuthenticationToken, _ error) {
@@ -379,7 +378,7 @@ func decodeActionsCreateRegistrationTokenForOrgResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsCreateRegistrationTokenForRepoResponse(resp *http.Response) (res *AuthenticationToken, _ error) {
@@ -429,7 +428,7 @@ func decodeActionsCreateRegistrationTokenForRepoResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsCreateRemoveTokenForOrgResponse(resp *http.Response) (res *AuthenticationToken, _ error) {
@@ -479,7 +478,7 @@ func decodeActionsCreateRemoveTokenForOrgResponse(resp *http.Response) (res *Aut
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsCreateRemoveTokenForRepoResponse(resp *http.Response) (res *AuthenticationToken, _ error) {
@@ -529,7 +528,7 @@ func decodeActionsCreateRemoveTokenForRepoResponse(resp *http.Response) (res *Au
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsCreateSelfHostedRunnerGroupForOrgResponse(resp *http.Response) (res *RunnerGroupsOrg, _ error) {
@@ -579,7 +578,16 @@ func decodeActionsCreateSelfHostedRunnerGroupForOrgResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeActionsCreateWorkflowDispatchResponse(resp *http.Response) (res *ActionsCreateWorkflowDispatchNoContent, _ error) {
+	switch resp.StatusCode {
+	case 204:
+		// Code 204.
+		return &ActionsCreateWorkflowDispatchNoContent{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDeleteArtifactResponse(resp *http.Response) (res *ActionsDeleteArtifactNoContent, _ error) {
@@ -588,7 +596,7 @@ func decodeActionsDeleteArtifactResponse(resp *http.Response) (res *ActionsDelet
 		// Code 204.
 		return &ActionsDeleteArtifactNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDeleteEnvironmentSecretResponse(resp *http.Response) (res *ActionsDeleteEnvironmentSecretNoContent, _ error) {
@@ -597,7 +605,7 @@ func decodeActionsDeleteEnvironmentSecretResponse(resp *http.Response) (res *Act
 		// Code 204.
 		return &ActionsDeleteEnvironmentSecretNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDeleteOrgSecretResponse(resp *http.Response) (res *ActionsDeleteOrgSecretNoContent, _ error) {
@@ -606,7 +614,7 @@ func decodeActionsDeleteOrgSecretResponse(resp *http.Response) (res *ActionsDele
 		// Code 204.
 		return &ActionsDeleteOrgSecretNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDeleteRepoSecretResponse(resp *http.Response) (res *ActionsDeleteRepoSecretNoContent, _ error) {
@@ -615,7 +623,7 @@ func decodeActionsDeleteRepoSecretResponse(resp *http.Response) (res *ActionsDel
 		// Code 204.
 		return &ActionsDeleteRepoSecretNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDeleteSelfHostedRunnerFromOrgResponse(resp *http.Response) (res *ActionsDeleteSelfHostedRunnerFromOrgNoContent, _ error) {
@@ -624,7 +632,7 @@ func decodeActionsDeleteSelfHostedRunnerFromOrgResponse(resp *http.Response) (re
 		// Code 204.
 		return &ActionsDeleteSelfHostedRunnerFromOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDeleteSelfHostedRunnerFromRepoResponse(resp *http.Response) (res *ActionsDeleteSelfHostedRunnerFromRepoNoContent, _ error) {
@@ -633,7 +641,7 @@ func decodeActionsDeleteSelfHostedRunnerFromRepoResponse(resp *http.Response) (r
 		// Code 204.
 		return &ActionsDeleteSelfHostedRunnerFromRepoNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDeleteSelfHostedRunnerGroupFromOrgResponse(resp *http.Response) (res *ActionsDeleteSelfHostedRunnerGroupFromOrgNoContent, _ error) {
@@ -642,7 +650,7 @@ func decodeActionsDeleteSelfHostedRunnerGroupFromOrgResponse(resp *http.Response
 		// Code 204.
 		return &ActionsDeleteSelfHostedRunnerGroupFromOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDeleteWorkflowRunResponse(resp *http.Response) (res *ActionsDeleteWorkflowRunNoContent, _ error) {
@@ -651,7 +659,7 @@ func decodeActionsDeleteWorkflowRunResponse(resp *http.Response) (res *ActionsDe
 		// Code 204.
 		return &ActionsDeleteWorkflowRunNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDeleteWorkflowRunLogsResponse(resp *http.Response) (res *ActionsDeleteWorkflowRunLogsNoContent, _ error) {
@@ -660,7 +668,7 @@ func decodeActionsDeleteWorkflowRunLogsResponse(resp *http.Response) (res *Actio
 		// Code 204.
 		return &ActionsDeleteWorkflowRunLogsNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDisableSelectedRepositoryGithubActionsOrganizationResponse(resp *http.Response) (res *ActionsDisableSelectedRepositoryGithubActionsOrganizationNoContent, _ error) {
@@ -669,7 +677,16 @@ func decodeActionsDisableSelectedRepositoryGithubActionsOrganizationResponse(res
 		// Code 204.
 		return &ActionsDisableSelectedRepositoryGithubActionsOrganizationNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeActionsDisableWorkflowResponse(resp *http.Response) (res *ActionsDisableWorkflowNoContent, _ error) {
+	switch resp.StatusCode {
+	case 204:
+		// Code 204.
+		return &ActionsDisableWorkflowNoContent{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDownloadArtifactResponse(resp *http.Response) (res *ActionsDownloadArtifactFound, _ error) {
@@ -717,7 +734,7 @@ func decodeActionsDownloadArtifactResponse(resp *http.Response) (res *ActionsDow
 		}
 		return &wrapper, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDownloadJobLogsForWorkflowRunResponse(resp *http.Response) (res *ActionsDownloadJobLogsForWorkflowRunFound, _ error) {
@@ -765,7 +782,7 @@ func decodeActionsDownloadJobLogsForWorkflowRunResponse(resp *http.Response) (re
 		}
 		return &wrapper, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsDownloadWorkflowRunLogsResponse(resp *http.Response) (res *ActionsDownloadWorkflowRunLogsFound, _ error) {
@@ -813,7 +830,7 @@ func decodeActionsDownloadWorkflowRunLogsResponse(resp *http.Response) (res *Act
 		}
 		return &wrapper, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsEnableSelectedRepositoryGithubActionsOrganizationResponse(resp *http.Response) (res *ActionsEnableSelectedRepositoryGithubActionsOrganizationNoContent, _ error) {
@@ -822,7 +839,16 @@ func decodeActionsEnableSelectedRepositoryGithubActionsOrganizationResponse(resp
 		// Code 204.
 		return &ActionsEnableSelectedRepositoryGithubActionsOrganizationNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeActionsEnableWorkflowResponse(resp *http.Response) (res *ActionsEnableWorkflowNoContent, _ error) {
+	switch resp.StatusCode {
+	case 204:
+		// Code 204.
+		return &ActionsEnableWorkflowNoContent{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetAllowedActionsOrganizationResponse(resp *http.Response) (res *SelectedActions, _ error) {
@@ -863,7 +889,7 @@ func decodeActionsGetAllowedActionsOrganizationResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetAllowedActionsRepositoryResponse(resp *http.Response) (res *SelectedActions, _ error) {
@@ -904,7 +930,7 @@ func decodeActionsGetAllowedActionsRepositoryResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetArtifactResponse(resp *http.Response) (res *Artifact, _ error) {
@@ -945,7 +971,7 @@ func decodeActionsGetArtifactResponse(resp *http.Response) (res *Artifact, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetEnvironmentPublicKeyResponse(resp *http.Response) (res *ActionsPublicKey, _ error) {
@@ -986,7 +1012,7 @@ func decodeActionsGetEnvironmentPublicKeyResponse(resp *http.Response) (res *Act
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetEnvironmentSecretResponse(resp *http.Response) (res *ActionsSecret, _ error) {
@@ -1027,7 +1053,7 @@ func decodeActionsGetEnvironmentSecretResponse(resp *http.Response) (res *Action
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetGithubActionsPermissionsOrganizationResponse(resp *http.Response) (res *ActionsOrganizationPermissions, _ error) {
@@ -1077,7 +1103,7 @@ func decodeActionsGetGithubActionsPermissionsOrganizationResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetGithubActionsPermissionsRepositoryResponse(resp *http.Response) (res *ActionsRepositoryPermissions, _ error) {
@@ -1127,7 +1153,7 @@ func decodeActionsGetGithubActionsPermissionsRepositoryResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetJobForWorkflowRunResponse(resp *http.Response) (res *Job, _ error) {
@@ -1177,7 +1203,7 @@ func decodeActionsGetJobForWorkflowRunResponse(resp *http.Response) (res *Job, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetOrgPublicKeyResponse(resp *http.Response) (res *ActionsPublicKey, _ error) {
@@ -1218,7 +1244,7 @@ func decodeActionsGetOrgPublicKeyResponse(resp *http.Response) (res *ActionsPubl
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetOrgSecretResponse(resp *http.Response) (res *OrganizationActionsSecret, _ error) {
@@ -1268,7 +1294,7 @@ func decodeActionsGetOrgSecretResponse(resp *http.Response) (res *OrganizationAc
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetRepoPublicKeyResponse(resp *http.Response) (res *ActionsPublicKey, _ error) {
@@ -1309,7 +1335,7 @@ func decodeActionsGetRepoPublicKeyResponse(resp *http.Response) (res *ActionsPub
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetRepoSecretResponse(resp *http.Response) (res *ActionsSecret, _ error) {
@@ -1350,7 +1376,7 @@ func decodeActionsGetRepoSecretResponse(resp *http.Response) (res *ActionsSecret
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetReviewsForRunResponse(resp *http.Response) (res []EnvironmentApprovals, _ error) {
@@ -1425,7 +1451,7 @@ func decodeActionsGetReviewsForRunResponse(resp *http.Response) (res []Environme
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetSelfHostedRunnerForOrgResponse(resp *http.Response) (res *Runner, _ error) {
@@ -1475,7 +1501,7 @@ func decodeActionsGetSelfHostedRunnerForOrgResponse(resp *http.Response) (res *R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetSelfHostedRunnerForRepoResponse(resp *http.Response) (res *Runner, _ error) {
@@ -1525,7 +1551,7 @@ func decodeActionsGetSelfHostedRunnerForRepoResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetSelfHostedRunnerGroupForOrgResponse(resp *http.Response) (res *RunnerGroupsOrg, _ error) {
@@ -1575,7 +1601,57 @@ func decodeActionsGetSelfHostedRunnerGroupForOrgResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeActionsGetWorkflowResponse(resp *http.Response) (res *Workflow, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Workflow
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetWorkflowRunResponse(resp *http.Response) (res *WorkflowRun, _ error) {
@@ -1616,7 +1692,7 @@ func decodeActionsGetWorkflowRunResponse(resp *http.Response) (res *WorkflowRun,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsGetWorkflowRunUsageResponse(resp *http.Response) (res *WorkflowRunUsage, _ error) {
@@ -1657,7 +1733,48 @@ func decodeActionsGetWorkflowRunUsageResponse(resp *http.Response) (res *Workflo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeActionsGetWorkflowUsageResponse(resp *http.Response) (res *WorkflowUsage, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response WorkflowUsage
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListArtifactsForRepoResponse(resp *http.Response) (res *ActionsListArtifactsForRepoOKHeaders, _ error) {
@@ -1747,7 +1864,7 @@ func decodeActionsListArtifactsForRepoResponse(resp *http.Response) (res *Action
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListEnvironmentSecretsResponse(resp *http.Response) (res *ActionsListEnvironmentSecretsOKHeaders, _ error) {
@@ -1837,7 +1954,7 @@ func decodeActionsListEnvironmentSecretsResponse(resp *http.Response) (res *Acti
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListJobsForWorkflowRunResponse(resp *http.Response) (res *ActionsListJobsForWorkflowRunOKHeaders, _ error) {
@@ -1927,7 +2044,7 @@ func decodeActionsListJobsForWorkflowRunResponse(resp *http.Response) (res *Acti
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListOrgSecretsResponse(resp *http.Response) (res *ActionsListOrgSecretsOKHeaders, _ error) {
@@ -2017,7 +2134,7 @@ func decodeActionsListOrgSecretsResponse(resp *http.Response) (res *ActionsListO
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListRepoAccessToSelfHostedRunnerGroupInOrgResponse(resp *http.Response) (res *ActionsListRepoAccessToSelfHostedRunnerGroupInOrgOK, _ error) {
@@ -2067,7 +2184,7 @@ func decodeActionsListRepoAccessToSelfHostedRunnerGroupInOrgResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListRepoSecretsResponse(resp *http.Response) (res *ActionsListRepoSecretsOKHeaders, _ error) {
@@ -2157,7 +2274,7 @@ func decodeActionsListRepoSecretsResponse(resp *http.Response) (res *ActionsList
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListRepoWorkflowsResponse(resp *http.Response) (res *ActionsListRepoWorkflowsOKHeaders, _ error) {
@@ -2247,7 +2364,7 @@ func decodeActionsListRepoWorkflowsResponse(resp *http.Response) (res *ActionsLi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListRunnerApplicationsForOrgResponse(resp *http.Response) (res []RunnerApplication, _ error) {
@@ -2305,7 +2422,7 @@ func decodeActionsListRunnerApplicationsForOrgResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListRunnerApplicationsForRepoResponse(resp *http.Response) (res []RunnerApplication, _ error) {
@@ -2363,7 +2480,7 @@ func decodeActionsListRunnerApplicationsForRepoResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListSelectedReposForOrgSecretResponse(resp *http.Response) (res *ActionsListSelectedReposForOrgSecretOK, _ error) {
@@ -2413,7 +2530,7 @@ func decodeActionsListSelectedReposForOrgSecretResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListSelectedRepositoriesEnabledGithubActionsOrganizationResponse(resp *http.Response) (res *ActionsListSelectedRepositoriesEnabledGithubActionsOrganizationOK, _ error) {
@@ -2463,7 +2580,7 @@ func decodeActionsListSelectedRepositoriesEnabledGithubActionsOrganizationRespon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListSelfHostedRunnerGroupsForOrgResponse(resp *http.Response) (res *ActionsListSelfHostedRunnerGroupsForOrgOK, _ error) {
@@ -2513,7 +2630,7 @@ func decodeActionsListSelfHostedRunnerGroupsForOrgResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListSelfHostedRunnersForOrgResponse(resp *http.Response) (res *ActionsListSelfHostedRunnersForOrgOKHeaders, _ error) {
@@ -2603,7 +2720,7 @@ func decodeActionsListSelfHostedRunnersForOrgResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListSelfHostedRunnersForRepoResponse(resp *http.Response) (res *ActionsListSelfHostedRunnersForRepoOKHeaders, _ error) {
@@ -2693,7 +2810,7 @@ func decodeActionsListSelfHostedRunnersForRepoResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListSelfHostedRunnersInGroupForOrgResponse(resp *http.Response) (res *ActionsListSelfHostedRunnersInGroupForOrgOKHeaders, _ error) {
@@ -2783,7 +2900,7 @@ func decodeActionsListSelfHostedRunnersInGroupForOrgResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListWorkflowRunArtifactsResponse(resp *http.Response) (res *ActionsListWorkflowRunArtifactsOKHeaders, _ error) {
@@ -2873,7 +2990,97 @@ func decodeActionsListWorkflowRunArtifactsResponse(resp *http.Response) (res *Ac
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeActionsListWorkflowRunsResponse(resp *http.Response) (res *ActionsListWorkflowRunsOKHeaders, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ActionsListWorkflowRunsOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			var wrapper ActionsListWorkflowRunsOKHeaders
+			wrapper.Response = response
+			h := uri.NewHeaderDecoder(resp.Header)
+			// Parse "Link" header.
+			{
+				cfg := uri.HeaderParameterDecodingConfig{
+					Name:    "Link",
+					Explode: false,
+				}
+				if err := func() error {
+					if err := h.HasParam(cfg); err == nil {
+						if err := h.DecodeParam(cfg, func(d uri.Decoder) error {
+							var wrapperDotLinkVal string
+							if err := func() error {
+								val, err := d.DecodeValue()
+								if err != nil {
+									return err
+								}
+
+								c, err := conv.ToString(val)
+								if err != nil {
+									return err
+								}
+
+								wrapperDotLinkVal = c
+								return nil
+							}(); err != nil {
+								return err
+							}
+							wrapper.Link.SetTo(wrapperDotLinkVal)
+							return nil
+						}); err != nil {
+							return err
+						}
+					}
+					return nil
+				}(); err != nil {
+					return res, errors.Wrap(err, "parse Link header")
+				}
+			}
+			return &wrapper, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsListWorkflowRunsForRepoResponse(resp *http.Response) (res *ActionsListWorkflowRunsForRepoOKHeaders, _ error) {
@@ -2963,7 +3170,7 @@ func decodeActionsListWorkflowRunsForRepoResponse(resp *http.Response) (res *Act
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsReRunWorkflowResponse(resp *http.Response) (res *ActionsReRunWorkflowCreated, _ error) {
@@ -3004,7 +3211,7 @@ func decodeActionsReRunWorkflowResponse(resp *http.Response) (res *ActionsReRunW
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsRemoveRepoAccessToSelfHostedRunnerGroupInOrgResponse(resp *http.Response) (res *ActionsRemoveRepoAccessToSelfHostedRunnerGroupInOrgNoContent, _ error) {
@@ -3013,7 +3220,7 @@ func decodeActionsRemoveRepoAccessToSelfHostedRunnerGroupInOrgResponse(resp *htt
 		// Code 204.
 		return &ActionsRemoveRepoAccessToSelfHostedRunnerGroupInOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsRemoveSelectedRepoFromOrgSecretResponse(resp *http.Response) (res ActionsRemoveSelectedRepoFromOrgSecretRes, _ error) {
@@ -3025,7 +3232,7 @@ func decodeActionsRemoveSelectedRepoFromOrgSecretResponse(resp *http.Response) (
 		// Code 409.
 		return &ActionsRemoveSelectedRepoFromOrgSecretConflict{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsRemoveSelfHostedRunnerFromGroupForOrgResponse(resp *http.Response) (res *ActionsRemoveSelfHostedRunnerFromGroupForOrgNoContent, _ error) {
@@ -3034,7 +3241,7 @@ func decodeActionsRemoveSelfHostedRunnerFromGroupForOrgResponse(resp *http.Respo
 		// Code 204.
 		return &ActionsRemoveSelfHostedRunnerFromGroupForOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsRetryWorkflowResponse(resp *http.Response) (res *ActionsRetryWorkflowCreated, _ error) {
@@ -3075,7 +3282,7 @@ func decodeActionsRetryWorkflowResponse(resp *http.Response) (res *ActionsRetryW
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsReviewPendingDeploymentsForRunResponse(resp *http.Response) (res []Deployment, _ error) {
@@ -3150,7 +3357,7 @@ func decodeActionsReviewPendingDeploymentsForRunResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsSetAllowedActionsOrganizationResponse(resp *http.Response) (res *ActionsSetAllowedActionsOrganizationNoContent, _ error) {
@@ -3159,7 +3366,7 @@ func decodeActionsSetAllowedActionsOrganizationResponse(resp *http.Response) (re
 		// Code 204.
 		return &ActionsSetAllowedActionsOrganizationNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsSetAllowedActionsRepositoryResponse(resp *http.Response) (res *ActionsSetAllowedActionsRepositoryNoContent, _ error) {
@@ -3168,7 +3375,7 @@ func decodeActionsSetAllowedActionsRepositoryResponse(resp *http.Response) (res 
 		// Code 204.
 		return &ActionsSetAllowedActionsRepositoryNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsSetGithubActionsPermissionsOrganizationResponse(resp *http.Response) (res *ActionsSetGithubActionsPermissionsOrganizationNoContent, _ error) {
@@ -3177,7 +3384,7 @@ func decodeActionsSetGithubActionsPermissionsOrganizationResponse(resp *http.Res
 		// Code 204.
 		return &ActionsSetGithubActionsPermissionsOrganizationNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsSetGithubActionsPermissionsRepositoryResponse(resp *http.Response) (res *ActionsSetGithubActionsPermissionsRepositoryNoContent, _ error) {
@@ -3186,7 +3393,7 @@ func decodeActionsSetGithubActionsPermissionsRepositoryResponse(resp *http.Respo
 		// Code 204.
 		return &ActionsSetGithubActionsPermissionsRepositoryNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsSetRepoAccessToSelfHostedRunnerGroupInOrgResponse(resp *http.Response) (res *ActionsSetRepoAccessToSelfHostedRunnerGroupInOrgNoContent, _ error) {
@@ -3195,7 +3402,7 @@ func decodeActionsSetRepoAccessToSelfHostedRunnerGroupInOrgResponse(resp *http.R
 		// Code 204.
 		return &ActionsSetRepoAccessToSelfHostedRunnerGroupInOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsSetSelectedReposForOrgSecretResponse(resp *http.Response) (res *ActionsSetSelectedReposForOrgSecretNoContent, _ error) {
@@ -3204,7 +3411,7 @@ func decodeActionsSetSelectedReposForOrgSecretResponse(resp *http.Response) (res
 		// Code 204.
 		return &ActionsSetSelectedReposForOrgSecretNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsSetSelectedRepositoriesEnabledGithubActionsOrganizationResponse(resp *http.Response) (res *ActionsSetSelectedRepositoriesEnabledGithubActionsOrganizationNoContent, _ error) {
@@ -3213,7 +3420,7 @@ func decodeActionsSetSelectedRepositoriesEnabledGithubActionsOrganizationRespons
 		// Code 204.
 		return &ActionsSetSelectedRepositoriesEnabledGithubActionsOrganizationNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsSetSelfHostedRunnersInGroupForOrgResponse(resp *http.Response) (res *ActionsSetSelfHostedRunnersInGroupForOrgNoContent, _ error) {
@@ -3222,7 +3429,7 @@ func decodeActionsSetSelfHostedRunnersInGroupForOrgResponse(resp *http.Response)
 		// Code 204.
 		return &ActionsSetSelfHostedRunnersInGroupForOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActionsUpdateSelfHostedRunnerGroupForOrgResponse(resp *http.Response) (res *RunnerGroupsOrg, _ error) {
@@ -3272,7 +3479,7 @@ func decodeActionsUpdateSelfHostedRunnerGroupForOrgResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityCheckRepoIsStarredByAuthenticatedUserResponse(resp *http.Response) (res ActivityCheckRepoIsStarredByAuthenticatedUserRes, _ error) {
@@ -3389,7 +3596,7 @@ func decodeActivityCheckRepoIsStarredByAuthenticatedUserResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityDeleteRepoSubscriptionResponse(resp *http.Response) (res *ActivityDeleteRepoSubscriptionNoContent, _ error) {
@@ -3398,7 +3605,7 @@ func decodeActivityDeleteRepoSubscriptionResponse(resp *http.Response) (res *Act
 		// Code 204.
 		return &ActivityDeleteRepoSubscriptionNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityDeleteThreadSubscriptionResponse(resp *http.Response) (res ActivityDeleteThreadSubscriptionRes, _ error) {
@@ -3480,7 +3687,7 @@ func decodeActivityDeleteThreadSubscriptionResponse(resp *http.Response) (res Ac
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityGetFeedsResponse(resp *http.Response) (res *Feed, _ error) {
@@ -3521,7 +3728,7 @@ func decodeActivityGetFeedsResponse(resp *http.Response) (res *Feed, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityGetRepoSubscriptionResponse(resp *http.Response) (res ActivityGetRepoSubscriptionRes, _ error) {
@@ -3600,7 +3807,7 @@ func decodeActivityGetRepoSubscriptionResponse(resp *http.Response) (res Activit
 		// Code 404.
 		return &ActivityGetRepoSubscriptionNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityGetThreadResponse(resp *http.Response) (res ActivityGetThreadRes, _ error) {
@@ -3714,7 +3921,7 @@ func decodeActivityGetThreadResponse(resp *http.Response) (res ActivityGetThread
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityGetThreadSubscriptionForAuthenticatedUserResponse(resp *http.Response) (res ActivityGetThreadSubscriptionForAuthenticatedUserRes, _ error) {
@@ -3828,7 +4035,7 @@ func decodeActivityGetThreadSubscriptionForAuthenticatedUserResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListEventsForAuthenticatedUserResponse(resp *http.Response) (res []Event, _ error) {
@@ -3903,7 +4110,7 @@ func decodeActivityListEventsForAuthenticatedUserResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListNotificationsForAuthenticatedUserResponse(resp *http.Response) (res ActivityListNotificationsForAuthenticatedUserRes, _ error) {
@@ -4118,7 +4325,7 @@ func decodeActivityListNotificationsForAuthenticatedUserResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListOrgEventsForAuthenticatedUserResponse(resp *http.Response) (res []Event, _ error) {
@@ -4193,7 +4400,7 @@ func decodeActivityListOrgEventsForAuthenticatedUserResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListPublicEventsResponse(resp *http.Response) (res ActivityListPublicEventsRes, _ error) {
@@ -4316,7 +4523,7 @@ func decodeActivityListPublicEventsResponse(resp *http.Response) (res ActivityLi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListPublicEventsForRepoNetworkResponse(resp *http.Response) (res ActivityListPublicEventsForRepoNetworkRes, _ error) {
@@ -4474,7 +4681,7 @@ func decodeActivityListPublicEventsForRepoNetworkResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListPublicEventsForUserResponse(resp *http.Response) (res []Event, _ error) {
@@ -4549,7 +4756,7 @@ func decodeActivityListPublicEventsForUserResponse(resp *http.Response) (res []E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListPublicOrgEventsResponse(resp *http.Response) (res []Event, _ error) {
@@ -4624,7 +4831,7 @@ func decodeActivityListPublicOrgEventsResponse(resp *http.Response) (res []Event
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListReceivedEventsForUserResponse(resp *http.Response) (res []Event, _ error) {
@@ -4699,7 +4906,7 @@ func decodeActivityListReceivedEventsForUserResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListReceivedPublicEventsForUserResponse(resp *http.Response) (res []Event, _ error) {
@@ -4774,7 +4981,7 @@ func decodeActivityListReceivedPublicEventsForUserResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListRepoEventsResponse(resp *http.Response) (res []Event, _ error) {
@@ -4849,7 +5056,7 @@ func decodeActivityListRepoEventsResponse(resp *http.Response) (res []Event, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListRepoNotificationsForAuthenticatedUserResponse(resp *http.Response) (res *ActivityListRepoNotificationsForAuthenticatedUserOKHeaders, _ error) {
@@ -4947,7 +5154,7 @@ func decodeActivityListRepoNotificationsForAuthenticatedUserResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListReposStarredByAuthenticatedUserResponse(resp *http.Response) (res ActivityListReposStarredByAuthenticatedUserRes, _ error) {
@@ -5000,7 +5207,89 @@ func decodeActivityListReposStarredByAuthenticatedUserResponse(resp *http.Respon
 			}(); err != nil {
 				return res, errors.Wrap(err, "validate")
 			}
-			var wrapper ActivityListReposStarredByAuthenticatedUserOKHeaders
+			var wrapper ActivityListReposStarredByAuthenticatedUserOKApplicationJSONHeaders
+			wrapper.Response = response
+			h := uri.NewHeaderDecoder(resp.Header)
+			// Parse "Link" header.
+			{
+				cfg := uri.HeaderParameterDecodingConfig{
+					Name:    "Link",
+					Explode: false,
+				}
+				if err := func() error {
+					if err := h.HasParam(cfg); err == nil {
+						if err := h.DecodeParam(cfg, func(d uri.Decoder) error {
+							var wrapperDotLinkVal string
+							if err := func() error {
+								val, err := d.DecodeValue()
+								if err != nil {
+									return err
+								}
+
+								c, err := conv.ToString(val)
+								if err != nil {
+									return err
+								}
+
+								wrapperDotLinkVal = c
+								return nil
+							}(); err != nil {
+								return err
+							}
+							wrapper.Link.SetTo(wrapperDotLinkVal)
+							return nil
+						}); err != nil {
+							return err
+						}
+					}
+					return nil
+				}(); err != nil {
+					return res, errors.Wrap(err, "parse Link header")
+				}
+			}
+			return &wrapper, nil
+		case ct == "application/vnd.github.v3.star+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response []StarredRepository
+			if err := func() error {
+				response = make([]StarredRepository, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem StarredRepository
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			var wrapper ActivityListReposStarredByAuthenticatedUserOKApplicationVndGithubV3StarJSONHeaders
 			wrapper.Response = response
 			h := uri.NewHeaderDecoder(resp.Header)
 			// Parse "Link" header.
@@ -5118,7 +5407,7 @@ func decodeActivityListReposStarredByAuthenticatedUserResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListReposWatchedByUserResponse(resp *http.Response) (res *ActivityListReposWatchedByUserOKHeaders, _ error) {
@@ -5216,7 +5505,7 @@ func decodeActivityListReposWatchedByUserResponse(resp *http.Response) (res *Act
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListWatchedReposForAuthenticatedUserResponse(resp *http.Response) (res ActivityListWatchedReposForAuthenticatedUserRes, _ error) {
@@ -5387,7 +5676,7 @@ func decodeActivityListWatchedReposForAuthenticatedUserResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityListWatchersForRepoResponse(resp *http.Response) (res *ActivityListWatchersForRepoOKHeaders, _ error) {
@@ -5485,7 +5774,7 @@ func decodeActivityListWatchersForRepoResponse(resp *http.Response) (res *Activi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityMarkNotificationsAsReadResponse(resp *http.Response) (res ActivityMarkNotificationsAsReadRes, _ error) {
@@ -5602,7 +5891,7 @@ func decodeActivityMarkNotificationsAsReadResponse(resp *http.Response) (res Act
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityMarkRepoNotificationsAsReadResponse(resp *http.Response) (res ActivityMarkRepoNotificationsAsReadRes, _ error) {
@@ -5646,7 +5935,7 @@ func decodeActivityMarkRepoNotificationsAsReadResponse(resp *http.Response) (res
 		// Code 205.
 		return &ActivityMarkRepoNotificationsAsReadResetContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityMarkThreadAsReadResponse(resp *http.Response) (res ActivityMarkThreadAsReadRes, _ error) {
@@ -5693,7 +5982,7 @@ func decodeActivityMarkThreadAsReadResponse(resp *http.Response) (res ActivityMa
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivitySetRepoSubscriptionResponse(resp *http.Response) (res *RepositorySubscription, _ error) {
@@ -5734,7 +6023,7 @@ func decodeActivitySetRepoSubscriptionResponse(resp *http.Response) (res *Reposi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivitySetThreadSubscriptionResponse(resp *http.Response) (res ActivitySetThreadSubscriptionRes, _ error) {
@@ -5848,7 +6137,7 @@ func decodeActivitySetThreadSubscriptionResponse(resp *http.Response) (res Activ
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityStarRepoForAuthenticatedUserResponse(resp *http.Response) (res ActivityStarRepoForAuthenticatedUserRes, _ error) {
@@ -5965,7 +6254,7 @@ func decodeActivityStarRepoForAuthenticatedUserResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeActivityUnstarRepoForAuthenticatedUserResponse(resp *http.Response) (res ActivityUnstarRepoForAuthenticatedUserRes, _ error) {
@@ -6082,7 +6371,7 @@ func decodeActivityUnstarRepoForAuthenticatedUserResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsAddRepoToInstallationResponse(resp *http.Response) (res AppsAddRepoToInstallationRes, _ error) {
@@ -6164,7 +6453,7 @@ func decodeAppsAddRepoToInstallationResponse(resp *http.Response) (res AppsAddRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsCheckTokenResponse(resp *http.Response) (res AppsCheckTokenRes, _ error) {
@@ -6293,7 +6582,7 @@ func decodeAppsCheckTokenResponse(resp *http.Response) (res AppsCheckTokenRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsCreateContentAttachmentResponse(resp *http.Response) (res AppsCreateContentAttachmentRes, _ error) {
@@ -6530,7 +6819,7 @@ func decodeAppsCreateContentAttachmentResponse(resp *http.Response) (res AppsCre
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsCreateFromManifestResponse(resp *http.Response) (res AppsCreateFromManifestRes, _ error) {
@@ -6650,7 +6939,7 @@ func decodeAppsCreateFromManifestResponse(resp *http.Response) (res AppsCreateFr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsCreateInstallationAccessTokenResponse(resp *http.Response) (res AppsCreateInstallationAccessTokenRes, _ error) {
@@ -6884,7 +7173,7 @@ func decodeAppsCreateInstallationAccessTokenResponse(resp *http.Response) (res A
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsDeleteAuthorizationResponse(resp *http.Response) (res AppsDeleteAuthorizationRes, _ error) {
@@ -6937,7 +7226,7 @@ func decodeAppsDeleteAuthorizationResponse(resp *http.Response) (res AppsDeleteA
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsDeleteInstallationResponse(resp *http.Response) (res AppsDeleteInstallationRes, _ error) {
@@ -6981,7 +7270,7 @@ func decodeAppsDeleteInstallationResponse(resp *http.Response) (res AppsDeleteIn
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsDeleteTokenResponse(resp *http.Response) (res AppsDeleteTokenRes, _ error) {
@@ -7034,7 +7323,7 @@ func decodeAppsDeleteTokenResponse(resp *http.Response) (res AppsDeleteTokenRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsGetAuthenticatedResponse(resp *http.Response) (res *Integration, _ error) {
@@ -7084,7 +7373,7 @@ func decodeAppsGetAuthenticatedResponse(resp *http.Response) (res *Integration, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsGetBySlugResponse(resp *http.Response) (res AppsGetBySlugRes, _ error) {
@@ -7239,7 +7528,7 @@ func decodeAppsGetBySlugResponse(resp *http.Response) (res AppsGetBySlugRes, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsGetSubscriptionPlanForAccountResponse(resp *http.Response) (res AppsGetSubscriptionPlanForAccountRes, _ error) {
@@ -7359,7 +7648,7 @@ func decodeAppsGetSubscriptionPlanForAccountResponse(resp *http.Response) (res A
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsGetSubscriptionPlanForAccountStubbedResponse(resp *http.Response) (res AppsGetSubscriptionPlanForAccountStubbedRes, _ error) {
@@ -7447,7 +7736,7 @@ func decodeAppsGetSubscriptionPlanForAccountStubbedResponse(resp *http.Response)
 		// Code 404.
 		return &AppsGetSubscriptionPlanForAccountStubbedNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsGetWebhookConfigForAppResponse(resp *http.Response) (res *WebhookConfig, _ error) {
@@ -7497,7 +7786,7 @@ func decodeAppsGetWebhookConfigForAppResponse(resp *http.Response) (res *Webhook
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsGetWebhookDeliveryResponse(resp *http.Response) (res AppsGetWebhookDeliveryRes, _ error) {
@@ -7578,6 +7867,31 @@ func decodeAppsGetWebhookDeliveryResponse(resp *http.Response) (res AppsGetWebho
 				return res, err
 			}
 			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
@@ -7626,7 +7940,7 @@ func decodeAppsGetWebhookDeliveryResponse(resp *http.Response) (res AppsGetWebho
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsListAccountsForPlanResponse(resp *http.Response) (res AppsListAccountsForPlanRes, _ error) {
@@ -7855,7 +8169,7 @@ func decodeAppsListAccountsForPlanResponse(resp *http.Response) (res AppsListAcc
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsListAccountsForPlanStubbedResponse(resp *http.Response) (res AppsListAccountsForPlanStubbedRes, _ error) {
@@ -8005,7 +8319,7 @@ func decodeAppsListAccountsForPlanStubbedResponse(resp *http.Response) (res Apps
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsListInstallationReposForAuthenticatedUserResponse(resp *http.Response) (res AppsListInstallationReposForAuthenticatedUserRes, _ error) {
@@ -8168,7 +8482,7 @@ func decodeAppsListInstallationReposForAuthenticatedUserResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsListPlansResponse(resp *http.Response) (res AppsListPlansRes, _ error) {
@@ -8353,7 +8667,7 @@ func decodeAppsListPlansResponse(resp *http.Response) (res AppsListPlansRes, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsListPlansStubbedResponse(resp *http.Response) (res AppsListPlansStubbedRes, _ error) {
@@ -8503,7 +8817,7 @@ func decodeAppsListPlansStubbedResponse(resp *http.Response) (res AppsListPlansS
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsListReposAccessibleToInstallationResponse(resp *http.Response) (res AppsListReposAccessibleToInstallationRes, _ error) {
@@ -8666,7 +8980,7 @@ func decodeAppsListReposAccessibleToInstallationResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsListSubscriptionsForAuthenticatedUserResponse(resp *http.Response) (res AppsListSubscriptionsForAuthenticatedUserRes, _ error) {
@@ -8854,7 +9168,7 @@ func decodeAppsListSubscriptionsForAuthenticatedUserResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsListSubscriptionsForAuthenticatedUserStubbedResponse(resp *http.Response) (res AppsListSubscriptionsForAuthenticatedUserStubbedRes, _ error) {
@@ -9007,7 +9321,7 @@ func decodeAppsListSubscriptionsForAuthenticatedUserStubbedResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsListWebhookDeliveriesResponse(resp *http.Response) (res AppsListWebhookDeliveriesRes, _ error) {
@@ -9088,6 +9402,31 @@ func decodeAppsListWebhookDeliveriesResponse(resp *http.Response) (res AppsListW
 				return res, err
 			}
 			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
@@ -9136,7 +9475,7 @@ func decodeAppsListWebhookDeliveriesResponse(resp *http.Response) (res AppsListW
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsRedeliverWebhookDeliveryResponse(resp *http.Response) (res AppsRedeliverWebhookDeliveryRes, _ error) {
@@ -9208,6 +9547,31 @@ func decodeAppsRedeliverWebhookDeliveryResponse(resp *http.Response) (res AppsRe
 				return res, err
 			}
 			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
@@ -9256,7 +9620,7 @@ func decodeAppsRedeliverWebhookDeliveryResponse(resp *http.Response) (res AppsRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsRemoveRepoFromInstallationResponse(resp *http.Response) (res AppsRemoveRepoFromInstallationRes, _ error) {
@@ -9338,7 +9702,7 @@ func decodeAppsRemoveRepoFromInstallationResponse(resp *http.Response) (res Apps
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsResetTokenResponse(resp *http.Response) (res AppsResetTokenRes, _ error) {
@@ -9432,7 +9796,7 @@ func decodeAppsResetTokenResponse(resp *http.Response) (res AppsResetTokenRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsRevokeInstallationAccessTokenResponse(resp *http.Response) (res *AppsRevokeInstallationAccessTokenNoContent, _ error) {
@@ -9441,7 +9805,7 @@ func decodeAppsRevokeInstallationAccessTokenResponse(resp *http.Response) (res *
 		// Code 204.
 		return &AppsRevokeInstallationAccessTokenNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsScopeTokenResponse(resp *http.Response) (res AppsScopeTokenRes, _ error) {
@@ -9640,7 +10004,7 @@ func decodeAppsScopeTokenResponse(resp *http.Response) (res AppsScopeTokenRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsSuspendInstallationResponse(resp *http.Response) (res AppsSuspendInstallationRes, _ error) {
@@ -9684,7 +10048,7 @@ func decodeAppsSuspendInstallationResponse(resp *http.Response) (res AppsSuspend
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsUnsuspendInstallationResponse(resp *http.Response) (res AppsUnsuspendInstallationRes, _ error) {
@@ -9728,7 +10092,7 @@ func decodeAppsUnsuspendInstallationResponse(resp *http.Response) (res AppsUnsus
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAppsUpdateWebhookConfigForAppResponse(resp *http.Response) (res *WebhookConfig, _ error) {
@@ -9778,7 +10142,7 @@ func decodeAppsUpdateWebhookConfigForAppResponse(resp *http.Response) (res *Webh
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeBillingGetGithubActionsBillingGheResponse(resp *http.Response) (res *ActionsBillingUsage, _ error) {
@@ -9819,7 +10183,7 @@ func decodeBillingGetGithubActionsBillingGheResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeBillingGetGithubActionsBillingOrgResponse(resp *http.Response) (res *ActionsBillingUsage, _ error) {
@@ -9860,7 +10224,7 @@ func decodeBillingGetGithubActionsBillingOrgResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeBillingGetGithubActionsBillingUserResponse(resp *http.Response) (res *ActionsBillingUsage, _ error) {
@@ -9901,7 +10265,7 @@ func decodeBillingGetGithubActionsBillingUserResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeBillingGetGithubPackagesBillingGheResponse(resp *http.Response) (res *PackagesBillingUsage, _ error) {
@@ -9942,7 +10306,7 @@ func decodeBillingGetGithubPackagesBillingGheResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeBillingGetGithubPackagesBillingOrgResponse(resp *http.Response) (res *PackagesBillingUsage, _ error) {
@@ -9983,7 +10347,7 @@ func decodeBillingGetGithubPackagesBillingOrgResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeBillingGetGithubPackagesBillingUserResponse(resp *http.Response) (res *PackagesBillingUsage, _ error) {
@@ -10024,7 +10388,7 @@ func decodeBillingGetGithubPackagesBillingUserResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeBillingGetSharedStorageBillingGheResponse(resp *http.Response) (res *CombinedBillingUsage, _ error) {
@@ -10065,7 +10429,7 @@ func decodeBillingGetSharedStorageBillingGheResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeBillingGetSharedStorageBillingOrgResponse(resp *http.Response) (res *CombinedBillingUsage, _ error) {
@@ -10106,7 +10470,7 @@ func decodeBillingGetSharedStorageBillingOrgResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeBillingGetSharedStorageBillingUserResponse(resp *http.Response) (res *CombinedBillingUsage, _ error) {
@@ -10147,7 +10511,57 @@ func decodeBillingGetSharedStorageBillingUserResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeChecksCreateResponse(resp *http.Response) (res *CheckRun, _ error) {
+	switch resp.StatusCode {
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response CheckRun
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeChecksCreateSuiteResponse(resp *http.Response) (res ChecksCreateSuiteRes, _ error) {
@@ -10241,7 +10655,7 @@ func decodeChecksCreateSuiteResponse(resp *http.Response) (res ChecksCreateSuite
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeChecksGetResponse(resp *http.Response) (res *CheckRun, _ error) {
@@ -10291,7 +10705,7 @@ func decodeChecksGetResponse(resp *http.Response) (res *CheckRun, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeChecksGetSuiteResponse(resp *http.Response) (res *CheckSuite, _ error) {
@@ -10341,7 +10755,7 @@ func decodeChecksGetSuiteResponse(resp *http.Response) (res *CheckSuite, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeChecksListAnnotationsResponse(resp *http.Response) (res *ChecksListAnnotationsOKHeaders, _ error) {
@@ -10439,7 +10853,7 @@ func decodeChecksListAnnotationsResponse(resp *http.Response) (res *ChecksListAn
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeChecksListForRefResponse(resp *http.Response) (res *ChecksListForRefOKHeaders, _ error) {
@@ -10529,7 +10943,7 @@ func decodeChecksListForRefResponse(resp *http.Response) (res *ChecksListForRefO
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeChecksListForSuiteResponse(resp *http.Response) (res *ChecksListForSuiteOKHeaders, _ error) {
@@ -10619,7 +11033,7 @@ func decodeChecksListForSuiteResponse(resp *http.Response) (res *ChecksListForSu
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeChecksListSuitesForRefResponse(resp *http.Response) (res *ChecksListSuitesForRefOKHeaders, _ error) {
@@ -10709,7 +11123,7 @@ func decodeChecksListSuitesForRefResponse(resp *http.Response) (res *ChecksListS
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeChecksRerequestSuiteResponse(resp *http.Response) (res *ChecksRerequestSuiteCreated, _ error) {
@@ -10750,7 +11164,7 @@ func decodeChecksRerequestSuiteResponse(resp *http.Response) (res *ChecksRereque
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeChecksSetSuitesPreferencesResponse(resp *http.Response) (res *CheckSuitePreference, _ error) {
@@ -10791,7 +11205,7 @@ func decodeChecksSetSuitesPreferencesResponse(resp *http.Response) (res *CheckSu
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCodeScanningDeleteAnalysisResponse(resp *http.Response) (res CodeScanningDeleteAnalysisRes, _ error) {
@@ -10845,7 +11259,32 @@ func decodeCodeScanningDeleteAnalysisResponse(resp *http.Response) (res CodeScan
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response CodeScanningDeleteAnalysisBadRequest
+			var response CodeScanningDeleteAnalysisApplicationJSONBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -10972,7 +11411,7 @@ func decodeCodeScanningDeleteAnalysisResponse(resp *http.Response) (res CodeScan
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCodeScanningGetAlertResponse(resp *http.Response) (res CodeScanningGetAlertRes, _ error) {
@@ -11127,7 +11566,7 @@ func decodeCodeScanningGetAlertResponse(resp *http.Response) (res CodeScanningGe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCodeScanningGetAnalysisResponse(resp *http.Response) (res CodeScanningGetAnalysisRes, _ error) {
@@ -11291,7 +11730,7 @@ func decodeCodeScanningGetAnalysisResponse(resp *http.Response) (res CodeScannin
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCodeScanningGetSarifResponse(resp *http.Response) (res CodeScanningGetSarifRes, _ error) {
@@ -11414,7 +11853,7 @@ func decodeCodeScanningGetSarifResponse(resp *http.Response) (res CodeScanningGe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCodeScanningListAlertInstancesResponse(resp *http.Response) (res CodeScanningListAlertInstancesRes, _ error) {
@@ -11569,7 +12008,7 @@ func decodeCodeScanningListAlertInstancesResponse(resp *http.Response) (res Code
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCodeScanningListAlertsForRepoResponse(resp *http.Response) (res CodeScanningListAlertsForRepoRes, _ error) {
@@ -11724,7 +12163,7 @@ func decodeCodeScanningListAlertsForRepoResponse(resp *http.Response) (res CodeS
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCodeScanningListRecentAnalysesResponse(resp *http.Response) (res CodeScanningListRecentAnalysesRes, _ error) {
@@ -11879,7 +12318,7 @@ func decodeCodeScanningListRecentAnalysesResponse(resp *http.Response) (res Code
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCodeScanningUpdateAlertResponse(resp *http.Response) (res CodeScanningUpdateAlertRes, _ error) {
@@ -12034,7 +12473,7 @@ func decodeCodeScanningUpdateAlertResponse(resp *http.Response) (res CodeScannin
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCodeScanningUploadSarifResponse(resp *http.Response) (res CodeScanningUploadSarifRes, _ error) {
@@ -12186,7 +12625,7 @@ func decodeCodeScanningUploadSarifResponse(resp *http.Response) (res CodeScannin
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCodesOfConductGetAllCodesOfConductResponse(resp *http.Response) (res CodesOfConductGetAllCodesOfConductRes, _ error) {
@@ -12239,7 +12678,7 @@ func decodeCodesOfConductGetAllCodesOfConductResponse(resp *http.Response) (res 
 		// Code 304.
 		return &NotModified{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCodesOfConductGetConductCodeResponse(resp *http.Response) (res CodesOfConductGetConductCodeRes, _ error) {
@@ -12318,7 +12757,7 @@ func decodeCodesOfConductGetConductCodeResponse(resp *http.Response) (res CodesO
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEmojisGetResponse(resp *http.Response) (res EmojisGetRes, _ error) {
@@ -12362,7 +12801,7 @@ func decodeEmojisGetResponse(resp *http.Response) (res EmojisGetRes, _ error) {
 		// Code 304.
 		return &NotModified{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminAddOrgAccessToSelfHostedRunnerGroupInEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminAddOrgAccessToSelfHostedRunnerGroupInEnterpriseNoContent, _ error) {
@@ -12371,7 +12810,7 @@ func decodeEnterpriseAdminAddOrgAccessToSelfHostedRunnerGroupInEnterpriseRespons
 		// Code 204.
 		return &EnterpriseAdminAddOrgAccessToSelfHostedRunnerGroupInEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminAddSelfHostedRunnerToGroupForEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminAddSelfHostedRunnerToGroupForEnterpriseNoContent, _ error) {
@@ -12380,7 +12819,7 @@ func decodeEnterpriseAdminAddSelfHostedRunnerToGroupForEnterpriseResponse(resp *
 		// Code 204.
 		return &EnterpriseAdminAddSelfHostedRunnerToGroupForEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminCreateRegistrationTokenForEnterpriseResponse(resp *http.Response) (res *AuthenticationToken, _ error) {
@@ -12430,7 +12869,7 @@ func decodeEnterpriseAdminCreateRegistrationTokenForEnterpriseResponse(resp *htt
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminCreateRemoveTokenForEnterpriseResponse(resp *http.Response) (res *AuthenticationToken, _ error) {
@@ -12480,7 +12919,7 @@ func decodeEnterpriseAdminCreateRemoveTokenForEnterpriseResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminCreateSelfHostedRunnerGroupForEnterpriseResponse(resp *http.Response) (res *RunnerGroupsEnterprise, _ error) {
@@ -12530,7 +12969,7 @@ func decodeEnterpriseAdminCreateSelfHostedRunnerGroupForEnterpriseResponse(resp 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminDeleteScimGroupFromEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminDeleteScimGroupFromEnterpriseNoContent, _ error) {
@@ -12539,7 +12978,7 @@ func decodeEnterpriseAdminDeleteScimGroupFromEnterpriseResponse(resp *http.Respo
 		// Code 204.
 		return &EnterpriseAdminDeleteScimGroupFromEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminDeleteSelfHostedRunnerFromEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminDeleteSelfHostedRunnerFromEnterpriseNoContent, _ error) {
@@ -12548,7 +12987,7 @@ func decodeEnterpriseAdminDeleteSelfHostedRunnerFromEnterpriseResponse(resp *htt
 		// Code 204.
 		return &EnterpriseAdminDeleteSelfHostedRunnerFromEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminDeleteSelfHostedRunnerGroupFromEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminDeleteSelfHostedRunnerGroupFromEnterpriseNoContent, _ error) {
@@ -12557,7 +12996,7 @@ func decodeEnterpriseAdminDeleteSelfHostedRunnerGroupFromEnterpriseResponse(resp
 		// Code 204.
 		return &EnterpriseAdminDeleteSelfHostedRunnerGroupFromEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminDeleteUserFromEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminDeleteUserFromEnterpriseNoContent, _ error) {
@@ -12566,7 +13005,7 @@ func decodeEnterpriseAdminDeleteUserFromEnterpriseResponse(resp *http.Response) 
 		// Code 204.
 		return &EnterpriseAdminDeleteUserFromEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminDisableSelectedOrganizationGithubActionsEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminDisableSelectedOrganizationGithubActionsEnterpriseNoContent, _ error) {
@@ -12575,7 +13014,7 @@ func decodeEnterpriseAdminDisableSelectedOrganizationGithubActionsEnterpriseResp
 		// Code 204.
 		return &EnterpriseAdminDisableSelectedOrganizationGithubActionsEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminEnableSelectedOrganizationGithubActionsEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminEnableSelectedOrganizationGithubActionsEnterpriseNoContent, _ error) {
@@ -12584,7 +13023,7 @@ func decodeEnterpriseAdminEnableSelectedOrganizationGithubActionsEnterpriseRespo
 		// Code 204.
 		return &EnterpriseAdminEnableSelectedOrganizationGithubActionsEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminGetAllowedActionsEnterpriseResponse(resp *http.Response) (res *SelectedActions, _ error) {
@@ -12625,7 +13064,7 @@ func decodeEnterpriseAdminGetAllowedActionsEnterpriseResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminGetAuditLogResponse(resp *http.Response) (res []AuditLogEvent, _ error) {
@@ -12683,7 +13122,7 @@ func decodeEnterpriseAdminGetAuditLogResponse(resp *http.Response) (res []AuditL
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminGetGithubActionsPermissionsEnterpriseResponse(resp *http.Response) (res *ActionsEnterprisePermissions, _ error) {
@@ -12733,7 +13172,7 @@ func decodeEnterpriseAdminGetGithubActionsPermissionsEnterpriseResponse(resp *ht
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminGetProvisioningInformationForEnterpriseGroupResponse(resp *http.Response) (res *ScimEnterpriseGroup, _ error) {
@@ -12783,7 +13222,7 @@ func decodeEnterpriseAdminGetProvisioningInformationForEnterpriseGroupResponse(r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminGetProvisioningInformationForEnterpriseUserResponse(resp *http.Response) (res *ScimEnterpriseUser, _ error) {
@@ -12833,7 +13272,7 @@ func decodeEnterpriseAdminGetProvisioningInformationForEnterpriseUserResponse(re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminGetSelfHostedRunnerForEnterpriseResponse(resp *http.Response) (res *Runner, _ error) {
@@ -12883,7 +13322,7 @@ func decodeEnterpriseAdminGetSelfHostedRunnerForEnterpriseResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminGetSelfHostedRunnerGroupForEnterpriseResponse(resp *http.Response) (res *RunnerGroupsEnterprise, _ error) {
@@ -12933,7 +13372,7 @@ func decodeEnterpriseAdminGetSelfHostedRunnerGroupForEnterpriseResponse(resp *ht
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminListOrgAccessToSelfHostedRunnerGroupInEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminListOrgAccessToSelfHostedRunnerGroupInEnterpriseOK, _ error) {
@@ -12983,7 +13422,7 @@ func decodeEnterpriseAdminListOrgAccessToSelfHostedRunnerGroupInEnterpriseRespon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminListProvisionedGroupsEnterpriseResponse(resp *http.Response) (res *ScimGroupListEnterprise, _ error) {
@@ -13033,7 +13472,7 @@ func decodeEnterpriseAdminListProvisionedGroupsEnterpriseResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminListProvisionedIdentitiesEnterpriseResponse(resp *http.Response) (res *ScimUserListEnterprise, _ error) {
@@ -13083,7 +13522,7 @@ func decodeEnterpriseAdminListProvisionedIdentitiesEnterpriseResponse(resp *http
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminListRunnerApplicationsForEnterpriseResponse(resp *http.Response) (res []RunnerApplication, _ error) {
@@ -13141,7 +13580,7 @@ func decodeEnterpriseAdminListRunnerApplicationsForEnterpriseResponse(resp *http
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminListSelectedOrganizationsEnabledGithubActionsEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminListSelectedOrganizationsEnabledGithubActionsEnterpriseOK, _ error) {
@@ -13191,7 +13630,7 @@ func decodeEnterpriseAdminListSelectedOrganizationsEnabledGithubActionsEnterpris
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminListSelfHostedRunnerGroupsForEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminListSelfHostedRunnerGroupsForEnterpriseOK, _ error) {
@@ -13241,7 +13680,7 @@ func decodeEnterpriseAdminListSelfHostedRunnerGroupsForEnterpriseResponse(resp *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminListSelfHostedRunnersForEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminListSelfHostedRunnersForEnterpriseOKHeaders, _ error) {
@@ -13331,7 +13770,7 @@ func decodeEnterpriseAdminListSelfHostedRunnersForEnterpriseResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminListSelfHostedRunnersInGroupForEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminListSelfHostedRunnersInGroupForEnterpriseOKHeaders, _ error) {
@@ -13421,7 +13860,7 @@ func decodeEnterpriseAdminListSelfHostedRunnersInGroupForEnterpriseResponse(resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminProvisionAndInviteEnterpriseGroupResponse(resp *http.Response) (res *ScimEnterpriseGroup, _ error) {
@@ -13471,7 +13910,7 @@ func decodeEnterpriseAdminProvisionAndInviteEnterpriseGroupResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminProvisionAndInviteEnterpriseUserResponse(resp *http.Response) (res *ScimEnterpriseUser, _ error) {
@@ -13521,7 +13960,7 @@ func decodeEnterpriseAdminProvisionAndInviteEnterpriseUserResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminRemoveOrgAccessToSelfHostedRunnerGroupInEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminRemoveOrgAccessToSelfHostedRunnerGroupInEnterpriseNoContent, _ error) {
@@ -13530,7 +13969,7 @@ func decodeEnterpriseAdminRemoveOrgAccessToSelfHostedRunnerGroupInEnterpriseResp
 		// Code 204.
 		return &EnterpriseAdminRemoveOrgAccessToSelfHostedRunnerGroupInEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminRemoveSelfHostedRunnerFromGroupForEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminRemoveSelfHostedRunnerFromGroupForEnterpriseNoContent, _ error) {
@@ -13539,7 +13978,7 @@ func decodeEnterpriseAdminRemoveSelfHostedRunnerFromGroupForEnterpriseResponse(r
 		// Code 204.
 		return &EnterpriseAdminRemoveSelfHostedRunnerFromGroupForEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminSetAllowedActionsEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminSetAllowedActionsEnterpriseNoContent, _ error) {
@@ -13548,7 +13987,7 @@ func decodeEnterpriseAdminSetAllowedActionsEnterpriseResponse(resp *http.Respons
 		// Code 204.
 		return &EnterpriseAdminSetAllowedActionsEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminSetGithubActionsPermissionsEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminSetGithubActionsPermissionsEnterpriseNoContent, _ error) {
@@ -13557,7 +13996,7 @@ func decodeEnterpriseAdminSetGithubActionsPermissionsEnterpriseResponse(resp *ht
 		// Code 204.
 		return &EnterpriseAdminSetGithubActionsPermissionsEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminSetInformationForProvisionedEnterpriseGroupResponse(resp *http.Response) (res *ScimEnterpriseGroup, _ error) {
@@ -13607,7 +14046,7 @@ func decodeEnterpriseAdminSetInformationForProvisionedEnterpriseGroupResponse(re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminSetInformationForProvisionedEnterpriseUserResponse(resp *http.Response) (res *ScimEnterpriseUser, _ error) {
@@ -13657,7 +14096,7 @@ func decodeEnterpriseAdminSetInformationForProvisionedEnterpriseUserResponse(res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminSetOrgAccessToSelfHostedRunnerGroupInEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminSetOrgAccessToSelfHostedRunnerGroupInEnterpriseNoContent, _ error) {
@@ -13666,7 +14105,7 @@ func decodeEnterpriseAdminSetOrgAccessToSelfHostedRunnerGroupInEnterpriseRespons
 		// Code 204.
 		return &EnterpriseAdminSetOrgAccessToSelfHostedRunnerGroupInEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminSetSelectedOrganizationsEnabledGithubActionsEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminSetSelectedOrganizationsEnabledGithubActionsEnterpriseNoContent, _ error) {
@@ -13675,7 +14114,7 @@ func decodeEnterpriseAdminSetSelectedOrganizationsEnabledGithubActionsEnterprise
 		// Code 204.
 		return &EnterpriseAdminSetSelectedOrganizationsEnabledGithubActionsEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminSetSelfHostedRunnersInGroupForEnterpriseResponse(resp *http.Response) (res *EnterpriseAdminSetSelfHostedRunnersInGroupForEnterpriseNoContent, _ error) {
@@ -13684,7 +14123,7 @@ func decodeEnterpriseAdminSetSelfHostedRunnersInGroupForEnterpriseResponse(resp 
 		// Code 204.
 		return &EnterpriseAdminSetSelfHostedRunnersInGroupForEnterpriseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminUpdateAttributeForEnterpriseGroupResponse(resp *http.Response) (res *ScimEnterpriseGroup, _ error) {
@@ -13734,7 +14173,7 @@ func decodeEnterpriseAdminUpdateAttributeForEnterpriseGroupResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminUpdateAttributeForEnterpriseUserResponse(resp *http.Response) (res *ScimEnterpriseUser, _ error) {
@@ -13784,7 +14223,7 @@ func decodeEnterpriseAdminUpdateAttributeForEnterpriseUserResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeEnterpriseAdminUpdateSelfHostedRunnerGroupForEnterpriseResponse(resp *http.Response) (res *RunnerGroupsEnterprise, _ error) {
@@ -13834,7 +14273,7 @@ func decodeEnterpriseAdminUpdateSelfHostedRunnerGroupForEnterpriseResponse(resp 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsCheckIsStarredResponse(resp *http.Response) (res GistsCheckIsStarredRes, _ error) {
@@ -13916,7 +14355,7 @@ func decodeGistsCheckIsStarredResponse(resp *http.Response) (res GistsCheckIsSta
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsCreateResponse(resp *http.Response) (res GistsCreateRes, _ error) {
@@ -14123,7 +14562,7 @@ func decodeGistsCreateResponse(resp *http.Response) (res GistsCreateRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsCreateCommentResponse(resp *http.Response) (res GistsCreateCommentRes, _ error) {
@@ -14286,7 +14725,7 @@ func decodeGistsCreateCommentResponse(resp *http.Response) (res GistsCreateComme
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsDeleteResponse(resp *http.Response) (res GistsDeleteRes, _ error) {
@@ -14368,7 +14807,7 @@ func decodeGistsDeleteResponse(resp *http.Response) (res GistsDeleteRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsDeleteCommentResponse(resp *http.Response) (res GistsDeleteCommentRes, _ error) {
@@ -14450,7 +14889,7 @@ func decodeGistsDeleteCommentResponse(resp *http.Response) (res GistsDeleteComme
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsForkResponse(resp *http.Response) (res GistsForkRes, _ error) {
@@ -14648,7 +15087,7 @@ func decodeGistsForkResponse(resp *http.Response) (res GistsForkRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsGetResponse(resp *http.Response) (res GistsGetRes, _ error) {
@@ -14771,7 +15210,7 @@ func decodeGistsGetResponse(resp *http.Response) (res GistsGetRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsGetCommentResponse(resp *http.Response) (res GistsGetCommentRes, _ error) {
@@ -14894,7 +15333,7 @@ func decodeGistsGetCommentResponse(resp *http.Response) (res GistsGetCommentRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsGetRevisionResponse(resp *http.Response) (res GistsGetRevisionRes, _ error) {
@@ -15058,7 +15497,7 @@ func decodeGistsGetRevisionResponse(resp *http.Response) (res GistsGetRevisionRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsListResponse(resp *http.Response) (res GistsListRes, _ error) {
@@ -15194,7 +15633,7 @@ func decodeGistsListResponse(resp *http.Response) (res GistsListRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsListCommentsResponse(resp *http.Response) (res GistsListCommentsRes, _ error) {
@@ -15382,7 +15821,7 @@ func decodeGistsListCommentsResponse(resp *http.Response) (res GistsListComments
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsListCommitsResponse(resp *http.Response) (res GistsListCommitsRes, _ error) {
@@ -15553,7 +15992,7 @@ func decodeGistsListCommitsResponse(resp *http.Response) (res GistsListCommitsRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsListForUserResponse(resp *http.Response) (res GistsListForUserRes, _ error) {
@@ -15695,7 +16134,7 @@ func decodeGistsListForUserResponse(resp *http.Response) (res GistsListForUserRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsListForksResponse(resp *http.Response) (res GistsListForksRes, _ error) {
@@ -15883,7 +16322,7 @@ func decodeGistsListForksResponse(resp *http.Response) (res GistsListForksRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsListPublicResponse(resp *http.Response) (res GistsListPublicRes, _ error) {
@@ -16063,7 +16502,7 @@ func decodeGistsListPublicResponse(resp *http.Response) (res GistsListPublicRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsListStarredResponse(resp *http.Response) (res GistsListStarredRes, _ error) {
@@ -16234,7 +16673,7 @@ func decodeGistsListStarredResponse(resp *http.Response) (res GistsListStarredRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsStarResponse(resp *http.Response) (res GistsStarRes, _ error) {
@@ -16316,7 +16755,7 @@ func decodeGistsStarResponse(resp *http.Response) (res GistsStarRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsUnstarResponse(resp *http.Response) (res GistsUnstarRes, _ error) {
@@ -16398,7 +16837,7 @@ func decodeGistsUnstarResponse(resp *http.Response) (res GistsUnstarRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGistsUpdateCommentResponse(resp *http.Response) (res GistsUpdateCommentRes, _ error) {
@@ -16483,7 +16922,7 @@ func decodeGistsUpdateCommentResponse(resp *http.Response) (res GistsUpdateComme
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitCreateBlobResponse(resp *http.Response) (res GitCreateBlobRes, _ error) {
@@ -16713,7 +17152,7 @@ func decodeGitCreateBlobResponse(resp *http.Response) (res GitCreateBlobRes, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitCreateCommitResponse(resp *http.Response) (res GitCreateCommitRes, _ error) {
@@ -16882,7 +17321,7 @@ func decodeGitCreateCommitResponse(resp *http.Response) (res GitCreateCommitRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitCreateRefResponse(resp *http.Response) (res GitCreateRefRes, _ error) {
@@ -17016,7 +17455,7 @@ func decodeGitCreateRefResponse(resp *http.Response) (res GitCreateRefRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitCreateTagResponse(resp *http.Response) (res GitCreateTagRes, _ error) {
@@ -17141,7 +17580,7 @@ func decodeGitCreateTagResponse(resp *http.Response) (res GitCreateTagRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitCreateTreeResponse(resp *http.Response) (res GitCreateTreeRes, _ error) {
@@ -17345,7 +17784,7 @@ func decodeGitCreateTreeResponse(resp *http.Response) (res GitCreateTreeRes, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitDeleteRefResponse(resp *http.Response) (res GitDeleteRefRes, _ error) {
@@ -17398,7 +17837,7 @@ func decodeGitDeleteRefResponse(resp *http.Response) (res GitDeleteRefRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitGetBlobResponse(resp *http.Response) (res GitGetBlobRes, _ error) {
@@ -17553,7 +17992,7 @@ func decodeGitGetBlobResponse(resp *http.Response) (res GitGetBlobRes, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitGetCommitResponse(resp *http.Response) (res GitGetCommitRes, _ error) {
@@ -17638,7 +18077,7 @@ func decodeGitGetCommitResponse(resp *http.Response) (res GitGetCommitRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitGetRefResponse(resp *http.Response) (res GitGetRefRes, _ error) {
@@ -17723,7 +18162,7 @@ func decodeGitGetRefResponse(resp *http.Response) (res GitGetRefRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitGetTagResponse(resp *http.Response) (res GitGetTagRes, _ error) {
@@ -17799,7 +18238,7 @@ func decodeGitGetTagResponse(resp *http.Response) (res GitGetTagRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitGetTreeResponse(resp *http.Response) (res GitGetTreeRes, _ error) {
@@ -17928,7 +18367,7 @@ func decodeGitGetTreeResponse(resp *http.Response) (res GitGetTreeRes, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitListMatchingRefsResponse(resp *http.Response) (res *GitListMatchingRefsOKHeaders, _ error) {
@@ -18043,7 +18482,7 @@ func decodeGitListMatchingRefsResponse(resp *http.Response) (res *GitListMatchin
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitUpdateRefResponse(resp *http.Response) (res GitUpdateRefRes, _ error) {
@@ -18137,7 +18576,7 @@ func decodeGitUpdateRefResponse(resp *http.Response) (res GitUpdateRefRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitignoreGetAllTemplatesResponse(resp *http.Response) (res GitignoreGetAllTemplatesRes, _ error) {
@@ -18190,7 +18629,7 @@ func decodeGitignoreGetAllTemplatesResponse(resp *http.Response) (res GitignoreG
 		// Code 304.
 		return &NotModified{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGitignoreGetTemplateResponse(resp *http.Response) (res GitignoreGetTemplateRes, _ error) {
@@ -18234,7 +18673,7 @@ func decodeGitignoreGetTemplateResponse(resp *http.Response) (res GitignoreGetTe
 		// Code 304.
 		return &NotModified{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeInteractionsRemoveRestrictionsForAuthenticatedUserResponse(resp *http.Response) (res *InteractionsRemoveRestrictionsForAuthenticatedUserNoContent, _ error) {
@@ -18243,7 +18682,7 @@ func decodeInteractionsRemoveRestrictionsForAuthenticatedUserResponse(resp *http
 		// Code 204.
 		return &InteractionsRemoveRestrictionsForAuthenticatedUserNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeInteractionsRemoveRestrictionsForOrgResponse(resp *http.Response) (res *InteractionsRemoveRestrictionsForOrgNoContent, _ error) {
@@ -18252,7 +18691,7 @@ func decodeInteractionsRemoveRestrictionsForOrgResponse(resp *http.Response) (re
 		// Code 204.
 		return &InteractionsRemoveRestrictionsForOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeInteractionsRemoveRestrictionsForRepoResponse(resp *http.Response) (res InteractionsRemoveRestrictionsForRepoRes, _ error) {
@@ -18264,7 +18703,7 @@ func decodeInteractionsRemoveRestrictionsForRepoResponse(resp *http.Response) (r
 		// Code 409.
 		return &InteractionsRemoveRestrictionsForRepoConflict{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeInteractionsSetRestrictionsForAuthenticatedUserResponse(resp *http.Response) (res InteractionsSetRestrictionsForAuthenticatedUserRes, _ error) {
@@ -18358,7 +18797,7 @@ func decodeInteractionsSetRestrictionsForAuthenticatedUserResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeInteractionsSetRestrictionsForOrgResponse(resp *http.Response) (res InteractionsSetRestrictionsForOrgRes, _ error) {
@@ -18452,7 +18891,7 @@ func decodeInteractionsSetRestrictionsForOrgResponse(resp *http.Response) (res I
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeInteractionsSetRestrictionsForRepoResponse(resp *http.Response) (res InteractionsSetRestrictionsForRepoRes, _ error) {
@@ -18505,7 +18944,7 @@ func decodeInteractionsSetRestrictionsForRepoResponse(resp *http.Response) (res 
 		// Code 409.
 		return &InteractionsSetRestrictionsForRepoConflict{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesAddAssigneesResponse(resp *http.Response) (res *IssueSimple, _ error) {
@@ -18555,7 +18994,7 @@ func decodeIssuesAddAssigneesResponse(resp *http.Response) (res *IssueSimple, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesCheckUserCanBeAssignedResponse(resp *http.Response) (res IssuesCheckUserCanBeAssignedRes, _ error) {
@@ -18599,7 +19038,7 @@ func decodeIssuesCheckUserCanBeAssignedResponse(resp *http.Response) (res Issues
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesCreateResponse(resp *http.Response) (res IssuesCreateRes, _ error) {
@@ -18873,7 +19312,7 @@ func decodeIssuesCreateResponse(resp *http.Response) (res IssuesCreateRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesCreateCommentResponse(resp *http.Response) (res IssuesCreateCommentRes, _ error) {
@@ -19112,7 +19551,7 @@ func decodeIssuesCreateCommentResponse(resp *http.Response) (res IssuesCreateCom
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesCreateLabelResponse(resp *http.Response) (res IssuesCreateLabelRes, _ error) {
@@ -19272,7 +19711,7 @@ func decodeIssuesCreateLabelResponse(resp *http.Response) (res IssuesCreateLabel
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesCreateMilestoneResponse(resp *http.Response) (res IssuesCreateMilestoneRes, _ error) {
@@ -19441,7 +19880,7 @@ func decodeIssuesCreateMilestoneResponse(resp *http.Response) (res IssuesCreateM
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesDeleteCommentResponse(resp *http.Response) (res *IssuesDeleteCommentNoContent, _ error) {
@@ -19450,7 +19889,7 @@ func decodeIssuesDeleteCommentResponse(resp *http.Response) (res *IssuesDeleteCo
 		// Code 204.
 		return &IssuesDeleteCommentNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesDeleteLabelResponse(resp *http.Response) (res *IssuesDeleteLabelNoContent, _ error) {
@@ -19459,7 +19898,7 @@ func decodeIssuesDeleteLabelResponse(resp *http.Response) (res *IssuesDeleteLabe
 		// Code 204.
 		return &IssuesDeleteLabelNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesDeleteMilestoneResponse(resp *http.Response) (res IssuesDeleteMilestoneRes, _ error) {
@@ -19503,7 +19942,7 @@ func decodeIssuesDeleteMilestoneResponse(resp *http.Response) (res IssuesDeleteM
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesGetResponse(resp *http.Response) (res IssuesGetRes, _ error) {
@@ -19661,7 +20100,7 @@ func decodeIssuesGetResponse(resp *http.Response) (res IssuesGetRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesGetCommentResponse(resp *http.Response) (res IssuesGetCommentRes, _ error) {
@@ -19746,7 +20185,7 @@ func decodeIssuesGetCommentResponse(resp *http.Response) (res IssuesGetCommentRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesGetEventResponse(resp *http.Response) (res IssuesGetEventRes, _ error) {
@@ -19901,7 +20340,7 @@ func decodeIssuesGetEventResponse(resp *http.Response) (res IssuesGetEventRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesGetLabelResponse(resp *http.Response) (res IssuesGetLabelRes, _ error) {
@@ -19977,7 +20416,7 @@ func decodeIssuesGetLabelResponse(resp *http.Response) (res IssuesGetLabelRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesGetMilestoneResponse(resp *http.Response) (res IssuesGetMilestoneRes, _ error) {
@@ -20062,7 +20501,7 @@ func decodeIssuesGetMilestoneResponse(resp *http.Response) (res IssuesGetMilesto
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListResponse(resp *http.Response) (res IssuesListRes, _ error) {
@@ -20259,7 +20698,7 @@ func decodeIssuesListResponse(resp *http.Response) (res IssuesListRes, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListAssigneesResponse(resp *http.Response) (res IssuesListAssigneesRes, _ error) {
@@ -20392,7 +20831,7 @@ func decodeIssuesListAssigneesResponse(resp *http.Response) (res IssuesListAssig
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListCommentsResponse(resp *http.Response) (res IssuesListCommentsRes, _ error) {
@@ -20577,7 +21016,7 @@ func decodeIssuesListCommentsResponse(resp *http.Response) (res IssuesListCommen
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListCommentsForRepoResponse(resp *http.Response) (res IssuesListCommentsForRepoRes, _ error) {
@@ -20771,7 +21210,7 @@ func decodeIssuesListCommentsForRepoResponse(resp *http.Response) (res IssuesLis
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListEventsForRepoResponse(resp *http.Response) (res IssuesListEventsForRepoRes, _ error) {
@@ -20930,7 +21369,7 @@ func decodeIssuesListEventsForRepoResponse(resp *http.Response) (res IssuesListE
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListForAuthenticatedUserResponse(resp *http.Response) (res IssuesListForAuthenticatedUserRes, _ error) {
@@ -21083,7 +21522,7 @@ func decodeIssuesListForAuthenticatedUserResponse(resp *http.Response) (res Issu
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListForOrgResponse(resp *http.Response) (res IssuesListForOrgRes, _ error) {
@@ -21233,7 +21672,7 @@ func decodeIssuesListForOrgResponse(resp *http.Response) (res IssuesListForOrgRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListForRepoResponse(resp *http.Response) (res IssuesListForRepoRes, _ error) {
@@ -21462,7 +21901,7 @@ func decodeIssuesListForRepoResponse(resp *http.Response) (res IssuesListForRepo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListLabelsForMilestoneResponse(resp *http.Response) (res *IssuesListLabelsForMilestoneOKHeaders, _ error) {
@@ -21560,7 +21999,7 @@ func decodeIssuesListLabelsForMilestoneResponse(resp *http.Response) (res *Issue
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListLabelsForRepoResponse(resp *http.Response) (res IssuesListLabelsForRepoRes, _ error) {
@@ -21693,7 +22132,7 @@ func decodeIssuesListLabelsForRepoResponse(resp *http.Response) (res IssuesListL
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListLabelsOnIssueResponse(resp *http.Response) (res IssuesListLabelsOnIssueRes, _ error) {
@@ -21826,7 +22265,7 @@ func decodeIssuesListLabelsOnIssueResponse(resp *http.Response) (res IssuesListL
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesListMilestonesResponse(resp *http.Response) (res IssuesListMilestonesRes, _ error) {
@@ -21976,7 +22415,7 @@ func decodeIssuesListMilestonesResponse(resp *http.Response) (res IssuesListMile
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesLockResponse(resp *http.Response) (res IssuesLockRes, _ error) {
@@ -22134,7 +22573,7 @@ func decodeIssuesLockResponse(resp *http.Response) (res IssuesLockRes, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesRemoveAllLabelsResponse(resp *http.Response) (res IssuesRemoveAllLabelsRes, _ error) {
@@ -22178,7 +22617,7 @@ func decodeIssuesRemoveAllLabelsResponse(resp *http.Response) (res IssuesRemoveA
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesRemoveAssigneesResponse(resp *http.Response) (res *IssueSimple, _ error) {
@@ -22228,7 +22667,7 @@ func decodeIssuesRemoveAssigneesResponse(resp *http.Response) (res *IssueSimple,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesRemoveLabelResponse(resp *http.Response) (res IssuesRemoveLabelRes, _ error) {
@@ -22348,7 +22787,7 @@ func decodeIssuesRemoveLabelResponse(resp *http.Response) (res IssuesRemoveLabel
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesUnlockResponse(resp *http.Response) (res IssuesUnlockRes, _ error) {
@@ -22427,7 +22866,7 @@ func decodeIssuesUnlockResponse(resp *http.Response) (res IssuesUnlockRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesUpdateResponse(resp *http.Response) (res IssuesUpdateRes, _ error) {
@@ -22696,7 +23135,7 @@ func decodeIssuesUpdateResponse(resp *http.Response) (res IssuesUpdateRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesUpdateCommentResponse(resp *http.Response) (res IssuesUpdateCommentRes, _ error) {
@@ -22790,7 +23229,7 @@ func decodeIssuesUpdateCommentResponse(resp *http.Response) (res IssuesUpdateCom
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesUpdateLabelResponse(resp *http.Response) (res *Label, _ error) {
@@ -22831,7 +23270,7 @@ func decodeIssuesUpdateLabelResponse(resp *http.Response) (res *Label, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeIssuesUpdateMilestoneResponse(resp *http.Response) (res *Milestone, _ error) {
@@ -22881,7 +23320,7 @@ func decodeIssuesUpdateMilestoneResponse(resp *http.Response) (res *Milestone, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLicensesGetResponse(resp *http.Response) (res LicensesGetRes, _ error) {
@@ -23004,7 +23443,7 @@ func decodeLicensesGetResponse(resp *http.Response) (res LicensesGetRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLicensesGetAllCommonlyUsedResponse(resp *http.Response) (res LicensesGetAllCommonlyUsedRes, _ error) {
@@ -23057,7 +23496,7 @@ func decodeLicensesGetAllCommonlyUsedResponse(resp *http.Response) (res Licenses
 		// Code 304.
 		return &NotModified{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLicensesGetForRepoResponse(resp *http.Response) (res *LicenseContent, _ error) {
@@ -23098,7 +23537,7 @@ func decodeLicensesGetForRepoResponse(resp *http.Response) (res *LicenseContent,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMarkdownRenderResponse(resp *http.Response) (res MarkdownRenderRes, _ error) {
@@ -23203,7 +23642,7 @@ func decodeMarkdownRenderResponse(resp *http.Response) (res MarkdownRenderRes, _
 		// Code 304.
 		return &NotModified{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMarkdownRenderRawResponse(resp *http.Response) (res MarkdownRenderRawRes, _ error) {
@@ -23271,7 +23710,7 @@ func decodeMarkdownRenderRawResponse(resp *http.Response) (res MarkdownRenderRaw
 		// Code 304.
 		return &NotModified{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetaGetResponse(resp *http.Response) (res MetaGetRes, _ error) {
@@ -23315,7 +23754,7 @@ func decodeMetaGetResponse(resp *http.Response) (res MetaGetRes, _ error) {
 		// Code 304.
 		return &NotModified{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetaGetOctocatResponse(resp *http.Response) (res MetaGetOctocatOK, _ error) {
@@ -23340,7 +23779,7 @@ func decodeMetaGetOctocatResponse(resp *http.Response) (res MetaGetOctocatOK, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetaGetZenResponse(resp *http.Response) (res MetaGetZenOK, _ error) {
@@ -23365,7 +23804,7 @@ func decodeMetaGetZenResponse(resp *http.Response) (res MetaGetZenOK, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetaRootResponse(resp *http.Response) (res *MetaRootOK, _ error) {
@@ -23406,7 +23845,7 @@ func decodeMetaRootResponse(resp *http.Response) (res *MetaRootOK, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsCancelImportResponse(resp *http.Response) (res *MigrationsCancelImportNoContent, _ error) {
@@ -23415,7 +23854,7 @@ func decodeMigrationsCancelImportResponse(resp *http.Response) (res *MigrationsC
 		// Code 204.
 		return &MigrationsCancelImportNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsDeleteArchiveForAuthenticatedUserResponse(resp *http.Response) (res MigrationsDeleteArchiveForAuthenticatedUserRes, _ error) {
@@ -23532,7 +23971,7 @@ func decodeMigrationsDeleteArchiveForAuthenticatedUserResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsDeleteArchiveForOrgResponse(resp *http.Response) (res MigrationsDeleteArchiveForOrgRes, _ error) {
@@ -23576,7 +24015,7 @@ func decodeMigrationsDeleteArchiveForOrgResponse(resp *http.Response) (res Migra
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsDownloadArchiveForOrgResponse(resp *http.Response) (res MigrationsDownloadArchiveForOrgRes, _ error) {
@@ -23620,7 +24059,7 @@ func decodeMigrationsDownloadArchiveForOrgResponse(resp *http.Response) (res Mig
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsGetArchiveForAuthenticatedUserResponse(resp *http.Response) (res MigrationsGetArchiveForAuthenticatedUserRes, _ error) {
@@ -23702,7 +24141,7 @@ func decodeMigrationsGetArchiveForAuthenticatedUserResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsGetCommitAuthorsResponse(resp *http.Response) (res MigrationsGetCommitAuthorsRes, _ error) {
@@ -23787,7 +24226,7 @@ func decodeMigrationsGetCommitAuthorsResponse(resp *http.Response) (res Migratio
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsGetImportStatusResponse(resp *http.Response) (res MigrationsGetImportStatusRes, _ error) {
@@ -23872,7 +24311,7 @@ func decodeMigrationsGetImportStatusResponse(resp *http.Response) (res Migration
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsGetLargeFilesResponse(resp *http.Response) (res []PorterLargeFile, _ error) {
@@ -23930,7 +24369,7 @@ func decodeMigrationsGetLargeFilesResponse(resp *http.Response) (res []PorterLar
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsGetStatusForAuthenticatedUserResponse(resp *http.Response) (res MigrationsGetStatusForAuthenticatedUserRes, _ error) {
@@ -24088,7 +24527,7 @@ func decodeMigrationsGetStatusForAuthenticatedUserResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsGetStatusForOrgResponse(resp *http.Response) (res MigrationsGetStatusForOrgRes, _ error) {
@@ -24173,7 +24612,7 @@ func decodeMigrationsGetStatusForOrgResponse(resp *http.Response) (res Migration
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsListForAuthenticatedUserResponse(resp *http.Response) (res MigrationsListForAuthenticatedUserRes, _ error) {
@@ -24361,7 +24800,7 @@ func decodeMigrationsListForAuthenticatedUserResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsListForOrgResponse(resp *http.Response) (res *MigrationsListForOrgOKHeaders, _ error) {
@@ -24476,7 +24915,7 @@ func decodeMigrationsListForOrgResponse(resp *http.Response) (res *MigrationsLis
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsListReposForOrgResponse(resp *http.Response) (res MigrationsListReposForOrgRes, _ error) {
@@ -24609,7 +25048,7 @@ func decodeMigrationsListReposForOrgResponse(resp *http.Response) (res Migration
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsListReposForUserResponse(resp *http.Response) (res MigrationsListReposForUserRes, _ error) {
@@ -24742,7 +25181,7 @@ func decodeMigrationsListReposForUserResponse(resp *http.Response) (res Migratio
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsMapCommitAuthorResponse(resp *http.Response) (res MigrationsMapCommitAuthorRes, _ error) {
@@ -24862,7 +25301,7 @@ func decodeMigrationsMapCommitAuthorResponse(resp *http.Response) (res Migration
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsSetLfsPreferenceResponse(resp *http.Response) (res MigrationsSetLfsPreferenceRes, _ error) {
@@ -24956,7 +25395,7 @@ func decodeMigrationsSetLfsPreferenceResponse(resp *http.Response) (res Migratio
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsStartForAuthenticatedUserResponse(resp *http.Response) (res MigrationsStartForAuthenticatedUserRes, _ error) {
@@ -25123,7 +25562,7 @@ func decodeMigrationsStartForAuthenticatedUserResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsStartForOrgResponse(resp *http.Response) (res MigrationsStartForOrgRes, _ error) {
@@ -25252,7 +25691,7 @@ func decodeMigrationsStartForOrgResponse(resp *http.Response) (res MigrationsSta
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsStartImportResponse(resp *http.Response) (res MigrationsStartImportRes, _ error) {
@@ -25421,7 +25860,7 @@ func decodeMigrationsStartImportResponse(resp *http.Response) (res MigrationsSta
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsUnlockRepoForAuthenticatedUserResponse(resp *http.Response) (res MigrationsUnlockRepoForAuthenticatedUserRes, _ error) {
@@ -25538,7 +25977,7 @@ func decodeMigrationsUnlockRepoForAuthenticatedUserResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsUnlockRepoForOrgResponse(resp *http.Response) (res MigrationsUnlockRepoForOrgRes, _ error) {
@@ -25582,7 +26021,7 @@ func decodeMigrationsUnlockRepoForOrgResponse(resp *http.Response) (res Migratio
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMigrationsUpdateImportResponse(resp *http.Response) (res *Import, _ error) {
@@ -25632,7 +26071,7 @@ func decodeMigrationsUpdateImportResponse(resp *http.Response) (res *Import, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOAuthAuthorizationsCreateAuthorizationResponse(resp *http.Response) (res OAuthAuthorizationsCreateAuthorizationRes, _ error) {
@@ -25874,7 +26313,7 @@ func decodeOAuthAuthorizationsCreateAuthorizationResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOAuthAuthorizationsDeleteAuthorizationResponse(resp *http.Response) (res OAuthAuthorizationsDeleteAuthorizationRes, _ error) {
@@ -25956,7 +26395,7 @@ func decodeOAuthAuthorizationsDeleteAuthorizationResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOAuthAuthorizationsDeleteGrantResponse(resp *http.Response) (res OAuthAuthorizationsDeleteGrantRes, _ error) {
@@ -26038,7 +26477,7 @@ func decodeOAuthAuthorizationsDeleteGrantResponse(resp *http.Response) (res OAut
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOAuthAuthorizationsGetAuthorizationResponse(resp *http.Response) (res OAuthAuthorizationsGetAuthorizationRes, _ error) {
@@ -26161,7 +26600,7 @@ func decodeOAuthAuthorizationsGetAuthorizationResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOAuthAuthorizationsGetGrantResponse(resp *http.Response) (res OAuthAuthorizationsGetGrantRes, _ error) {
@@ -26284,7 +26723,7 @@ func decodeOAuthAuthorizationsGetGrantResponse(resp *http.Response) (res OAuthAu
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOAuthAuthorizationsGetOrCreateAuthorizationForAppResponse(resp *http.Response) (res OAuthAuthorizationsGetOrCreateAuthorizationForAppRes, _ error) {
@@ -26575,7 +27014,7 @@ func decodeOAuthAuthorizationsGetOrCreateAuthorizationForAppResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOAuthAuthorizationsGetOrCreateAuthorizationForAppAndFingerprintResponse(resp *http.Response) (res OAuthAuthorizationsGetOrCreateAuthorizationForAppAndFingerprintRes, _ error) {
@@ -26793,7 +27232,7 @@ func decodeOAuthAuthorizationsGetOrCreateAuthorizationForAppAndFingerprintRespon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOAuthAuthorizationsListAuthorizationsResponse(resp *http.Response) (res OAuthAuthorizationsListAuthorizationsRes, _ error) {
@@ -27016,7 +27455,7 @@ func decodeOAuthAuthorizationsListAuthorizationsResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOAuthAuthorizationsListGrantsResponse(resp *http.Response) (res OAuthAuthorizationsListGrantsRes, _ error) {
@@ -27239,7 +27678,7 @@ func decodeOAuthAuthorizationsListGrantsResponse(resp *http.Response) (res OAuth
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOAuthAuthorizationsUpdateAuthorizationResponse(resp *http.Response) (res OAuthAuthorizationsUpdateAuthorizationRes, _ error) {
@@ -27333,7 +27772,7 @@ func decodeOAuthAuthorizationsUpdateAuthorizationResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsBlockUserResponse(resp *http.Response) (res OrgsBlockUserRes, _ error) {
@@ -27386,7 +27825,7 @@ func decodeOrgsBlockUserResponse(resp *http.Response) (res OrgsBlockUserRes, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsCancelInvitationResponse(resp *http.Response) (res OrgsCancelInvitationRes, _ error) {
@@ -27474,7 +27913,7 @@ func decodeOrgsCancelInvitationResponse(resp *http.Response) (res OrgsCancelInvi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsCheckBlockedUserResponse(resp *http.Response) (res OrgsCheckBlockedUserRes, _ error) {
@@ -27518,7 +27957,7 @@ func decodeOrgsCheckBlockedUserResponse(resp *http.Response) (res OrgsCheckBlock
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsCheckMembershipForUserResponse(resp *http.Response) (res OrgsCheckMembershipForUserRes, _ error) {
@@ -27572,7 +28011,7 @@ func decodeOrgsCheckMembershipForUserResponse(resp *http.Response) (res OrgsChec
 		// Code 404.
 		return &OrgsCheckMembershipForUserNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsCheckPublicMembershipForUserResponse(resp *http.Response) (res OrgsCheckPublicMembershipForUserRes, _ error) {
@@ -27584,7 +28023,7 @@ func decodeOrgsCheckPublicMembershipForUserResponse(resp *http.Response) (res Or
 		// Code 404.
 		return &OrgsCheckPublicMembershipForUserNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsConvertMemberToOutsideCollaboratorResponse(resp *http.Response) (res OrgsConvertMemberToOutsideCollaboratorRes, _ error) {
@@ -27666,7 +28105,7 @@ func decodeOrgsConvertMemberToOutsideCollaboratorResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsCreateInvitationResponse(resp *http.Response) (res OrgsCreateInvitationRes, _ error) {
@@ -27786,7 +28225,7 @@ func decodeOrgsCreateInvitationResponse(resp *http.Response) (res OrgsCreateInvi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsCreateWebhookResponse(resp *http.Response) (res OrgsCreateWebhookRes, _ error) {
@@ -27955,7 +28394,7 @@ func decodeOrgsCreateWebhookResponse(resp *http.Response) (res OrgsCreateWebhook
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsDeleteWebhookResponse(resp *http.Response) (res OrgsDeleteWebhookRes, _ error) {
@@ -27999,7 +28438,7 @@ func decodeOrgsDeleteWebhookResponse(resp *http.Response) (res OrgsDeleteWebhook
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsGetResponse(resp *http.Response) (res OrgsGetRes, _ error) {
@@ -28084,7 +28523,7 @@ func decodeOrgsGetResponse(resp *http.Response) (res OrgsGetRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsGetAuditLogResponse(resp *http.Response) (res []AuditLogEvent, _ error) {
@@ -28142,7 +28581,7 @@ func decodeOrgsGetAuditLogResponse(resp *http.Response) (res []AuditLogEvent, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsGetMembershipForAuthenticatedUserResponse(resp *http.Response) (res OrgsGetMembershipForAuthenticatedUserRes, _ error) {
@@ -28262,7 +28701,7 @@ func decodeOrgsGetMembershipForAuthenticatedUserResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsGetMembershipForUserResponse(resp *http.Response) (res OrgsGetMembershipForUserRes, _ error) {
@@ -28382,7 +28821,7 @@ func decodeOrgsGetMembershipForUserResponse(resp *http.Response) (res OrgsGetMem
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsGetWebhookResponse(resp *http.Response) (res OrgsGetWebhookRes, _ error) {
@@ -28467,7 +28906,7 @@ func decodeOrgsGetWebhookResponse(resp *http.Response) (res OrgsGetWebhookRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsGetWebhookConfigForOrgResponse(resp *http.Response) (res *WebhookConfig, _ error) {
@@ -28517,7 +28956,7 @@ func decodeOrgsGetWebhookConfigForOrgResponse(resp *http.Response) (res *Webhook
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsGetWebhookDeliveryResponse(resp *http.Response) (res OrgsGetWebhookDeliveryRes, _ error) {
@@ -28598,6 +29037,31 @@ func decodeOrgsGetWebhookDeliveryResponse(resp *http.Response) (res OrgsGetWebho
 				return res, err
 			}
 			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
@@ -28646,7 +29110,7 @@ func decodeOrgsGetWebhookDeliveryResponse(resp *http.Response) (res OrgsGetWebho
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListResponse(resp *http.Response) (res OrgsListRes, _ error) {
@@ -28747,7 +29211,7 @@ func decodeOrgsListResponse(resp *http.Response) (res OrgsListRes, _ error) {
 		// Code 304.
 		return &NotModified{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListBlockedUsersResponse(resp *http.Response) (res OrgsListBlockedUsersRes, _ error) {
@@ -28832,7 +29296,7 @@ func decodeOrgsListBlockedUsersResponse(resp *http.Response) (res OrgsListBlocke
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListFailedInvitationsResponse(resp *http.Response) (res OrgsListFailedInvitationsRes, _ error) {
@@ -28965,7 +29429,7 @@ func decodeOrgsListFailedInvitationsResponse(resp *http.Response) (res OrgsListF
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListForAuthenticatedUserResponse(resp *http.Response) (res OrgsListForAuthenticatedUserRes, _ error) {
@@ -29136,7 +29600,7 @@ func decodeOrgsListForAuthenticatedUserResponse(resp *http.Response) (res OrgsLi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListForUserResponse(resp *http.Response) (res *OrgsListForUserOKHeaders, _ error) {
@@ -29234,7 +29698,7 @@ func decodeOrgsListForUserResponse(resp *http.Response) (res *OrgsListForUserOKH
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListInvitationTeamsResponse(resp *http.Response) (res OrgsListInvitationTeamsRes, _ error) {
@@ -29367,7 +29831,7 @@ func decodeOrgsListInvitationTeamsResponse(resp *http.Response) (res OrgsListInv
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListMembersResponse(resp *http.Response) (res OrgsListMembersRes, _ error) {
@@ -29551,7 +30015,7 @@ func decodeOrgsListMembersResponse(resp *http.Response) (res OrgsListMembersRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListMembershipsForAuthenticatedUserResponse(resp *http.Response) (res OrgsListMembershipsForAuthenticatedUserRes, _ error) {
@@ -29783,7 +30247,7 @@ func decodeOrgsListMembershipsForAuthenticatedUserResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListOutsideCollaboratorsResponse(resp *http.Response) (res *OrgsListOutsideCollaboratorsOKHeaders, _ error) {
@@ -29881,7 +30345,7 @@ func decodeOrgsListOutsideCollaboratorsResponse(resp *http.Response) (res *OrgsL
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListPendingInvitationsResponse(resp *http.Response) (res OrgsListPendingInvitationsRes, _ error) {
@@ -30014,7 +30478,7 @@ func decodeOrgsListPendingInvitationsResponse(resp *http.Response) (res OrgsList
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListPublicMembersResponse(resp *http.Response) (res *OrgsListPublicMembersOKHeaders, _ error) {
@@ -30112,7 +30576,7 @@ func decodeOrgsListPublicMembersResponse(resp *http.Response) (res *OrgsListPubl
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListSamlSSOAuthorizationsResponse(resp *http.Response) (res []CredentialAuthorization, _ error) {
@@ -30170,7 +30634,7 @@ func decodeOrgsListSamlSSOAuthorizationsResponse(resp *http.Response) (res []Cre
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListWebhookDeliveriesResponse(resp *http.Response) (res OrgsListWebhookDeliveriesRes, _ error) {
@@ -30251,6 +30715,31 @@ func decodeOrgsListWebhookDeliveriesResponse(resp *http.Response) (res OrgsListW
 				return res, err
 			}
 			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
@@ -30299,7 +30788,7 @@ func decodeOrgsListWebhookDeliveriesResponse(resp *http.Response) (res OrgsListW
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsListWebhooksResponse(resp *http.Response) (res OrgsListWebhooksRes, _ error) {
@@ -30449,7 +30938,7 @@ func decodeOrgsListWebhooksResponse(resp *http.Response) (res OrgsListWebhooksRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsPingWebhookResponse(resp *http.Response) (res OrgsPingWebhookRes, _ error) {
@@ -30493,7 +30982,7 @@ func decodeOrgsPingWebhookResponse(resp *http.Response) (res OrgsPingWebhookRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsRedeliverWebhookDeliveryResponse(resp *http.Response) (res OrgsRedeliverWebhookDeliveryRes, _ error) {
@@ -30565,6 +31054,31 @@ func decodeOrgsRedeliverWebhookDeliveryResponse(resp *http.Response) (res OrgsRe
 				return res, err
 			}
 			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
@@ -30613,7 +31127,7 @@ func decodeOrgsRedeliverWebhookDeliveryResponse(resp *http.Response) (res OrgsRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsRemoveMemberResponse(resp *http.Response) (res OrgsRemoveMemberRes, _ error) {
@@ -30657,7 +31171,7 @@ func decodeOrgsRemoveMemberResponse(resp *http.Response) (res OrgsRemoveMemberRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsRemoveMembershipForUserResponse(resp *http.Response) (res OrgsRemoveMembershipForUserRes, _ error) {
@@ -30736,7 +31250,7 @@ func decodeOrgsRemoveMembershipForUserResponse(resp *http.Response) (res OrgsRem
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsRemoveOutsideCollaboratorResponse(resp *http.Response) (res OrgsRemoveOutsideCollaboratorRes, _ error) {
@@ -30780,7 +31294,7 @@ func decodeOrgsRemoveOutsideCollaboratorResponse(resp *http.Response) (res OrgsR
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsRemovePublicMembershipForAuthenticatedUserResponse(resp *http.Response) (res *OrgsRemovePublicMembershipForAuthenticatedUserNoContent, _ error) {
@@ -30789,7 +31303,7 @@ func decodeOrgsRemovePublicMembershipForAuthenticatedUserResponse(resp *http.Res
 		// Code 204.
 		return &OrgsRemovePublicMembershipForAuthenticatedUserNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsRemoveSamlSSOAuthorizationResponse(resp *http.Response) (res OrgsRemoveSamlSSOAuthorizationRes, _ error) {
@@ -30833,7 +31347,7 @@ func decodeOrgsRemoveSamlSSOAuthorizationResponse(resp *http.Response) (res Orgs
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsSetMembershipForUserResponse(resp *http.Response) (res OrgsSetMembershipForUserRes, _ error) {
@@ -30962,7 +31476,7 @@ func decodeOrgsSetMembershipForUserResponse(resp *http.Response) (res OrgsSetMem
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsSetPublicMembershipForAuthenticatedUserResponse(resp *http.Response) (res OrgsSetPublicMembershipForAuthenticatedUserRes, _ error) {
@@ -31006,7 +31520,7 @@ func decodeOrgsSetPublicMembershipForAuthenticatedUserResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsUnblockUserResponse(resp *http.Response) (res *OrgsUnblockUserNoContent, _ error) {
@@ -31015,7 +31529,7 @@ func decodeOrgsUnblockUserResponse(resp *http.Response) (res *OrgsUnblockUserNoC
 		// Code 204.
 		return &OrgsUnblockUserNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsUpdateMembershipForAuthenticatedUserResponse(resp *http.Response) (res OrgsUpdateMembershipForAuthenticatedUserRes, _ error) {
@@ -31179,7 +31693,7 @@ func decodeOrgsUpdateMembershipForAuthenticatedUserResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsUpdateWebhookResponse(resp *http.Response) (res OrgsUpdateWebhookRes, _ error) {
@@ -31308,7 +31822,7 @@ func decodeOrgsUpdateWebhookResponse(resp *http.Response) (res OrgsUpdateWebhook
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeOrgsUpdateWebhookConfigForOrgResponse(resp *http.Response) (res *WebhookConfig, _ error) {
@@ -31358,7 +31872,7 @@ func decodeOrgsUpdateWebhookConfigForOrgResponse(resp *http.Response) (res *Webh
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesDeletePackageForAuthenticatedUserResponse(resp *http.Response) (res PackagesDeletePackageForAuthenticatedUserRes, _ error) {
@@ -31472,7 +31986,7 @@ func decodePackagesDeletePackageForAuthenticatedUserResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesDeletePackageForOrgResponse(resp *http.Response) (res PackagesDeletePackageForOrgRes, _ error) {
@@ -31586,7 +32100,7 @@ func decodePackagesDeletePackageForOrgResponse(resp *http.Response) (res Package
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesDeletePackageForUserResponse(resp *http.Response) (res PackagesDeletePackageForUserRes, _ error) {
@@ -31700,7 +32214,7 @@ func decodePackagesDeletePackageForUserResponse(resp *http.Response) (res Packag
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesDeletePackageVersionForAuthenticatedUserResponse(resp *http.Response) (res PackagesDeletePackageVersionForAuthenticatedUserRes, _ error) {
@@ -31814,7 +32328,7 @@ func decodePackagesDeletePackageVersionForAuthenticatedUserResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesDeletePackageVersionForOrgResponse(resp *http.Response) (res PackagesDeletePackageVersionForOrgRes, _ error) {
@@ -31928,7 +32442,7 @@ func decodePackagesDeletePackageVersionForOrgResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesDeletePackageVersionForUserResponse(resp *http.Response) (res PackagesDeletePackageVersionForUserRes, _ error) {
@@ -32042,7 +32556,7 @@ func decodePackagesDeletePackageVersionForUserResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesGetAllPackageVersionsForPackageOwnedByAuthenticatedUserResponse(resp *http.Response) (res PackagesGetAllPackageVersionsForPackageOwnedByAuthenticatedUserRes, _ error) {
@@ -32197,7 +32711,7 @@ func decodePackagesGetAllPackageVersionsForPackageOwnedByAuthenticatedUserRespon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesGetAllPackageVersionsForPackageOwnedByOrgResponse(resp *http.Response) (res PackagesGetAllPackageVersionsForPackageOwnedByOrgRes, _ error) {
@@ -32352,7 +32866,7 @@ func decodePackagesGetAllPackageVersionsForPackageOwnedByOrgResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesGetAllPackageVersionsForPackageOwnedByUserResponse(resp *http.Response) (res PackagesGetAllPackageVersionsForPackageOwnedByUserRes, _ error) {
@@ -32507,7 +33021,7 @@ func decodePackagesGetAllPackageVersionsForPackageOwnedByUserResponse(resp *http
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesGetPackageForAuthenticatedUserResponse(resp *http.Response) (res *Package, _ error) {
@@ -32557,7 +33071,7 @@ func decodePackagesGetPackageForAuthenticatedUserResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesGetPackageForOrganizationResponse(resp *http.Response) (res *Package, _ error) {
@@ -32607,7 +33121,7 @@ func decodePackagesGetPackageForOrganizationResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesGetPackageForUserResponse(resp *http.Response) (res *Package, _ error) {
@@ -32657,7 +33171,7 @@ func decodePackagesGetPackageForUserResponse(resp *http.Response) (res *Package,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesGetPackageVersionForAuthenticatedUserResponse(resp *http.Response) (res *PackageVersion, _ error) {
@@ -32707,7 +33221,7 @@ func decodePackagesGetPackageVersionForAuthenticatedUserResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesGetPackageVersionForOrganizationResponse(resp *http.Response) (res *PackageVersion, _ error) {
@@ -32757,7 +33271,7 @@ func decodePackagesGetPackageVersionForOrganizationResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesGetPackageVersionForUserResponse(resp *http.Response) (res *PackageVersion, _ error) {
@@ -32807,7 +33321,7 @@ func decodePackagesGetPackageVersionForUserResponse(resp *http.Response) (res *P
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesListPackagesForAuthenticatedUserResponse(resp *http.Response) (res []Package, _ error) {
@@ -32882,7 +33396,7 @@ func decodePackagesListPackagesForAuthenticatedUserResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesListPackagesForOrganizationResponse(resp *http.Response) (res PackagesListPackagesForOrganizationRes, _ error) {
@@ -33002,7 +33516,7 @@ func decodePackagesListPackagesForOrganizationResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesListPackagesForUserResponse(resp *http.Response) (res PackagesListPackagesForUserRes, _ error) {
@@ -33122,7 +33636,7 @@ func decodePackagesListPackagesForUserResponse(resp *http.Response) (res Package
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesRestorePackageForAuthenticatedUserResponse(resp *http.Response) (res PackagesRestorePackageForAuthenticatedUserRes, _ error) {
@@ -33236,7 +33750,7 @@ func decodePackagesRestorePackageForAuthenticatedUserResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesRestorePackageForOrgResponse(resp *http.Response) (res PackagesRestorePackageForOrgRes, _ error) {
@@ -33350,7 +33864,7 @@ func decodePackagesRestorePackageForOrgResponse(resp *http.Response) (res Packag
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesRestorePackageForUserResponse(resp *http.Response) (res PackagesRestorePackageForUserRes, _ error) {
@@ -33464,7 +33978,7 @@ func decodePackagesRestorePackageForUserResponse(resp *http.Response) (res Packa
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesRestorePackageVersionForAuthenticatedUserResponse(resp *http.Response) (res PackagesRestorePackageVersionForAuthenticatedUserRes, _ error) {
@@ -33578,7 +34092,7 @@ func decodePackagesRestorePackageVersionForAuthenticatedUserResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesRestorePackageVersionForOrgResponse(resp *http.Response) (res PackagesRestorePackageVersionForOrgRes, _ error) {
@@ -33692,7 +34206,7 @@ func decodePackagesRestorePackageVersionForOrgResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePackagesRestorePackageVersionForUserResponse(resp *http.Response) (res PackagesRestorePackageVersionForUserRes, _ error) {
@@ -33806,7 +34320,7 @@ func decodePackagesRestorePackageVersionForUserResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsAddCollaboratorResponse(resp *http.Response) (res ProjectsAddCollaboratorRes, _ error) {
@@ -33967,7 +34481,7 @@ func decodeProjectsAddCollaboratorResponse(resp *http.Response) (res ProjectsAdd
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsCreateColumnResponse(resp *http.Response) (res ProjectsCreateColumnRes, _ error) {
@@ -34116,7 +34630,7 @@ func decodeProjectsCreateColumnResponse(resp *http.Response) (res ProjectsCreate
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsCreateForAuthenticatedUserResponse(resp *http.Response) (res ProjectsCreateForAuthenticatedUserRes, _ error) {
@@ -34309,7 +34823,7 @@ func decodeProjectsCreateForAuthenticatedUserResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsCreateForOrgResponse(resp *http.Response) (res ProjectsCreateForOrgRes, _ error) {
@@ -34534,7 +35048,7 @@ func decodeProjectsCreateForOrgResponse(resp *http.Response) (res ProjectsCreate
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsCreateForRepoResponse(resp *http.Response) (res ProjectsCreateForRepoRes, _ error) {
@@ -34759,7 +35273,7 @@ func decodeProjectsCreateForRepoResponse(resp *http.Response) (res ProjectsCreat
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsDeleteResponse(resp *http.Response) (res ProjectsDeleteRes, _ error) {
@@ -34911,7 +35425,7 @@ func decodeProjectsDeleteResponse(resp *http.Response) (res ProjectsDeleteRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsDeleteCardResponse(resp *http.Response) (res ProjectsDeleteCardRes, _ error) {
@@ -35028,7 +35542,7 @@ func decodeProjectsDeleteCardResponse(resp *http.Response) (res ProjectsDeleteCa
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsDeleteColumnResponse(resp *http.Response) (res ProjectsDeleteColumnRes, _ error) {
@@ -35110,7 +35624,7 @@ func decodeProjectsDeleteColumnResponse(resp *http.Response) (res ProjectsDelete
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsGetResponse(resp *http.Response) (res ProjectsGetRes, _ error) {
@@ -35233,7 +35747,7 @@ func decodeProjectsGetResponse(resp *http.Response) (res ProjectsGetRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsGetCardResponse(resp *http.Response) (res ProjectsGetCardRes, _ error) {
@@ -35382,7 +35896,7 @@ func decodeProjectsGetCardResponse(resp *http.Response) (res ProjectsGetCardRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsGetColumnResponse(resp *http.Response) (res ProjectsGetColumnRes, _ error) {
@@ -35531,7 +36045,7 @@ func decodeProjectsGetColumnResponse(resp *http.Response) (res ProjectsGetColumn
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsGetPermissionForUserResponse(resp *http.Response) (res ProjectsGetPermissionForUserRes, _ error) {
@@ -35724,7 +36238,7 @@ func decodeProjectsGetPermissionForUserResponse(resp *http.Response) (res Projec
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsListCardsResponse(resp *http.Response) (res ProjectsListCardsRes, _ error) {
@@ -35895,7 +36409,7 @@ func decodeProjectsListCardsResponse(resp *http.Response) (res ProjectsListCards
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsListCollaboratorsResponse(resp *http.Response) (res ProjectsListCollaboratorsRes, _ error) {
@@ -36145,7 +36659,7 @@ func decodeProjectsListCollaboratorsResponse(resp *http.Response) (res ProjectsL
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsListColumnsResponse(resp *http.Response) (res ProjectsListColumnsRes, _ error) {
@@ -36316,7 +36830,7 @@ func decodeProjectsListColumnsResponse(resp *http.Response) (res ProjectsListCol
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsListForOrgResponse(resp *http.Response) (res ProjectsListForOrgRes, _ error) {
@@ -36466,7 +36980,7 @@ func decodeProjectsListForOrgResponse(resp *http.Response) (res ProjectsListForO
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsListForRepoResponse(resp *http.Response) (res ProjectsListForRepoRes, _ error) {
@@ -36756,7 +37270,7 @@ func decodeProjectsListForRepoResponse(resp *http.Response) (res ProjectsListFor
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsListForUserResponse(resp *http.Response) (res ProjectsListForUserRes, _ error) {
@@ -36915,7 +37429,7 @@ func decodeProjectsListForUserResponse(resp *http.Response) (res ProjectsListFor
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsMoveCardResponse(resp *http.Response) (res ProjectsMoveCardRes, _ error) {
@@ -37108,7 +37622,7 @@ func decodeProjectsMoveCardResponse(resp *http.Response) (res ProjectsMoveCardRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsMoveColumnResponse(resp *http.Response) (res ProjectsMoveColumnRes, _ error) {
@@ -37257,7 +37771,7 @@ func decodeProjectsMoveColumnResponse(resp *http.Response) (res ProjectsMoveColu
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsRemoveCollaboratorResponse(resp *http.Response) (res ProjectsRemoveCollaboratorRes, _ error) {
@@ -37418,7 +37932,7 @@ func decodeProjectsRemoveCollaboratorResponse(resp *http.Response) (res Projects
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsUpdateResponse(resp *http.Response) (res ProjectsUpdateRes, _ error) {
@@ -37614,7 +38128,7 @@ func decodeProjectsUpdateResponse(resp *http.Response) (res ProjectsUpdateRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsUpdateCardResponse(resp *http.Response) (res ProjectsUpdateCardRes, _ error) {
@@ -37798,7 +38312,7 @@ func decodeProjectsUpdateCardResponse(resp *http.Response) (res ProjectsUpdateCa
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeProjectsUpdateColumnResponse(resp *http.Response) (res ProjectsUpdateColumnRes, _ error) {
@@ -37912,7 +38426,7 @@ func decodeProjectsUpdateColumnResponse(resp *http.Response) (res ProjectsUpdate
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsCheckIfMergedResponse(resp *http.Response) (res PullsCheckIfMergedRes, _ error) {
@@ -37924,7 +38438,7 @@ func decodePullsCheckIfMergedResponse(resp *http.Response) (res PullsCheckIfMerg
 		// Code 404.
 		return &PullsCheckIfMergedNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsCreateResponse(resp *http.Response) (res PullsCreateRes, _ error) {
@@ -38093,7 +38607,7 @@ func decodePullsCreateResponse(resp *http.Response) (res PullsCreateRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsCreateReplyForReviewCommentResponse(resp *http.Response) (res PullsCreateReplyForReviewCommentRes, _ error) {
@@ -38218,7 +38732,7 @@ func decodePullsCreateReplyForReviewCommentResponse(resp *http.Response) (res Pu
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsCreateReviewResponse(resp *http.Response) (res PullsCreateReviewRes, _ error) {
@@ -38338,7 +38852,7 @@ func decodePullsCreateReviewResponse(resp *http.Response) (res PullsCreateReview
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsCreateReviewCommentResponse(resp *http.Response) (res PullsCreateReviewCommentRes, _ error) {
@@ -38507,7 +39021,7 @@ func decodePullsCreateReviewCommentResponse(resp *http.Response) (res PullsCreat
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsDeletePendingReviewResponse(resp *http.Response) (res PullsDeletePendingReviewRes, _ error) {
@@ -38627,7 +39141,7 @@ func decodePullsDeletePendingReviewResponse(resp *http.Response) (res PullsDelet
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsDeleteReviewCommentResponse(resp *http.Response) (res PullsDeleteReviewCommentRes, _ error) {
@@ -38671,7 +39185,7 @@ func decodePullsDeleteReviewCommentResponse(resp *http.Response) (res PullsDelet
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsDismissReviewResponse(resp *http.Response) (res PullsDismissReviewRes, _ error) {
@@ -38791,7 +39305,7 @@ func decodePullsDismissReviewResponse(resp *http.Response) (res PullsDismissRevi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsGetResponse(resp *http.Response) (res PullsGetRes, _ error) {
@@ -38914,7 +39428,7 @@ func decodePullsGetResponse(resp *http.Response) (res PullsGetRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsGetReviewResponse(resp *http.Response) (res PullsGetReviewRes, _ error) {
@@ -38999,7 +39513,7 @@ func decodePullsGetReviewResponse(resp *http.Response) (res PullsGetReviewRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsGetReviewCommentResponse(resp *http.Response) (res PullsGetReviewCommentRes, _ error) {
@@ -39084,7 +39598,7 @@ func decodePullsGetReviewCommentResponse(resp *http.Response) (res PullsGetRevie
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsListResponse(resp *http.Response) (res PullsListRes, _ error) {
@@ -39246,7 +39760,7 @@ func decodePullsListResponse(resp *http.Response) (res PullsListRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsListCommentsForReviewResponse(resp *http.Response) (res PullsListCommentsForReviewRes, _ error) {
@@ -39396,7 +39910,7 @@ func decodePullsListCommentsForReviewResponse(resp *http.Response) (res PullsLis
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsListCommitsResponse(resp *http.Response) (res *PullsListCommitsOKHeaders, _ error) {
@@ -39511,7 +40025,7 @@ func decodePullsListCommitsResponse(resp *http.Response) (res *PullsListCommitsO
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsListFilesResponse(resp *http.Response) (res PullsListFilesRes, _ error) {
@@ -39705,7 +40219,7 @@ func decodePullsListFilesResponse(resp *http.Response) (res PullsListFilesRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsListRequestedReviewersResponse(resp *http.Response) (res *PullRequestReviewRequestHeaders, _ error) {
@@ -39795,7 +40309,7 @@ func decodePullsListRequestedReviewersResponse(resp *http.Response) (res *PullRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsListReviewCommentsResponse(resp *http.Response) (res *PullsListReviewCommentsOKHeaders, _ error) {
@@ -39910,7 +40424,7 @@ func decodePullsListReviewCommentsResponse(resp *http.Response) (res *PullsListR
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsListReviewCommentsForRepoResponse(resp *http.Response) (res *PullsListReviewCommentsForRepoOKHeaders, _ error) {
@@ -40025,7 +40539,7 @@ func decodePullsListReviewCommentsForRepoResponse(resp *http.Response) (res *Pul
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsListReviewsResponse(resp *http.Response) (res *PullsListReviewsOKHeaders, _ error) {
@@ -40140,7 +40654,7 @@ func decodePullsListReviewsResponse(resp *http.Response) (res *PullsListReviewsO
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsMergeResponse(resp *http.Response) (res PullsMergeRes, _ error) {
@@ -40365,7 +40879,7 @@ func decodePullsMergeResponse(resp *http.Response) (res PullsMergeRes, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsRemoveRequestedReviewersResponse(resp *http.Response) (res PullsRemoveRequestedReviewersRes, _ error) {
@@ -40459,7 +40973,7 @@ func decodePullsRemoveRequestedReviewersResponse(resp *http.Response) (res Pulls
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsSubmitReviewResponse(resp *http.Response) (res PullsSubmitReviewRes, _ error) {
@@ -40614,7 +41128,7 @@ func decodePullsSubmitReviewResponse(resp *http.Response) (res PullsSubmitReview
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsUpdateResponse(resp *http.Response) (res PullsUpdateRes, _ error) {
@@ -40743,7 +41257,7 @@ func decodePullsUpdateResponse(resp *http.Response) (res PullsUpdateRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsUpdateBranchResponse(resp *http.Response) (res PullsUpdateBranchRes, _ error) {
@@ -40863,7 +41377,7 @@ func decodePullsUpdateBranchResponse(resp *http.Response) (res PullsUpdateBranch
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsUpdateReviewResponse(resp *http.Response) (res PullsUpdateReviewRes, _ error) {
@@ -40948,7 +41462,7 @@ func decodePullsUpdateReviewResponse(resp *http.Response) (res PullsUpdateReview
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePullsUpdateReviewCommentResponse(resp *http.Response) (res *PullRequestReviewComment, _ error) {
@@ -40998,7 +41512,7 @@ func decodePullsUpdateReviewCommentResponse(resp *http.Response) (res *PullReque
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeRateLimitGetResponse(resp *http.Response) (res RateLimitGetRes, _ error) {
@@ -41191,7 +41705,7 @@ func decodeRateLimitGetResponse(resp *http.Response) (res RateLimitGetRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsCreateForCommitCommentResponse(resp *http.Response) (res ReactionsCreateForCommitCommentRes, _ error) {
@@ -41364,7 +41878,7 @@ func decodeReactionsCreateForCommitCommentResponse(resp *http.Response) (res Rea
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsCreateForIssueResponse(resp *http.Response) (res ReactionsCreateForIssueRes, _ error) {
@@ -41537,7 +42051,7 @@ func decodeReactionsCreateForIssueResponse(resp *http.Response) (res ReactionsCr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsCreateForIssueCommentResponse(resp *http.Response) (res ReactionsCreateForIssueCommentRes, _ error) {
@@ -41710,7 +42224,7 @@ func decodeReactionsCreateForIssueCommentResponse(resp *http.Response) (res Reac
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsCreateForPullRequestReviewCommentResponse(resp *http.Response) (res ReactionsCreateForPullRequestReviewCommentRes, _ error) {
@@ -41883,7 +42397,7 @@ func decodeReactionsCreateForPullRequestReviewCommentResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsCreateForReleaseResponse(resp *http.Response) (res ReactionsCreateForReleaseRes, _ error) {
@@ -42056,7 +42570,7 @@ func decodeReactionsCreateForReleaseResponse(resp *http.Response) (res Reactions
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsCreateForTeamDiscussionCommentInOrgResponse(resp *http.Response) (res ReactionsCreateForTeamDiscussionCommentInOrgRes, _ error) {
@@ -42150,7 +42664,7 @@ func decodeReactionsCreateForTeamDiscussionCommentInOrgResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsCreateForTeamDiscussionCommentLegacyResponse(resp *http.Response) (res *Reaction, _ error) {
@@ -42200,7 +42714,7 @@ func decodeReactionsCreateForTeamDiscussionCommentLegacyResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsCreateForTeamDiscussionInOrgResponse(resp *http.Response) (res ReactionsCreateForTeamDiscussionInOrgRes, _ error) {
@@ -42294,7 +42808,7 @@ func decodeReactionsCreateForTeamDiscussionInOrgResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsCreateForTeamDiscussionLegacyResponse(resp *http.Response) (res *Reaction, _ error) {
@@ -42344,7 +42858,7 @@ func decodeReactionsCreateForTeamDiscussionLegacyResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsDeleteForCommitCommentResponse(resp *http.Response) (res *ReactionsDeleteForCommitCommentNoContent, _ error) {
@@ -42353,7 +42867,7 @@ func decodeReactionsDeleteForCommitCommentResponse(resp *http.Response) (res *Re
 		// Code 204.
 		return &ReactionsDeleteForCommitCommentNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsDeleteForIssueResponse(resp *http.Response) (res *ReactionsDeleteForIssueNoContent, _ error) {
@@ -42362,7 +42876,7 @@ func decodeReactionsDeleteForIssueResponse(resp *http.Response) (res *ReactionsD
 		// Code 204.
 		return &ReactionsDeleteForIssueNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsDeleteForIssueCommentResponse(resp *http.Response) (res *ReactionsDeleteForIssueCommentNoContent, _ error) {
@@ -42371,7 +42885,7 @@ func decodeReactionsDeleteForIssueCommentResponse(resp *http.Response) (res *Rea
 		// Code 204.
 		return &ReactionsDeleteForIssueCommentNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsDeleteForPullRequestCommentResponse(resp *http.Response) (res *ReactionsDeleteForPullRequestCommentNoContent, _ error) {
@@ -42380,7 +42894,7 @@ func decodeReactionsDeleteForPullRequestCommentResponse(resp *http.Response) (re
 		// Code 204.
 		return &ReactionsDeleteForPullRequestCommentNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsDeleteForTeamDiscussionResponse(resp *http.Response) (res *ReactionsDeleteForTeamDiscussionNoContent, _ error) {
@@ -42389,7 +42903,7 @@ func decodeReactionsDeleteForTeamDiscussionResponse(resp *http.Response) (res *R
 		// Code 204.
 		return &ReactionsDeleteForTeamDiscussionNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsDeleteForTeamDiscussionCommentResponse(resp *http.Response) (res *ReactionsDeleteForTeamDiscussionCommentNoContent, _ error) {
@@ -42398,7 +42912,7 @@ func decodeReactionsDeleteForTeamDiscussionCommentResponse(resp *http.Response) 
 		// Code 204.
 		return &ReactionsDeleteForTeamDiscussionCommentNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsDeleteLegacyResponse(resp *http.Response) (res ReactionsDeleteLegacyRes, _ error) {
@@ -42550,7 +43064,7 @@ func decodeReactionsDeleteLegacyResponse(resp *http.Response) (res ReactionsDele
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsListForCommitCommentResponse(resp *http.Response) (res ReactionsListForCommitCommentRes, _ error) {
@@ -42735,7 +43249,7 @@ func decodeReactionsListForCommitCommentResponse(resp *http.Response) (res React
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsListForIssueResponse(resp *http.Response) (res ReactionsListForIssueRes, _ error) {
@@ -42955,7 +43469,7 @@ func decodeReactionsListForIssueResponse(resp *http.Response) (res ReactionsList
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsListForIssueCommentResponse(resp *http.Response) (res ReactionsListForIssueCommentRes, _ error) {
@@ -43140,7 +43654,7 @@ func decodeReactionsListForIssueCommentResponse(resp *http.Response) (res Reacti
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsListForPullRequestReviewCommentResponse(resp *http.Response) (res ReactionsListForPullRequestReviewCommentRes, _ error) {
@@ -43325,7 +43839,7 @@ func decodeReactionsListForPullRequestReviewCommentResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsListForTeamDiscussionCommentInOrgResponse(resp *http.Response) (res *ReactionsListForTeamDiscussionCommentInOrgOKHeaders, _ error) {
@@ -43440,7 +43954,7 @@ func decodeReactionsListForTeamDiscussionCommentInOrgResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsListForTeamDiscussionCommentLegacyResponse(resp *http.Response) (res *ReactionsListForTeamDiscussionCommentLegacyOKHeaders, _ error) {
@@ -43555,7 +44069,7 @@ func decodeReactionsListForTeamDiscussionCommentLegacyResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsListForTeamDiscussionInOrgResponse(resp *http.Response) (res *ReactionsListForTeamDiscussionInOrgOKHeaders, _ error) {
@@ -43670,7 +44184,7 @@ func decodeReactionsListForTeamDiscussionInOrgResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReactionsListForTeamDiscussionLegacyResponse(resp *http.Response) (res *ReactionsListForTeamDiscussionLegacyOKHeaders, _ error) {
@@ -43785,7 +44299,7 @@ func decodeReactionsListForTeamDiscussionLegacyResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposAcceptInvitationResponse(resp *http.Response) (res ReposAcceptInvitationRes, _ error) {
@@ -43902,7 +44416,7 @@ func decodeReposAcceptInvitationResponse(resp *http.Response) (res ReposAcceptIn
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposAddAppAccessRestrictionsResponse(resp *http.Response) (res ReposAddAppAccessRestrictionsRes, _ error) {
@@ -43996,7 +44510,7 @@ func decodeReposAddAppAccessRestrictionsResponse(resp *http.Response) (res Repos
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposAddCollaboratorResponse(resp *http.Response) (res ReposAddCollaboratorRes, _ error) {
@@ -44128,7 +44642,7 @@ func decodeReposAddCollaboratorResponse(resp *http.Response) (res ReposAddCollab
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposAddStatusCheckContextsResponse(resp *http.Response) (res ReposAddStatusCheckContextsRes, _ error) {
@@ -44292,7 +44806,7 @@ func decodeReposAddStatusCheckContextsResponse(resp *http.Response) (res ReposAd
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposAddTeamAccessRestrictionsResponse(resp *http.Response) (res ReposAddTeamAccessRestrictionsRes, _ error) {
@@ -44386,7 +44900,7 @@ func decodeReposAddTeamAccessRestrictionsResponse(resp *http.Response) (res Repo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposAddUserAccessRestrictionsResponse(resp *http.Response) (res ReposAddUserAccessRestrictionsRes, _ error) {
@@ -44480,7 +44994,7 @@ func decodeReposAddUserAccessRestrictionsResponse(resp *http.Response) (res Repo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCheckCollaboratorResponse(resp *http.Response) (res ReposCheckCollaboratorRes, _ error) {
@@ -44492,7 +45006,7 @@ func decodeReposCheckCollaboratorResponse(resp *http.Response) (res ReposCheckCo
 		// Code 404.
 		return &ReposCheckCollaboratorNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCheckVulnerabilityAlertsResponse(resp *http.Response) (res ReposCheckVulnerabilityAlertsRes, _ error) {
@@ -44504,7 +45018,7 @@ func decodeReposCheckVulnerabilityAlertsResponse(resp *http.Response) (res Repos
 		// Code 404.
 		return &ReposCheckVulnerabilityAlertsNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCompareCommitsResponse(resp *http.Response) (res ReposCompareCommitsRes, _ error) {
@@ -44624,7 +45138,7 @@ func decodeReposCompareCommitsResponse(resp *http.Response) (res ReposCompareCom
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateAutolinkResponse(resp *http.Response) (res ReposCreateAutolinkRes, _ error) {
@@ -44749,7 +45263,7 @@ func decodeReposCreateAutolinkResponse(resp *http.Response) (res ReposCreateAuto
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateCommitCommentResponse(resp *http.Response) (res ReposCreateCommitCommentRes, _ error) {
@@ -44918,7 +45432,7 @@ func decodeReposCreateCommitCommentResponse(resp *http.Response) (res ReposCreat
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateCommitSignatureProtectionResponse(resp *http.Response) (res ReposCreateCommitSignatureProtectionRes, _ error) {
@@ -44994,7 +45508,7 @@ func decodeReposCreateCommitSignatureProtectionResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateCommitStatusResponse(resp *http.Response) (res *StatusHeaders, _ error) {
@@ -45075,7 +45589,7 @@ func decodeReposCreateCommitStatusResponse(resp *http.Response) (res *StatusHead
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateDeployKeyResponse(resp *http.Response) (res ReposCreateDeployKeyRes, _ error) {
@@ -45200,7 +45714,7 @@ func decodeReposCreateDeployKeyResponse(resp *http.Response) (res ReposCreateDep
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateDeploymentResponse(resp *http.Response) (res ReposCreateDeploymentRes, _ error) {
@@ -45332,7 +45846,7 @@ func decodeReposCreateDeploymentResponse(resp *http.Response) (res ReposCreateDe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateDeploymentStatusResponse(resp *http.Response) (res ReposCreateDeploymentStatusRes, _ error) {
@@ -45466,7 +45980,7 @@ func decodeReposCreateDeploymentStatusResponse(resp *http.Response) (res ReposCr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateDispatchEventResponse(resp *http.Response) (res ReposCreateDispatchEventRes, _ error) {
@@ -45519,7 +46033,7 @@ func decodeReposCreateDispatchEventResponse(resp *http.Response) (res ReposCreat
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateForAuthenticatedUserResponse(resp *http.Response) (res ReposCreateForAuthenticatedUserRes, _ error) {
@@ -45616,7 +46130,32 @@ func decodeReposCreateForAuthenticatedUserResponse(resp *http.Response) (res Rep
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ReposCreateForAuthenticatedUserBadRequest
+			var response ReposCreateForAuthenticatedUserApplicationJSONBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -45787,7 +46326,7 @@ func decodeReposCreateForAuthenticatedUserResponse(resp *http.Response) (res Rep
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateForkResponse(resp *http.Response) (res ReposCreateForkRes, _ error) {
@@ -45850,7 +46389,32 @@ func decodeReposCreateForkResponse(resp *http.Response) (res ReposCreateForkRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ReposCreateForkBadRequest
+			var response ReposCreateForkApplicationJSONBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -45986,7 +46550,7 @@ func decodeReposCreateForkResponse(resp *http.Response) (res ReposCreateForkRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateInOrgResponse(resp *http.Response) (res ReposCreateInOrgRes, _ error) {
@@ -46146,7 +46710,7 @@ func decodeReposCreateInOrgResponse(resp *http.Response) (res ReposCreateInOrgRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateOrUpdateFileContentsResponse(resp *http.Response) (res ReposCreateOrUpdateFileContentsRes, _ error) {
@@ -46336,7 +46900,7 @@ func decodeReposCreateOrUpdateFileContentsResponse(resp *http.Response) (res Rep
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreatePagesSiteResponse(resp *http.Response) (res ReposCreatePagesSiteRes, _ error) {
@@ -46500,7 +47064,7 @@ func decodeReposCreatePagesSiteResponse(resp *http.Response) (res ReposCreatePag
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateReleaseResponse(resp *http.Response) (res ReposCreateReleaseRes, _ error) {
@@ -46669,7 +47233,7 @@ func decodeReposCreateReleaseResponse(resp *http.Response) (res ReposCreateRelea
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateUsingTemplateResponse(resp *http.Response) (res *RepositoryHeaders, _ error) {
@@ -46750,7 +47314,7 @@ func decodeReposCreateUsingTemplateResponse(resp *http.Response) (res *Repositor
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposCreateWebhookResponse(resp *http.Response) (res ReposCreateWebhookRes, _ error) {
@@ -46954,7 +47518,7 @@ func decodeReposCreateWebhookResponse(resp *http.Response) (res ReposCreateWebho
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeclineInvitationResponse(resp *http.Response) (res ReposDeclineInvitationRes, _ error) {
@@ -47071,7 +47635,7 @@ func decodeReposDeclineInvitationResponse(resp *http.Response) (res ReposDecline
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteResponse(resp *http.Response) (res ReposDeleteRes, _ error) {
@@ -47185,7 +47749,7 @@ func decodeReposDeleteResponse(resp *http.Response) (res ReposDeleteRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteAccessRestrictionsResponse(resp *http.Response) (res *ReposDeleteAccessRestrictionsNoContent, _ error) {
@@ -47194,7 +47758,7 @@ func decodeReposDeleteAccessRestrictionsResponse(resp *http.Response) (res *Repo
 		// Code 204.
 		return &ReposDeleteAccessRestrictionsNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteAdminBranchProtectionResponse(resp *http.Response) (res ReposDeleteAdminBranchProtectionRes, _ error) {
@@ -47238,7 +47802,7 @@ func decodeReposDeleteAdminBranchProtectionResponse(resp *http.Response) (res Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteAnEnvironmentResponse(resp *http.Response) (res *ReposDeleteAnEnvironmentNoContent, _ error) {
@@ -47247,7 +47811,7 @@ func decodeReposDeleteAnEnvironmentResponse(resp *http.Response) (res *ReposDele
 		// Code 204.
 		return &ReposDeleteAnEnvironmentNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteAutolinkResponse(resp *http.Response) (res ReposDeleteAutolinkRes, _ error) {
@@ -47291,7 +47855,7 @@ func decodeReposDeleteAutolinkResponse(resp *http.Response) (res ReposDeleteAuto
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteBranchProtectionResponse(resp *http.Response) (res ReposDeleteBranchProtectionRes, _ error) {
@@ -47335,7 +47899,7 @@ func decodeReposDeleteBranchProtectionResponse(resp *http.Response) (res ReposDe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteCommitCommentResponse(resp *http.Response) (res ReposDeleteCommitCommentRes, _ error) {
@@ -47379,7 +47943,7 @@ func decodeReposDeleteCommitCommentResponse(resp *http.Response) (res ReposDelet
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteCommitSignatureProtectionResponse(resp *http.Response) (res ReposDeleteCommitSignatureProtectionRes, _ error) {
@@ -47423,7 +47987,7 @@ func decodeReposDeleteCommitSignatureProtectionResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteDeployKeyResponse(resp *http.Response) (res *ReposDeleteDeployKeyNoContent, _ error) {
@@ -47432,7 +47996,7 @@ func decodeReposDeleteDeployKeyResponse(resp *http.Response) (res *ReposDeleteDe
 		// Code 204.
 		return &ReposDeleteDeployKeyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteDeploymentResponse(resp *http.Response) (res ReposDeleteDeploymentRes, _ error) {
@@ -47511,7 +48075,7 @@ func decodeReposDeleteDeploymentResponse(resp *http.Response) (res ReposDeleteDe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteFileResponse(resp *http.Response) (res ReposDeleteFileRes, _ error) {
@@ -47701,7 +48265,7 @@ func decodeReposDeleteFileResponse(resp *http.Response) (res ReposDeleteFileRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteInvitationResponse(resp *http.Response) (res *ReposDeleteInvitationNoContent, _ error) {
@@ -47710,7 +48274,7 @@ func decodeReposDeleteInvitationResponse(resp *http.Response) (res *ReposDeleteI
 		// Code 204.
 		return &ReposDeleteInvitationNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeletePagesSiteResponse(resp *http.Response) (res ReposDeletePagesSiteRes, _ error) {
@@ -47833,7 +48397,7 @@ func decodeReposDeletePagesSiteResponse(resp *http.Response) (res ReposDeletePag
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeletePullRequestReviewProtectionResponse(resp *http.Response) (res ReposDeletePullRequestReviewProtectionRes, _ error) {
@@ -47877,7 +48441,7 @@ func decodeReposDeletePullRequestReviewProtectionResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteReleaseResponse(resp *http.Response) (res *ReposDeleteReleaseNoContent, _ error) {
@@ -47886,7 +48450,7 @@ func decodeReposDeleteReleaseResponse(resp *http.Response) (res *ReposDeleteRele
 		// Code 204.
 		return &ReposDeleteReleaseNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteReleaseAssetResponse(resp *http.Response) (res *ReposDeleteReleaseAssetNoContent, _ error) {
@@ -47895,7 +48459,7 @@ func decodeReposDeleteReleaseAssetResponse(resp *http.Response) (res *ReposDelet
 		// Code 204.
 		return &ReposDeleteReleaseAssetNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDeleteWebhookResponse(resp *http.Response) (res ReposDeleteWebhookRes, _ error) {
@@ -47939,7 +48503,7 @@ func decodeReposDeleteWebhookResponse(resp *http.Response) (res ReposDeleteWebho
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDisableAutomatedSecurityFixesResponse(resp *http.Response) (res *ReposDisableAutomatedSecurityFixesNoContent, _ error) {
@@ -47948,7 +48512,7 @@ func decodeReposDisableAutomatedSecurityFixesResponse(resp *http.Response) (res 
 		// Code 204.
 		return &ReposDisableAutomatedSecurityFixesNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDisableLfsForRepoResponse(resp *http.Response) (res *ReposDisableLfsForRepoNoContent, _ error) {
@@ -47957,7 +48521,7 @@ func decodeReposDisableLfsForRepoResponse(resp *http.Response) (res *ReposDisabl
 		// Code 204.
 		return &ReposDisableLfsForRepoNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDisableVulnerabilityAlertsResponse(resp *http.Response) (res *ReposDisableVulnerabilityAlertsNoContent, _ error) {
@@ -47966,7 +48530,7 @@ func decodeReposDisableVulnerabilityAlertsResponse(resp *http.Response) (res *Re
 		// Code 204.
 		return &ReposDisableVulnerabilityAlertsNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDownloadTarballArchiveResponse(resp *http.Response) (res *ReposDownloadTarballArchiveFound, _ error) {
@@ -48014,7 +48578,7 @@ func decodeReposDownloadTarballArchiveResponse(resp *http.Response) (res *ReposD
 		}
 		return &wrapper, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposDownloadZipballArchiveResponse(resp *http.Response) (res *ReposDownloadZipballArchiveFound, _ error) {
@@ -48062,7 +48626,7 @@ func decodeReposDownloadZipballArchiveResponse(resp *http.Response) (res *ReposD
 		}
 		return &wrapper, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposEnableAutomatedSecurityFixesResponse(resp *http.Response) (res *ReposEnableAutomatedSecurityFixesNoContent, _ error) {
@@ -48071,7 +48635,7 @@ func decodeReposEnableAutomatedSecurityFixesResponse(resp *http.Response) (res *
 		// Code 204.
 		return &ReposEnableAutomatedSecurityFixesNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposEnableLfsForRepoResponse(resp *http.Response) (res ReposEnableLfsForRepoRes, _ error) {
@@ -48115,7 +48679,7 @@ func decodeReposEnableLfsForRepoResponse(resp *http.Response) (res ReposEnableLf
 		// Code 403.
 		return &ReposEnableLfsForRepoForbidden{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposEnableVulnerabilityAlertsResponse(resp *http.Response) (res *ReposEnableVulnerabilityAlertsNoContent, _ error) {
@@ -48124,7 +48688,7 @@ func decodeReposEnableVulnerabilityAlertsResponse(resp *http.Response) (res *Rep
 		// Code 204.
 		return &ReposEnableVulnerabilityAlertsNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetResponse(resp *http.Response) (res ReposGetRes, _ error) {
@@ -48279,7 +48843,7 @@ func decodeReposGetResponse(resp *http.Response) (res ReposGetRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetAccessRestrictionsResponse(resp *http.Response) (res ReposGetAccessRestrictionsRes, _ error) {
@@ -48364,7 +48928,7 @@ func decodeReposGetAccessRestrictionsResponse(resp *http.Response) (res ReposGet
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetAdminBranchProtectionResponse(resp *http.Response) (res *ProtectedBranchAdminEnforced, _ error) {
@@ -48405,7 +48969,7 @@ func decodeReposGetAdminBranchProtectionResponse(resp *http.Response) (res *Prot
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetAllStatusCheckContextsResponse(resp *http.Response) (res ReposGetAllStatusCheckContextsRes, _ error) {
@@ -48490,7 +49054,7 @@ func decodeReposGetAllStatusCheckContextsResponse(resp *http.Response) (res Repo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetAllTopicsResponse(resp *http.Response) (res ReposGetAllTopicsRes, _ error) {
@@ -48610,7 +49174,7 @@ func decodeReposGetAllTopicsResponse(resp *http.Response) (res ReposGetAllTopics
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetAppsWithAccessToProtectedBranchResponse(resp *http.Response) (res ReposGetAppsWithAccessToProtectedBranchRes, _ error) {
@@ -48695,7 +49259,7 @@ func decodeReposGetAppsWithAccessToProtectedBranchResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetAutolinkResponse(resp *http.Response) (res ReposGetAutolinkRes, _ error) {
@@ -48771,7 +49335,7 @@ func decodeReposGetAutolinkResponse(resp *http.Response) (res ReposGetAutolinkRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetBranchResponse(resp *http.Response) (res ReposGetBranchRes, _ error) {
@@ -48926,7 +49490,7 @@ func decodeReposGetBranchResponse(resp *http.Response) (res ReposGetBranchRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetBranchProtectionResponse(resp *http.Response) (res ReposGetBranchProtectionRes, _ error) {
@@ -49011,7 +49575,7 @@ func decodeReposGetBranchProtectionResponse(resp *http.Response) (res ReposGetBr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetClonesResponse(resp *http.Response) (res ReposGetClonesRes, _ error) {
@@ -49096,7 +49660,7 @@ func decodeReposGetClonesResponse(resp *http.Response) (res ReposGetClonesRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetCodeFrequencyStatsResponse(resp *http.Response) (res ReposGetCodeFrequencyStatsRes, _ error) {
@@ -49184,7 +49748,7 @@ func decodeReposGetCodeFrequencyStatsResponse(resp *http.Response) (res ReposGet
 		// Code 204.
 		return &NoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetCollaboratorPermissionLevelResponse(resp *http.Response) (res ReposGetCollaboratorPermissionLevelRes, _ error) {
@@ -49260,7 +49824,7 @@ func decodeReposGetCollaboratorPermissionLevelResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetCombinedStatusForRefResponse(resp *http.Response) (res ReposGetCombinedStatusForRefRes, _ error) {
@@ -49345,7 +49909,7 @@ func decodeReposGetCombinedStatusForRefResponse(resp *http.Response) (res ReposG
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetCommitResponse(resp *http.Response) (res ReposGetCommitRes, _ error) {
@@ -49509,7 +50073,7 @@ func decodeReposGetCommitResponse(resp *http.Response) (res ReposGetCommitRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetCommitActivityStatsResponse(resp *http.Response) (res ReposGetCommitActivityStatsRes, _ error) {
@@ -49597,7 +50161,7 @@ func decodeReposGetCommitActivityStatsResponse(resp *http.Response) (res ReposGe
 		// Code 204.
 		return &NoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetCommitCommentResponse(resp *http.Response) (res ReposGetCommitCommentRes, _ error) {
@@ -49682,7 +50246,7 @@ func decodeReposGetCommitCommentResponse(resp *http.Response) (res ReposGetCommi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetCommitSignatureProtectionResponse(resp *http.Response) (res ReposGetCommitSignatureProtectionRes, _ error) {
@@ -49758,7 +50322,7 @@ func decodeReposGetCommitSignatureProtectionResponse(resp *http.Response) (res R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetCommunityProfileMetricsResponse(resp *http.Response) (res *CommunityProfile, _ error) {
@@ -49799,7 +50363,7 @@ func decodeReposGetCommunityProfileMetricsResponse(resp *http.Response) (res *Co
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetContributorsStatsResponse(resp *http.Response) (res ReposGetContributorsStatsRes, _ error) {
@@ -49887,7 +50451,7 @@ func decodeReposGetContributorsStatsResponse(resp *http.Response) (res ReposGetC
 		// Code 204.
 		return &NoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetDeployKeyResponse(resp *http.Response) (res ReposGetDeployKeyRes, _ error) {
@@ -49963,7 +50527,7 @@ func decodeReposGetDeployKeyResponse(resp *http.Response) (res ReposGetDeployKey
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetDeploymentResponse(resp *http.Response) (res ReposGetDeploymentRes, _ error) {
@@ -50048,7 +50612,7 @@ func decodeReposGetDeploymentResponse(resp *http.Response) (res ReposGetDeployme
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetDeploymentStatusResponse(resp *http.Response) (res ReposGetDeploymentStatusRes, _ error) {
@@ -50168,7 +50732,7 @@ func decodeReposGetDeploymentStatusResponse(resp *http.Response) (res ReposGetDe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetLatestPagesBuildResponse(resp *http.Response) (res *PageBuild, _ error) {
@@ -50209,7 +50773,7 @@ func decodeReposGetLatestPagesBuildResponse(resp *http.Response) (res *PageBuild
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetLatestReleaseResponse(resp *http.Response) (res *Release, _ error) {
@@ -50259,7 +50823,7 @@ func decodeReposGetLatestReleaseResponse(resp *http.Response) (res *Release, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetPagesResponse(resp *http.Response) (res ReposGetPagesRes, _ error) {
@@ -50344,7 +50908,7 @@ func decodeReposGetPagesResponse(resp *http.Response) (res ReposGetPagesRes, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetPagesBuildResponse(resp *http.Response) (res *PageBuild, _ error) {
@@ -50385,7 +50949,7 @@ func decodeReposGetPagesBuildResponse(resp *http.Response) (res *PageBuild, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetPagesHealthCheckResponse(resp *http.Response) (res ReposGetPagesHealthCheckRes, _ error) {
@@ -50502,7 +51066,7 @@ func decodeReposGetPagesHealthCheckResponse(resp *http.Response) (res ReposGetPa
 		// Code 422.
 		return &ReposGetPagesHealthCheckUnprocessableEntity{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetParticipationStatsResponse(resp *http.Response) (res ReposGetParticipationStatsRes, _ error) {
@@ -50587,7 +51151,7 @@ func decodeReposGetParticipationStatsResponse(resp *http.Response) (res ReposGet
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetPullRequestReviewProtectionResponse(resp *http.Response) (res *ProtectedBranchPullRequestReview, _ error) {
@@ -50637,7 +51201,7 @@ func decodeReposGetPullRequestReviewProtectionResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetPunchCardStatsResponse(resp *http.Response) (res ReposGetPunchCardStatsRes, _ error) {
@@ -50690,7 +51254,7 @@ func decodeReposGetPunchCardStatsResponse(resp *http.Response) (res ReposGetPunc
 		// Code 204.
 		return &NoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetReadmeResponse(resp *http.Response) (res ReposGetReadmeRes, _ error) {
@@ -50810,7 +51374,7 @@ func decodeReposGetReadmeResponse(resp *http.Response) (res ReposGetReadmeRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetReadmeInDirectoryResponse(resp *http.Response) (res ReposGetReadmeInDirectoryRes, _ error) {
@@ -50930,7 +51494,7 @@ func decodeReposGetReadmeInDirectoryResponse(resp *http.Response) (res ReposGetR
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetReleaseResponse(resp *http.Response) (res ReposGetReleaseRes, _ error) {
@@ -51015,7 +51579,7 @@ func decodeReposGetReleaseResponse(resp *http.Response) (res ReposGetReleaseRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetReleaseAssetResponse(resp *http.Response) (res ReposGetReleaseAssetRes, _ error) {
@@ -51138,7 +51702,7 @@ func decodeReposGetReleaseAssetResponse(resp *http.Response) (res ReposGetReleas
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetReleaseByTagResponse(resp *http.Response) (res ReposGetReleaseByTagRes, _ error) {
@@ -51223,7 +51787,7 @@ func decodeReposGetReleaseByTagResponse(resp *http.Response) (res ReposGetReleas
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetStatusChecksProtectionResponse(resp *http.Response) (res ReposGetStatusChecksProtectionRes, _ error) {
@@ -51308,7 +51872,7 @@ func decodeReposGetStatusChecksProtectionResponse(resp *http.Response) (res Repo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetTeamsWithAccessToProtectedBranchResponse(resp *http.Response) (res ReposGetTeamsWithAccessToProtectedBranchRes, _ error) {
@@ -51393,7 +51957,7 @@ func decodeReposGetTeamsWithAccessToProtectedBranchResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetTopPathsResponse(resp *http.Response) (res ReposGetTopPathsRes, _ error) {
@@ -51478,7 +52042,7 @@ func decodeReposGetTopPathsResponse(resp *http.Response) (res ReposGetTopPathsRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetTopReferrersResponse(resp *http.Response) (res ReposGetTopReferrersRes, _ error) {
@@ -51563,7 +52127,7 @@ func decodeReposGetTopReferrersResponse(resp *http.Response) (res ReposGetTopRef
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetUsersWithAccessToProtectedBranchResponse(resp *http.Response) (res ReposGetUsersWithAccessToProtectedBranchRes, _ error) {
@@ -51648,7 +52212,7 @@ func decodeReposGetUsersWithAccessToProtectedBranchResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetViewsResponse(resp *http.Response) (res ReposGetViewsRes, _ error) {
@@ -51733,7 +52297,7 @@ func decodeReposGetViewsResponse(resp *http.Response) (res ReposGetViewsRes, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetWebhookResponse(resp *http.Response) (res ReposGetWebhookRes, _ error) {
@@ -51818,7 +52382,7 @@ func decodeReposGetWebhookResponse(resp *http.Response) (res ReposGetWebhookRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetWebhookConfigForRepoResponse(resp *http.Response) (res *WebhookConfig, _ error) {
@@ -51868,7 +52432,7 @@ func decodeReposGetWebhookConfigForRepoResponse(resp *http.Response) (res *Webho
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposGetWebhookDeliveryResponse(resp *http.Response) (res ReposGetWebhookDeliveryRes, _ error) {
@@ -51949,6 +52513,31 @@ func decodeReposGetWebhookDeliveryResponse(resp *http.Response) (res ReposGetWeb
 				return res, err
 			}
 			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
@@ -51997,7 +52586,7 @@ func decodeReposGetWebhookDeliveryResponse(resp *http.Response) (res ReposGetWeb
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListAutolinksResponse(resp *http.Response) (res []Autolink, _ error) {
@@ -52055,7 +52644,7 @@ func decodeReposListAutolinksResponse(resp *http.Response) (res []Autolink, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListBranchesResponse(resp *http.Response) (res ReposListBranchesRes, _ error) {
@@ -52205,7 +52794,7 @@ func decodeReposListBranchesResponse(resp *http.Response) (res ReposListBranches
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListBranchesForHeadCommitResponse(resp *http.Response) (res ReposListBranchesForHeadCommitRes, _ error) {
@@ -52299,7 +52888,7 @@ func decodeReposListBranchesForHeadCommitResponse(resp *http.Response) (res Repo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListCollaboratorsResponse(resp *http.Response) (res ReposListCollaboratorsRes, _ error) {
@@ -52432,7 +53021,7 @@ func decodeReposListCollaboratorsResponse(resp *http.Response) (res ReposListCol
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListCommentsForCommitResponse(resp *http.Response) (res *ReposListCommentsForCommitOKHeaders, _ error) {
@@ -52547,7 +53136,7 @@ func decodeReposListCommentsForCommitResponse(resp *http.Response) (res *ReposLi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListCommitCommentsForRepoResponse(resp *http.Response) (res *ReposListCommitCommentsForRepoOKHeaders, _ error) {
@@ -52662,7 +53251,7 @@ func decodeReposListCommitCommentsForRepoResponse(resp *http.Response) (res *Rep
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListCommitStatusesForRefResponse(resp *http.Response) (res ReposListCommitStatusesForRefRes, _ error) {
@@ -52795,7 +53384,7 @@ func decodeReposListCommitStatusesForRefResponse(resp *http.Response) (res Repos
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListCommitsResponse(resp *http.Response) (res ReposListCommitsRes, _ error) {
@@ -52923,7 +53512,32 @@ func decodeReposListCommitsResponse(resp *http.Response) (res ReposListCommitsRe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ReposListCommitsBadRequest
+			var response ReposListCommitsApplicationJSONBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -53050,7 +53664,7 @@ func decodeReposListCommitsResponse(resp *http.Response) (res ReposListCommitsRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListContributorsResponse(resp *http.Response) (res ReposListContributorsRes, _ error) {
@@ -53221,7 +53835,7 @@ func decodeReposListContributorsResponse(resp *http.Response) (res ReposListCont
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListDeployKeysResponse(resp *http.Response) (res *ReposListDeployKeysOKHeaders, _ error) {
@@ -53319,7 +53933,7 @@ func decodeReposListDeployKeysResponse(resp *http.Response) (res *ReposListDeplo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListDeploymentStatusesResponse(resp *http.Response) (res ReposListDeploymentStatusesRes, _ error) {
@@ -53469,7 +54083,7 @@ func decodeReposListDeploymentStatusesResponse(resp *http.Response) (res ReposLi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListDeploymentsResponse(resp *http.Response) (res *ReposListDeploymentsOKHeaders, _ error) {
@@ -53584,7 +54198,7 @@ func decodeReposListDeploymentsResponse(resp *http.Response) (res *ReposListDepl
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListForAuthenticatedUserResponse(resp *http.Response) (res ReposListForAuthenticatedUserRes, _ error) {
@@ -53751,7 +54365,7 @@ func decodeReposListForAuthenticatedUserResponse(resp *http.Response) (res Repos
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListForOrgResponse(resp *http.Response) (res *ReposListForOrgOKHeaders, _ error) {
@@ -53849,7 +54463,7 @@ func decodeReposListForOrgResponse(resp *http.Response) (res *ReposListForOrgOKH
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListForUserResponse(resp *http.Response) (res *ReposListForUserOKHeaders, _ error) {
@@ -53947,7 +54561,7 @@ func decodeReposListForUserResponse(resp *http.Response) (res *ReposListForUserO
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListForksResponse(resp *http.Response) (res ReposListForksRes, _ error) {
@@ -54076,11 +54690,36 @@ func decodeReposListForksResponse(resp *http.Response) (res ReposListForksRes, _
 				return res, err
 			}
 			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListInvitationsResponse(resp *http.Response) (res *ReposListInvitationsOKHeaders, _ error) {
@@ -54195,7 +54834,7 @@ func decodeReposListInvitationsResponse(resp *http.Response) (res *ReposListInvi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListInvitationsForAuthenticatedUserResponse(resp *http.Response) (res ReposListInvitationsForAuthenticatedUserRes, _ error) {
@@ -54418,7 +55057,7 @@ func decodeReposListInvitationsForAuthenticatedUserResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListLanguagesResponse(resp *http.Response) (res Language, _ error) {
@@ -54459,7 +55098,7 @@ func decodeReposListLanguagesResponse(resp *http.Response) (res Language, _ erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListPagesBuildsResponse(resp *http.Response) (res *ReposListPagesBuildsOKHeaders, _ error) {
@@ -54557,7 +55196,7 @@ func decodeReposListPagesBuildsResponse(resp *http.Response) (res *ReposListPage
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListPublicResponse(resp *http.Response) (res ReposListPublicRes, _ error) {
@@ -54702,7 +55341,7 @@ func decodeReposListPublicResponse(resp *http.Response) (res ReposListPublicRes,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListPullRequestsAssociatedWithCommitResponse(resp *http.Response) (res *ReposListPullRequestsAssociatedWithCommitOKHeaders, _ error) {
@@ -54817,7 +55456,7 @@ func decodeReposListPullRequestsAssociatedWithCommitResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListReleaseAssetsResponse(resp *http.Response) (res *ReposListReleaseAssetsOKHeaders, _ error) {
@@ -54932,7 +55571,7 @@ func decodeReposListReleaseAssetsResponse(resp *http.Response) (res *ReposListRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListReleasesResponse(resp *http.Response) (res ReposListReleasesRes, _ error) {
@@ -55082,7 +55721,7 @@ func decodeReposListReleasesResponse(resp *http.Response) (res ReposListReleases
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListTagsResponse(resp *http.Response) (res *ReposListTagsOKHeaders, _ error) {
@@ -55180,7 +55819,7 @@ func decodeReposListTagsResponse(resp *http.Response) (res *ReposListTagsOKHeade
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListTeamsResponse(resp *http.Response) (res *ReposListTeamsOKHeaders, _ error) {
@@ -55278,7 +55917,7 @@ func decodeReposListTeamsResponse(resp *http.Response) (res *ReposListTeamsOKHea
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListWebhookDeliveriesResponse(resp *http.Response) (res ReposListWebhookDeliveriesRes, _ error) {
@@ -55359,6 +55998,31 @@ func decodeReposListWebhookDeliveriesResponse(resp *http.Response) (res ReposLis
 				return res, err
 			}
 			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
@@ -55407,7 +56071,7 @@ func decodeReposListWebhookDeliveriesResponse(resp *http.Response) (res ReposLis
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposListWebhooksResponse(resp *http.Response) (res ReposListWebhooksRes, _ error) {
@@ -55557,7 +56221,7 @@ func decodeReposListWebhooksResponse(resp *http.Response) (res ReposListWebhooks
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposMergeResponse(resp *http.Response) (res ReposMergeRes, _ error) {
@@ -55695,7 +56359,7 @@ func decodeReposMergeResponse(resp *http.Response) (res ReposMergeRes, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposMergeUpstreamResponse(resp *http.Response) (res ReposMergeUpstreamRes, _ error) {
@@ -55751,7 +56415,7 @@ func decodeReposMergeUpstreamResponse(resp *http.Response) (res ReposMergeUpstre
 		// Code 422.
 		return &ReposMergeUpstreamUnprocessableEntity{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposPingWebhookResponse(resp *http.Response) (res ReposPingWebhookRes, _ error) {
@@ -55795,7 +56459,7 @@ func decodeReposPingWebhookResponse(resp *http.Response) (res ReposPingWebhookRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposRedeliverWebhookDeliveryResponse(resp *http.Response) (res ReposRedeliverWebhookDeliveryRes, _ error) {
@@ -55867,6 +56531,31 @@ func decodeReposRedeliverWebhookDeliveryResponse(resp *http.Response) (res Repos
 				return res, err
 			}
 			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
@@ -55915,7 +56604,7 @@ func decodeReposRedeliverWebhookDeliveryResponse(resp *http.Response) (res Repos
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposRemoveAppAccessRestrictionsResponse(resp *http.Response) (res ReposRemoveAppAccessRestrictionsRes, _ error) {
@@ -56009,7 +56698,7 @@ func decodeReposRemoveAppAccessRestrictionsResponse(resp *http.Response) (res Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposRemoveCollaboratorResponse(resp *http.Response) (res *ReposRemoveCollaboratorNoContent, _ error) {
@@ -56018,7 +56707,7 @@ func decodeReposRemoveCollaboratorResponse(resp *http.Response) (res *ReposRemov
 		// Code 204.
 		return &ReposRemoveCollaboratorNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposRemoveStatusCheckContextsResponse(resp *http.Response) (res ReposRemoveStatusCheckContextsRes, _ error) {
@@ -56147,7 +56836,7 @@ func decodeReposRemoveStatusCheckContextsResponse(resp *http.Response) (res Repo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposRemoveStatusCheckProtectionResponse(resp *http.Response) (res *ReposRemoveStatusCheckProtectionNoContent, _ error) {
@@ -56156,7 +56845,7 @@ func decodeReposRemoveStatusCheckProtectionResponse(resp *http.Response) (res *R
 		// Code 204.
 		return &ReposRemoveStatusCheckProtectionNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposRemoveTeamAccessRestrictionsResponse(resp *http.Response) (res ReposRemoveTeamAccessRestrictionsRes, _ error) {
@@ -56250,7 +56939,7 @@ func decodeReposRemoveTeamAccessRestrictionsResponse(resp *http.Response) (res R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposRemoveUserAccessRestrictionsResponse(resp *http.Response) (res ReposRemoveUserAccessRestrictionsRes, _ error) {
@@ -56344,7 +57033,7 @@ func decodeReposRemoveUserAccessRestrictionsResponse(resp *http.Response) (res R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposRenameBranchResponse(resp *http.Response) (res ReposRenameBranchRes, _ error) {
@@ -56508,7 +57197,7 @@ func decodeReposRenameBranchResponse(resp *http.Response) (res ReposRenameBranch
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposReplaceAllTopicsResponse(resp *http.Response) (res ReposReplaceAllTopicsRes, _ error) {
@@ -56663,7 +57352,7 @@ func decodeReposReplaceAllTopicsResponse(resp *http.Response) (res ReposReplaceA
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposRequestPagesBuildResponse(resp *http.Response) (res *PageBuildStatus, _ error) {
@@ -56704,7 +57393,7 @@ func decodeReposRequestPagesBuildResponse(resp *http.Response) (res *PageBuildSt
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposSetAdminBranchProtectionResponse(resp *http.Response) (res *ProtectedBranchAdminEnforced, _ error) {
@@ -56745,7 +57434,7 @@ func decodeReposSetAdminBranchProtectionResponse(resp *http.Response) (res *Prot
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposSetAppAccessRestrictionsResponse(resp *http.Response) (res ReposSetAppAccessRestrictionsRes, _ error) {
@@ -56839,7 +57528,7 @@ func decodeReposSetAppAccessRestrictionsResponse(resp *http.Response) (res Repos
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposSetStatusCheckContextsResponse(resp *http.Response) (res ReposSetStatusCheckContextsRes, _ error) {
@@ -56968,7 +57657,7 @@ func decodeReposSetStatusCheckContextsResponse(resp *http.Response) (res ReposSe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposSetTeamAccessRestrictionsResponse(resp *http.Response) (res ReposSetTeamAccessRestrictionsRes, _ error) {
@@ -57062,7 +57751,7 @@ func decodeReposSetTeamAccessRestrictionsResponse(resp *http.Response) (res Repo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposSetUserAccessRestrictionsResponse(resp *http.Response) (res ReposSetUserAccessRestrictionsRes, _ error) {
@@ -57156,7 +57845,7 @@ func decodeReposSetUserAccessRestrictionsResponse(resp *http.Response) (res Repo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposTestPushWebhookResponse(resp *http.Response) (res ReposTestPushWebhookRes, _ error) {
@@ -57200,7 +57889,7 @@ func decodeReposTestPushWebhookResponse(resp *http.Response) (res ReposTestPushW
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposTransferResponse(resp *http.Response) (res *MinimalRepository, _ error) {
@@ -57241,7 +57930,7 @@ func decodeReposTransferResponse(resp *http.Response) (res *MinimalRepository, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposUpdateResponse(resp *http.Response) (res ReposUpdateRes, _ error) {
@@ -57440,7 +58129,7 @@ func decodeReposUpdateResponse(resp *http.Response) (res ReposUpdateRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposUpdateBranchProtectionResponse(resp *http.Response) (res ReposUpdateBranchProtectionRes, _ error) {
@@ -57595,7 +58284,7 @@ func decodeReposUpdateBranchProtectionResponse(resp *http.Response) (res ReposUp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposUpdateCommitCommentResponse(resp *http.Response) (res ReposUpdateCommitCommentRes, _ error) {
@@ -57680,7 +58369,7 @@ func decodeReposUpdateCommitCommentResponse(resp *http.Response) (res ReposUpdat
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposUpdateInvitationResponse(resp *http.Response) (res *RepositoryInvitation, _ error) {
@@ -57730,7 +58419,7 @@ func decodeReposUpdateInvitationResponse(resp *http.Response) (res *RepositoryIn
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposUpdatePullRequestReviewProtectionResponse(resp *http.Response) (res ReposUpdatePullRequestReviewProtectionRes, _ error) {
@@ -57824,7 +58513,7 @@ func decodeReposUpdatePullRequestReviewProtectionResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposUpdateReleaseResponse(resp *http.Response) (res ReposUpdateReleaseRes, _ error) {
@@ -57909,7 +58598,7 @@ func decodeReposUpdateReleaseResponse(resp *http.Response) (res ReposUpdateRelea
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposUpdateReleaseAssetResponse(resp *http.Response) (res *ReleaseAsset, _ error) {
@@ -57959,7 +58648,7 @@ func decodeReposUpdateReleaseAssetResponse(resp *http.Response) (res *ReleaseAss
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposUpdateStatusCheckProtectionResponse(resp *http.Response) (res ReposUpdateStatusCheckProtectionRes, _ error) {
@@ -58088,7 +58777,7 @@ func decodeReposUpdateStatusCheckProtectionResponse(resp *http.Response) (res Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposUpdateWebhookResponse(resp *http.Response) (res ReposUpdateWebhookRes, _ error) {
@@ -58217,7 +58906,7 @@ func decodeReposUpdateWebhookResponse(resp *http.Response) (res ReposUpdateWebho
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposUpdateWebhookConfigForRepoResponse(resp *http.Response) (res *WebhookConfig, _ error) {
@@ -58267,7 +58956,7 @@ func decodeReposUpdateWebhookConfigForRepoResponse(resp *http.Response) (res *We
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReposUploadReleaseAssetResponse(resp *http.Response) (res *ReleaseAsset, _ error) {
@@ -58317,7 +59006,7 @@ func decodeReposUploadReleaseAssetResponse(resp *http.Response) (res *ReleaseAss
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeScimDeleteUserFromOrgResponse(resp *http.Response) (res ScimDeleteUserFromOrgRes, _ error) {
@@ -58342,7 +59031,32 @@ func decodeScimDeleteUserFromOrgResponse(resp *http.Response) (res ScimDeleteUse
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ScimDeleteUserFromOrgForbidden
+			var response ScimDeleteUserFromOrgApplicationJSONForbidden
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimDeleteUserFromOrgApplicationScimJSONForbidden
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -58377,7 +59091,32 @@ func decodeScimDeleteUserFromOrgResponse(resp *http.Response) (res ScimDeleteUse
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ScimDeleteUserFromOrgNotFound
+			var response ScimDeleteUserFromOrgApplicationJSONNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimDeleteUserFromOrgApplicationScimJSONNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -58399,7 +59138,1207 @@ func decodeScimDeleteUserFromOrgResponse(resp *http.Response) (res ScimDeleteUse
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeScimGetProvisioningInformationForUserResponse(resp *http.Response) (res ScimGetProvisioningInformationForUserRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimUser
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 304:
+		// Code 304.
+		return &NotModified{}, nil
+	case 403:
+		// Code 403.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimGetProvisioningInformationForUserApplicationJSONForbidden
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimGetProvisioningInformationForUserApplicationScimJSONForbidden
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 404:
+		// Code 404.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimGetProvisioningInformationForUserApplicationJSONNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimGetProvisioningInformationForUserApplicationScimJSONNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeScimListProvisionedIdentitiesResponse(resp *http.Response) (res ScimListProvisionedIdentitiesRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimUserList
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 304:
+		// Code 304.
+		return &NotModified{}, nil
+	case 400:
+		// Code 400.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimListProvisionedIdentitiesApplicationJSONBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimListProvisionedIdentitiesApplicationScimJSONBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 403:
+		// Code 403.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimListProvisionedIdentitiesApplicationJSONForbidden
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimListProvisionedIdentitiesApplicationScimJSONForbidden
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 404:
+		// Code 404.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimListProvisionedIdentitiesApplicationJSONNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimListProvisionedIdentitiesApplicationScimJSONNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeScimProvisionAndInviteUserResponse(resp *http.Response) (res ScimProvisionAndInviteUserRes, _ error) {
+	switch resp.StatusCode {
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimUser
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 304:
+		// Code 304.
+		return &NotModified{}, nil
+	case 400:
+		// Code 400.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimProvisionAndInviteUserApplicationJSONBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimProvisionAndInviteUserApplicationScimJSONBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 403:
+		// Code 403.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimProvisionAndInviteUserApplicationJSONForbidden
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimProvisionAndInviteUserApplicationScimJSONForbidden
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 404:
+		// Code 404.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimProvisionAndInviteUserApplicationJSONNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimProvisionAndInviteUserApplicationScimJSONNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 409:
+		// Code 409.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimProvisionAndInviteUserApplicationJSONConflict
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimProvisionAndInviteUserApplicationScimJSONConflict
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 500:
+		// Code 500.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimProvisionAndInviteUserApplicationJSONInternalServerError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimProvisionAndInviteUserApplicationScimJSONInternalServerError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeScimSetInformationForProvisionedUserResponse(resp *http.Response) (res ScimSetInformationForProvisionedUserRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimUser
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 304:
+		// Code 304.
+		return &NotModified{}, nil
+	case 403:
+		// Code 403.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimSetInformationForProvisionedUserApplicationJSONForbidden
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimSetInformationForProvisionedUserApplicationScimJSONForbidden
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 404:
+		// Code 404.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimSetInformationForProvisionedUserApplicationJSONNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimSetInformationForProvisionedUserApplicationScimJSONNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeScimUpdateAttributeForUserResponse(resp *http.Response) (res ScimUpdateAttributeForUserRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimUser
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 304:
+		// Code 304.
+		return &NotModified{}, nil
+	case 400:
+		// Code 400.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimUpdateAttributeForUserApplicationJSONBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimUpdateAttributeForUserApplicationScimJSONBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 403:
+		// Code 403.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimUpdateAttributeForUserApplicationJSONForbidden
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimUpdateAttributeForUserApplicationScimJSONForbidden
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 404:
+		// Code 404.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimUpdateAttributeForUserApplicationJSONNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		case ct == "application/scim+json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ScimUpdateAttributeForUserApplicationScimJSONNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 429:
+		// Code 429.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response BasicError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSearchCodeResponse(resp *http.Response) (res SearchCodeRes, _ error) {
@@ -58566,7 +60505,7 @@ func decodeSearchCodeResponse(resp *http.Response) (res SearchCodeRes, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSearchCommitsResponse(resp *http.Response) (res SearchCommitsRes, _ error) {
@@ -58654,7 +60593,7 @@ func decodeSearchCommitsResponse(resp *http.Response) (res SearchCommitsRes, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSearchIssuesAndPullRequestsResponse(resp *http.Response) (res SearchIssuesAndPullRequestsRes, _ error) {
@@ -58821,7 +60760,7 @@ func decodeSearchIssuesAndPullRequestsResponse(resp *http.Response) (res SearchI
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSearchLabelsResponse(resp *http.Response) (res SearchLabelsRes, _ error) {
@@ -58988,7 +60927,7 @@ func decodeSearchLabelsResponse(resp *http.Response) (res SearchLabelsRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSearchReposResponse(resp *http.Response) (res SearchReposRes, _ error) {
@@ -59120,7 +61059,7 @@ func decodeSearchReposResponse(resp *http.Response) (res SearchReposRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSearchTopicsResponse(resp *http.Response) (res SearchTopicsRes, _ error) {
@@ -59208,7 +61147,7 @@ func decodeSearchTopicsResponse(resp *http.Response) (res SearchTopicsRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSearchUsersResponse(resp *http.Response) (res SearchUsersRes, _ error) {
@@ -59340,7 +61279,7 @@ func decodeSearchUsersResponse(resp *http.Response) (res SearchUsersRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSecretScanningGetAlertResponse(resp *http.Response) (res SecretScanningGetAlertRes, _ error) {
@@ -59428,7 +61367,7 @@ func decodeSecretScanningGetAlertResponse(resp *http.Response) (res SecretScanni
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSecretScanningListAlertsForOrgResponse(resp *http.Response) (res SecretScanningListAlertsForOrgRes, _ error) {
@@ -59613,7 +61552,7 @@ func decodeSecretScanningListAlertsForOrgResponse(resp *http.Response) (res Secr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSecretScanningListAlertsForRepoResponse(resp *http.Response) (res SecretScanningListAlertsForRepoRes, _ error) {
@@ -59701,7 +61640,7 @@ func decodeSecretScanningListAlertsForRepoResponse(resp *http.Response) (res Sec
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSecretScanningUpdateAlertResponse(resp *http.Response) (res SecretScanningUpdateAlertRes, _ error) {
@@ -59792,7 +61731,7 @@ func decodeSecretScanningUpdateAlertResponse(resp *http.Response) (res SecretSca
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsAddMemberLegacyResponse(resp *http.Response) (res TeamsAddMemberLegacyRes, _ error) {
@@ -59842,7 +61781,7 @@ func decodeTeamsAddMemberLegacyResponse(resp *http.Response) (res TeamsAddMember
 		// Code 422.
 		return &TeamsAddMemberLegacyUnprocessableEntity{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsAddOrUpdateMembershipForUserInOrgResponse(resp *http.Response) (res TeamsAddOrUpdateMembershipForUserInOrgRes, _ error) {
@@ -59898,7 +61837,7 @@ func decodeTeamsAddOrUpdateMembershipForUserInOrgResponse(resp *http.Response) (
 		// Code 422.
 		return &TeamsAddOrUpdateMembershipForUserInOrgUnprocessableEntity{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsAddOrUpdateMembershipForUserLegacyResponse(resp *http.Response) (res TeamsAddOrUpdateMembershipForUserLegacyRes, _ error) {
@@ -59989,7 +61928,7 @@ func decodeTeamsAddOrUpdateMembershipForUserLegacyResponse(resp *http.Response) 
 		// Code 422.
 		return &TeamsAddOrUpdateMembershipForUserLegacyUnprocessableEntity{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsAddOrUpdateProjectPermissionsInOrgResponse(resp *http.Response) (res TeamsAddOrUpdateProjectPermissionsInOrgRes, _ error) {
@@ -60033,7 +61972,7 @@ func decodeTeamsAddOrUpdateProjectPermissionsInOrgResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsAddOrUpdateProjectPermissionsLegacyResponse(resp *http.Response) (res TeamsAddOrUpdateProjectPermissionsLegacyRes, _ error) {
@@ -60156,7 +62095,7 @@ func decodeTeamsAddOrUpdateProjectPermissionsLegacyResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsAddOrUpdateRepoPermissionsInOrgResponse(resp *http.Response) (res *TeamsAddOrUpdateRepoPermissionsInOrgNoContent, _ error) {
@@ -60165,7 +62104,7 @@ func decodeTeamsAddOrUpdateRepoPermissionsInOrgResponse(resp *http.Response) (re
 		// Code 204.
 		return &TeamsAddOrUpdateRepoPermissionsInOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsAddOrUpdateRepoPermissionsLegacyResponse(resp *http.Response) (res TeamsAddOrUpdateRepoPermissionsLegacyRes, _ error) {
@@ -60253,7 +62192,7 @@ func decodeTeamsAddOrUpdateRepoPermissionsLegacyResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsCheckPermissionsForProjectInOrgResponse(resp *http.Response) (res TeamsCheckPermissionsForProjectInOrgRes, _ error) {
@@ -60297,7 +62236,7 @@ func decodeTeamsCheckPermissionsForProjectInOrgResponse(resp *http.Response) (re
 		// Code 404.
 		return &TeamsCheckPermissionsForProjectInOrgNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsCheckPermissionsForProjectLegacyResponse(resp *http.Response) (res TeamsCheckPermissionsForProjectLegacyRes, _ error) {
@@ -60341,7 +62280,7 @@ func decodeTeamsCheckPermissionsForProjectLegacyResponse(resp *http.Response) (r
 		// Code 404.
 		return &TeamsCheckPermissionsForProjectLegacyNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsCheckPermissionsForRepoInOrgResponse(resp *http.Response) (res TeamsCheckPermissionsForRepoInOrgRes, _ error) {
@@ -60388,7 +62327,7 @@ func decodeTeamsCheckPermissionsForRepoInOrgResponse(resp *http.Response) (res T
 		// Code 404.
 		return &TeamsCheckPermissionsForRepoInOrgNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsCheckPermissionsForRepoLegacyResponse(resp *http.Response) (res TeamsCheckPermissionsForRepoLegacyRes, _ error) {
@@ -60435,7 +62374,7 @@ func decodeTeamsCheckPermissionsForRepoLegacyResponse(resp *http.Response) (res 
 		// Code 404.
 		return &TeamsCheckPermissionsForRepoLegacyNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsCreateResponse(resp *http.Response) (res TeamsCreateRes, _ error) {
@@ -60564,7 +62503,7 @@ func decodeTeamsCreateResponse(resp *http.Response) (res TeamsCreateRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsCreateDiscussionCommentInOrgResponse(resp *http.Response) (res *TeamDiscussionComment, _ error) {
@@ -60605,7 +62544,7 @@ func decodeTeamsCreateDiscussionCommentInOrgResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsCreateDiscussionCommentLegacyResponse(resp *http.Response) (res *TeamDiscussionComment, _ error) {
@@ -60646,7 +62585,7 @@ func decodeTeamsCreateDiscussionCommentLegacyResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsCreateDiscussionInOrgResponse(resp *http.Response) (res *TeamDiscussion, _ error) {
@@ -60687,7 +62626,7 @@ func decodeTeamsCreateDiscussionInOrgResponse(resp *http.Response) (res *TeamDis
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsCreateDiscussionLegacyResponse(resp *http.Response) (res *TeamDiscussion, _ error) {
@@ -60728,7 +62667,7 @@ func decodeTeamsCreateDiscussionLegacyResponse(resp *http.Response) (res *TeamDi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsCreateOrUpdateIdpGroupConnectionsInOrgResponse(resp *http.Response) (res *GroupMapping, _ error) {
@@ -60769,7 +62708,7 @@ func decodeTeamsCreateOrUpdateIdpGroupConnectionsInOrgResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsCreateOrUpdateIdpGroupConnectionsLegacyResponse(resp *http.Response) (res TeamsCreateOrUpdateIdpGroupConnectionsLegacyRes, _ error) {
@@ -60889,7 +62828,7 @@ func decodeTeamsCreateOrUpdateIdpGroupConnectionsLegacyResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsDeleteDiscussionCommentInOrgResponse(resp *http.Response) (res *TeamsDeleteDiscussionCommentInOrgNoContent, _ error) {
@@ -60898,7 +62837,7 @@ func decodeTeamsDeleteDiscussionCommentInOrgResponse(resp *http.Response) (res *
 		// Code 204.
 		return &TeamsDeleteDiscussionCommentInOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsDeleteDiscussionCommentLegacyResponse(resp *http.Response) (res *TeamsDeleteDiscussionCommentLegacyNoContent, _ error) {
@@ -60907,7 +62846,7 @@ func decodeTeamsDeleteDiscussionCommentLegacyResponse(resp *http.Response) (res 
 		// Code 204.
 		return &TeamsDeleteDiscussionCommentLegacyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsDeleteDiscussionInOrgResponse(resp *http.Response) (res *TeamsDeleteDiscussionInOrgNoContent, _ error) {
@@ -60916,7 +62855,7 @@ func decodeTeamsDeleteDiscussionInOrgResponse(resp *http.Response) (res *TeamsDe
 		// Code 204.
 		return &TeamsDeleteDiscussionInOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsDeleteDiscussionLegacyResponse(resp *http.Response) (res *TeamsDeleteDiscussionLegacyNoContent, _ error) {
@@ -60925,7 +62864,7 @@ func decodeTeamsDeleteDiscussionLegacyResponse(resp *http.Response) (res *TeamsD
 		// Code 204.
 		return &TeamsDeleteDiscussionLegacyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsDeleteInOrgResponse(resp *http.Response) (res *TeamsDeleteInOrgNoContent, _ error) {
@@ -60934,7 +62873,7 @@ func decodeTeamsDeleteInOrgResponse(resp *http.Response) (res *TeamsDeleteInOrgN
 		// Code 204.
 		return &TeamsDeleteInOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsDeleteLegacyResponse(resp *http.Response) (res TeamsDeleteLegacyRes, _ error) {
@@ -61022,7 +62961,7 @@ func decodeTeamsDeleteLegacyResponse(resp *http.Response) (res TeamsDeleteLegacy
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsGetByNameResponse(resp *http.Response) (res TeamsGetByNameRes, _ error) {
@@ -61107,7 +63046,7 @@ func decodeTeamsGetByNameResponse(resp *http.Response) (res TeamsGetByNameRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsGetDiscussionCommentInOrgResponse(resp *http.Response) (res *TeamDiscussionComment, _ error) {
@@ -61148,7 +63087,7 @@ func decodeTeamsGetDiscussionCommentInOrgResponse(resp *http.Response) (res *Tea
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsGetDiscussionCommentLegacyResponse(resp *http.Response) (res *TeamDiscussionComment, _ error) {
@@ -61189,7 +63128,7 @@ func decodeTeamsGetDiscussionCommentLegacyResponse(resp *http.Response) (res *Te
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsGetDiscussionInOrgResponse(resp *http.Response) (res *TeamDiscussion, _ error) {
@@ -61230,7 +63169,7 @@ func decodeTeamsGetDiscussionInOrgResponse(resp *http.Response) (res *TeamDiscus
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsGetDiscussionLegacyResponse(resp *http.Response) (res *TeamDiscussion, _ error) {
@@ -61271,7 +63210,7 @@ func decodeTeamsGetDiscussionLegacyResponse(resp *http.Response) (res *TeamDiscu
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsGetLegacyResponse(resp *http.Response) (res TeamsGetLegacyRes, _ error) {
@@ -61356,7 +63295,7 @@ func decodeTeamsGetLegacyResponse(resp *http.Response) (res TeamsGetLegacyRes, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsGetMemberLegacyResponse(resp *http.Response) (res TeamsGetMemberLegacyRes, _ error) {
@@ -61368,7 +63307,7 @@ func decodeTeamsGetMemberLegacyResponse(resp *http.Response) (res TeamsGetMember
 		// Code 404.
 		return &TeamsGetMemberLegacyNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsGetMembershipForUserInOrgResponse(resp *http.Response) (res TeamsGetMembershipForUserInOrgRes, _ error) {
@@ -61421,7 +63360,7 @@ func decodeTeamsGetMembershipForUserInOrgResponse(resp *http.Response) (res Team
 		// Code 404.
 		return &TeamsGetMembershipForUserInOrgNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsGetMembershipForUserLegacyResponse(resp *http.Response) (res TeamsGetMembershipForUserLegacyRes, _ error) {
@@ -61506,7 +63445,7 @@ func decodeTeamsGetMembershipForUserLegacyResponse(resp *http.Response) (res Tea
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListResponse(resp *http.Response) (res TeamsListRes, _ error) {
@@ -61639,7 +63578,7 @@ func decodeTeamsListResponse(resp *http.Response) (res TeamsListRes, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListChildInOrgResponse(resp *http.Response) (res *TeamsListChildInOrgOKHeaders, _ error) {
@@ -61737,7 +63676,7 @@ func decodeTeamsListChildInOrgResponse(resp *http.Response) (res *TeamsListChild
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListChildLegacyResponse(resp *http.Response) (res TeamsListChildLegacyRes, _ error) {
@@ -61949,7 +63888,7 @@ func decodeTeamsListChildLegacyResponse(resp *http.Response) (res TeamsListChild
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListDiscussionCommentsInOrgResponse(resp *http.Response) (res *TeamsListDiscussionCommentsInOrgOKHeaders, _ error) {
@@ -62047,7 +63986,7 @@ func decodeTeamsListDiscussionCommentsInOrgResponse(resp *http.Response) (res *T
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListDiscussionCommentsLegacyResponse(resp *http.Response) (res *TeamsListDiscussionCommentsLegacyOKHeaders, _ error) {
@@ -62145,7 +64084,7 @@ func decodeTeamsListDiscussionCommentsLegacyResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListDiscussionsInOrgResponse(resp *http.Response) (res *TeamsListDiscussionsInOrgOKHeaders, _ error) {
@@ -62243,7 +64182,7 @@ func decodeTeamsListDiscussionsInOrgResponse(resp *http.Response) (res *TeamsLis
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListDiscussionsLegacyResponse(resp *http.Response) (res *TeamsListDiscussionsLegacyOKHeaders, _ error) {
@@ -62341,7 +64280,7 @@ func decodeTeamsListDiscussionsLegacyResponse(resp *http.Response) (res *TeamsLi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListForAuthenticatedUserResponse(resp *http.Response) (res TeamsListForAuthenticatedUserRes, _ error) {
@@ -62529,7 +64468,7 @@ func decodeTeamsListForAuthenticatedUserResponse(resp *http.Response) (res Teams
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListIdpGroupsForLegacyResponse(resp *http.Response) (res TeamsListIdpGroupsForLegacyRes, _ error) {
@@ -62640,7 +64579,7 @@ func decodeTeamsListIdpGroupsForLegacyResponse(resp *http.Response) (res TeamsLi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListIdpGroupsForOrgResponse(resp *http.Response) (res *GroupMappingHeaders, _ error) {
@@ -62721,7 +64660,7 @@ func decodeTeamsListIdpGroupsForOrgResponse(resp *http.Response) (res *GroupMapp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListIdpGroupsInOrgResponse(resp *http.Response) (res *GroupMapping, _ error) {
@@ -62762,7 +64701,7 @@ func decodeTeamsListIdpGroupsInOrgResponse(resp *http.Response) (res *GroupMappi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListMembersInOrgResponse(resp *http.Response) (res *TeamsListMembersInOrgOKHeaders, _ error) {
@@ -62860,7 +64799,7 @@ func decodeTeamsListMembersInOrgResponse(resp *http.Response) (res *TeamsListMem
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListMembersLegacyResponse(resp *http.Response) (res TeamsListMembersLegacyRes, _ error) {
@@ -62993,7 +64932,7 @@ func decodeTeamsListMembersLegacyResponse(resp *http.Response) (res TeamsListMem
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListPendingInvitationsInOrgResponse(resp *http.Response) (res *TeamsListPendingInvitationsInOrgOKHeaders, _ error) {
@@ -63091,7 +65030,7 @@ func decodeTeamsListPendingInvitationsInOrgResponse(resp *http.Response) (res *T
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListPendingInvitationsLegacyResponse(resp *http.Response) (res *TeamsListPendingInvitationsLegacyOKHeaders, _ error) {
@@ -63189,7 +65128,7 @@ func decodeTeamsListPendingInvitationsLegacyResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListProjectsInOrgResponse(resp *http.Response) (res *TeamsListProjectsInOrgOKHeaders, _ error) {
@@ -63287,7 +65226,7 @@ func decodeTeamsListProjectsInOrgResponse(resp *http.Response) (res *TeamsListPr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListProjectsLegacyResponse(resp *http.Response) (res TeamsListProjectsLegacyRes, _ error) {
@@ -63420,7 +65359,7 @@ func decodeTeamsListProjectsLegacyResponse(resp *http.Response) (res TeamsListPr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListReposInOrgResponse(resp *http.Response) (res *TeamsListReposInOrgOKHeaders, _ error) {
@@ -63518,7 +65457,7 @@ func decodeTeamsListReposInOrgResponse(resp *http.Response) (res *TeamsListRepos
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsListReposLegacyResponse(resp *http.Response) (res TeamsListReposLegacyRes, _ error) {
@@ -63651,7 +65590,7 @@ func decodeTeamsListReposLegacyResponse(resp *http.Response) (res TeamsListRepos
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsRemoveMemberLegacyResponse(resp *http.Response) (res TeamsRemoveMemberLegacyRes, _ error) {
@@ -63663,7 +65602,7 @@ func decodeTeamsRemoveMemberLegacyResponse(resp *http.Response) (res TeamsRemove
 		// Code 404.
 		return &TeamsRemoveMemberLegacyNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsRemoveMembershipForUserInOrgResponse(resp *http.Response) (res TeamsRemoveMembershipForUserInOrgRes, _ error) {
@@ -63675,7 +65614,7 @@ func decodeTeamsRemoveMembershipForUserInOrgResponse(resp *http.Response) (res T
 		// Code 403.
 		return &TeamsRemoveMembershipForUserInOrgForbidden{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsRemoveMembershipForUserLegacyResponse(resp *http.Response) (res TeamsRemoveMembershipForUserLegacyRes, _ error) {
@@ -63687,7 +65626,7 @@ func decodeTeamsRemoveMembershipForUserLegacyResponse(resp *http.Response) (res 
 		// Code 403.
 		return &TeamsRemoveMembershipForUserLegacyForbidden{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsRemoveProjectInOrgResponse(resp *http.Response) (res *TeamsRemoveProjectInOrgNoContent, _ error) {
@@ -63696,7 +65635,7 @@ func decodeTeamsRemoveProjectInOrgResponse(resp *http.Response) (res *TeamsRemov
 		// Code 204.
 		return &TeamsRemoveProjectInOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsRemoveProjectLegacyResponse(resp *http.Response) (res TeamsRemoveProjectLegacyRes, _ error) {
@@ -63819,7 +65758,7 @@ func decodeTeamsRemoveProjectLegacyResponse(resp *http.Response) (res TeamsRemov
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsRemoveRepoInOrgResponse(resp *http.Response) (res *TeamsRemoveRepoInOrgNoContent, _ error) {
@@ -63828,7 +65767,7 @@ func decodeTeamsRemoveRepoInOrgResponse(resp *http.Response) (res *TeamsRemoveRe
 		// Code 204.
 		return &TeamsRemoveRepoInOrgNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsRemoveRepoLegacyResponse(resp *http.Response) (res *TeamsRemoveRepoLegacyNoContent, _ error) {
@@ -63837,7 +65776,7 @@ func decodeTeamsRemoveRepoLegacyResponse(resp *http.Response) (res *TeamsRemoveR
 		// Code 204.
 		return &TeamsRemoveRepoLegacyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsUpdateDiscussionCommentInOrgResponse(resp *http.Response) (res *TeamDiscussionComment, _ error) {
@@ -63878,7 +65817,7 @@ func decodeTeamsUpdateDiscussionCommentInOrgResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsUpdateDiscussionCommentLegacyResponse(resp *http.Response) (res *TeamDiscussionComment, _ error) {
@@ -63919,7 +65858,7 @@ func decodeTeamsUpdateDiscussionCommentLegacyResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsUpdateDiscussionInOrgResponse(resp *http.Response) (res *TeamDiscussion, _ error) {
@@ -63960,7 +65899,7 @@ func decodeTeamsUpdateDiscussionInOrgResponse(resp *http.Response) (res *TeamDis
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsUpdateDiscussionLegacyResponse(resp *http.Response) (res *TeamDiscussion, _ error) {
@@ -64001,7 +65940,7 @@ func decodeTeamsUpdateDiscussionLegacyResponse(resp *http.Response) (res *TeamDi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsUpdateInOrgResponse(resp *http.Response) (res *TeamFull, _ error) {
@@ -64051,7 +65990,7 @@ func decodeTeamsUpdateInOrgResponse(resp *http.Response) (res *TeamFull, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTeamsUpdateLegacyResponse(resp *http.Response) (res TeamsUpdateLegacyRes, _ error) {
@@ -64259,7 +66198,7 @@ func decodeTeamsUpdateLegacyResponse(resp *http.Response) (res TeamsUpdateLegacy
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersAddEmailForAuthenticatedResponse(resp *http.Response) (res UsersAddEmailForAuthenticatedRes, _ error) {
@@ -64461,7 +66400,7 @@ func decodeUsersAddEmailForAuthenticatedResponse(resp *http.Response) (res Users
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersBlockResponse(resp *http.Response) (res UsersBlockRes, _ error) {
@@ -64622,7 +66561,7 @@ func decodeUsersBlockResponse(resp *http.Response) (res UsersBlockRes, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersCheckBlockedResponse(resp *http.Response) (res UsersCheckBlockedRes, _ error) {
@@ -64739,7 +66678,7 @@ func decodeUsersCheckBlockedResponse(resp *http.Response) (res UsersCheckBlocked
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersCheckFollowingForUserResponse(resp *http.Response) (res UsersCheckFollowingForUserRes, _ error) {
@@ -64751,7 +66690,7 @@ func decodeUsersCheckFollowingForUserResponse(resp *http.Response) (res UsersChe
 		// Code 404.
 		return &UsersCheckFollowingForUserNotFound{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersCheckPersonIsFollowedByAuthenticatedResponse(resp *http.Response) (res UsersCheckPersonIsFollowedByAuthenticatedRes, _ error) {
@@ -64868,7 +66807,7 @@ func decodeUsersCheckPersonIsFollowedByAuthenticatedResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersCreateGpgKeyForAuthenticatedResponse(resp *http.Response) (res UsersCreateGpgKeyForAuthenticatedRes, _ error) {
@@ -65070,7 +67009,7 @@ func decodeUsersCreateGpgKeyForAuthenticatedResponse(resp *http.Response) (res U
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersCreatePublicSSHKeyForAuthenticatedResponse(resp *http.Response) (res UsersCreatePublicSSHKeyForAuthenticatedRes, _ error) {
@@ -65263,7 +67202,7 @@ func decodeUsersCreatePublicSSHKeyForAuthenticatedResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersDeleteEmailForAuthenticatedResponse(resp *http.Response) (res UsersDeleteEmailForAuthenticatedRes, _ error) {
@@ -65424,7 +67363,7 @@ func decodeUsersDeleteEmailForAuthenticatedResponse(resp *http.Response) (res Us
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersDeleteGpgKeyForAuthenticatedResponse(resp *http.Response) (res UsersDeleteGpgKeyForAuthenticatedRes, _ error) {
@@ -65585,7 +67524,7 @@ func decodeUsersDeleteGpgKeyForAuthenticatedResponse(resp *http.Response) (res U
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersDeletePublicSSHKeyForAuthenticatedResponse(resp *http.Response) (res UsersDeletePublicSSHKeyForAuthenticatedRes, _ error) {
@@ -65702,7 +67641,7 @@ func decodeUsersDeletePublicSSHKeyForAuthenticatedResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersFollowResponse(resp *http.Response) (res UsersFollowRes, _ error) {
@@ -65819,7 +67758,7 @@ func decodeUsersFollowResponse(resp *http.Response) (res UsersFollowRes, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersGetAuthenticatedResponse(resp *http.Response) (res UsersGetAuthenticatedRes, _ error) {
@@ -65942,7 +67881,7 @@ func decodeUsersGetAuthenticatedResponse(resp *http.Response) (res UsersGetAuthe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersGetByUsernameResponse(resp *http.Response) (res UsersGetByUsernameRes, _ error) {
@@ -66062,7 +68001,7 @@ func decodeUsersGetByUsernameResponse(resp *http.Response) (res UsersGetByUserna
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersGetContextForUserResponse(resp *http.Response) (res UsersGetContextForUserRes, _ error) {
@@ -66191,7 +68130,7 @@ func decodeUsersGetContextForUserResponse(resp *http.Response) (res UsersGetCont
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersGetGpgKeyForAuthenticatedResponse(resp *http.Response) (res UsersGetGpgKeyForAuthenticatedRes, _ error) {
@@ -66349,7 +68288,7 @@ func decodeUsersGetGpgKeyForAuthenticatedResponse(resp *http.Response) (res User
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersGetPublicSSHKeyForAuthenticatedResponse(resp *http.Response) (res UsersGetPublicSSHKeyForAuthenticatedRes, _ error) {
@@ -66498,7 +68437,7 @@ func decodeUsersGetPublicSSHKeyForAuthenticatedResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListResponse(resp *http.Response) (res UsersListRes, _ error) {
@@ -66599,7 +68538,7 @@ func decodeUsersListResponse(resp *http.Response) (res UsersListRes, _ error) {
 		// Code 304.
 		return &NotModified{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListBlockedByAuthenticatedResponse(resp *http.Response) (res UsersListBlockedByAuthenticatedRes, _ error) {
@@ -66792,7 +68731,7 @@ func decodeUsersListBlockedByAuthenticatedResponse(resp *http.Response) (res Use
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListEmailsForAuthenticatedResponse(resp *http.Response) (res UsersListEmailsForAuthenticatedRes, _ error) {
@@ -67015,7 +68954,7 @@ func decodeUsersListEmailsForAuthenticatedResponse(resp *http.Response) (res Use
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListFollowedByAuthenticatedResponse(resp *http.Response) (res UsersListFollowedByAuthenticatedRes, _ error) {
@@ -67186,7 +69125,7 @@ func decodeUsersListFollowedByAuthenticatedResponse(resp *http.Response) (res Us
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListFollowersForAuthenticatedUserResponse(resp *http.Response) (res UsersListFollowersForAuthenticatedUserRes, _ error) {
@@ -67357,7 +69296,7 @@ func decodeUsersListFollowersForAuthenticatedUserResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListFollowersForUserResponse(resp *http.Response) (res *UsersListFollowersForUserOKHeaders, _ error) {
@@ -67455,7 +69394,7 @@ func decodeUsersListFollowersForUserResponse(resp *http.Response) (res *UsersLis
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListFollowingForUserResponse(resp *http.Response) (res *UsersListFollowingForUserOKHeaders, _ error) {
@@ -67553,7 +69492,7 @@ func decodeUsersListFollowingForUserResponse(resp *http.Response) (res *UsersLis
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListGpgKeysForAuthenticatedResponse(resp *http.Response) (res UsersListGpgKeysForAuthenticatedRes, _ error) {
@@ -67776,7 +69715,7 @@ func decodeUsersListGpgKeysForAuthenticatedResponse(resp *http.Response) (res Us
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListGpgKeysForUserResponse(resp *http.Response) (res *UsersListGpgKeysForUserOKHeaders, _ error) {
@@ -67891,7 +69830,7 @@ func decodeUsersListGpgKeysForUserResponse(resp *http.Response) (res *UsersListG
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListPublicEmailsForAuthenticatedResponse(resp *http.Response) (res UsersListPublicEmailsForAuthenticatedRes, _ error) {
@@ -68114,7 +70053,7 @@ func decodeUsersListPublicEmailsForAuthenticatedResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListPublicKeysForUserResponse(resp *http.Response) (res *UsersListPublicKeysForUserOKHeaders, _ error) {
@@ -68212,7 +70151,7 @@ func decodeUsersListPublicKeysForUserResponse(resp *http.Response) (res *UsersLi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersListPublicSSHKeysForAuthenticatedResponse(resp *http.Response) (res UsersListPublicSSHKeysForAuthenticatedRes, _ error) {
@@ -68418,7 +70357,7 @@ func decodeUsersListPublicSSHKeysForAuthenticatedResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersSetPrimaryEmailVisibilityForAuthenticatedResponse(resp *http.Response) (res UsersSetPrimaryEmailVisibilityForAuthenticatedRes, _ error) {
@@ -68620,7 +70559,7 @@ func decodeUsersSetPrimaryEmailVisibilityForAuthenticatedResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersUnblockResponse(resp *http.Response) (res UsersUnblockRes, _ error) {
@@ -68737,7 +70676,7 @@ func decodeUsersUnblockResponse(resp *http.Response) (res UsersUnblockRes, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersUnfollowResponse(resp *http.Response) (res UsersUnfollowRes, _ error) {
@@ -68854,7 +70793,7 @@ func decodeUsersUnfollowResponse(resp *http.Response) (res UsersUnfollowRes, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeUsersUpdateAuthenticatedResponse(resp *http.Response) (res UsersUpdateAuthenticatedRes, _ error) {
@@ -69056,5 +70995,5 @@ func decodeUsersUpdateAuthenticatedResponse(resp *http.Response) (res UsersUpdat
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }

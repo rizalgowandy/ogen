@@ -8,37 +8,54 @@ import (
 	"time"
 
 	"github.com/go-faster/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
-	"go.opentelemetry.io/otel/trace"
-
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/otelogen"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
+	"go.opentelemetry.io/otel/trace"
 )
+
+type codeRecorder struct {
+	http.ResponseWriter
+	status int
+}
+
+func (c *codeRecorder) WriteHeader(status int) {
+	c.status = status
+	c.ResponseWriter.WriteHeader(status)
+}
+
+func (c *codeRecorder) Unwrap() http.ResponseWriter {
+	return c.ResponseWriter
+}
 
 // handleCachingRequest handles Caching operation.
 //
 // Test #7. The Caching test exercises the preferred in-memory or separate-process caching technology
 // for the platform or framework. For implementation simplicity, the requirements are very similar to
 // the multiple database-query test Test #3, but use a separate database table. The requirements are
-// quite generous, affording each framework fairly broad freedom to meet the requirements in the
-// manner that best represents the canonical non-distributed caching approach for the framework.
-// (Note: a distributed caching test type could be added later.).
+// quite generous, affording each framework fairly broad freedom to meet the requirements in the manner
+// that best represents the canonical non-distributed caching approach for the framework. (Note: a
+// distributed caching test type could be added later.).
 //
 // GET /cached-worlds
 func (s *Server) handleCachingRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("Caching"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/cached-worlds"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "Caching",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), CachingOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -52,24 +69,48 @@ func (s *Server) handleCachingRequest(args [0]string, argsEscaped bool, w http.R
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "Caching",
+			Name: CachingOperation,
 			ID:   "Caching",
 		}
 	)
@@ -84,14 +125,17 @@ func (s *Server) handleCachingRequest(args [0]string, argsEscaped bool, w http.R
 		return
 	}
 
+	var rawBody []byte
+
 	var response WorldObjects
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "Caching",
+			OperationName:    CachingOperation,
 			OperationSummary: "Test #7. The Caching test exercises the preferred in-memory or separate-process caching technology for the platform or framework. For implementation simplicity, the requirements are very similar to the multiple database-query test Test #3, but use a separate database table. The requirements are quite generous, affording each framework fairly broad freedom to meet the requirements in the manner that best represents the canonical non-distributed caching approach for the framework. (Note: a distributed caching test type could be added later.)",
 			OperationID:      "Caching",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "count",
@@ -144,14 +188,18 @@ func (s *Server) handleCachingRequest(args [0]string, argsEscaped bool, w http.R
 //
 // GET /db
 func (s *Server) handleDBRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("DB"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/db"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "DB",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), DBOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -165,32 +213,59 @@ func (s *Server) handleDBRequest(args [0]string, argsEscaped bool, w http.Respon
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err error
 	)
+
+	var rawBody []byte
 
 	var response *WorldObject
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "DB",
+			OperationName:    DBOperation,
 			OperationSummary: "Test #2. The Single Database Query test exercises the framework's object-relational mapper (ORM), random number generator, database driver, and database connection pool.",
 			OperationID:      "DB",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -234,19 +309,23 @@ func (s *Server) handleDBRequest(args [0]string, argsEscaped bool, w http.Respon
 // handleJSONRequest handles json operation.
 //
 // Test #1. The JSON Serialization test exercises the framework fundamentals including keep-alive
-// support, request routing, request header parsing, object instantiation, JSON serialization,
-// response header generation, and request count throughput.
+// support, request routing, request header parsing, object instantiation, JSON serialization, response
+// header generation, and request count throughput.
 //
 // GET /json
 func (s *Server) handleJSONRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("json"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/json"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "JSON",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), JSONOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -260,32 +339,59 @@ func (s *Server) handleJSONRequest(args [0]string, argsEscaped bool, w http.Resp
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err error
 	)
+
+	var rawBody []byte
 
 	var response *HelloWorld
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "JSON",
+			OperationName:    JSONOperation,
 			OperationSummary: "Test #1. The JSON Serialization test exercises the framework fundamentals including keep-alive support, request routing, request header parsing, object instantiation, JSON serialization, response header generation, and request count throughput.",
 			OperationID:      "json",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -328,21 +434,25 @@ func (s *Server) handleJSONRequest(args [0]string, argsEscaped bool, w http.Resp
 
 // handleQueriesRequest handles Queries operation.
 //
-// Test #3. The Multiple Database Queries test is a variation of Test #2 and also uses the World
-// table. Multiple rows are fetched to more dramatically punish the database driver and connection
-// pool. At the highest queries-per-request tested (20), this test demonstrates all frameworks'
-// convergence toward zero requests-per-second as database activity increases.
+// Test #3. The Multiple Database Queries test is a variation of Test #2 and also uses the World table.
+// Multiple rows are fetched to more dramatically punish the database driver and connection pool. At
+// the highest queries-per-request tested (20), this test demonstrates all frameworks' convergence
+// toward zero requests-per-second as database activity increases.
 //
 // GET /queries
 func (s *Server) handleQueriesRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("Queries"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/queries"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "Queries",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), QueriesOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -356,24 +466,48 @@ func (s *Server) handleQueriesRequest(args [0]string, argsEscaped bool, w http.R
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "Queries",
+			Name: QueriesOperation,
 			ID:   "Queries",
 		}
 	)
@@ -388,14 +522,17 @@ func (s *Server) handleQueriesRequest(args [0]string, argsEscaped bool, w http.R
 		return
 	}
 
+	var rawBody []byte
+
 	var response WorldObjects
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "Queries",
+			OperationName:    QueriesOperation,
 			OperationSummary: "Test #3. The Multiple Database Queries test is a variation of Test #2 and also uses the World table. Multiple rows are fetched to more dramatically punish the database driver and connection pool. At the highest queries-per-request tested (20), this test demonstrates all frameworks' convergence toward zero requests-per-second as database activity increases.",
 			OperationID:      "Queries",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "queries",
@@ -443,20 +580,24 @@ func (s *Server) handleQueriesRequest(args [0]string, argsEscaped bool, w http.R
 
 // handleUpdatesRequest handles Updates operation.
 //
-// Test #5. The Database Updates test is a variation of Test #3 that exercises the ORM's persistence
-// of objects and the database driver's performance at running UPDATE statements or similar. The
-// spirit of this test is to exercise a variable number of read-then-write style database operations.
+// Test #5. The Database Updates test is a variation of Test #3 that exercises the ORM's persistence of
+// objects and the database driver's performance at running UPDATE statements or similar. The spirit of
+// this test is to exercise a variable number of read-then-write style database operations.
 //
 // GET /updates
 func (s *Server) handleUpdatesRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("Updates"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/updates"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "Updates",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), UpdatesOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -470,24 +611,48 @@ func (s *Server) handleUpdatesRequest(args [0]string, argsEscaped bool, w http.R
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "Updates",
+			Name: UpdatesOperation,
 			ID:   "Updates",
 		}
 	)
@@ -502,14 +667,17 @@ func (s *Server) handleUpdatesRequest(args [0]string, argsEscaped bool, w http.R
 		return
 	}
 
+	var rawBody []byte
+
 	var response WorldObjects
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "Updates",
+			OperationName:    UpdatesOperation,
 			OperationSummary: "Test #5. The Database Updates test is a variation of Test #3 that exercises the ORM's persistence of objects and the database driver's performance at running UPDATE statements or similar. The spirit of this test is to exercise a variable number of read-then-write style database operations.",
 			OperationID:      "Updates",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "queries",

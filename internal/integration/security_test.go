@@ -44,42 +44,42 @@ func (t *testSecurity) CustomSecurity(ctx context.Context) error {
 type tokenKey string
 
 func (t *testSecurity) HandleBasicAuth(ctx context.Context, operationName string, v api.BasicAuth) (context.Context, error) {
-	if v != t.basicAuth {
+	if v.Username != t.basicAuth.Username && v.Password != t.basicAuth.Password {
 		return nil, errors.Errorf("invalid basic auth: %q and %q", v.Username, v.Password)
 	}
 	return context.WithValue(ctx, tokenKey("BasicAuth"), v), nil
 }
 
 func (t *testSecurity) HandleBearerToken(ctx context.Context, operationName string, v api.BearerToken) (context.Context, error) {
-	if v != t.bearerToken {
+	if v.Token != t.bearerToken.Token {
 		return nil, errors.Errorf("invalid token: %q", v.Token)
 	}
 	return context.WithValue(ctx, tokenKey("BearerToken"), v), nil
 }
 
 func (t *testSecurity) HandleHeaderKey(ctx context.Context, operationName string, v api.HeaderKey) (context.Context, error) {
-	if v != t.headerKey {
+	if v.APIKey != t.headerKey.APIKey {
 		return nil, errors.Errorf("invalid api key: %q", v.APIKey)
 	}
 	return context.WithValue(ctx, tokenKey("HeaderKey"), v), nil
 }
 
 func (t *testSecurity) HandleQueryKey(ctx context.Context, operationName string, v api.QueryKey) (context.Context, error) {
-	if v != t.queryKey {
+	if v.APIKey != t.queryKey.APIKey {
 		return nil, errors.Errorf("invalid api key: %q", v.APIKey)
 	}
 	return context.WithValue(ctx, tokenKey("QueryKey"), v), nil
 }
 
 func (t *testSecurity) HandleCookieKey(ctx context.Context, operationName string, v api.CookieKey) (context.Context, error) {
-	if v != t.cookieKey {
+	if v.APIKey != t.cookieKey.APIKey {
 		return nil, errors.Errorf("invalid api key: %q", v.APIKey)
 	}
 	return context.WithValue(ctx, tokenKey("CookieKey"), v), nil
 }
 
-func (t *testSecurity) HandleCustom(ctx context.Context, operationName string, req *http.Request) (context.Context, error) {
-	got := req.Header.Get(customSecurityHeader)
+func (t *testSecurity) HandleCustom(ctx context.Context, operationName string, v api.Custom) (context.Context, error) {
+	got := v.Request.Header.Get(customSecurityHeader)
 	if got != t.custom {
 		return nil, errors.Errorf("invalid custom auth: %q", got)
 	}
@@ -284,7 +284,6 @@ func TestSecurityClientCheck(t *testing.T) {
 	test := func(f func(*api.Client, context.Context) error, tts []testCase) func(t *testing.T) {
 		return func(t *testing.T) {
 			for i, tt := range tts {
-				tt := tt
 				t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
 					client, err := api.NewClient(s.URL, &tt.source, api.WithClient(s.Client()))
 					require.NoError(t, err)

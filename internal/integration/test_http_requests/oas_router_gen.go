@@ -10,6 +10,27 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
+var (
+	rn1AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn2AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn4AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn5AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn6AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn7AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+)
+
 func (s *Server) cutPrefix(path string) (string, bool) {
 	prefix := s.cfg.Prefix
 	if prefix == "" {
@@ -49,7 +70,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -61,7 +82,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 			switch elem[0] {
 			case 'a': // Prefix: "allRequestBodies"
-				origElem := elem
+
 				if l := len("allRequestBodies"); len(elem) >= l && elem[0:l] == "allRequestBodies" {
 					elem = elem[l:]
 				} else {
@@ -73,14 +94,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "POST":
 						s.handleAllRequestBodiesRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "POST")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "POST",
+							allowedHeaders: rn1AllowedHeaders,
+							acceptPost:     "application/json,application/octet-stream,application/x-www-form-urlencoded,multipart/form-data,text/plain",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 				switch elem[0] {
 				case 'O': // Prefix: "Optional"
-					origElem := elem
+
 					if l := len("Optional"); len(elem) >= l && elem[0:l] == "Optional" {
 						elem = elem[l:]
 					} else {
@@ -93,18 +119,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "POST":
 							s.handleAllRequestBodiesOptionalRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "POST")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "POST",
+								allowedHeaders: rn2AllowedHeaders,
+								acceptPost:     "application/json,application/octet-stream,application/x-www-form-urlencoded,multipart/form-data,text/plain",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'b': // Prefix: "base64Request"
-				origElem := elem
+
 				if l := len("base64Request"); len(elem) >= l && elem[0:l] == "base64Request" {
 					elem = elem[l:]
 				} else {
@@ -117,15 +146,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "POST":
 						s.handleBase64RequestRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "POST")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "POST",
+							allowedHeaders: rn4AllowedHeaders,
+							acceptPost:     "text/plain",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 'm': // Prefix: "maskContentType"
-				origElem := elem
+
 				if l := len("maskContentType"); len(elem) >= l && elem[0:l] == "maskContentType" {
 					elem = elem[l:]
 				} else {
@@ -137,14 +170,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "POST":
 						s.handleMaskContentTypeRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "POST")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "POST",
+							allowedHeaders: rn5AllowedHeaders,
+							acceptPost:     "application/*",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 				switch elem[0] {
 				case 'O': // Prefix: "Optional"
-					origElem := elem
+
 					if l := len("Optional"); len(elem) >= l && elem[0:l] == "Optional" {
 						elem = elem[l:]
 					} else {
@@ -157,18 +195,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "POST":
 							s.handleMaskContentTypeOptionalRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "POST")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "POST",
+								allowedHeaders: rn6AllowedHeaders,
+								acceptPost:     "application/*",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 's': // Prefix: "streamJSON"
-				origElem := elem
+
 				if l := len("streamJSON"); len(elem) >= l && elem[0:l] == "streamJSON" {
 					elem = elem[l:]
 				} else {
@@ -181,16 +222,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "POST":
 						s.handleStreamJSONRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "POST")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "POST",
+							allowedHeaders: rn7AllowedHeaders,
+							acceptPost:     "application/json",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	s.notFound(w, r)
@@ -198,12 +242,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Route is route object.
 type Route struct {
-	name        string
-	summary     string
-	operationID string
-	pathPattern string
-	count       int
-	args        [0]string
+	name           string
+	summary        string
+	operationID    string
+	operationGroup string
+	pathPattern    string
+	count          int
+	args           [0]string
 }
 
 // Name returns ogen operation name.
@@ -221,6 +266,11 @@ func (r Route) Summary() string {
 // OperationID returns OpenAPI operationId.
 func (r Route) OperationID() string {
 	return r.operationID
+}
+
+// OperationGroup returns the x-ogen-operation-group value.
+func (r Route) OperationGroup() string {
+	return r.operationGroup
 }
 
 // PathPattern returns OpenAPI path.
@@ -272,7 +322,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -284,7 +334,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			}
 			switch elem[0] {
 			case 'a': // Prefix: "allRequestBodies"
-				origElem := elem
+
 				if l := len("allRequestBodies"); len(elem) >= l && elem[0:l] == "allRequestBodies" {
 					elem = elem[l:]
 				} else {
@@ -294,9 +344,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				if len(elem) == 0 {
 					switch method {
 					case "POST":
-						r.name = "AllRequestBodies"
+						r.name = AllRequestBodiesOperation
 						r.summary = ""
 						r.operationID = "allRequestBodies"
+						r.operationGroup = ""
 						r.pathPattern = "/allRequestBodies"
 						r.args = args
 						r.count = 0
@@ -307,7 +358,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'O': // Prefix: "Optional"
-					origElem := elem
+
 					if l := len("Optional"); len(elem) >= l && elem[0:l] == "Optional" {
 						elem = elem[l:]
 					} else {
@@ -318,9 +369,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "POST":
-							r.name = "AllRequestBodiesOptional"
+							r.name = AllRequestBodiesOptionalOperation
 							r.summary = ""
 							r.operationID = "allRequestBodiesOptional"
+							r.operationGroup = ""
 							r.pathPattern = "/allRequestBodiesOptional"
 							r.args = args
 							r.count = 0
@@ -330,12 +382,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'b': // Prefix: "base64Request"
-				origElem := elem
+
 				if l := len("base64Request"); len(elem) >= l && elem[0:l] == "base64Request" {
 					elem = elem[l:]
 				} else {
@@ -346,9 +396,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "POST":
-						r.name = "Base64Request"
+						r.name = Base64RequestOperation
 						r.summary = ""
 						r.operationID = "base64Request"
+						r.operationGroup = ""
 						r.pathPattern = "/base64Request"
 						r.args = args
 						r.count = 0
@@ -358,9 +409,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 'm': // Prefix: "maskContentType"
-				origElem := elem
+
 				if l := len("maskContentType"); len(elem) >= l && elem[0:l] == "maskContentType" {
 					elem = elem[l:]
 				} else {
@@ -370,9 +420,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				if len(elem) == 0 {
 					switch method {
 					case "POST":
-						r.name = "MaskContentType"
+						r.name = MaskContentTypeOperation
 						r.summary = ""
 						r.operationID = "maskContentType"
+						r.operationGroup = ""
 						r.pathPattern = "/maskContentType"
 						r.args = args
 						r.count = 0
@@ -383,7 +434,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'O': // Prefix: "Optional"
-					origElem := elem
+
 					if l := len("Optional"); len(elem) >= l && elem[0:l] == "Optional" {
 						elem = elem[l:]
 					} else {
@@ -394,9 +445,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "POST":
-							r.name = "MaskContentTypeOptional"
+							r.name = MaskContentTypeOptionalOperation
 							r.summary = ""
 							r.operationID = "maskContentTypeOptional"
+							r.operationGroup = ""
 							r.pathPattern = "/maskContentTypeOptional"
 							r.args = args
 							r.count = 0
@@ -406,12 +458,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 's': // Prefix: "streamJSON"
-				origElem := elem
+
 				if l := len("streamJSON"); len(elem) >= l && elem[0:l] == "streamJSON" {
 					elem = elem[l:]
 				} else {
@@ -422,9 +472,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "POST":
-						r.name = "StreamJSON"
+						r.name = StreamJSONOperation
 						r.summary = ""
 						r.operationID = "streamJSON"
+						r.operationGroup = ""
 						r.pathPattern = "/streamJSON"
 						r.args = args
 						r.count = 0
@@ -434,10 +485,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	return r, false

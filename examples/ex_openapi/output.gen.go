@@ -9,7 +9,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/ogenregex"
 	"github.com/ogen-go/ogen/validate"
 )
@@ -36,10 +35,10 @@ func (s *AnysOrExpressions) init() AnysOrExpressions {
 	return m
 }
 
-// A map of possible out-of band callbacks related to the parent operation. Each value in the map is
-// a Path Item Object that describes a set of requests that may be initiated by the API provider and
-// the expected responses. The key value used to identify the callback object is an expression,
-// evaluated at runtime, that identifies a URL to use for the callback operation.
+// A map of possible out-of band callbacks related to the parent operation. Each value in the map is a
+// Path Item Object that describes a set of requests that may be initiated by the API provider and the
+// expected responses. The key value used to identify the callback object is an expression, evaluated
+// at runtime, that identifies a URL to use for the callback operation.
 // Ref: #/definitions/callback
 type Callback struct {
 	// Pattern: "^".
@@ -71,7 +70,8 @@ func (s *Callback) SetPattern1Props(val CallbackPattern1) {
 // Ref: #/definitions/callbackOrReference
 // CallbackOrReference represents sum type.
 type CallbackOrReference struct {
-	Type      CallbackOrReferenceType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type      CallbackOrReferenceType
 	Callback  Callback
 	Reference Reference
 }
@@ -360,10 +360,10 @@ func (s *ContactPattern0) init() ContactPattern0 {
 type DefaultType jx.Raw
 
 // When request bodies or response payloads may be one of a number of different schemas, a
-// `discriminator` object can be used to aid in serialization, deserialization, and validation.  The
+// `discriminator` object can be used to aid in serialization, deserialization, and validation. The
 // discriminator is a specific object in a schema which is used to inform the consumer of the
-// specification of an alternative schema based on the value associated with it.  When using the
-// discriminator, _inline_ schemas will not be considered.
+// specification of an alternative schema based on the value associated with it. When using the
+// discriminator, inline schemas will not be considered.
 // Ref: #/definitions/discriminator
 type Discriminator struct {
 	PropertyName string     `json:"propertyName"`
@@ -550,7 +550,8 @@ func (s *Example) SetPattern0Props(val ExamplePattern0) {
 // Ref: #/definitions/exampleOrReference
 // ExampleOrReference represents sum type.
 type ExampleOrReference struct {
-	Type      ExampleOrReferenceType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type      ExampleOrReferenceType
 	Example   Example
 	Reference Reference
 }
@@ -689,7 +690,7 @@ func (s *ExternalDocsPattern0) init() ExternalDocsPattern0 {
 	return m
 }
 
-// The Header Object follows the structure of the Parameter Object with the following changes:  1.
+// The Header Object follows the structure of the Parameter Object with the following changes: 1.
 // `name` MUST NOT be specified, it is given in the corresponding `headers` map. 1. `in` MUST NOT be
 // specified, it is implicitly in `header`. 1. All traits that are affected by the location MUST be
 // applicable to a location of `header` (for example, `style`).
@@ -833,7 +834,8 @@ func (s *Header) SetPattern0Props(val HeaderPattern0) {
 // Ref: #/definitions/headerOrReference
 // HeaderOrReference represents sum type.
 type HeaderOrReference struct {
-	Type      HeaderOrReferenceType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type      HeaderOrReferenceType
 	Header    Header
 	Reference Reference
 }
@@ -1063,13 +1065,13 @@ func (s *LicensePattern0) init() LicensePattern0 {
 	return m
 }
 
-// The `Link object` represents a possible design-time link for a response. The presence of a link
-// does not guarantee the caller's ability to successfully invoke it, rather it provides a known
-// relationship and traversal mechanism between responses and other operations.  Unlike _dynamic_
-// links (i.e. links provided **in** the response payload), the OAS linking mechanism does not
-// require link information in the runtime response.  For computing links, and providing instructions
-// to execute them, a runtime expression is used for accessing values in an operation and using them
-// as parameters while invoking the linked operation.
+// The `Link object` represents a possible design-time link for a response. The presence of a link does
+// not guarantee the caller's ability to successfully invoke it, rather it provides a known
+// relationship and traversal mechanism between responses and other operations. Unlike dynamic links
+// (i.e. links provided in the response payload), the OAS linking mechanism does not require link
+// information in the runtime response. For computing links, and providing instructions to execute
+// them, a runtime expression is used for accessing values in an operation and using them as parameters
+// while invoking the linked operation.
 // Ref: #/definitions/link
 type Link struct {
 	OperationRef OptString            `json:"operationRef"`
@@ -1155,7 +1157,8 @@ func (s *Link) SetPattern0Props(val LinkPattern0) {
 // Ref: #/definitions/linkOrReference
 // LinkOrReference represents sum type.
 type LinkOrReference struct {
-	Type      LinkOrReferenceType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type      LinkOrReferenceType
 	Link      Link
 	Reference Reference
 }
@@ -3612,8 +3615,8 @@ func (o OptXML) Or(d XML) XML {
 	return d
 }
 
-// Describes a single operation parameter.  A unique parameter is defined by a combination of a name
-// and location.
+// Describes a single operation parameter. A unique parameter is defined by a combination of a name and
+// location.
 // Ref: #/definitions/parameter
 type Parameter struct {
 	Name            string                  `json:"name"`
@@ -3831,7 +3834,8 @@ func (s *ParameterIn) UnmarshalText(data []byte) error {
 // Ref: #/definitions/parameterOrReference
 // ParameterOrReference represents sum type.
 type ParameterOrReference struct {
-	Type      ParameterOrReferenceType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type      ParameterOrReferenceType
 	Parameter Parameter
 	Reference Reference
 }
@@ -4166,8 +4170,8 @@ func (s *PathItemPattern0) init() PathItemPattern0 {
 }
 
 // Holds the relative paths to the individual endpoints and their operations. The path is appended to
-// the URL from the `Server Object` in order to construct the full URL.  The Paths MAY be empty, due
-// to ACL constraints.
+// the URL from the `Server Object` in order to construct the full URL. The Paths MAY be empty, due to
+// ACL constraints.
 // Ref: #/definitions/paths
 type Paths struct {
 	// Pattern: "^/".
@@ -4223,9 +4227,9 @@ type Pattern string
 type PositiveInteger int
 
 // A simple object to allow referencing other components in the specification, internally and
-// externally.  The Reference Object is defined by JSON Reference and follows the same structure,
-// behavior and rules.   For this specification, reference resolution is accomplished as defined by
-// the JSON Reference specification and not by the JSON Schema specification.
+// externally. The Reference Object is defined by JSON Reference and follows the same structure,
+// behavior and rules. For this specification, reference resolution is accomplished as defined by the
+// JSON Reference specification and not by the JSON Schema specification.
 // Ref: #/definitions/reference
 type Reference struct {
 	Ref string `json:"$ref"`
@@ -4306,7 +4310,8 @@ func (s *RequestBody) SetPattern0Props(val RequestBodyPattern0) {
 // Ref: #/definitions/requestBodyOrReference
 // RequestBodyOrReference represents sum type.
 type RequestBodyOrReference struct {
-	Type        RequestBodyOrReferenceType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type        RequestBodyOrReferenceType
 	RequestBody RequestBody
 	Reference   Reference
 }
@@ -4381,7 +4386,7 @@ func (s *RequestBodyPattern0) init() RequestBodyPattern0 {
 	return m
 }
 
-// Describes a single response from an API Operation, including design-time, static  `links` to
+// Describes a single response from an API Operation, including design-time, static `links` to
 // operations based on the response.
 // Ref: #/definitions/response
 type Response struct {
@@ -4446,7 +4451,8 @@ func (s *Response) SetPattern0Props(val ResponsePattern0) {
 // Ref: #/definitions/responseOrReference
 // ResponseOrReference represents sum type.
 type ResponseOrReference struct {
-	Type      ResponseOrReferenceType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type      ResponseOrReferenceType
 	Response  Response
 	Reference Reference
 }
@@ -4520,14 +4526,12 @@ func (s *ResponsePattern0) init() ResponsePattern0 {
 }
 
 // A container for the expected responses of an operation. The container maps a HTTP response code to
-// the expected response.  The documentation is not necessarily expected to cover all possible HTTP
-// response codes because they may not be known in advance. However, documentation is expected to
-// cover a successful operation response and any known errors.  The `default` MAY be used as a
-// default response object for all HTTP codes  that are not covered individually by the specification.
-//
-//	The `Responses Object` MUST contain at least one response code, and it  SHOULD be the response
-//
-// for a successful operation call.
+// the expected response. The documentation is not necessarily expected to cover all possible HTTP
+// response codes because they may not be known in advance. However, documentation is expected to cover
+// a successful operation response and any known errors. The `default` MAY be used as a default
+// response object for all HTTP codes that are not covered individually by the specification. The
+// `Responses Object` MUST contain at least one response code, and it SHOULD be the response for a
+// successful operation call.
 // Ref: #/definitions/responses
 type Responses struct {
 	Default OptResponseOrReference `json:"default"`
@@ -4602,12 +4606,9 @@ func (s *ResponsesPattern1) init() ResponsesPattern1 {
 }
 
 // The Schema Object allows the definition of input and output data types. These types can be objects,
-//
-//	but also primitives and arrays. This object is an extended subset of the JSON Schema
-//
-// Specification Wright Draft 00.  For more information about the properties, see JSON Schema Core
-// and JSON Schema Validation. Unless stated otherwise, the property definitions follow the JSON
-// Schema.
+// but also primitives and arrays. This object is an extended subset of the JSON Schema Specification
+// Wright Draft 00. For more information about the properties, see JSON Schema Core and JSON Schema
+// Validation. Unless stated otherwise, the property definitions follow the JSON Schema.
 // Ref: #/definitions/schema
 type Schema struct {
 	Nullable             OptBool                     `json:"nullable"`
@@ -5011,7 +5012,8 @@ func (s *Schema) SetPattern0Props(val SchemaPattern0) {
 
 // SchemaAdditionalProperties represents sum type.
 type SchemaAdditionalProperties struct {
-	Type              SchemaAdditionalPropertiesType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type              SchemaAdditionalPropertiesType
 	SchemaOrReference SchemaOrReference
 	Bool              bool
 }
@@ -5078,7 +5080,8 @@ func NewBoolSchemaAdditionalProperties(v bool) SchemaAdditionalProperties {
 // Ref: #/definitions/schemaOrReference
 // SchemaOrReference represents sum type.
 type SchemaOrReference struct {
-	Type      SchemaOrReferenceType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type      SchemaOrReferenceType
 	Schema    Schema
 	Reference Reference
 }
@@ -5250,13 +5253,11 @@ func (s *SchemasOrReferences) init() SchemasOrReferences {
 	return m
 }
 
-// Lists the required security schemes to execute this operation. The name used for each property
-// MUST correspond to a security scheme declared in the Security Schemes under the Components Object.
-//
-//	Security Requirement Objects that contain multiple schemes require that all schemes MUST be
-//
+// Lists the required security schemes to execute this operation. The name used for each property MUST
+// correspond to a security scheme declared in the Security Schemes under the Components Object.
+// Security Requirement Objects that contain multiple schemes require that all schemes MUST be
 // satisfied for a request to be authorized. This enables support for scenarios where multiple query
-// parameters or HTTP headers are required to convey security information.  When a list of Security
+// parameters or HTTP headers are required to convey security information. When a list of Security
 // Requirement Objects is defined on the Open API object or Operation Object, only one of Security
 // Requirement Objects in the list needs to be satisfied to authorize the request.
 // Ref: #/definitions/securityRequirement
@@ -5382,7 +5383,8 @@ func (s *SecurityScheme) SetPattern0Props(val SecuritySchemePattern0) {
 // Ref: #/definitions/securitySchemeOrReference
 // SecuritySchemeOrReference represents sum type.
 type SecuritySchemeOrReference struct {
-	Type           SecuritySchemeOrReferenceType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type           SecuritySchemeOrReferenceType
 	SecurityScheme SecurityScheme
 	Reference      Reference
 }
@@ -5802,9 +5804,9 @@ type Title string
 
 type UniqueItems bool
 
-// A metadata object that allows for more fine-tuned XML model definitions.  When using arrays, XML
-// element names are *not* inferred (for singular/plural forms) and the `name` property SHOULD be
-// used to add that information. See examples for expected behavior.
+// A metadata object that allows for more fine-tuned XML model definitions. When using arrays, XML
+// element names are not inferred (for singular/plural forms) and the `name` property SHOULD be used to
+// add that information. See examples for expected behavior.
 // Ref: #/definitions/xml
 type XML struct {
 	Name      OptString `json:"name"`
@@ -5890,16 +5892,16 @@ func (s *XMLPattern0) init() XMLPattern0 {
 // setDefaults set default value of fields.
 func (s *Schema) setDefaults() {
 	{
-		val := ExclusiveMaximum(false)
-		s.ExclusiveMaximum.SetTo(val)
+		val := bool(false)
+		s.ExclusiveMaximum.SetTo(ExclusiveMaximum(val))
 	}
 	{
-		val := ExclusiveMinimum(false)
-		s.ExclusiveMinimum.SetTo(val)
+		val := bool(false)
+		s.ExclusiveMinimum.SetTo(ExclusiveMinimum(val))
 	}
 	{
-		val := UniqueItems(false)
-		s.UniqueItems.SetTo(val)
+		val := bool(false)
+		s.UniqueItems.SetTo(UniqueItems(val))
 	}
 }
 
@@ -6125,6 +6127,11 @@ func (s *CallbackOrReference) Decode(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
 			case "$ref":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReferenceCallbackOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -7471,8 +7478,13 @@ func (s *ExampleOrReference) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
-			case "summary":
-				match := ExampleExampleOrReference
+			case "$ref":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReferenceExampleOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -7480,6 +7492,37 @@ func (s *ExampleOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "description":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ExampleExampleOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "externalValue":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ExampleExampleOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "summary":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ExampleExampleOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -7489,22 +7532,6 @@ func (s *ExampleOrReference) Decode(d *jx.Decoder) error {
 				s.Type = match
 			case "value":
 				match := ExampleExampleOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "externalValue":
-				match := ExampleExampleOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "$ref":
-				match := ReferenceExampleOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -8234,24 +8261,13 @@ func (s *HeaderOrReference) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
-			case "description":
-				match := HeaderHeaderOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+			case "$ref":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "required":
-				match := HeaderHeaderOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "deprecated":
-				match := HeaderHeaderOrReference
+				match := ReferenceHeaderOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -8259,22 +8275,11 @@ func (s *HeaderOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "allowEmptyValue":
-				match := HeaderHeaderOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "style":
-				match := HeaderHeaderOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "explode":
 				match := HeaderHeaderOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -8283,6 +8288,11 @@ func (s *HeaderOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "allowReserved":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := HeaderHeaderOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -8290,7 +8300,38 @@ func (s *HeaderOrReference) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "schema":
+			case "content":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := HeaderHeaderOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "deprecated":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := HeaderHeaderOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "description":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := HeaderHeaderOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -8307,6 +8348,11 @@ func (s *HeaderOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "examples":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := HeaderHeaderOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -8314,7 +8360,12 @@ func (s *HeaderOrReference) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "content":
+			case "explode":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := HeaderHeaderOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -8322,8 +8373,34 @@ func (s *HeaderOrReference) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "$ref":
-				match := ReferenceHeaderOrReference
+			case "required":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := HeaderHeaderOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "schema":
+				match := HeaderHeaderOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "style":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := HeaderHeaderOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -9154,7 +9231,25 @@ func (s *LinkOrReference) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
-			case "operationRef":
+			case "$ref":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReferenceLinkOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "description":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := LinkLinkOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -9163,6 +9258,24 @@ func (s *LinkOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "operationId":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := LinkLinkOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "operationRef":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := LinkLinkOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -9171,6 +9284,11 @@ func (s *LinkOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "parameters":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := LinkLinkOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -9186,24 +9304,13 @@ func (s *LinkOrReference) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "description":
-				match := LinkLinkOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
 			case "server":
-				match := LinkLinkOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "$ref":
-				match := ReferenceLinkOrReference
+				match := LinkLinkOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -12392,40 +12499,13 @@ func (s *ParameterOrReference) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
-			case "name":
-				match := ParameterParameterOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+			case "$ref":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "in":
-				match := ParameterParameterOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "description":
-				match := ParameterParameterOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "required":
-				match := ParameterParameterOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "deprecated":
-				match := ParameterParameterOrReference
+				match := ReferenceParameterOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -12433,22 +12513,11 @@ func (s *ParameterOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "allowEmptyValue":
-				match := ParameterParameterOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "style":
-				match := ParameterParameterOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "explode":
 				match := ParameterParameterOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -12457,6 +12526,11 @@ func (s *ParameterOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "allowReserved":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ParameterParameterOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -12464,7 +12538,38 @@ func (s *ParameterOrReference) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "schema":
+			case "content":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ParameterParameterOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "deprecated":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ParameterParameterOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "description":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ParameterParameterOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -12481,6 +12586,11 @@ func (s *ParameterOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "examples":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ParameterParameterOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -12488,7 +12598,12 @@ func (s *ParameterOrReference) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "content":
+			case "explode":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ParameterParameterOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -12496,8 +12611,60 @@ func (s *ParameterOrReference) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "$ref":
-				match := ReferenceParameterOrReference
+			case "in":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ParameterParameterOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "name":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ParameterParameterOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "required":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ParameterParameterOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "schema":
+				match := ParameterParameterOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "style":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ParameterParameterOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13713,8 +13880,13 @@ func (s *RequestBodyOrReference) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
-			case "description":
-				match := RequestBodyRequestBodyOrReference
+			case "$ref":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReferenceRequestBodyOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13722,6 +13894,24 @@ func (s *RequestBodyOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "content":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := RequestBodyRequestBodyOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "description":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := RequestBodyRequestBodyOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -13730,15 +13920,12 @@ func (s *RequestBodyOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "required":
-				match := RequestBodyRequestBodyOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "$ref":
-				match := ReferenceRequestBodyOrReference
+				match := RequestBodyRequestBodyOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -14049,7 +14236,38 @@ func (s *ResponseOrReference) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "$ref":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReferenceResponseOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "content":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ResponseResponseOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "description":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ResponseResponseOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -14058,14 +14276,11 @@ func (s *ResponseOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "headers":
-				match := ResponseResponseOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "content":
 				match := ResponseResponseOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -14074,15 +14289,12 @@ func (s *ResponseOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "links":
-				match := ResponseResponseOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "$ref":
-				match := ReferenceResponseOrReference
+				match := ResponseResponseOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -15254,199 +15466,20 @@ func (s *SchemaOrReference) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
-			case "nullable":
-				match := SchemaSchemaOrReference
+			case "$ref":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReferenceSchemaOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
 				}
 				found = true
 				s.Type = match
-			case "discriminator":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "readOnly":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "writeOnly":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "xml":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "externalDocs":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "example":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "deprecated":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "title":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "multipleOf":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "maximum":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "exclusiveMaximum":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "minimum":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "exclusiveMinimum":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "maxLength":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "minLength":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "pattern":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "maxItems":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "minItems":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "uniqueItems":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "maxProperties":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "minProperties":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "required":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "enum":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "type":
+			case "additionalProperties":
 				match := SchemaSchemaOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -15455,14 +15488,11 @@ func (s *SchemaOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "allOf":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "oneOf":
 				match := SchemaSchemaOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -15471,38 +15501,11 @@ func (s *SchemaOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "anyOf":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "not":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "items":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "properties":
-				match := SchemaSchemaOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "additionalProperties":
 				match := SchemaSchemaOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -15518,7 +15521,98 @@ func (s *SchemaOrReference) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
+			case "deprecated":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "description":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "discriminator":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "enum":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "example":
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "exclusiveMaximum":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "exclusiveMinimum":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "externalDocs":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := SchemaSchemaOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -15527,6 +15621,11 @@ func (s *SchemaOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "format":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := SchemaSchemaOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -15534,8 +15633,281 @@ func (s *SchemaOrReference) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "$ref":
-				match := ReferenceSchemaOrReference
+			case "items":
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "maxItems":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "maxLength":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "maxProperties":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "maximum":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "minItems":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "minLength":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "minProperties":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "minimum":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "multipleOf":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "not":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "nullable":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "oneOf":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "pattern":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "properties":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "readOnly":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "required":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "title":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "type":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "uniqueItems":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "writeOnly":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "xml":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SchemaSchemaOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -16150,7 +16522,25 @@ func (s *SecuritySchemeOrReference) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
-			case "type":
+			case "$ref":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReferenceSecuritySchemeOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "bearerFormat":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := SecuritySchemeSecuritySchemeOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -16159,38 +16549,11 @@ func (s *SecuritySchemeOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "description":
-				match := SecuritySchemeSecuritySchemeOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "name":
-				match := SecuritySchemeSecuritySchemeOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "in":
-				match := SecuritySchemeSecuritySchemeOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "scheme":
-				match := SecuritySchemeSecuritySchemeOrReference
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "bearerFormat":
 				match := SecuritySchemeSecuritySchemeOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -16199,6 +16562,37 @@ func (s *SecuritySchemeOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "flows":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SecuritySchemeSecuritySchemeOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "in":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SecuritySchemeSecuritySchemeOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "name":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := SecuritySchemeSecuritySchemeOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -16207,6 +16601,11 @@ func (s *SecuritySchemeOrReference) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "openIdConnectUrl":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := SecuritySchemeSecuritySchemeOrReference
 				if found && s.Type != match {
 					s.Type = ""
@@ -16214,8 +16613,26 @@ func (s *SecuritySchemeOrReference) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "$ref":
-				match := ReferenceSecuritySchemeOrReference
+			case "scheme":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SecuritySchemeSecuritySchemeOrReference
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "type":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := SecuritySchemeSecuritySchemeOrReference
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -18131,6 +18548,9 @@ func (s Encodings) Validate() error {
 
 func (s Enum) Validate() error {
 	alias := ([]jx.Raw)(s)
+	if alias == nil {
+		return nil // optional
+	}
 	if err := (validate.Array{
 		MinLength:    1,
 		MinLengthSet: true,
@@ -18325,6 +18745,7 @@ func (s MultipleOf) Validate() error {
 		MaxExclusive:  false,
 		MultipleOfSet: false,
 		MultipleOf:    nil,
+		Pattern:       nil,
 	}).Validate(float64(alias)); err != nil {
 		return errors.Wrap(err, "float")
 	}
@@ -18827,6 +19248,7 @@ func (s PositiveInteger) Validate() error {
 		MaxExclusive:  false,
 		MultipleOfSet: false,
 		MultipleOf:    0,
+		Pattern:       nil,
 	}).Validate(int64(alias)); err != nil {
 		return errors.Wrap(err, "int")
 	}
@@ -19248,6 +19670,9 @@ func (s *Schema) Validate() error {
 		})
 	}
 	if err := func() error {
+		if s.AllOf == nil {
+			return nil // optional
+		}
 		if err := (validate.Array{
 			MinLength:    1,
 			MinLengthSet: true,
@@ -19281,6 +19706,9 @@ func (s *Schema) Validate() error {
 		})
 	}
 	if err := func() error {
+		if s.OneOf == nil {
+			return nil // optional
+		}
 		if err := (validate.Array{
 			MinLength:    1,
 			MinLengthSet: true,
@@ -19314,6 +19742,9 @@ func (s *Schema) Validate() error {
 		})
 	}
 	if err := func() error {
+		if s.AnyOf == nil {
+			return nil // optional
+		}
 		if err := (validate.Array{
 			MinLength:    1,
 			MinLengthSet: true,
@@ -19610,6 +20041,9 @@ func (s *Spec) Validate() error {
 
 func (s StringArray) Validate() error {
 	alias := ([]string)(s)
+	if alias == nil {
+		return nil // optional
+	}
 	if err := (validate.Array{
 		MinLength:    1,
 		MinLengthSet: true,

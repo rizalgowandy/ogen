@@ -8,16 +8,29 @@ import (
 	"time"
 
 	"github.com/go-faster/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
-	"go.opentelemetry.io/otel/trace"
-
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
+	"go.opentelemetry.io/otel/trace"
 )
+
+type codeRecorder struct {
+	http.ResponseWriter
+	status int
+}
+
+func (c *codeRecorder) WriteHeader(status int) {
+	c.status = status
+	c.ResponseWriter.WriteHeader(status)
+}
+
+func (c *codeRecorder) Unwrap() http.ResponseWriter {
+	return c.ResponseWriter
+}
 
 // handleAPICaptcha2chcaptchaIDGetRequest handles GET /api/captcha/2chcaptcha/id operation.
 //
@@ -25,13 +38,17 @@ import (
 //
 // GET /api/captcha/2chcaptcha/id
 func (s *Server) handleAPICaptcha2chcaptchaIDGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/captcha/2chcaptcha/id"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APICaptcha2chcaptchaIDGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APICaptcha2chcaptchaIDGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -45,24 +62,48 @@ func (s *Server) handleAPICaptcha2chcaptchaIDGetRequest(args [0]string, argsEsca
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "APICaptcha2chcaptchaIDGet",
+			Name: APICaptcha2chcaptchaIDGetOperation,
 			ID:   "",
 		}
 	)
@@ -77,14 +118,17 @@ func (s *Server) handleAPICaptcha2chcaptchaIDGetRequest(args [0]string, argsEsca
 		return
 	}
 
+	var rawBody []byte
+
 	var response *Captcha
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APICaptcha2chcaptchaIDGet",
+			OperationName:    APICaptcha2chcaptchaIDGetOperation,
 			OperationSummary: "Получение ид для использования 2chcaptcha.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "board",
@@ -140,13 +184,17 @@ func (s *Server) handleAPICaptcha2chcaptchaIDGetRequest(args [0]string, argsEsca
 //
 // GET /api/captcha/2chcaptcha/show
 func (s *Server) handleAPICaptcha2chcaptchaShowGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/captcha/2chcaptcha/show"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APICaptcha2chcaptchaShowGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APICaptcha2chcaptchaShowGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -160,24 +208,48 @@ func (s *Server) handleAPICaptcha2chcaptchaShowGetRequest(args [0]string, argsEs
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "APICaptcha2chcaptchaShowGet",
+			Name: APICaptcha2chcaptchaShowGetOperation,
 			ID:   "",
 		}
 	)
@@ -192,14 +264,17 @@ func (s *Server) handleAPICaptcha2chcaptchaShowGetRequest(args [0]string, argsEs
 		return
 	}
 
+	var rawBody []byte
+
 	var response APICaptcha2chcaptchaShowGetRes
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APICaptcha2chcaptchaShowGet",
+			OperationName:    APICaptcha2chcaptchaShowGetOperation,
 			OperationSummary: "Отображение 2chcaptcha по id.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "id",
@@ -248,20 +323,22 @@ func (s *Server) handleAPICaptcha2chcaptchaShowGetRequest(args [0]string, argsEs
 // handleAPICaptchaAppIDPublicKeyGetRequest handles GET /api/captcha/app/id/{public_key} operation.
 //
 // Полученный id вам нужно отправить вместе с постом как
-// app_response_id.
-// При этом нужно отправить app_response = sha256(app_response_id + '|' +
-// private key).
-// Срок жизни id: 180 секунд.
+// app_response_id. При этом нужно отправить app_response = sha256(app_response_id
+// + '|' + private key). Срок жизни id: 180 секунд.
 //
 // GET /api/captcha/app/id/{public_key}
 func (s *Server) handleAPICaptchaAppIDPublicKeyGetRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/captcha/app/id/{public_key}"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APICaptchaAppIDPublicKeyGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APICaptchaAppIDPublicKeyGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -275,24 +352,48 @@ func (s *Server) handleAPICaptchaAppIDPublicKeyGetRequest(args [1]string, argsEs
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "APICaptchaAppIDPublicKeyGet",
+			Name: APICaptchaAppIDPublicKeyGetOperation,
 			ID:   "",
 		}
 	)
@@ -307,14 +408,17 @@ func (s *Server) handleAPICaptchaAppIDPublicKeyGetRequest(args [1]string, argsEs
 		return
 	}
 
+	var rawBody []byte
+
 	var response *Captcha
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APICaptchaAppIDPublicKeyGet",
+			OperationName:    APICaptchaAppIDPublicKeyGetOperation,
 			OperationSummary: "Получение app_response_id для отправки поста.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "public_key",
@@ -374,13 +478,17 @@ func (s *Server) handleAPICaptchaAppIDPublicKeyGetRequest(args [1]string, argsEs
 //
 // GET /api/captcha/invisible_recaptcha/id
 func (s *Server) handleAPICaptchaInvisibleRecaptchaIDGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/captcha/invisible_recaptcha/id"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APICaptchaInvisibleRecaptchaIDGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APICaptchaInvisibleRecaptchaIDGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -394,24 +502,48 @@ func (s *Server) handleAPICaptchaInvisibleRecaptchaIDGetRequest(args [0]string, 
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "APICaptchaInvisibleRecaptchaIDGet",
+			Name: APICaptchaInvisibleRecaptchaIDGetOperation,
 			ID:   "",
 		}
 	)
@@ -426,14 +558,17 @@ func (s *Server) handleAPICaptchaInvisibleRecaptchaIDGetRequest(args [0]string, 
 		return
 	}
 
+	var rawBody []byte
+
 	var response *Captcha
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APICaptchaInvisibleRecaptchaIDGet",
+			OperationName:    APICaptchaInvisibleRecaptchaIDGetOperation,
 			OperationSummary: "Получение публичного ключа invisible recaptcha.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "board",
@@ -489,13 +624,17 @@ func (s *Server) handleAPICaptchaInvisibleRecaptchaIDGetRequest(args [0]string, 
 //
 // GET /api/captcha/invisible_recaptcha/mobile
 func (s *Server) handleAPICaptchaInvisibleRecaptchaMobileGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/captcha/invisible_recaptcha/mobile"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APICaptchaInvisibleRecaptchaMobileGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APICaptchaInvisibleRecaptchaMobileGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -509,32 +648,59 @@ func (s *Server) handleAPICaptchaInvisibleRecaptchaMobileGetRequest(args [0]stri
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err error
 	)
+
+	var rawBody []byte
 
 	var response *APICaptchaInvisibleRecaptchaMobileGetOK
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APICaptchaInvisibleRecaptchaMobileGet",
+			OperationName:    APICaptchaInvisibleRecaptchaMobileGetOperation,
 			OperationSummary: "Получение html страницы для решения капчи, CORS отключён.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -581,13 +747,17 @@ func (s *Server) handleAPICaptchaInvisibleRecaptchaMobileGetRequest(args [0]stri
 //
 // GET /api/captcha/recaptcha/id
 func (s *Server) handleAPICaptchaRecaptchaIDGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/captcha/recaptcha/id"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APICaptchaRecaptchaIDGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APICaptchaRecaptchaIDGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -601,24 +771,48 @@ func (s *Server) handleAPICaptchaRecaptchaIDGetRequest(args [0]string, argsEscap
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "APICaptchaRecaptchaIDGet",
+			Name: APICaptchaRecaptchaIDGetOperation,
 			ID:   "",
 		}
 	)
@@ -633,14 +827,17 @@ func (s *Server) handleAPICaptchaRecaptchaIDGetRequest(args [0]string, argsEscap
 		return
 	}
 
+	var rawBody []byte
+
 	var response *Captcha
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APICaptchaRecaptchaIDGet",
+			OperationName:    APICaptchaRecaptchaIDGetOperation,
 			OperationSummary: "Получение публичного ключа recaptcha v2.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "board",
@@ -696,13 +893,17 @@ func (s *Server) handleAPICaptchaRecaptchaIDGetRequest(args [0]string, argsEscap
 //
 // GET /api/captcha/recaptcha/mobile
 func (s *Server) handleAPICaptchaRecaptchaMobileGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/captcha/recaptcha/mobile"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APICaptchaRecaptchaMobileGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APICaptchaRecaptchaMobileGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -716,32 +917,59 @@ func (s *Server) handleAPICaptchaRecaptchaMobileGetRequest(args [0]string, argsE
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err error
 	)
+
+	var rawBody []byte
 
 	var response *APICaptchaRecaptchaMobileGetOK
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APICaptchaRecaptchaMobileGet",
+			OperationName:    APICaptchaRecaptchaMobileGetOperation,
 			OperationSummary: "Получение html страницы для решения капчи, CORS отключён.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -788,13 +1016,17 @@ func (s *Server) handleAPICaptchaRecaptchaMobileGetRequest(args [0]string, argsE
 //
 // GET /api/dislike
 func (s *Server) handleAPIDislikeGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/dislike"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APIDislikeGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APIDislikeGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -808,24 +1040,48 @@ func (s *Server) handleAPIDislikeGetRequest(args [0]string, argsEscaped bool, w 
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "APIDislikeGet",
+			Name: APIDislikeGetOperation,
 			ID:   "",
 		}
 	)
@@ -840,14 +1096,17 @@ func (s *Server) handleAPIDislikeGetRequest(args [0]string, argsEscaped bool, w 
 		return
 	}
 
+	var rawBody []byte
+
 	var response *Like
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APIDislikeGet",
+			OperationName:    APIDislikeGetOperation,
 			OperationSummary: "Добавление дизлайка на пост.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "board",
@@ -903,13 +1162,17 @@ func (s *Server) handleAPIDislikeGetRequest(args [0]string, argsEscaped bool, w 
 //
 // GET /api/like
 func (s *Server) handleAPILikeGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/like"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APILikeGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APILikeGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -923,24 +1186,48 @@ func (s *Server) handleAPILikeGetRequest(args [0]string, argsEscaped bool, w htt
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "APILikeGet",
+			Name: APILikeGetOperation,
 			ID:   "",
 		}
 	)
@@ -955,14 +1242,17 @@ func (s *Server) handleAPILikeGetRequest(args [0]string, argsEscaped bool, w htt
 		return
 	}
 
+	var rawBody []byte
+
 	var response *Like
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APILikeGet",
+			OperationName:    APILikeGetOperation,
 			OperationSummary: "Добавление лайка на пост.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "board",
@@ -1020,13 +1310,17 @@ func (s *Server) handleAPILikeGetRequest(args [0]string, argsEscaped bool, w htt
 //
 // GET /api/mobile/v2/after/{board}/{thread}/{num}
 func (s *Server) handleAPIMobileV2AfterBoardThreadNumGetRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/mobile/v2/after/{board}/{thread}/{num}"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APIMobileV2AfterBoardThreadNumGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APIMobileV2AfterBoardThreadNumGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -1040,24 +1334,48 @@ func (s *Server) handleAPIMobileV2AfterBoardThreadNumGetRequest(args [3]string, 
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "APIMobileV2AfterBoardThreadNumGet",
+			Name: APIMobileV2AfterBoardThreadNumGetOperation,
 			ID:   "",
 		}
 	)
@@ -1072,14 +1390,17 @@ func (s *Server) handleAPIMobileV2AfterBoardThreadNumGetRequest(args [3]string, 
 		return
 	}
 
+	var rawBody []byte
+
 	var response *MobileThreadPostsAfter
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APIMobileV2AfterBoardThreadNumGet",
+			OperationName:    APIMobileV2AfterBoardThreadNumGetOperation,
 			OperationSummary: "Получение постов в треде >= указанного. Не рекомендуется использовать для получения треда целиком, только для проверки новых постов.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "board",
@@ -1139,13 +1460,17 @@ func (s *Server) handleAPIMobileV2AfterBoardThreadNumGetRequest(args [3]string, 
 //
 // GET /api/mobile/v2/boards
 func (s *Server) handleAPIMobileV2BoardsGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/mobile/v2/boards"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APIMobileV2BoardsGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APIMobileV2BoardsGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -1159,32 +1484,59 @@ func (s *Server) handleAPIMobileV2BoardsGetRequest(args [0]string, argsEscaped b
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err error
 	)
+
+	var rawBody []byte
 
 	var response Boards
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APIMobileV2BoardsGet",
+			OperationName:    APIMobileV2BoardsGetOperation,
 			OperationSummary: "Получение списка досок и их настроек.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -1231,13 +1583,17 @@ func (s *Server) handleAPIMobileV2BoardsGetRequest(args [0]string, argsEscaped b
 //
 // GET /api/mobile/v2/info/{board}/{thread}
 func (s *Server) handleAPIMobileV2InfoBoardThreadGetRequest(args [2]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/mobile/v2/info/{board}/{thread}"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APIMobileV2InfoBoardThreadGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APIMobileV2InfoBoardThreadGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -1251,24 +1607,48 @@ func (s *Server) handleAPIMobileV2InfoBoardThreadGetRequest(args [2]string, args
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "APIMobileV2InfoBoardThreadGet",
+			Name: APIMobileV2InfoBoardThreadGetOperation,
 			ID:   "",
 		}
 	)
@@ -1283,14 +1663,17 @@ func (s *Server) handleAPIMobileV2InfoBoardThreadGetRequest(args [2]string, args
 		return
 	}
 
+	var rawBody []byte
+
 	var response *MobileThreadLastInfo
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APIMobileV2InfoBoardThreadGet",
+			OperationName:    APIMobileV2InfoBoardThreadGetOperation,
 			OperationSummary: "Получение информации о треде.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "board",
@@ -1346,13 +1729,17 @@ func (s *Server) handleAPIMobileV2InfoBoardThreadGetRequest(args [2]string, args
 //
 // GET /api/mobile/v2/post/{board}/{num}
 func (s *Server) handleAPIMobileV2PostBoardNumGetRequest(args [2]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/mobile/v2/post/{board}/{num}"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "APIMobileV2PostBoardNumGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), APIMobileV2PostBoardNumGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -1366,24 +1753,48 @@ func (s *Server) handleAPIMobileV2PostBoardNumGetRequest(args [2]string, argsEsc
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "APIMobileV2PostBoardNumGet",
+			Name: APIMobileV2PostBoardNumGetOperation,
 			ID:   "",
 		}
 	)
@@ -1398,14 +1809,17 @@ func (s *Server) handleAPIMobileV2PostBoardNumGetRequest(args [2]string, argsEsc
 		return
 	}
 
+	var rawBody []byte
+
 	var response *MobilePost
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "APIMobileV2PostBoardNumGet",
+			OperationName:    APIMobileV2PostBoardNumGetOperation,
 			OperationSummary: "Получение информации о посте.",
 			OperationID:      "",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "board",
@@ -1461,13 +1875,17 @@ func (s *Server) handleAPIMobileV2PostBoardNumGetRequest(args [2]string, argsEsc
 //
 // POST /user/passlogin
 func (s *Server) handleUserPassloginPostRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/user/passlogin"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "UserPassloginPost",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), UserPassloginPostOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -1481,24 +1899,48 @@ func (s *Server) handleUserPassloginPostRequest(args [0]string, argsEscaped bool
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "UserPassloginPost",
+			Name: UserPassloginPostOperation,
 			ID:   "",
 		}
 	)
@@ -1512,7 +1954,9 @@ func (s *Server) handleUserPassloginPostRequest(args [0]string, argsEscaped bool
 		s.cfg.ErrorHandler(ctx, w, r, err)
 		return
 	}
-	request, close, err := s.decodeUserPassloginPostRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeUserPassloginPostRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -1532,10 +1976,11 @@ func (s *Server) handleUserPassloginPostRequest(args [0]string, argsEscaped bool
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "UserPassloginPost",
+			OperationName:    UserPassloginPostOperation,
 			OperationSummary: "Авторизация пасскода.",
 			OperationID:      "",
 			Body:             request,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "json",
@@ -1587,13 +2032,17 @@ func (s *Server) handleUserPassloginPostRequest(args [0]string, argsEscaped bool
 //
 // POST /user/posting
 func (s *Server) handleUserPostingPostRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/user/posting"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "UserPostingPost",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), UserPostingPostOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -1607,28 +2056,54 @@ func (s *Server) handleUserPostingPostRequest(args [0]string, argsEscaped bool, 
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "UserPostingPost",
+			Name: UserPostingPostOperation,
 			ID:   "",
 		}
 	)
-	request, close, err := s.decodeUserPostingPostRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeUserPostingPostRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -1648,10 +2123,11 @@ func (s *Server) handleUserPostingPostRequest(args [0]string, argsEscaped bool, 
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "UserPostingPost",
+			OperationName:    UserPostingPostOperation,
 			OperationSummary: "Создание нового поста или треда.",
 			OperationID:      "",
 			Body:             request,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -1698,13 +2174,17 @@ func (s *Server) handleUserPostingPostRequest(args [0]string, argsEscaped bool, 
 //
 // POST /user/report
 func (s *Server) handleUserReportPostRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/user/report"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "UserReportPost",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), UserReportPostOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -1718,28 +2198,54 @@ func (s *Server) handleUserReportPostRequest(args [0]string, argsEscaped bool, w
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "UserReportPost",
+			Name: UserReportPostOperation,
 			ID:   "",
 		}
 	)
-	request, close, err := s.decodeUserReportPostRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeUserReportPostRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -1759,10 +2265,11 @@ func (s *Server) handleUserReportPostRequest(args [0]string, argsEscaped bool, w
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "UserReportPost",
+			OperationName:    UserReportPostOperation,
 			OperationSummary: "Отправка жалобы.",
 			OperationID:      "",
 			Body:             request,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}

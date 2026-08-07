@@ -8,24 +8,23 @@ import (
 	"strings"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/ogenerrors"
 )
 
 // SecurityHandler is handler for security parameters.
 type SecurityHandler interface {
 	// HandleBasicAuth handles basicAuth security.
-	HandleBasicAuth(ctx context.Context, operationName string, t BasicAuth) (context.Context, error)
+	HandleBasicAuth(ctx context.Context, operationName OperationName, t BasicAuth) (context.Context, error)
 	// HandleBearerToken handles bearerToken security.
-	HandleBearerToken(ctx context.Context, operationName string, t BearerToken) (context.Context, error)
+	HandleBearerToken(ctx context.Context, operationName OperationName, t BearerToken) (context.Context, error)
 	// HandleCookieKey handles cookieKey security.
-	HandleCookieKey(ctx context.Context, operationName string, t CookieKey) (context.Context, error)
+	HandleCookieKey(ctx context.Context, operationName OperationName, t CookieKey) (context.Context, error)
 	// HandleCustom handles custom security.
-	HandleCustom(ctx context.Context, operationName string, req *http.Request) (context.Context, error)
+	HandleCustom(ctx context.Context, operationName OperationName, t Custom) (context.Context, error)
 	// HandleHeaderKey handles headerKey security.
-	HandleHeaderKey(ctx context.Context, operationName string, t HeaderKey) (context.Context, error)
+	HandleHeaderKey(ctx context.Context, operationName OperationName, t HeaderKey) (context.Context, error)
 	// HandleQueryKey handles queryKey security.
-	HandleQueryKey(ctx context.Context, operationName string, t QueryKey) (context.Context, error)
+	HandleQueryKey(ctx context.Context, operationName OperationName, t QueryKey) (context.Context, error)
 }
 
 func findAuthorization(h http.Header, prefix string) (string, bool) {
@@ -43,7 +42,168 @@ func findAuthorization(h http.Header, prefix string) (string, bool) {
 	return "", false
 }
 
-func (s *Server) securityBasicAuth(ctx context.Context, operationName string, req *http.Request) (context.Context, bool, error) {
+// operationRolesBasicAuth is a private map storing roles per operation.
+var operationRolesBasicAuth = map[string][]string{
+	DisjointSecurityOperation:  []string{},
+	IntersectSecurityOperation: []string{},
+}
+
+// GetRolesForBasicAuth returns the required roles for the given operation.
+//
+// This is useful for authorization scenarios where you need to know which roles
+// are required for an operation.
+//
+// Example:
+//
+//	requiredRoles := GetRolesForBasicAuth(AddPetOperation)
+//
+// Returns nil if the operation has no role requirements or if the operation is unknown.
+func GetRolesForBasicAuth(operation string) []string {
+	roles, ok := operationRolesBasicAuth[operation]
+	if !ok {
+		return nil
+	}
+	// Return a copy to prevent external modification
+	result := make([]string, len(roles))
+	copy(result, roles)
+	return result
+}
+
+// operationRolesBearerToken is a private map storing roles per operation.
+var operationRolesBearerToken = map[string][]string{
+	IntersectSecurityOperation: []string{},
+}
+
+// GetRolesForBearerToken returns the required roles for the given operation.
+//
+// This is useful for authorization scenarios where you need to know which roles
+// are required for an operation.
+//
+// Example:
+//
+//	requiredRoles := GetRolesForBearerToken(AddPetOperation)
+//
+// Returns nil if the operation has no role requirements or if the operation is unknown.
+func GetRolesForBearerToken(operation string) []string {
+	roles, ok := operationRolesBearerToken[operation]
+	if !ok {
+		return nil
+	}
+	// Return a copy to prevent external modification
+	result := make([]string, len(roles))
+	copy(result, roles)
+	return result
+}
+
+// operationRolesCookieKey is a private map storing roles per operation.
+var operationRolesCookieKey = map[string][]string{
+	DisjointSecurityOperation: []string{},
+}
+
+// GetRolesForCookieKey returns the required roles for the given operation.
+//
+// This is useful for authorization scenarios where you need to know which roles
+// are required for an operation.
+//
+// Example:
+//
+//	requiredRoles := GetRolesForCookieKey(AddPetOperation)
+//
+// Returns nil if the operation has no role requirements or if the operation is unknown.
+func GetRolesForCookieKey(operation string) []string {
+	roles, ok := operationRolesCookieKey[operation]
+	if !ok {
+		return nil
+	}
+	// Return a copy to prevent external modification
+	result := make([]string, len(roles))
+	copy(result, roles)
+	return result
+}
+
+// operationRolesCustom is a private map storing roles per operation.
+var operationRolesCustom = map[string][]string{
+	CustomSecurityOperation: []string{},
+}
+
+// GetRolesForCustom returns the required roles for the given operation.
+//
+// This is useful for authorization scenarios where you need to know which roles
+// are required for an operation.
+//
+// Example:
+//
+//	requiredRoles := GetRolesForCustom(AddPetOperation)
+//
+// Returns nil if the operation has no role requirements or if the operation is unknown.
+func GetRolesForCustom(operation string) []string {
+	roles, ok := operationRolesCustom[operation]
+	if !ok {
+		return nil
+	}
+	// Return a copy to prevent external modification
+	result := make([]string, len(roles))
+	copy(result, roles)
+	return result
+}
+
+// operationRolesHeaderKey is a private map storing roles per operation.
+var operationRolesHeaderKey = map[string][]string{
+	DisjointSecurityOperation:  []string{},
+	IntersectSecurityOperation: []string{},
+}
+
+// GetRolesForHeaderKey returns the required roles for the given operation.
+//
+// This is useful for authorization scenarios where you need to know which roles
+// are required for an operation.
+//
+// Example:
+//
+//	requiredRoles := GetRolesForHeaderKey(AddPetOperation)
+//
+// Returns nil if the operation has no role requirements or if the operation is unknown.
+func GetRolesForHeaderKey(operation string) []string {
+	roles, ok := operationRolesHeaderKey[operation]
+	if !ok {
+		return nil
+	}
+	// Return a copy to prevent external modification
+	result := make([]string, len(roles))
+	copy(result, roles)
+	return result
+}
+
+// operationRolesQueryKey is a private map storing roles per operation.
+var operationRolesQueryKey = map[string][]string{
+	DisjointSecurityOperation: []string{},
+	OptionalSecurityOperation: []string{
+		"admin",
+	},
+}
+
+// GetRolesForQueryKey returns the required roles for the given operation.
+//
+// This is useful for authorization scenarios where you need to know which roles
+// are required for an operation.
+//
+// Example:
+//
+//	requiredRoles := GetRolesForQueryKey(AddPetOperation)
+//
+// Returns nil if the operation has no role requirements or if the operation is unknown.
+func GetRolesForQueryKey(operation string) []string {
+	roles, ok := operationRolesQueryKey[operation]
+	if !ok {
+		return nil
+	}
+	// Return a copy to prevent external modification
+	result := make([]string, len(roles))
+	copy(result, roles)
+	return result
+}
+
+func (s *Server) securityBasicAuth(ctx context.Context, operationName OperationName, req *http.Request) (context.Context, bool, error) {
 	var t BasicAuth
 	if _, ok := findAuthorization(req.Header, "Basic"); !ok {
 		return ctx, false, nil
@@ -54,6 +214,7 @@ func (s *Server) securityBasicAuth(ctx context.Context, operationName string, re
 	}
 	t.Username = username
 	t.Password = password
+	t.Roles = operationRolesBasicAuth[operationName]
 	rctx, err := s.sec.HandleBasicAuth(ctx, operationName, t)
 	if errors.Is(err, ogenerrors.ErrSkipServerSecurity) {
 		return nil, false, nil
@@ -62,13 +223,15 @@ func (s *Server) securityBasicAuth(ctx context.Context, operationName string, re
 	}
 	return rctx, true, err
 }
-func (s *Server) securityBearerToken(ctx context.Context, operationName string, req *http.Request) (context.Context, bool, error) {
+
+func (s *Server) securityBearerToken(ctx context.Context, operationName OperationName, req *http.Request) (context.Context, bool, error) {
 	var t BearerToken
 	token, ok := findAuthorization(req.Header, "Bearer")
 	if !ok {
 		return ctx, false, nil
 	}
 	t.Token = token
+	t.Roles = operationRolesBearerToken[operationName]
 	rctx, err := s.sec.HandleBearerToken(ctx, operationName, t)
 	if errors.Is(err, ogenerrors.ErrSkipServerSecurity) {
 		return nil, false, nil
@@ -77,7 +240,8 @@ func (s *Server) securityBearerToken(ctx context.Context, operationName string, 
 	}
 	return rctx, true, err
 }
-func (s *Server) securityCookieKey(ctx context.Context, operationName string, req *http.Request) (context.Context, bool, error) {
+
+func (s *Server) securityCookieKey(ctx context.Context, operationName OperationName, req *http.Request) (context.Context, bool, error) {
 	var t CookieKey
 	const parameterName = "api_key"
 	var value string
@@ -90,6 +254,7 @@ func (s *Server) securityCookieKey(ctx context.Context, operationName string, re
 		return nil, false, errors.Wrap(err, "get cookie value")
 	}
 	t.APIKey = value
+	t.Roles = operationRolesCookieKey[operationName]
 	rctx, err := s.sec.HandleCookieKey(ctx, operationName, t)
 	if errors.Is(err, ogenerrors.ErrSkipServerSecurity) {
 		return nil, false, nil
@@ -98,8 +263,11 @@ func (s *Server) securityCookieKey(ctx context.Context, operationName string, re
 	}
 	return rctx, true, err
 }
-func (s *Server) securityCustom(ctx context.Context, operationName string, req *http.Request) (context.Context, bool, error) {
-	t := req
+
+func (s *Server) securityCustom(ctx context.Context, operationName OperationName, req *http.Request) (context.Context, bool, error) {
+	var t Custom
+	t.Request = req
+	t.Roles = operationRolesCustom[operationName]
 	rctx, err := s.sec.HandleCustom(ctx, operationName, t)
 	if errors.Is(err, ogenerrors.ErrSkipServerSecurity) {
 		return nil, false, nil
@@ -108,7 +276,8 @@ func (s *Server) securityCustom(ctx context.Context, operationName string, req *
 	}
 	return rctx, true, err
 }
-func (s *Server) securityHeaderKey(ctx context.Context, operationName string, req *http.Request) (context.Context, bool, error) {
+
+func (s *Server) securityHeaderKey(ctx context.Context, operationName OperationName, req *http.Request) (context.Context, bool, error) {
 	var t HeaderKey
 	const parameterName = "X-Api-Key"
 	value := req.Header.Get(parameterName)
@@ -116,6 +285,7 @@ func (s *Server) securityHeaderKey(ctx context.Context, operationName string, re
 		return ctx, false, nil
 	}
 	t.APIKey = value
+	t.Roles = operationRolesHeaderKey[operationName]
 	rctx, err := s.sec.HandleHeaderKey(ctx, operationName, t)
 	if errors.Is(err, ogenerrors.ErrSkipServerSecurity) {
 		return nil, false, nil
@@ -124,7 +294,8 @@ func (s *Server) securityHeaderKey(ctx context.Context, operationName string, re
 	}
 	return rctx, true, err
 }
-func (s *Server) securityQueryKey(ctx context.Context, operationName string, req *http.Request) (context.Context, bool, error) {
+
+func (s *Server) securityQueryKey(ctx context.Context, operationName OperationName, req *http.Request) (context.Context, bool, error) {
 	var t QueryKey
 	const parameterName = "api_key"
 	q := req.URL.Query()
@@ -133,6 +304,7 @@ func (s *Server) securityQueryKey(ctx context.Context, operationName string, req
 	}
 	value := q.Get(parameterName)
 	t.APIKey = value
+	t.Roles = operationRolesQueryKey[operationName]
 	rctx, err := s.sec.HandleQueryKey(ctx, operationName, t)
 	if errors.Is(err, ogenerrors.ErrSkipServerSecurity) {
 		return nil, false, nil
@@ -145,20 +317,20 @@ func (s *Server) securityQueryKey(ctx context.Context, operationName string, req
 // SecuritySource is provider of security values (tokens, passwords, etc.).
 type SecuritySource interface {
 	// BasicAuth provides basicAuth security value.
-	BasicAuth(ctx context.Context, operationName string) (BasicAuth, error)
+	BasicAuth(ctx context.Context, operationName OperationName) (BasicAuth, error)
 	// BearerToken provides bearerToken security value.
-	BearerToken(ctx context.Context, operationName string) (BearerToken, error)
+	BearerToken(ctx context.Context, operationName OperationName) (BearerToken, error)
 	// CookieKey provides cookieKey security value.
-	CookieKey(ctx context.Context, operationName string) (CookieKey, error)
+	CookieKey(ctx context.Context, operationName OperationName) (CookieKey, error)
 	// Custom provides custom security value.
-	Custom(ctx context.Context, operationName string, req *http.Request) error
+	Custom(ctx context.Context, operationName OperationName, req *http.Request) error
 	// HeaderKey provides headerKey security value.
-	HeaderKey(ctx context.Context, operationName string) (HeaderKey, error)
+	HeaderKey(ctx context.Context, operationName OperationName) (HeaderKey, error)
 	// QueryKey provides queryKey security value.
-	QueryKey(ctx context.Context, operationName string) (QueryKey, error)
+	QueryKey(ctx context.Context, operationName OperationName) (QueryKey, error)
 }
 
-func (s *Client) securityBasicAuth(ctx context.Context, operationName string, req *http.Request) error {
+func (s *Client) securityBasicAuth(ctx context.Context, operationName OperationName, req *http.Request) error {
 	t, err := s.sec.BasicAuth(ctx, operationName)
 	if err != nil {
 		return errors.Wrap(err, "security source \"BasicAuth\"")
@@ -166,7 +338,7 @@ func (s *Client) securityBasicAuth(ctx context.Context, operationName string, re
 	req.SetBasicAuth(t.Username, t.Password)
 	return nil
 }
-func (s *Client) securityBearerToken(ctx context.Context, operationName string, req *http.Request) error {
+func (s *Client) securityBearerToken(ctx context.Context, operationName OperationName, req *http.Request) error {
 	t, err := s.sec.BearerToken(ctx, operationName)
 	if err != nil {
 		return errors.Wrap(err, "security source \"BearerToken\"")
@@ -174,7 +346,7 @@ func (s *Client) securityBearerToken(ctx context.Context, operationName string, 
 	req.Header.Set("Authorization", "Bearer "+t.Token)
 	return nil
 }
-func (s *Client) securityCookieKey(ctx context.Context, operationName string, req *http.Request) error {
+func (s *Client) securityCookieKey(ctx context.Context, operationName OperationName, req *http.Request) error {
 	t, err := s.sec.CookieKey(ctx, operationName)
 	if err != nil {
 		return errors.Wrap(err, "security source \"CookieKey\"")
@@ -185,13 +357,13 @@ func (s *Client) securityCookieKey(ctx context.Context, operationName string, re
 	})
 	return nil
 }
-func (s *Client) securityCustom(ctx context.Context, operationName string, req *http.Request) error {
+func (s *Client) securityCustom(ctx context.Context, operationName OperationName, req *http.Request) error {
 	if err := s.sec.Custom(ctx, operationName, req); err != nil {
 		return errors.Wrap(err, "security source \"Custom\"")
 	}
 	return nil
 }
-func (s *Client) securityHeaderKey(ctx context.Context, operationName string, req *http.Request) error {
+func (s *Client) securityHeaderKey(ctx context.Context, operationName OperationName, req *http.Request) error {
 	t, err := s.sec.HeaderKey(ctx, operationName)
 	if err != nil {
 		return errors.Wrap(err, "security source \"HeaderKey\"")
@@ -199,7 +371,7 @@ func (s *Client) securityHeaderKey(ctx context.Context, operationName string, re
 	req.Header.Set("X-Api-Key", t.APIKey)
 	return nil
 }
-func (s *Client) securityQueryKey(ctx context.Context, operationName string, req *http.Request) error {
+func (s *Client) securityQueryKey(ctx context.Context, operationName OperationName, req *http.Request) error {
 	t, err := s.sec.QueryKey(ctx, operationName)
 	if err != nil {
 		return errors.Wrap(err, "security source \"QueryKey\"")

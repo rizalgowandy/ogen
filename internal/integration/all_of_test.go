@@ -2,6 +2,7 @@ package integration
 
 import (
 	"context"
+	"fmt"
 	"net/http/httptest"
 	"strings"
 	"testing"
@@ -37,6 +38,21 @@ func (s *allofTestServer) StringsNotype(ctx context.Context, req api.NilString) 
 	return nil
 }
 
+func (s *allofTestServer) GetFoo(_ context.Context) (*api.Foo, error) {
+	return &api.Foo{
+		ID:   "123",
+		Name: "test",
+	}, nil
+}
+
+func (s *allofTestServer) GetAdminFoo(_ context.Context) (*api.GetAdminFooOK, error) {
+	return &api.GetAdminFooOK{
+		ID:        "123",
+		Name:      "test",
+		BazStatus: api.BazStatusActive,
+	}, nil
+}
+
 func TestAllof(t *testing.T) {
 	var client *api.Client
 	{
@@ -50,15 +66,27 @@ func TestAllof(t *testing.T) {
 		require.NoError(t, err)
 	}
 
+	regexPattern := "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
+
 	ctx := context.Background()
 	t.Run("nullableStrings", func(t *testing.T) {
 		err := client.NullableStrings(ctx, api.NilString{})
-		_, ok := errors.Into[*validate.NoRegexMatchError](err)
+		regexMatchErr, ok := errors.Into[*validate.NoRegexMatchError](err)
 		require.True(t, ok, "validate: string: no regex match")
+		require.ErrorContains(
+			t,
+			regexMatchErr,
+			fmt.Sprintf("no regex match: %s", regexPattern),
+		)
 
 		err = client.NullableStrings(ctx, api.NewNilString("foo"))
-		_, ok = errors.Into[*validate.NoRegexMatchError](err)
+		regexMatchErr, ok = errors.Into[*validate.NoRegexMatchError](err)
 		require.True(t, ok, "validate: string: no regex match")
+		require.ErrorContains(
+			t,
+			regexMatchErr,
+			fmt.Sprintf("no regex match: %s", regexPattern),
+		)
 
 		err = client.NullableStrings(ctx, api.NewNilString("127.0.0.1"))
 		require.NoError(t, err)
@@ -108,6 +136,19 @@ func TestAllof(t *testing.T) {
 			Foo: "123456",
 		})
 		require.EqualError(t, err, "validate: invalid: foo (string: len 6 less than minimum 10)")
+	})
+	t.Run("getFoo", func(t *testing.T) {
+		foo, err := client.GetFoo(ctx)
+		require.NoError(t, err)
+		require.Equal(t, "123", foo.ID)
+		require.Equal(t, "test", foo.Name)
+	})
+	t.Run("getAdminFoo", func(t *testing.T) {
+		foo, err := client.GetAdminFoo(ctx)
+		require.NoError(t, err)
+		require.Equal(t, "123", foo.ID)
+		require.Equal(t, "test", foo.Name)
+		require.Equal(t, api.BazStatusActive, foo.BazStatus)
 	})
 	t.Run("objectsWithConflictingArrayProperty", func(t *testing.T) {
 		err := client.ObjectsWithConflictingArrayProperty(ctx, &api.ObjectsWithConflictingArrayPropertyReq{

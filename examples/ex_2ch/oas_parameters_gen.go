@@ -7,7 +7,6 @@ import (
 	"net/url"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -18,9 +17,9 @@ import (
 // APICaptcha2chcaptchaIDGetParams is parameters of GET /api/captcha/2chcaptcha/id operation.
 type APICaptcha2chcaptchaIDGetParams struct {
 	// ID доски, например, b.
-	Board OptString
+	Board OptString `json:",omitempty,omitzero"`
 	// Номер треда.
-	Thread OptInt
+	Thread OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAPICaptcha2chcaptchaIDGetParams(packed middleware.Parameters) (params APICaptcha2chcaptchaIDGetParams) {
@@ -132,6 +131,7 @@ func decodeAPICaptcha2chcaptchaIDGetParams(args [0]string, argsEscaped bool, r *
 							MaxExclusive:  false,
 							MultipleOfSet: false,
 							MultipleOf:    0,
+							Pattern:       nil,
 						}).Validate(int64(value)); err != nil {
 							return errors.Wrap(err, "int")
 						}
@@ -201,7 +201,7 @@ func decodeAPICaptcha2chcaptchaShowGetParams(args [0]string, argsEscaped bool, r
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -221,9 +221,9 @@ type APICaptchaAppIDPublicKeyGetParams struct {
 	// ваш клиент.
 	PublicKey string
 	// ID доски, например, b.
-	Board OptString
+	Board OptString `json:",omitempty,omitzero"`
 	// Номер треда.
-	Thread OptInt
+	Thread OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAPICaptchaAppIDPublicKeyGetParams(packed middleware.Parameters) (params APICaptchaAppIDPublicKeyGetParams) {
@@ -387,6 +387,7 @@ func decodeAPICaptchaAppIDPublicKeyGetParams(args [1]string, argsEscaped bool, r
 							MaxExclusive:  false,
 							MultipleOfSet: false,
 							MultipleOf:    0,
+							Pattern:       nil,
 						}).Validate(int64(value)); err != nil {
 							return errors.Wrap(err, "int")
 						}
@@ -414,9 +415,9 @@ func decodeAPICaptchaAppIDPublicKeyGetParams(args [1]string, argsEscaped bool, r
 // APICaptchaInvisibleRecaptchaIDGetParams is parameters of GET /api/captcha/invisible_recaptcha/id operation.
 type APICaptchaInvisibleRecaptchaIDGetParams struct {
 	// ID доски, например, b.
-	Board OptString
+	Board OptString `json:",omitempty,omitzero"`
 	// Номер треда.
-	Thread OptInt
+	Thread OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAPICaptchaInvisibleRecaptchaIDGetParams(packed middleware.Parameters) (params APICaptchaInvisibleRecaptchaIDGetParams) {
@@ -528,6 +529,7 @@ func decodeAPICaptchaInvisibleRecaptchaIDGetParams(args [0]string, argsEscaped b
 							MaxExclusive:  false,
 							MultipleOfSet: false,
 							MultipleOf:    0,
+							Pattern:       nil,
 						}).Validate(int64(value)); err != nil {
 							return errors.Wrap(err, "int")
 						}
@@ -555,9 +557,9 @@ func decodeAPICaptchaInvisibleRecaptchaIDGetParams(args [0]string, argsEscaped b
 // APICaptchaRecaptchaIDGetParams is parameters of GET /api/captcha/recaptcha/id operation.
 type APICaptchaRecaptchaIDGetParams struct {
 	// ID доски, например, b.
-	Board OptString
+	Board OptString `json:",omitempty,omitzero"`
 	// Номер треда.
-	Thread OptInt
+	Thread OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAPICaptchaRecaptchaIDGetParams(packed middleware.Parameters) (params APICaptchaRecaptchaIDGetParams) {
@@ -669,6 +671,7 @@ func decodeAPICaptchaRecaptchaIDGetParams(args [0]string, argsEscaped bool, r *h
 							MaxExclusive:  false,
 							MultipleOfSet: false,
 							MultipleOf:    0,
+							Pattern:       nil,
 						}).Validate(int64(value)); err != nil {
 							return errors.Wrap(err, "int")
 						}
@@ -747,7 +750,7 @@ func decodeAPIDislikeGetParams(args [0]string, argsEscaped bool, r *http.Request
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -792,6 +795,7 @@ func decodeAPIDislikeGetParams(args [0]string, argsEscaped bool, r *http.Request
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.Num)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -800,7 +804,7 @@ func decodeAPIDislikeGetParams(args [0]string, argsEscaped bool, r *http.Request
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -867,7 +871,7 @@ func decodeAPILikeGetParams(args [0]string, argsEscaped bool, r *http.Request) (
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -912,6 +916,7 @@ func decodeAPILikeGetParams(args [0]string, argsEscaped bool, r *http.Request) (
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.Num)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -920,7 +925,7 @@ func decodeAPILikeGetParams(args [0]string, argsEscaped bool, r *http.Request) (
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -1058,6 +1063,7 @@ func decodeAPIMobileV2AfterBoardThreadNumGetParams(args [3]string, argsEscaped b
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.Thread)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -1120,6 +1126,7 @@ func decodeAPIMobileV2AfterBoardThreadNumGetParams(args [3]string, argsEscaped b
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.Num)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -1257,6 +1264,7 @@ func decodeAPIMobileV2InfoBoardThreadGetParams(args [2]string, argsEscaped bool,
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.Thread)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -1394,6 +1402,7 @@ func decodeAPIMobileV2PostBoardNumGetParams(args [2]string, argsEscaped bool, r 
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.Num)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -1466,7 +1475,7 @@ func decodeUserPassloginPostParams(args [0]string, argsEscaped bool, r *http.Req
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {

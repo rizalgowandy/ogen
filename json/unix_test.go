@@ -25,7 +25,6 @@ func TestUnix(t *testing.T) {
 		{"Micro", EncodeUnixMicro, DecodeUnixMicro, time.UnixMicro},
 		{"Milli", EncodeUnixMilli, DecodeUnixMilli, time.UnixMilli},
 	} {
-		format := format
 		t.Run(format.name, func(t *testing.T) {
 			tests := []struct {
 				input   string
@@ -41,7 +40,6 @@ func TestUnix(t *testing.T) {
 				{`true`, 0, true},
 			}
 			for i, tt := range tests {
-				tt := tt
 				t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
 					a := require.New(t)
 					d := jx.DecodeStr(tt.input)
@@ -71,6 +69,6 @@ func TestUnix(t *testing.T) {
 func TestDecodeUnixNano(t *testing.T) {
 	got, err := DecodeUnixNano(jx.DecodeStr(`1586960586000000000`))
 	require.NoError(t, err)
-	want := time.Date(2020, 04, 15, 14, 23, 06, 0, time.UTC)
+	want := time.Date(2020, 0o4, 15, 14, 23, 0o6, 0, time.UTC)
 	require.True(t, want.Equal(got))
 }

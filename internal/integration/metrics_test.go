@@ -46,8 +46,11 @@ func (h metricsTestHandler) APIKey(ctx context.Context, operationName string) (a
 }
 
 var _ api.Handler = metricsTestHandler{}
-var _ api.SecurityHandler = metricsTestHandler{}
-var _ api.SecuritySource = metricsTestHandler{}
+
+var (
+	_ api.SecurityHandler = metricsTestHandler{}
+	_ api.SecuritySource  = metricsTestHandler{}
+)
 
 func labelerMiddleware(req middleware.Request, next middleware.Next) (middleware.Response, error) {
 	labeler, _ := api.LabelerFromContext(req.Context)
@@ -115,6 +118,7 @@ func TestServerMetrics(t *testing.T) {
 									attribute.String("oas.operation", "petNameByID"),
 									attribute.String("http.request.method", "GET"),
 									attribute.String("http.route", "/pet/name/{id}"),
+									attribute.Int("http.response.status_code", 200),
 								),
 							},
 						},
@@ -133,6 +137,7 @@ func TestServerMetrics(t *testing.T) {
 									attribute.String("oas.operation", "petNameByID"),
 									attribute.String("http.request.method", "GET"),
 									attribute.String("http.route", "/pet/name/{id}"),
+									attribute.Int("http.response.status_code", 200),
 								),
 							},
 						},
@@ -162,6 +167,7 @@ func TestServerMetrics(t *testing.T) {
 									attribute.String("oas.operation", "petGetByName"),
 									attribute.String("http.request.method", "GET"),
 									attribute.String("http.route", "/pet/{name}"),
+									attribute.Int("http.response.status_code", 500),
 								),
 							},
 						},
@@ -180,6 +186,7 @@ func TestServerMetrics(t *testing.T) {
 									attribute.String("oas.operation", "petGetByName"),
 									attribute.String("http.request.method", "GET"),
 									attribute.String("http.route", "/pet/{name}"),
+									attribute.Int("http.response.status_code", 500),
 								),
 							},
 						},
@@ -197,6 +204,7 @@ func TestServerMetrics(t *testing.T) {
 									attribute.String("oas.operation", "petGetByName"),
 									attribute.String("http.request.method", "GET"),
 									attribute.String("http.route", "/pet/{name}"),
+									attribute.Int("http.response.status_code", 500),
 								),
 							},
 						},
@@ -229,6 +237,7 @@ func TestServerMetrics(t *testing.T) {
 									attribute.String("http.request.method", "GET"),
 									attribute.String("http.route", "/pet/name/{id}"),
 									attribute.Int("pet_id", 1),
+									attribute.Int("http.response.status_code", 200),
 								),
 							},
 						},
@@ -248,6 +257,7 @@ func TestServerMetrics(t *testing.T) {
 									attribute.String("http.request.method", "GET"),
 									attribute.String("http.route", "/pet/name/{id}"),
 									attribute.Int("pet_id", 1),
+									attribute.Int("http.response.status_code", 200),
 								),
 							},
 						},
@@ -281,6 +291,7 @@ func TestServerMetrics(t *testing.T) {
 									attribute.String("http.route", "/pet/{name}"),
 									attribute.String("pet_name", "Fluffy"),
 									attribute.String("error.type", "timeout"),
+									attribute.Int("http.response.status_code", 500),
 								),
 							},
 						},
@@ -301,6 +312,7 @@ func TestServerMetrics(t *testing.T) {
 									attribute.String("http.route", "/pet/{name}"),
 									attribute.String("pet_name", "Fluffy"),
 									attribute.String("error.type", "timeout"),
+									attribute.Int("http.response.status_code", 500),
 								),
 							},
 						},
@@ -320,6 +332,7 @@ func TestServerMetrics(t *testing.T) {
 									attribute.String("http.route", "/pet/{name}"),
 									attribute.String("pet_name", "Fluffy"),
 									attribute.String("error.type", "timeout"),
+									attribute.Int("http.response.status_code", 500),
 								),
 							},
 						},
@@ -391,6 +404,130 @@ func TestServerMetrics(t *testing.T) {
 	}
 }
 
+func TestServerMetricsWithAttributes(t *testing.T) {
+	// This test verifies that WithAttributes() adds custom attributes to ALL metrics,
+	// including validation error metrics (400 Bad Request).
+	//
+	// Before the fix, custom attributes from WithAttributes() were not added to the Labeler,
+	// so they were missing from error metrics when validation failed before middleware ran.
+	ctx := context.Background()
+
+	reader := sdkmetric.NewManualReader()
+	mp := sdkmetric.NewMeterProvider(
+		sdkmetric.WithReader(reader),
+	)
+	defer func() {
+		err := mp.Shutdown(ctx)
+		assert.NoError(t, err)
+	}()
+
+	handler := metricsTestHandler{}
+	h, err := api.NewServer(handler, handler,
+		api.WithMeterProvider(mp),
+		// This is the key: WithAttributes should add "server_name" to ALL metrics
+		api.WithAttributes(attribute.String("server_name", "test-server")),
+	)
+	require.NoError(t, err)
+
+	s := httptest.NewServer(h)
+	defer s.Close()
+
+	// Send a request with invalid parameter to trigger DecodeParams error (400)
+	// The endpoint /pet/name/{id} expects an integer, but we send "invalid"
+	resp, err := http.Get(s.URL + "/pet/name/invalid")
+	require.NoError(t, err)
+	defer resp.Body.Close()
+	assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
+
+	// Check that metrics include our custom "server_name" attribute
+	var rm metricdata.ResourceMetrics
+	err = reader.Collect(ctx, &rm)
+	require.NoError(t, err)
+
+	expected := metricdata.ResourceMetrics{
+		Resource: resource.Default(),
+		ScopeMetrics: []metricdata.ScopeMetrics{
+			{
+				Scope: instrumentation.Scope{
+					Name:    otelogen.Name,
+					Version: otelogen.SemVersion(),
+				},
+				Metrics: []metricdata.Metrics{
+					{
+						Name:        "ogen.server.request_count",
+						Description: "Incoming request count total",
+						Unit:        "{count}",
+						Data: metricdata.Sum[int64]{
+							DataPoints: []metricdata.DataPoint[int64]{
+								{
+									Attributes: attribute.NewSet(
+										attribute.String("oas.operation", "petNameByID"),
+										attribute.String("http.request.method", "GET"),
+										attribute.String("http.route", "/pet/name/{id}"),
+										// Custom attribute from WithAttributes - must be present!
+										attribute.String("server_name", "test-server"),
+										attribute.Int("http.response.status_code", 400),
+									),
+								},
+							},
+							Temporality: metricdata.CumulativeTemporality,
+							IsMonotonic: true,
+						},
+					},
+					{
+						Name:        "ogen.server.duration",
+						Description: "Incoming end to end duration",
+						Unit:        "ms",
+						Data: metricdata.Histogram[float64]{
+							DataPoints: []metricdata.HistogramDataPoint[float64]{
+								{
+									Attributes: attribute.NewSet(
+										attribute.String("oas.operation", "petNameByID"),
+										attribute.String("http.request.method", "GET"),
+										attribute.String("http.route", "/pet/name/{id}"),
+										// Custom attribute from WithAttributes - must be present!
+										attribute.String("server_name", "test-server"),
+										attribute.Int("http.response.status_code", 400),
+									),
+								},
+							},
+							Temporality: metricdata.CumulativeTemporality,
+						},
+					},
+					{
+						Name:        "ogen.server.errors_count",
+						Description: "Incoming errors total",
+						Unit:        "{count}",
+						Data: metricdata.Sum[int64]{
+							DataPoints: []metricdata.DataPoint[int64]{
+								{
+									Attributes: attribute.NewSet(
+										attribute.String("oas.operation", "petNameByID"),
+										attribute.String("http.request.method", "GET"),
+										attribute.String("http.route", "/pet/name/{id}"),
+										// Custom attribute from WithAttributes - must be present!
+										attribute.String("server_name", "test-server"),
+										attribute.Int("http.response.status_code", 400),
+									),
+								},
+							},
+							Temporality: metricdata.CumulativeTemporality,
+							IsMonotonic: true,
+						},
+					},
+				},
+			},
+		},
+	}
+
+	metricdatatest.AssertEqual(
+		t, expected, rm,
+		metricdatatest.IgnoreTimestamp(),
+		metricdatatest.IgnoreValue(),
+		metricdatatest.IgnoreExemplars(),
+	)
+}
+
 func TestClientMetrics(t *testing.T) {
 	tests := []struct {
 		name      string
@@ -417,7 +554,7 @@ func TestClientMetrics(t *testing.T) {
 								Attributes: attribute.NewSet(
 									attribute.String("oas.operation", "petNameByID"),
 									attribute.String("http.request.method", "GET"),
-									attribute.String("http.route", "/pet/name/{id}"),
+									attribute.String("url.template", "/pet/name/{id}"),
 								),
 							},
 						},
@@ -435,7 +572,7 @@ func TestClientMetrics(t *testing.T) {
 								Attributes: attribute.NewSet(
 									attribute.String("oas.operation", "petNameByID"),
 									attribute.String("http.request.method", "GET"),
-									attribute.String("http.route", "/pet/name/{id}"),
+									attribute.String("url.template", "/pet/name/{id}"),
 								),
 							},
 						},
@@ -464,7 +601,7 @@ func TestClientMetrics(t *testing.T) {
 								Attributes: attribute.NewSet(
 									attribute.String("oas.operation", "petGetByName"),
 									attribute.String("http.request.method", "GET"),
-									attribute.String("http.route", "/pet/{name}"),
+									attribute.String("url.template", "/pet/{name}"),
 								),
 							},
 						},
@@ -482,7 +619,7 @@ func TestClientMetrics(t *testing.T) {
 								Attributes: attribute.NewSet(
 									attribute.String("oas.operation", "petGetByName"),
 									attribute.String("http.request.method", "GET"),
-									attribute.String("http.route", "/pet/{name}"),
+									attribute.String("url.template", "/pet/{name}"),
 								),
 							},
 						},
@@ -499,7 +636,7 @@ func TestClientMetrics(t *testing.T) {
 								Attributes: attribute.NewSet(
 									attribute.String("oas.operation", "petGetByName"),
 									attribute.String("http.request.method", "GET"),
-									attribute.String("http.route", "/pet/{name}"),
+									attribute.String("url.template", "/pet/{name}"),
 								),
 							},
 						},

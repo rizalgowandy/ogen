@@ -8,7 +8,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/json"
 	"github.com/ogen-go/ogen/validate"
 )
@@ -1809,15 +1808,18 @@ func (s BotCommandScope) Encode(e *jx.Encoder) {
 
 func (s BotCommandScope) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case BotCommandScopeAllChatAdministratorsBotCommandScope:
+	case BotCommandScopeDefaultBotCommandScope:
 		e.FieldStart("type")
-		e.Str("all_chat_administrators")
-	case BotCommandScopeAllGroupChatsBotCommandScope:
-		e.FieldStart("type")
-		e.Str("all_group_chats")
+		e.Str("default")
 	case BotCommandScopeAllPrivateChatsBotCommandScope:
 		e.FieldStart("type")
 		e.Str("all_private_chats")
+	case BotCommandScopeAllGroupChatsBotCommandScope:
+		e.FieldStart("type")
+		e.Str("all_group_chats")
+	case BotCommandScopeAllChatAdministratorsBotCommandScope:
+		e.FieldStart("type")
+		e.Str("all_chat_administrators")
 	case BotCommandScopeChatBotCommandScope:
 		e.FieldStart("type")
 		e.Str("chat")
@@ -1852,9 +1854,6 @@ func (s BotCommandScope) encodeFields(e *jx.Encoder) {
 				e.Int64(s.UserID)
 			}
 		}
-	case BotCommandScopeDefaultBotCommandScope:
-		e.FieldStart("type")
-		e.Str("default")
 	}
 }
 
@@ -1881,14 +1880,17 @@ func (s *BotCommandScope) Decode(d *jx.Decoder) error {
 					return err
 				}
 				switch typ {
-				case "all_chat_administrators":
-					s.Type = BotCommandScopeAllChatAdministratorsBotCommandScope
+				case "default":
+					s.Type = BotCommandScopeDefaultBotCommandScope
+					found = true
+				case "all_private_chats":
+					s.Type = BotCommandScopeAllPrivateChatsBotCommandScope
 					found = true
 				case "all_group_chats":
 					s.Type = BotCommandScopeAllGroupChatsBotCommandScope
 					found = true
-				case "all_private_chats":
-					s.Type = BotCommandScopeAllPrivateChatsBotCommandScope
+				case "all_chat_administrators":
+					s.Type = BotCommandScopeAllChatAdministratorsBotCommandScope
 					found = true
 				case "chat":
 					s.Type = BotCommandScopeChatBotCommandScope
@@ -1898,9 +1900,6 @@ func (s *BotCommandScope) Decode(d *jx.Decoder) error {
 					found = true
 				case "chat_member":
 					s.Type = BotCommandScopeChatMemberBotCommandScope
-					found = true
-				case "default":
-					s.Type = BotCommandScopeDefaultBotCommandScope
 					found = true
 				default:
 					return errors.Errorf("unknown type %s", typ)
@@ -3878,6 +3877,26 @@ func (s ChatMember) Encode(e *jx.Encoder) {
 
 func (s ChatMember) encodeFields(e *jx.Encoder) {
 	switch s.Type {
+	case ChatMemberOwnerChatMember:
+		e.FieldStart("status")
+		e.Str("ChatMemberOwner")
+		{
+			s := s.ChatMemberOwner
+			{
+				e.FieldStart("user")
+				s.User.Encode(e)
+			}
+			{
+				e.FieldStart("is_anonymous")
+				e.Bool(s.IsAnonymous)
+			}
+			{
+				if s.CustomTitle.Set {
+					e.FieldStart("custom_title")
+					s.CustomTitle.Encode(e)
+				}
+			}
+		}
 	case ChatMemberAdministratorChatMember:
 		e.FieldStart("status")
 		e.Str("ChatMemberAdministrator")
@@ -3948,30 +3967,6 @@ func (s ChatMember) encodeFields(e *jx.Encoder) {
 				}
 			}
 		}
-	case ChatMemberBannedChatMember:
-		e.FieldStart("status")
-		e.Str("ChatMemberBanned")
-		{
-			s := s.ChatMemberBanned
-			{
-				e.FieldStart("user")
-				s.User.Encode(e)
-			}
-			{
-				e.FieldStart("until_date")
-				e.Int(s.UntilDate)
-			}
-		}
-	case ChatMemberLeftChatMember:
-		e.FieldStart("status")
-		e.Str("ChatMemberLeft")
-		{
-			s := s.ChatMemberLeft
-			{
-				e.FieldStart("user")
-				s.User.Encode(e)
-			}
-		}
 	case ChatMemberMemberChatMember:
 		e.FieldStart("status")
 		e.Str("ChatMemberMember")
@@ -3980,26 +3975,6 @@ func (s ChatMember) encodeFields(e *jx.Encoder) {
 			{
 				e.FieldStart("user")
 				s.User.Encode(e)
-			}
-		}
-	case ChatMemberOwnerChatMember:
-		e.FieldStart("status")
-		e.Str("ChatMemberOwner")
-		{
-			s := s.ChatMemberOwner
-			{
-				e.FieldStart("user")
-				s.User.Encode(e)
-			}
-			{
-				e.FieldStart("is_anonymous")
-				e.Bool(s.IsAnonymous)
-			}
-			{
-				if s.CustomTitle.Set {
-					e.FieldStart("custom_title")
-					s.CustomTitle.Encode(e)
-				}
 			}
 		}
 	case ChatMemberRestrictedChatMember:
@@ -4052,6 +4027,30 @@ func (s ChatMember) encodeFields(e *jx.Encoder) {
 				e.Int(s.UntilDate)
 			}
 		}
+	case ChatMemberLeftChatMember:
+		e.FieldStart("status")
+		e.Str("ChatMemberLeft")
+		{
+			s := s.ChatMemberLeft
+			{
+				e.FieldStart("user")
+				s.User.Encode(e)
+			}
+		}
+	case ChatMemberBannedChatMember:
+		e.FieldStart("status")
+		e.Str("ChatMemberBanned")
+		{
+			s := s.ChatMemberBanned
+			{
+				e.FieldStart("user")
+				s.User.Encode(e)
+			}
+			{
+				e.FieldStart("until_date")
+				e.Int(s.UntilDate)
+			}
+		}
 	}
 }
 
@@ -4078,23 +4077,23 @@ func (s *ChatMember) Decode(d *jx.Decoder) error {
 					return err
 				}
 				switch typ {
+				case "ChatMemberOwner":
+					s.Type = ChatMemberOwnerChatMember
+					found = true
 				case "ChatMemberAdministrator":
 					s.Type = ChatMemberAdministratorChatMember
-					found = true
-				case "ChatMemberBanned":
-					s.Type = ChatMemberBannedChatMember
-					found = true
-				case "ChatMemberLeft":
-					s.Type = ChatMemberLeftChatMember
 					found = true
 				case "ChatMemberMember":
 					s.Type = ChatMemberMemberChatMember
 					found = true
-				case "ChatMemberOwner":
-					s.Type = ChatMemberOwnerChatMember
-					found = true
 				case "ChatMemberRestricted":
 					s.Type = ChatMemberRestrictedChatMember
+					found = true
+				case "ChatMemberLeft":
+					s.Type = ChatMemberLeftChatMember
+					found = true
+				case "ChatMemberBanned":
+					s.Type = ChatMemberBannedChatMember
 					found = true
 				default:
 					return errors.Errorf("unknown type %s", typ)
@@ -6433,7 +6432,25 @@ func (s *CopyMessageReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplyCopyMessageReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupCopyMessageReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -6442,14 +6459,11 @@ func (s *CopyMessageReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupCopyMessageReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupCopyMessageReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -6458,6 +6472,11 @@ func (s *CopyMessageReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupCopyMessageReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -6466,6 +6485,11 @@ func (s *CopyMessageReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveCopyMessageReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -6473,8 +6497,13 @@ func (s *CopyMessageReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplyCopyMessageReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupCopyMessageReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -12080,6 +12109,416 @@ func (s InlineQueryResult) Encode(e *jx.Encoder) {
 
 func (s InlineQueryResult) encodeFields(e *jx.Encoder) {
 	switch s.Type {
+	case InlineQueryResultCachedAudioInlineQueryResult:
+		e.FieldStart("type")
+		e.Str("InlineQueryResultCachedAudio")
+		{
+			s := s.InlineQueryResultCachedAudio
+			{
+				e.FieldStart("id")
+				e.Str(s.ID)
+			}
+			{
+				e.FieldStart("audio_file_id")
+				e.Str(s.AudioFileID)
+			}
+			{
+				if s.Caption.Set {
+					e.FieldStart("caption")
+					s.Caption.Encode(e)
+				}
+			}
+			{
+				if s.ParseMode.Set {
+					e.FieldStart("parse_mode")
+					s.ParseMode.Encode(e)
+				}
+			}
+			{
+				if s.CaptionEntities != nil {
+					e.FieldStart("caption_entities")
+					e.ArrStart()
+					for _, elem := range s.CaptionEntities {
+						elem.Encode(e)
+					}
+					e.ArrEnd()
+				}
+			}
+			{
+				if s.ReplyMarkup.Set {
+					e.FieldStart("reply_markup")
+					s.ReplyMarkup.Encode(e)
+				}
+			}
+			{
+				if s.InputMessageContent.Set {
+					e.FieldStart("input_message_content")
+					s.InputMessageContent.Encode(e)
+				}
+			}
+		}
+	case InlineQueryResultCachedDocumentInlineQueryResult:
+		e.FieldStart("type")
+		e.Str("InlineQueryResultCachedDocument")
+		{
+			s := s.InlineQueryResultCachedDocument
+			{
+				e.FieldStart("id")
+				e.Str(s.ID)
+			}
+			{
+				e.FieldStart("title")
+				e.Str(s.Title)
+			}
+			{
+				e.FieldStart("document_file_id")
+				e.Str(s.DocumentFileID)
+			}
+			{
+				if s.Description.Set {
+					e.FieldStart("description")
+					s.Description.Encode(e)
+				}
+			}
+			{
+				if s.Caption.Set {
+					e.FieldStart("caption")
+					s.Caption.Encode(e)
+				}
+			}
+			{
+				if s.ParseMode.Set {
+					e.FieldStart("parse_mode")
+					s.ParseMode.Encode(e)
+				}
+			}
+			{
+				if s.CaptionEntities != nil {
+					e.FieldStart("caption_entities")
+					e.ArrStart()
+					for _, elem := range s.CaptionEntities {
+						elem.Encode(e)
+					}
+					e.ArrEnd()
+				}
+			}
+			{
+				if s.ReplyMarkup.Set {
+					e.FieldStart("reply_markup")
+					s.ReplyMarkup.Encode(e)
+				}
+			}
+			{
+				if s.InputMessageContent.Set {
+					e.FieldStart("input_message_content")
+					s.InputMessageContent.Encode(e)
+				}
+			}
+		}
+	case InlineQueryResultCachedGifInlineQueryResult:
+		e.FieldStart("type")
+		e.Str("InlineQueryResultCachedGif")
+		{
+			s := s.InlineQueryResultCachedGif
+			{
+				e.FieldStart("id")
+				e.Str(s.ID)
+			}
+			{
+				e.FieldStart("gif_file_id")
+				e.Str(s.GIFFileID)
+			}
+			{
+				if s.Title.Set {
+					e.FieldStart("title")
+					s.Title.Encode(e)
+				}
+			}
+			{
+				if s.Caption.Set {
+					e.FieldStart("caption")
+					s.Caption.Encode(e)
+				}
+			}
+			{
+				if s.ParseMode.Set {
+					e.FieldStart("parse_mode")
+					s.ParseMode.Encode(e)
+				}
+			}
+			{
+				if s.CaptionEntities != nil {
+					e.FieldStart("caption_entities")
+					e.ArrStart()
+					for _, elem := range s.CaptionEntities {
+						elem.Encode(e)
+					}
+					e.ArrEnd()
+				}
+			}
+			{
+				if s.ReplyMarkup.Set {
+					e.FieldStart("reply_markup")
+					s.ReplyMarkup.Encode(e)
+				}
+			}
+			{
+				if s.InputMessageContent.Set {
+					e.FieldStart("input_message_content")
+					s.InputMessageContent.Encode(e)
+				}
+			}
+		}
+	case InlineQueryResultCachedMpeg4GifInlineQueryResult:
+		e.FieldStart("type")
+		e.Str("InlineQueryResultCachedMpeg4Gif")
+		{
+			s := s.InlineQueryResultCachedMpeg4Gif
+			{
+				e.FieldStart("id")
+				e.Str(s.ID)
+			}
+			{
+				e.FieldStart("mpeg4_file_id")
+				e.Str(s.Mpeg4FileID)
+			}
+			{
+				if s.Title.Set {
+					e.FieldStart("title")
+					s.Title.Encode(e)
+				}
+			}
+			{
+				if s.Caption.Set {
+					e.FieldStart("caption")
+					s.Caption.Encode(e)
+				}
+			}
+			{
+				if s.ParseMode.Set {
+					e.FieldStart("parse_mode")
+					s.ParseMode.Encode(e)
+				}
+			}
+			{
+				if s.CaptionEntities != nil {
+					e.FieldStart("caption_entities")
+					e.ArrStart()
+					for _, elem := range s.CaptionEntities {
+						elem.Encode(e)
+					}
+					e.ArrEnd()
+				}
+			}
+			{
+				if s.ReplyMarkup.Set {
+					e.FieldStart("reply_markup")
+					s.ReplyMarkup.Encode(e)
+				}
+			}
+			{
+				if s.InputMessageContent.Set {
+					e.FieldStart("input_message_content")
+					s.InputMessageContent.Encode(e)
+				}
+			}
+		}
+	case InlineQueryResultCachedPhotoInlineQueryResult:
+		e.FieldStart("type")
+		e.Str("InlineQueryResultCachedPhoto")
+		{
+			s := s.InlineQueryResultCachedPhoto
+			{
+				e.FieldStart("id")
+				e.Str(s.ID)
+			}
+			{
+				e.FieldStart("photo_file_id")
+				e.Str(s.PhotoFileID)
+			}
+			{
+				if s.Title.Set {
+					e.FieldStart("title")
+					s.Title.Encode(e)
+				}
+			}
+			{
+				if s.Description.Set {
+					e.FieldStart("description")
+					s.Description.Encode(e)
+				}
+			}
+			{
+				if s.Caption.Set {
+					e.FieldStart("caption")
+					s.Caption.Encode(e)
+				}
+			}
+			{
+				if s.ParseMode.Set {
+					e.FieldStart("parse_mode")
+					s.ParseMode.Encode(e)
+				}
+			}
+			{
+				if s.CaptionEntities != nil {
+					e.FieldStart("caption_entities")
+					e.ArrStart()
+					for _, elem := range s.CaptionEntities {
+						elem.Encode(e)
+					}
+					e.ArrEnd()
+				}
+			}
+			{
+				if s.ReplyMarkup.Set {
+					e.FieldStart("reply_markup")
+					s.ReplyMarkup.Encode(e)
+				}
+			}
+			{
+				if s.InputMessageContent.Set {
+					e.FieldStart("input_message_content")
+					s.InputMessageContent.Encode(e)
+				}
+			}
+		}
+	case InlineQueryResultCachedStickerInlineQueryResult:
+		e.FieldStart("type")
+		e.Str("sticker")
+		{
+			s := s.InlineQueryResultCachedSticker
+			{
+				e.FieldStart("id")
+				e.Str(s.ID)
+			}
+			{
+				e.FieldStart("sticker_file_id")
+				e.Str(s.StickerFileID)
+			}
+			{
+				if s.ReplyMarkup.Set {
+					e.FieldStart("reply_markup")
+					s.ReplyMarkup.Encode(e)
+				}
+			}
+			{
+				if s.InputMessageContent.Set {
+					e.FieldStart("input_message_content")
+					s.InputMessageContent.Encode(e)
+				}
+			}
+		}
+	case InlineQueryResultCachedVideoInlineQueryResult:
+		e.FieldStart("type")
+		e.Str("InlineQueryResultCachedVideo")
+		{
+			s := s.InlineQueryResultCachedVideo
+			{
+				e.FieldStart("id")
+				e.Str(s.ID)
+			}
+			{
+				e.FieldStart("video_file_id")
+				e.Str(s.VideoFileID)
+			}
+			{
+				e.FieldStart("title")
+				e.Str(s.Title)
+			}
+			{
+				if s.Description.Set {
+					e.FieldStart("description")
+					s.Description.Encode(e)
+				}
+			}
+			{
+				if s.Caption.Set {
+					e.FieldStart("caption")
+					s.Caption.Encode(e)
+				}
+			}
+			{
+				if s.ParseMode.Set {
+					e.FieldStart("parse_mode")
+					s.ParseMode.Encode(e)
+				}
+			}
+			{
+				if s.CaptionEntities != nil {
+					e.FieldStart("caption_entities")
+					e.ArrStart()
+					for _, elem := range s.CaptionEntities {
+						elem.Encode(e)
+					}
+					e.ArrEnd()
+				}
+			}
+			{
+				if s.ReplyMarkup.Set {
+					e.FieldStart("reply_markup")
+					s.ReplyMarkup.Encode(e)
+				}
+			}
+			{
+				if s.InputMessageContent.Set {
+					e.FieldStart("input_message_content")
+					s.InputMessageContent.Encode(e)
+				}
+			}
+		}
+	case InlineQueryResultCachedVoiceInlineQueryResult:
+		e.FieldStart("type")
+		e.Str("InlineQueryResultCachedVoice")
+		{
+			s := s.InlineQueryResultCachedVoice
+			{
+				e.FieldStart("id")
+				e.Str(s.ID)
+			}
+			{
+				e.FieldStart("voice_file_id")
+				e.Str(s.VoiceFileID)
+			}
+			{
+				e.FieldStart("title")
+				e.Str(s.Title)
+			}
+			{
+				if s.Caption.Set {
+					e.FieldStart("caption")
+					s.Caption.Encode(e)
+				}
+			}
+			{
+				if s.ParseMode.Set {
+					e.FieldStart("parse_mode")
+					s.ParseMode.Encode(e)
+				}
+			}
+			{
+				if s.CaptionEntities != nil {
+					e.FieldStart("caption_entities")
+					e.ArrStart()
+					for _, elem := range s.CaptionEntities {
+						elem.Encode(e)
+					}
+					e.ArrEnd()
+				}
+			}
+			{
+				if s.ReplyMarkup.Set {
+					e.FieldStart("reply_markup")
+					s.ReplyMarkup.Encode(e)
+				}
+			}
+			{
+				if s.InputMessageContent.Set {
+					e.FieldStart("input_message_content")
+					s.InputMessageContent.Encode(e)
+				}
+			}
+		}
 	case InlineQueryResultArticleInlineQueryResult:
 		e.FieldStart("type")
 		e.Str("article")
@@ -12264,6 +12703,26 @@ func (s InlineQueryResult) encodeFields(e *jx.Encoder) {
 				}
 			}
 		}
+	case InlineQueryResultGameInlineQueryResult:
+		e.FieldStart("type")
+		e.Str("game")
+		{
+			s := s.InlineQueryResultGame
+			{
+				e.FieldStart("id")
+				e.Str(s.ID)
+			}
+			{
+				e.FieldStart("game_short_name")
+				e.Str(s.GameShortName)
+			}
+			{
+				if s.ReplyMarkup.Set {
+					e.FieldStart("reply_markup")
+					s.ReplyMarkup.Encode(e)
+				}
+			}
+		}
 	case InlineQueryResultDocumentInlineQueryResult:
 		e.FieldStart("type")
 		e.Str("document")
@@ -12341,26 +12800,6 @@ func (s InlineQueryResult) encodeFields(e *jx.Encoder) {
 				if s.ThumbHeight.Set {
 					e.FieldStart("thumb_height")
 					s.ThumbHeight.Encode(e)
-				}
-			}
-		}
-	case InlineQueryResultGameInlineQueryResult:
-		e.FieldStart("type")
-		e.Str("game")
-		{
-			s := s.InlineQueryResultGame
-			{
-				e.FieldStart("id")
-				e.Str(s.ID)
-			}
-			{
-				e.FieldStart("game_short_name")
-				e.Str(s.GameShortName)
-			}
-			{
-				if s.ReplyMarkup.Set {
-					e.FieldStart("reply_markup")
-					s.ReplyMarkup.Encode(e)
 				}
 			}
 		}
@@ -12680,32 +13119,6 @@ func (s InlineQueryResult) encodeFields(e *jx.Encoder) {
 				}
 			}
 		}
-	case InlineQueryResultCachedStickerInlineQueryResult:
-		e.FieldStart("type")
-		e.Str("sticker")
-		{
-			s := s.InlineQueryResultCachedSticker
-			{
-				e.FieldStart("id")
-				e.Str(s.ID)
-			}
-			{
-				e.FieldStart("sticker_file_id")
-				e.Str(s.StickerFileID)
-			}
-			{
-				if s.ReplyMarkup.Set {
-					e.FieldStart("reply_markup")
-					s.ReplyMarkup.Encode(e)
-				}
-			}
-			{
-				if s.InputMessageContent.Set {
-					e.FieldStart("input_message_content")
-					s.InputMessageContent.Encode(e)
-				}
-			}
-		}
 	case InlineQueryResultVenueInlineQueryResult:
 		e.FieldStart("type")
 		e.Str("venue")
@@ -12954,6 +13367,30 @@ func (s *InlineQueryResult) Decode(d *jx.Decoder) error {
 					return err
 				}
 				switch typ {
+				case "InlineQueryResultCachedAudio":
+					s.Type = InlineQueryResultCachedAudioInlineQueryResult
+					found = true
+				case "InlineQueryResultCachedDocument":
+					s.Type = InlineQueryResultCachedDocumentInlineQueryResult
+					found = true
+				case "InlineQueryResultCachedGif":
+					s.Type = InlineQueryResultCachedGifInlineQueryResult
+					found = true
+				case "InlineQueryResultCachedMpeg4Gif":
+					s.Type = InlineQueryResultCachedMpeg4GifInlineQueryResult
+					found = true
+				case "InlineQueryResultCachedPhoto":
+					s.Type = InlineQueryResultCachedPhotoInlineQueryResult
+					found = true
+				case "sticker":
+					s.Type = InlineQueryResultCachedStickerInlineQueryResult
+					found = true
+				case "InlineQueryResultCachedVideo":
+					s.Type = InlineQueryResultCachedVideoInlineQueryResult
+					found = true
+				case "InlineQueryResultCachedVoice":
+					s.Type = InlineQueryResultCachedVoiceInlineQueryResult
+					found = true
 				case "article":
 					s.Type = InlineQueryResultArticleInlineQueryResult
 					found = true
@@ -12963,11 +13400,11 @@ func (s *InlineQueryResult) Decode(d *jx.Decoder) error {
 				case "contact":
 					s.Type = InlineQueryResultContactInlineQueryResult
 					found = true
-				case "document":
-					s.Type = InlineQueryResultDocumentInlineQueryResult
-					found = true
 				case "game":
 					s.Type = InlineQueryResultGameInlineQueryResult
+					found = true
+				case "document":
+					s.Type = InlineQueryResultDocumentInlineQueryResult
 					found = true
 				case "gif":
 					s.Type = InlineQueryResultGifInlineQueryResult
@@ -12980,9 +13417,6 @@ func (s *InlineQueryResult) Decode(d *jx.Decoder) error {
 					found = true
 				case "photo":
 					s.Type = InlineQueryResultPhotoInlineQueryResult
-					found = true
-				case "sticker":
-					s.Type = InlineQueryResultCachedStickerInlineQueryResult
 					found = true
 				case "venue":
 					s.Type = InlineQueryResultVenueInlineQueryResult
@@ -19384,6 +19818,50 @@ func (s InputMedia) encodeFields(e *jx.Encoder) {
 				}
 			}
 		}
+	case InputMediaDocumentInputMedia:
+		e.FieldStart("type")
+		e.Str("document")
+		{
+			s := s.InputMediaDocument
+			{
+				e.FieldStart("media")
+				e.Str(s.Media)
+			}
+			{
+				if s.Thumb.Set {
+					e.FieldStart("thumb")
+					s.Thumb.Encode(e)
+				}
+			}
+			{
+				if s.Caption.Set {
+					e.FieldStart("caption")
+					s.Caption.Encode(e)
+				}
+			}
+			{
+				if s.ParseMode.Set {
+					e.FieldStart("parse_mode")
+					s.ParseMode.Encode(e)
+				}
+			}
+			{
+				if s.CaptionEntities != nil {
+					e.FieldStart("caption_entities")
+					e.ArrStart()
+					for _, elem := range s.CaptionEntities {
+						elem.Encode(e)
+					}
+					e.ArrEnd()
+				}
+			}
+			{
+				if s.DisableContentTypeDetection.Set {
+					e.FieldStart("disable_content_type_detection")
+					s.DisableContentTypeDetection.Encode(e)
+				}
+			}
+		}
 	case InputMediaAudioInputMedia:
 		e.FieldStart("type")
 		e.Str("audio")
@@ -19437,50 +19915,6 @@ func (s InputMedia) encodeFields(e *jx.Encoder) {
 				if s.Title.Set {
 					e.FieldStart("title")
 					s.Title.Encode(e)
-				}
-			}
-		}
-	case InputMediaDocumentInputMedia:
-		e.FieldStart("type")
-		e.Str("document")
-		{
-			s := s.InputMediaDocument
-			{
-				e.FieldStart("media")
-				e.Str(s.Media)
-			}
-			{
-				if s.Thumb.Set {
-					e.FieldStart("thumb")
-					s.Thumb.Encode(e)
-				}
-			}
-			{
-				if s.Caption.Set {
-					e.FieldStart("caption")
-					s.Caption.Encode(e)
-				}
-			}
-			{
-				if s.ParseMode.Set {
-					e.FieldStart("parse_mode")
-					s.ParseMode.Encode(e)
-				}
-			}
-			{
-				if s.CaptionEntities != nil {
-					e.FieldStart("caption_entities")
-					e.ArrStart()
-					for _, elem := range s.CaptionEntities {
-						elem.Encode(e)
-					}
-					e.ArrEnd()
-				}
-			}
-			{
-				if s.DisableContentTypeDetection.Set {
-					e.FieldStart("disable_content_type_detection")
-					s.DisableContentTypeDetection.Encode(e)
 				}
 			}
 		}
@@ -19607,11 +20041,11 @@ func (s *InputMedia) Decode(d *jx.Decoder) error {
 				case "animation":
 					s.Type = InputMediaAnimationInputMedia
 					found = true
-				case "audio":
-					s.Type = InputMediaAudioInputMedia
-					found = true
 				case "document":
 					s.Type = InputMediaDocumentInputMedia
+					found = true
+				case "audio":
+					s.Type = InputMediaAudioInputMedia
 					found = true
 				case "photo":
 					s.Type = InputMediaPhotoInputMedia
@@ -20855,15 +21289,51 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
-			case "message_text":
-				match := InputTextMessageContentInputMessageContent
+			case "address":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputVenueMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
 				}
 				found = true
 				s.Type = match
-			case "parse_mode":
+			case "currency":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputInvoiceMessageContentInputMessageContent
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "description":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputInvoiceMessageContentInputMessageContent
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "disable_web_page_preview":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputTextMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -20872,6 +21342,11 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "entities":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputTextMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -20879,48 +21354,13 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "disable_web_page_preview":
-				match := InputTextMessageContentInputMessageContent
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+			case "first_name":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "horizontal_accuracy":
-				match := InputLocationMessageContentInputMessageContent
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "live_period":
-				match := InputLocationMessageContentInputMessageContent
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "heading":
-				match := InputLocationMessageContentInputMessageContent
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "proximity_alert_radius":
-				match := InputLocationMessageContentInputMessageContent
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "address":
-				match := InputVenueMessageContentInputMessageContent
+				match := InputContactMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -20928,6 +21368,11 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "foursquare_id":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputVenueMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -20936,6 +21381,11 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "foursquare_type":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputVenueMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -20944,6 +21394,11 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "google_place_id":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputVenueMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -20952,6 +21407,11 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "google_place_type":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputVenueMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -20959,16 +21419,39 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "phone_number":
-				match := InputContactMessageContentInputMessageContent
+			case "heading":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputLocationMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
 				}
 				found = true
 				s.Type = match
-			case "first_name":
-				match := InputContactMessageContentInputMessageContent
+			case "horizontal_accuracy":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputLocationMessageContentInputMessageContent
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_flexible":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputInvoiceMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -20976,6 +21459,11 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "last_name":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputContactMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -20983,48 +21471,13 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "vcard":
-				match := InputContactMessageContentInputMessageContent
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+			case "live_period":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "description":
-				match := InputInvoiceMessageContentInputMessageContent
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "payload":
-				match := InputInvoiceMessageContentInputMessageContent
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "provider_token":
-				match := InputInvoiceMessageContentInputMessageContent
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "currency":
-				match := InputInvoiceMessageContentInputMessageContent
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "prices":
-				match := InputInvoiceMessageContentInputMessageContent
+				match := InputLocationMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21032,6 +21485,11 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "max_tip_amount":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputInvoiceMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -21039,7 +21497,25 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "suggested_tip_amounts":
+			case "message_text":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputTextMessageContentInputMessageContent
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "need_email":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputInvoiceMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -21047,7 +21523,103 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "provider_data":
+			case "need_name":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputInvoiceMessageContentInputMessageContent
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "need_phone_number":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputInvoiceMessageContentInputMessageContent
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "need_shipping_address":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputInvoiceMessageContentInputMessageContent
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "parse_mode":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputTextMessageContentInputMessageContent
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "payload":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputInvoiceMessageContentInputMessageContent
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "phone_number":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputContactMessageContentInputMessageContent
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "photo_height":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputInvoiceMessageContentInputMessageContent
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "photo_size":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputInvoiceMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -21063,15 +21635,12 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "photo_size":
-				match := InputInvoiceMessageContentInputMessageContent
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
 			case "photo_width":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputInvoiceMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -21079,7 +21648,12 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "photo_height":
+			case "prices":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputInvoiceMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -21087,7 +21661,12 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "need_name":
+			case "provider_data":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputInvoiceMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -21095,7 +21674,12 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "need_phone_number":
+			case "provider_token":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputInvoiceMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -21103,15 +21687,25 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "need_email":
-				match := InputInvoiceMessageContentInputMessageContent
+			case "proximity_alert_radius":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Number {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputLocationMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
 				}
 				found = true
 				s.Type = match
-			case "need_shipping_address":
+			case "send_email_to_provider":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputInvoiceMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -21120,6 +21714,11 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "send_phone_number_to_provider":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputInvoiceMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -21127,7 +21726,12 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "send_email_to_provider":
+			case "suggested_tip_amounts":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InputInvoiceMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
@@ -21135,8 +21739,13 @@ func (s *InputMessageContent) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "is_flexible":
-				match := InputInvoiceMessageContentInputMessageContent
+			case "vcard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := InputContactMessageContentInputMessageContent
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -27123,46 +27732,6 @@ func (s PassportElementError) encodeFields(e *jx.Encoder) {
 				e.Str(s.Message)
 			}
 		}
-	case PassportElementErrorFilePassportElementError:
-		e.FieldStart("type")
-		e.Str("file")
-		{
-			s := s.PassportElementErrorFile
-			{
-				e.FieldStart("source")
-				e.Str(s.Source)
-			}
-			{
-				e.FieldStart("file_hash")
-				e.Str(s.FileHash)
-			}
-			{
-				e.FieldStart("message")
-				e.Str(s.Message)
-			}
-		}
-	case PassportElementErrorFilesPassportElementError:
-		e.FieldStart("type")
-		e.Str("files")
-		{
-			s := s.PassportElementErrorFiles
-			{
-				e.FieldStart("source")
-				e.Str(s.Source)
-			}
-			{
-				e.FieldStart("file_hashes")
-				e.ArrStart()
-				for _, elem := range s.FileHashes {
-					e.Str(elem)
-				}
-				e.ArrEnd()
-			}
-			{
-				e.FieldStart("message")
-				e.Str(s.Message)
-			}
-		}
 	case PassportElementErrorFrontSidePassportElementError:
 		e.FieldStart("type")
 		e.Str("front_side")
@@ -27211,6 +27780,46 @@ func (s PassportElementError) encodeFields(e *jx.Encoder) {
 			{
 				e.FieldStart("file_hash")
 				e.Str(s.FileHash)
+			}
+			{
+				e.FieldStart("message")
+				e.Str(s.Message)
+			}
+		}
+	case PassportElementErrorFilePassportElementError:
+		e.FieldStart("type")
+		e.Str("file")
+		{
+			s := s.PassportElementErrorFile
+			{
+				e.FieldStart("source")
+				e.Str(s.Source)
+			}
+			{
+				e.FieldStart("file_hash")
+				e.Str(s.FileHash)
+			}
+			{
+				e.FieldStart("message")
+				e.Str(s.Message)
+			}
+		}
+	case PassportElementErrorFilesPassportElementError:
+		e.FieldStart("type")
+		e.Str("files")
+		{
+			s := s.PassportElementErrorFiles
+			{
+				e.FieldStart("source")
+				e.Str(s.Source)
+			}
+			{
+				e.FieldStart("file_hashes")
+				e.ArrStart()
+				for _, elem := range s.FileHashes {
+					e.Str(elem)
+				}
+				e.ArrEnd()
 			}
 			{
 				e.FieldStart("message")
@@ -27304,12 +27913,6 @@ func (s *PassportElementError) Decode(d *jx.Decoder) error {
 				case "data":
 					s.Type = PassportElementErrorDataFieldPassportElementError
 					found = true
-				case "file":
-					s.Type = PassportElementErrorFilePassportElementError
-					found = true
-				case "files":
-					s.Type = PassportElementErrorFilesPassportElementError
-					found = true
 				case "front_side":
 					s.Type = PassportElementErrorFrontSidePassportElementError
 					found = true
@@ -27318,6 +27921,12 @@ func (s *PassportElementError) Decode(d *jx.Decoder) error {
 					found = true
 				case "selfie":
 					s.Type = PassportElementErrorSelfiePassportElementError
+					found = true
+				case "file":
+					s.Type = PassportElementErrorFilePassportElementError
+					found = true
+				case "files":
+					s.Type = PassportElementErrorFilesPassportElementError
 					found = true
 				case "translation_file":
 					s.Type = PassportElementErrorTranslationFilePassportElementError
@@ -33894,7 +34503,25 @@ func (s *SendAnimationReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendAnimationReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendAnimationReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -33903,14 +34530,11 @@ func (s *SendAnimationReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendAnimationReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendAnimationReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -33919,6 +34543,11 @@ func (s *SendAnimationReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendAnimationReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -33927,6 +34556,11 @@ func (s *SendAnimationReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendAnimationReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -33934,8 +34568,13 @@ func (s *SendAnimationReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendAnimationReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendAnimationReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -34338,7 +34977,25 @@ func (s *SendAudioReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendAudioReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendAudioReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -34347,14 +35004,11 @@ func (s *SendAudioReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendAudioReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendAudioReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -34363,6 +35017,11 @@ func (s *SendAudioReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendAudioReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -34371,6 +35030,11 @@ func (s *SendAudioReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendAudioReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -34378,8 +35042,13 @@ func (s *SendAudioReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendAudioReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendAudioReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -34814,7 +35483,25 @@ func (s *SendContactReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendContactReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendContactReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -34823,14 +35510,11 @@ func (s *SendContactReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendContactReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendContactReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -34839,6 +35523,11 @@ func (s *SendContactReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendContactReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -34847,6 +35536,11 @@ func (s *SendContactReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendContactReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -34854,8 +35548,13 @@ func (s *SendContactReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendContactReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendContactReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -35127,7 +35826,25 @@ func (s *SendDiceReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendDiceReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendDiceReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -35136,14 +35853,11 @@ func (s *SendDiceReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendDiceReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendDiceReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -35152,6 +35866,11 @@ func (s *SendDiceReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendDiceReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -35160,6 +35879,11 @@ func (s *SendDiceReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendDiceReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -35167,8 +35891,13 @@ func (s *SendDiceReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendDiceReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendDiceReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -35537,7 +36266,25 @@ func (s *SendDocumentReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendDocumentReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendDocumentReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -35546,14 +36293,11 @@ func (s *SendDocumentReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendDocumentReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendDocumentReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -35562,6 +36306,11 @@ func (s *SendDocumentReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendDocumentReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -35570,6 +36319,11 @@ func (s *SendDocumentReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendDocumentReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -35577,8 +36331,13 @@ func (s *SendDocumentReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendDocumentReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendDocumentReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -36662,7 +37421,25 @@ func (s *SendLocationReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendLocationReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendLocationReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -36671,14 +37448,11 @@ func (s *SendLocationReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendLocationReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendLocationReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -36687,6 +37461,11 @@ func (s *SendLocationReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendLocationReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -36695,6 +37474,11 @@ func (s *SendLocationReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendLocationReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -36702,8 +37486,13 @@ func (s *SendLocationReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendLocationReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendLocationReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -37500,7 +38289,25 @@ func (s *SendMessageReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendMessageReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendMessageReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -37509,14 +38316,11 @@ func (s *SendMessageReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendMessageReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendMessageReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -37525,6 +38329,11 @@ func (s *SendMessageReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendMessageReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -37533,6 +38342,11 @@ func (s *SendMessageReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendMessageReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -37540,8 +38354,13 @@ func (s *SendMessageReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendMessageReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendMessageReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -37876,7 +38695,25 @@ func (s *SendPhotoReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendPhotoReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendPhotoReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -37885,14 +38722,11 @@ func (s *SendPhotoReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendPhotoReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendPhotoReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -37901,6 +38735,11 @@ func (s *SendPhotoReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendPhotoReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -37909,6 +38748,11 @@ func (s *SendPhotoReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendPhotoReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -37916,8 +38760,13 @@ func (s *SendPhotoReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendPhotoReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendPhotoReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -38401,7 +39250,25 @@ func (s *SendPollReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendPollReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendPollReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -38410,14 +39277,11 @@ func (s *SendPollReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendPollReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendPollReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -38426,6 +39290,11 @@ func (s *SendPollReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendPollReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -38434,6 +39303,11 @@ func (s *SendPollReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendPollReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -38441,8 +39315,13 @@ func (s *SendPollReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendPollReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendPollReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -38714,7 +39593,25 @@ func (s *SendStickerReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendStickerReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendStickerReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -38723,14 +39620,11 @@ func (s *SendStickerReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendStickerReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendStickerReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -38739,6 +39633,11 @@ func (s *SendStickerReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendStickerReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -38747,6 +39646,11 @@ func (s *SendStickerReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendStickerReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -38754,8 +39658,13 @@ func (s *SendStickerReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendStickerReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendStickerReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -39147,7 +40056,25 @@ func (s *SendVenueReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendVenueReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendVenueReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -39156,14 +40083,11 @@ func (s *SendVenueReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendVenueReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendVenueReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -39172,6 +40096,11 @@ func (s *SendVenueReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendVenueReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -39180,6 +40109,11 @@ func (s *SendVenueReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendVenueReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -39187,8 +40121,13 @@ func (s *SendVenueReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendVenueReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendVenueReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -39839,7 +40778,25 @@ func (s *SendVideoNoteReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendVideoNoteReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendVideoNoteReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -39848,14 +40805,11 @@ func (s *SendVideoNoteReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendVideoNoteReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendVideoNoteReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -39864,6 +40818,11 @@ func (s *SendVideoNoteReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendVideoNoteReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -39872,6 +40831,11 @@ func (s *SendVideoNoteReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendVideoNoteReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -39879,8 +40843,13 @@ func (s *SendVideoNoteReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendVideoNoteReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendVideoNoteReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -39973,7 +40942,25 @@ func (s *SendVideoReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendVideoReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendVideoReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -39982,14 +40969,11 @@ func (s *SendVideoReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendVideoReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendVideoReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -39998,6 +40982,11 @@ func (s *SendVideoReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendVideoReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -40006,6 +40995,11 @@ func (s *SendVideoReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendVideoReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -40013,8 +41007,13 @@ func (s *SendVideoReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendVideoReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendVideoReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -40366,7 +41365,25 @@ func (s *SendVoiceReplyMarkup) Decode(d *jx.Decoder) error {
 	if err := d.Capture(func(d *jx.Decoder) error {
 		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
 			switch string(key) {
+			case "force_reply":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ForceReplySendVoiceReplyMarkup
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "inline_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := InlineKeyboardMarkupSendVoiceReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -40375,14 +41392,11 @@ func (s *SendVoiceReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "keyboard":
-				match := ReplyKeyboardMarkupSendVoiceReplyMarkup
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Array {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
 				}
-				found = true
-				s.Type = match
-			case "resize_keyboard":
 				match := ReplyKeyboardMarkupSendVoiceReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -40391,6 +41405,11 @@ func (s *SendVoiceReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "one_time_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardMarkupSendVoiceReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -40399,6 +41418,11 @@ func (s *SendVoiceReplyMarkup) Decode(d *jx.Decoder) error {
 				found = true
 				s.Type = match
 			case "remove_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
 				match := ReplyKeyboardRemoveSendVoiceReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
@@ -40406,8 +41430,13 @@ func (s *SendVoiceReplyMarkup) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "force_reply":
-				match := ForceReplySendVoiceReplyMarkup
+			case "resize_keyboard":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ReplyKeyboardMarkupSendVoiceReplyMarkup
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)

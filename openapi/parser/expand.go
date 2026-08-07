@@ -38,11 +38,16 @@ func (e *expander) Spec(api *openapi.API) (spec *ogen.Spec, err error) {
 	e.components = spec.Components
 
 	spec.OpenAPI = api.Version.String()
-	// FIXME(tdakkota): store actual information
-	spec.Info = ogen.Info{
-		Title:   "Expanded spec",
-		Version: "v0.1.0",
+
+	tags := make([]ogen.Tag, len(api.Tags))
+	for i, tag := range api.Tags {
+		tags[i] = ogen.Tag{
+			Name:        tag.Name,
+			Description: tag.Description,
+		}
 	}
+	spec.Tags = tags
+	spec.Info = fromOpenapiInfo(api.Info)
 
 	if servers := api.Servers; len(servers) > 0 {
 		expanded := make([]ogen.Server, len(servers))
@@ -57,7 +62,7 @@ func (e *expander) Spec(api *openapi.API) (spec *ogen.Spec, err error) {
 
 	setOperation := func(pi *ogen.PathItem, method string, op *ogen.Operation) error {
 		var ptr **ogen.Operation
-		switch strings.ToLower(method) {
+		switch m := strings.ToLower(method); m {
 		case "get":
 			ptr = &pi.Get
 		case "put":
@@ -74,8 +79,16 @@ func (e *expander) Spec(api *openapi.API) (spec *ogen.Spec, err error) {
 			ptr = &pi.Patch
 		case "trace":
 			ptr = &pi.Trace
-		}
-		if ptr == nil {
+		case "query":
+			ptr = &pi.Query
+		default:
+			if pi.AdditionalOperations != nil {
+				if _, ok := pi.AdditionalOperations[m]; ok {
+					return errors.Errorf("path item already contains %q operation", method)
+				}
+				pi.AdditionalOperations[m] = op
+				return nil
+			}
 			return errors.Errorf("unexpected method %q", method)
 		}
 
@@ -98,7 +111,9 @@ func (e *expander) Spec(api *openapi.API) (spec *ogen.Spec, err error) {
 		pi := spec.Paths[path]
 		if pi == nil {
 			pi = &ogen.PathItem{}
-
+			if api.Version.Minor >= 2 {
+				pi.AdditionalOperations = make(map[string]*ogen.Operation)
+			}
 			if spec.Paths == nil {
 				spec.Paths = ogen.Paths{}
 			}
@@ -263,6 +278,7 @@ func (e *expander) OAuthFlow(flow *openapi.OAuthFlow) (expanded *ogen.OAuthFlow,
 func (e *expander) Operation(op *openapi.Operation) (expanded *ogen.Operation, err error) {
 	expanded = new(ogen.Operation)
 
+	expanded.Tags = op.Tags
 	expanded.OperationID = op.OperationID
 	expanded.Summary = op.Summary
 	expanded.Description = op.Description
@@ -635,6 +651,8 @@ func (e *expander) Schema(schema *jsonschema.Schema, walked map[*jsonschema.Sche
 	case jsonschema.Object:
 		expanded.MinProperties = schema.MinProperties
 		expanded.MaxProperties = schema.MaxProperties
+		expanded.MinLength = schema.MinLength
+		expanded.MaxLength = schema.MaxLength
 
 		if props := schema.Properties; len(props) > 0 {
 			expanded.Properties = make(ogen.Properties, len(props))

@@ -11,10 +11,12 @@ import (
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
 )
 
 type APIKey struct {
 	APIKey string
+	Roles  []string
 }
 
 // GetAPIKey returns the value of APIKey.
@@ -22,9 +24,19 @@ func (s *APIKey) GetAPIKey() string {
 	return s.APIKey
 }
 
+// GetRoles returns the value of Roles.
+func (s *APIKey) GetRoles() []string {
+	return s.Roles
+}
+
 // SetAPIKey sets the value of APIKey.
 func (s *APIKey) SetAPIKey(val string) {
 	s.APIKey = val
+}
+
+// SetRoles sets the value of Roles.
+func (s *APIKey) SetRoles(val []string) {
+	s.Roles = val
 }
 
 // Ref: #/components/schemas/AnyTest
@@ -207,7 +219,8 @@ func (s *Data) SetNullableEnum(val OptNullableEnums) {
 
 // DataDescription represents sum type.
 type DataDescription struct {
-	Type                DataDescriptionType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                DataDescriptionType
 	DescriptionDetailed DescriptionDetailed
 	DescriptionSimple   DescriptionSimple
 }
@@ -273,23 +286,147 @@ func NewDescriptionSimpleDataDescription(v DescriptionSimple) DataDescription {
 	return s
 }
 
+// Ref: #/components/schemas/DefaultCircle
+type DefaultCircle struct {
+	Kind   string `json:"kind"`
+	Radius int    `json:"radius"`
+}
+
+// GetKind returns the value of Kind.
+func (s *DefaultCircle) GetKind() string {
+	return s.Kind
+}
+
+// GetRadius returns the value of Radius.
+func (s *DefaultCircle) GetRadius() int {
+	return s.Radius
+}
+
+// SetKind sets the value of Kind.
+func (s *DefaultCircle) SetKind(val string) {
+	s.Kind = val
+}
+
+// SetRadius sets the value of Radius.
+func (s *DefaultCircle) SetRadius(val int) {
+	s.Radius = val
+}
+
+// Ref: #/components/schemas/DefaultShape
+// DefaultShape represents sum type.
+type DefaultShape struct {
+	// Type selects the active sum variant, switch on this field.
+	Type          DefaultShapeType
+	DefaultCircle DefaultCircle
+	DefaultSquare DefaultSquare
+}
+
+// DefaultShapeType is oneOf type of DefaultShape.
+type DefaultShapeType string
+
+// Possible values for DefaultShapeType.
+const (
+	DefaultCircleDefaultShape DefaultShapeType = "circle"
+	DefaultSquareDefaultShape DefaultShapeType = "square"
+)
+
+// IsDefaultCircle reports whether DefaultShape is DefaultCircle.
+func (s DefaultShape) IsDefaultCircle() bool { return s.Type == DefaultCircleDefaultShape }
+
+// IsDefaultSquare reports whether DefaultShape is DefaultSquare.
+func (s DefaultShape) IsDefaultSquare() bool { return s.Type == DefaultSquareDefaultShape }
+
+// SetDefaultCircle sets DefaultShape to DefaultCircle.
+func (s *DefaultShape) SetDefaultCircle(v DefaultCircle) {
+	s.Type = DefaultCircleDefaultShape
+	s.DefaultCircle = v
+}
+
+// GetDefaultCircle returns DefaultCircle and true boolean if DefaultShape is DefaultCircle.
+func (s DefaultShape) GetDefaultCircle() (v DefaultCircle, ok bool) {
+	if !s.IsDefaultCircle() {
+		return v, false
+	}
+	return s.DefaultCircle, true
+}
+
+// NewDefaultCircleDefaultShape returns new DefaultShape from DefaultCircle.
+func NewDefaultCircleDefaultShape(v DefaultCircle) DefaultShape {
+	var s DefaultShape
+	s.SetDefaultCircle(v)
+	return s
+}
+
+// SetDefaultSquare sets DefaultShape to DefaultSquare.
+func (s *DefaultShape) SetDefaultSquare(v DefaultSquare) {
+	s.Type = DefaultSquareDefaultShape
+	s.DefaultSquare = v
+}
+
+// GetDefaultSquare returns DefaultSquare and true boolean if DefaultShape is DefaultSquare.
+func (s DefaultShape) GetDefaultSquare() (v DefaultSquare, ok bool) {
+	if !s.IsDefaultSquare() {
+		return v, false
+	}
+	return s.DefaultSquare, true
+}
+
+// NewDefaultSquareDefaultShape returns new DefaultShape from DefaultSquare.
+func NewDefaultSquareDefaultShape(v DefaultSquare) DefaultShape {
+	var s DefaultShape
+	s.SetDefaultSquare(v)
+	return s
+}
+
+// Ref: #/components/schemas/DefaultSquare
+type DefaultSquare struct {
+	Kind string `json:"kind"`
+	Side int    `json:"side"`
+}
+
+// GetKind returns the value of Kind.
+func (s *DefaultSquare) GetKind() string {
+	return s.Kind
+}
+
+// GetSide returns the value of Side.
+func (s *DefaultSquare) GetSide() int {
+	return s.Side
+}
+
+// SetKind sets the value of Kind.
+func (s *DefaultSquare) SetKind(val string) {
+	s.Kind = val
+}
+
+// SetSide sets the value of Side.
+func (s *DefaultSquare) SetSide(val int) {
+	s.Side = val
+}
+
 // Ref: #/components/schemas/DefaultTest
 type DefaultTest struct {
-	Required string             `json:"required"`
-	Str      OptString          `json:"str"`
-	NullStr  OptNilString       `json:"nullStr"`
-	Enum     OptDefaultTestEnum `json:"enum"`
-	UUID     OptUUID            `json:"uuid"`
-	IP       OptIP              `json:"ip"`
-	IPV4     OptIPv4            `json:"ip_v4"`
-	IPV6     OptIPv6            `json:"ip_v6"`
-	URI      OptURI             `json:"uri"`
-	Birthday OptDate            `json:"birthday"`
-	Rate     OptDuration        `json:"rate"`
-	Email    OptString          `json:"email"`
-	Hostname OptString          `json:"hostname"`
-	Format   OptString          `json:"format"`
-	Base64   []byte             `json:"base64"`
+	Required   string                      `json:"required"`
+	Str        OptString                   `json:"str"`
+	NullStr    OptNilString                `json:"nullStr"`
+	Enum       OptDefaultTestEnum          `json:"enum"`
+	UUID       OptUUID                     `json:"uuid"`
+	IP         OptIP                       `json:"ip"`
+	IPV4       OptIPv4                     `json:"ip_v4"`
+	IPV6       OptIPv6                     `json:"ip_v6"`
+	URI        OptURI                      `json:"uri"`
+	Birthday   OptDate                     `json:"birthday"`
+	Rate       OptDuration                 `json:"rate"`
+	Email      OptString                   `json:"email"`
+	Hostname   OptString                   `json:"hostname"`
+	Format     OptString                   `json:"format"`
+	Base64     []byte                      `json:"base64"`
+	Strings    []string                    `json:"strings"`
+	Priorities []DefaultTestPrioritiesItem `json:"priorities"`
+	Nested     [][]int                     `json:"nested"`
+	Objs       []DefaultTestObjsItem       `json:"objs"`
+	Shapes     []DefaultShape              `json:"shapes"`
+	Labels     []DefaultTestLabelsItem     `json:"labels"`
 }
 
 // GetRequired returns the value of Required.
@@ -367,6 +504,36 @@ func (s *DefaultTest) GetBase64() []byte {
 	return s.Base64
 }
 
+// GetStrings returns the value of Strings.
+func (s *DefaultTest) GetStrings() []string {
+	return s.Strings
+}
+
+// GetPriorities returns the value of Priorities.
+func (s *DefaultTest) GetPriorities() []DefaultTestPrioritiesItem {
+	return s.Priorities
+}
+
+// GetNested returns the value of Nested.
+func (s *DefaultTest) GetNested() [][]int {
+	return s.Nested
+}
+
+// GetObjs returns the value of Objs.
+func (s *DefaultTest) GetObjs() []DefaultTestObjsItem {
+	return s.Objs
+}
+
+// GetShapes returns the value of Shapes.
+func (s *DefaultTest) GetShapes() []DefaultShape {
+	return s.Shapes
+}
+
+// GetLabels returns the value of Labels.
+func (s *DefaultTest) GetLabels() []DefaultTestLabelsItem {
+	return s.Labels
+}
+
 // SetRequired sets the value of Required.
 func (s *DefaultTest) SetRequired(val string) {
 	s.Required = val
@@ -442,6 +609,36 @@ func (s *DefaultTest) SetBase64(val []byte) {
 	s.Base64 = val
 }
 
+// SetStrings sets the value of Strings.
+func (s *DefaultTest) SetStrings(val []string) {
+	s.Strings = val
+}
+
+// SetPriorities sets the value of Priorities.
+func (s *DefaultTest) SetPriorities(val []DefaultTestPrioritiesItem) {
+	s.Priorities = val
+}
+
+// SetNested sets the value of Nested.
+func (s *DefaultTest) SetNested(val [][]int) {
+	s.Nested = val
+}
+
+// SetObjs sets the value of Objs.
+func (s *DefaultTest) SetObjs(val []DefaultTestObjsItem) {
+	s.Objs = val
+}
+
+// SetShapes sets the value of Shapes.
+func (s *DefaultTest) SetShapes(val []DefaultShape) {
+	s.Shapes = val
+}
+
+// SetLabels sets the value of Labels.
+func (s *DefaultTest) SetLabels(val []DefaultTestLabelsItem) {
+	s.Labels = val
+}
+
 type DefaultTestEnum string
 
 const (
@@ -477,6 +674,90 @@ func (s *DefaultTestEnum) UnmarshalText(data []byte) error {
 		return nil
 	case DefaultTestEnumSmol:
 		*s = DefaultTestEnumSmol
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type DefaultTestLabelsItem map[string]string
+
+func (s *DefaultTestLabelsItem) init() DefaultTestLabelsItem {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+type DefaultTestObjsItem struct {
+	Name  OptString `json:"name"`
+	Count OptInt    `json:"count"`
+}
+
+// GetName returns the value of Name.
+func (s *DefaultTestObjsItem) GetName() OptString {
+	return s.Name
+}
+
+// GetCount returns the value of Count.
+func (s *DefaultTestObjsItem) GetCount() OptInt {
+	return s.Count
+}
+
+// SetName sets the value of Name.
+func (s *DefaultTestObjsItem) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetCount sets the value of Count.
+func (s *DefaultTestObjsItem) SetCount(val OptInt) {
+	s.Count = val
+}
+
+type DefaultTestPrioritiesItem string
+
+const (
+	DefaultTestPrioritiesItemLow    DefaultTestPrioritiesItem = "low"
+	DefaultTestPrioritiesItemMedium DefaultTestPrioritiesItem = "medium"
+	DefaultTestPrioritiesItemHigh   DefaultTestPrioritiesItem = "high"
+)
+
+// AllValues returns all DefaultTestPrioritiesItem values.
+func (DefaultTestPrioritiesItem) AllValues() []DefaultTestPrioritiesItem {
+	return []DefaultTestPrioritiesItem{
+		DefaultTestPrioritiesItemLow,
+		DefaultTestPrioritiesItemMedium,
+		DefaultTestPrioritiesItemHigh,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DefaultTestPrioritiesItem) MarshalText() ([]byte, error) {
+	switch s {
+	case DefaultTestPrioritiesItemLow:
+		return []byte(s), nil
+	case DefaultTestPrioritiesItemMedium:
+		return []byte(s), nil
+	case DefaultTestPrioritiesItemHigh:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DefaultTestPrioritiesItem) UnmarshalText(data []byte) error {
+	switch DefaultTestPrioritiesItem(data) {
+	case DefaultTestPrioritiesItemLow:
+		*s = DefaultTestPrioritiesItemLow
+		return nil
+	case DefaultTestPrioritiesItemMedium:
+		*s = DefaultTestPrioritiesItemMedium
+		return nil
+	case DefaultTestPrioritiesItemHigh:
+		*s = DefaultTestPrioritiesItemHigh
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -609,7 +890,8 @@ func (s *FoobarPutDef) SetStatusCode(val int) {
 // Ref: #/components/schemas/ID
 // ID represents sum type.
 type ID struct {
-	Type   IDType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type   IDType
 	String string
 	Int    int
 }
@@ -699,7 +981,8 @@ func (s *InlineDiscriminatorOneOf) SetOneOf(val InlineDiscriminatorOneOfSum) {
 
 // InlineDiscriminatorOneOfSum represents sum type.
 type InlineDiscriminatorOneOfSum struct {
-	Type           InlineDiscriminatorOneOfSumType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type           InlineDiscriminatorOneOfSumType
 	InlineOneOfFoo InlineOneOfFoo
 	InlineOneOfBar InlineOneOfBar
 }
@@ -845,7 +1128,8 @@ func (s *InlineUniqueFieldsOneOf) SetOneOf(val InlineUniqueFieldsOneOfSum) {
 
 // InlineUniqueFieldsOneOfSum represents sum type.
 type InlineUniqueFieldsOneOfSum struct {
-	Type           InlineUniqueFieldsOneOfSumType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type           InlineUniqueFieldsOneOfSumType
 	InlineOneOfFoo InlineOneOfFoo
 	InlineOneOfBar InlineOneOfBar
 }
@@ -911,10 +1195,56 @@ func NewInlineOneOfBarInlineUniqueFieldsOneOfSum(v InlineOneOfBar) InlineUniqueF
 	return s
 }
 
+// An API error.
+// Ref: #/components/schemas/Issue1310
+type Issue1310 struct {
+	// A short, human-readable summary of the problem type. This value should not change between
+	// occurrences of the error.
+	Title OptString `json:"title"`
+	// A human-readable explanation specific to this occurrence of the problem.
+	Details OptString `json:"details"`
+	// Optional map of properties.
+	Properties OptIssue1310Properties `json:"properties"`
+}
+
+// GetTitle returns the value of Title.
+func (s *Issue1310) GetTitle() OptString {
+	return s.Title
+}
+
+// GetDetails returns the value of Details.
+func (s *Issue1310) GetDetails() OptString {
+	return s.Details
+}
+
+// GetProperties returns the value of Properties.
+func (s *Issue1310) GetProperties() OptIssue1310Properties {
+	return s.Properties
+}
+
+// SetTitle sets the value of Title.
+func (s *Issue1310) SetTitle(val OptString) {
+	s.Title = val
+}
+
+// SetDetails sets the value of Details.
+func (s *Issue1310) SetDetails(val OptString) {
+	s.Details = val
+}
+
+// SetProperties sets the value of Properties.
+func (s *Issue1310) SetProperties(val OptIssue1310Properties) {
+	s.Properties = val
+}
+
+// Optional map of properties.
+type Issue1310Properties struct{}
+
 // Ref: #/components/schemas/Issue143
 // Issue143 represents sum type.
 type Issue143 struct {
-	Type      Issue143Type // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type      Issue143Type
 	Issue1430 Issue1430
 	Issue1431 Issue1431
 	Issue1432 Issue1432
@@ -1172,10 +1502,115 @@ func (s *Issue1433) SetUniqueMinus4(val string) {
 	s.UniqueMinus4 = val
 }
 
+// Ref: #/components/schemas/Issue1461
+type Issue1461 struct {
+	RequiredTest         OptIssue1461RequiredTest         `json:"requiredTest"`
+	OptionalTest         OptIssue1461OptionalTest         `json:"optionalTest"`
+	NullableTest         OptIssue1461NullableTest         `json:"nullableTest"`
+	NullableOptionalTest OptIssue1461NullableOptionalTest `json:"nullableOptionalTest"`
+}
+
+// GetRequiredTest returns the value of RequiredTest.
+func (s *Issue1461) GetRequiredTest() OptIssue1461RequiredTest {
+	return s.RequiredTest
+}
+
+// GetOptionalTest returns the value of OptionalTest.
+func (s *Issue1461) GetOptionalTest() OptIssue1461OptionalTest {
+	return s.OptionalTest
+}
+
+// GetNullableTest returns the value of NullableTest.
+func (s *Issue1461) GetNullableTest() OptIssue1461NullableTest {
+	return s.NullableTest
+}
+
+// GetNullableOptionalTest returns the value of NullableOptionalTest.
+func (s *Issue1461) GetNullableOptionalTest() OptIssue1461NullableOptionalTest {
+	return s.NullableOptionalTest
+}
+
+// SetRequiredTest sets the value of RequiredTest.
+func (s *Issue1461) SetRequiredTest(val OptIssue1461RequiredTest) {
+	s.RequiredTest = val
+}
+
+// SetOptionalTest sets the value of OptionalTest.
+func (s *Issue1461) SetOptionalTest(val OptIssue1461OptionalTest) {
+	s.OptionalTest = val
+}
+
+// SetNullableTest sets the value of NullableTest.
+func (s *Issue1461) SetNullableTest(val OptIssue1461NullableTest) {
+	s.NullableTest = val
+}
+
+// SetNullableOptionalTest sets the value of NullableOptionalTest.
+func (s *Issue1461) SetNullableOptionalTest(val OptIssue1461NullableOptionalTest) {
+	s.NullableOptionalTest = val
+}
+
+type Issue1461NullableOptionalTest struct {
+	Banana OptNilStringArray `json:"banana"`
+}
+
+// GetBanana returns the value of Banana.
+func (s *Issue1461NullableOptionalTest) GetBanana() OptNilStringArray {
+	return s.Banana
+}
+
+// SetBanana sets the value of Banana.
+func (s *Issue1461NullableOptionalTest) SetBanana(val OptNilStringArray) {
+	s.Banana = val
+}
+
+type Issue1461NullableTest struct {
+	Banana []string `json:"banana"`
+}
+
+// GetBanana returns the value of Banana.
+func (s *Issue1461NullableTest) GetBanana() []string {
+	return s.Banana
+}
+
+// SetBanana sets the value of Banana.
+func (s *Issue1461NullableTest) SetBanana(val []string) {
+	s.Banana = val
+}
+
+type Issue1461OptionalTest struct {
+	Banana []string `json:"banana"`
+}
+
+// GetBanana returns the value of Banana.
+func (s *Issue1461OptionalTest) GetBanana() []string {
+	return s.Banana
+}
+
+// SetBanana sets the value of Banana.
+func (s *Issue1461OptionalTest) SetBanana(val []string) {
+	s.Banana = val
+}
+
+type Issue1461RequiredTest struct {
+	Banana []string `json:"banana"`
+}
+
+// GetBanana returns the value of Banana.
+func (s *Issue1461RequiredTest) GetBanana() []string {
+	return s.Banana
+}
+
+// SetBanana sets the value of Banana.
+func (s *Issue1461RequiredTest) SetBanana(val []string) {
+	s.Banana = val
+}
+
 // Ref: #/components/schemas/Issue943
 // Issue943 represents sum type.
 type Issue943 struct {
-	Type             Issue943Type // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type             Issue943Type
 	Issue943Variant1 Issue943Variant1
 	Issue943Variant2 Issue943Variant2
 	Issue943Map      Issue943Map
@@ -1266,7 +1701,7 @@ func NewIssue943MapIssue943(v Issue943Map) Issue943 {
 // Ref: #/components/schemas/Issue943Map
 type Issue943Map struct {
 	Selector string `json:"selector"`
-	// Pattern: "^variant3_[^\r\n\u2028\u2029]*".
+	// Pattern: "^variant3_.*".
 	Pattern0Props Issue943MapPattern0
 }
 
@@ -1522,7 +1957,8 @@ func (s *MergeDiscriminatorOneOf) SetOneOf(val MergeDiscriminatorOneOfSum) {
 
 // MergeDiscriminatorOneOfSum represents sum type.
 type MergeDiscriminatorOneOfSum struct {
-	Type           MergeDiscriminatorOneOfSumType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type           MergeDiscriminatorOneOfSumType
 	InlineOneOfFoo InlineOneOfFoo
 	InlineOneOfBar InlineOneOfBar
 }
@@ -1617,7 +2053,8 @@ func (s *MergeUniqueFieldsOneOf) SetOneOf(val MergeUniqueFieldsOneOfSum) {
 
 // MergeUniqueFieldsOneOfSum represents sum type.
 type MergeUniqueFieldsOneOfSum struct {
-	Type           MergeUniqueFieldsOneOfSumType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type           MergeUniqueFieldsOneOfSumType
 	InlineOneOfFoo InlineOneOfFoo
 	InlineOneOfBar InlineOneOfBar
 }
@@ -1702,10 +2139,10 @@ func (o *NilInt) SetTo(v int) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilInt) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilInt) SetToNull() {
 	o.Null = true
 	var v int
@@ -1773,10 +2210,10 @@ func (o *NilNullableEnumsBoth) SetTo(v NullableEnumsBoth) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableEnumsBoth) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableEnumsBoth) SetToNull() {
 	o.Null = true
 	var v NullableEnumsBoth
@@ -1818,10 +2255,10 @@ func (o *NilNullableEnumsOnlyNullValue) SetTo(v NullableEnumsOnlyNullValue) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableEnumsOnlyNullValue) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableEnumsOnlyNullValue) SetToNull() {
 	o.Null = true
 	var v NullableEnumsOnlyNullValue
@@ -1863,10 +2300,10 @@ func (o *NilNullableEnumsOnlyNullable) SetTo(v NullableEnumsOnlyNullable) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableEnumsOnlyNullable) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableEnumsOnlyNullable) SetToNull() {
 	o.Null = true
 	var v NullableEnumsOnlyNullable
@@ -1908,10 +2345,10 @@ func (o *NilString) SetTo(v string) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilString) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilString) SetToNull() {
 	o.Null = true
 	var v string
@@ -2151,7 +2588,8 @@ func (s *NullableEnumsOnlyNullable) UnmarshalText(data []byte) error {
 // Ref: #/components/schemas/OneOfBooleanSumNullables
 // OneOfBooleanSumNullables represents sum type.
 type OneOfBooleanSumNullables struct {
-	Type           OneOfBooleanSumNullablesType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type           OneOfBooleanSumNullablesType
 	Bool           bool
 	OneOfNullables OneOfNullables
 }
@@ -2279,7 +2717,8 @@ func (s *OneOfBugs) SetIssue943(val OptIssue943) {
 // Ref: #/components/schemas/OneOfMappingReference
 // OneOfMappingReference represents sum type.
 type OneOfMappingReference struct {
-	Type                   OneOfMappingReferenceType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                   OneOfMappingReferenceType
 	OneOfMappingReferenceA OneOfMappingReferenceA
 	OneOfMappingReferenceB OneOfMappingReferenceB
 }
@@ -2424,7 +2863,8 @@ type OneOfMappingReferenceBData struct{}
 // Ref: #/components/schemas/OneOfNullables
 // OneOfNullables represents sum type.
 type OneOfNullables struct {
-	Type        OneOfNullablesType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type        OneOfNullablesType
 	Null        struct{}
 	String      string
 	Int         int
@@ -2541,7 +2981,8 @@ func NewStringArrayOneOfNullables(v []string) OneOfNullables {
 // Ref: #/components/schemas/OneOfUUIDAndIntEnum
 // OneOfUUIDAndIntEnum represents sum type.
 type OneOfUUIDAndIntEnum struct {
-	Type                 OneOfUUIDAndIntEnumType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                 OneOfUUIDAndIntEnumType
 	UUID                 uuid.UUID
 	OneOfUUIDAndIntEnum1 OneOfUUIDAndIntEnum1
 }
@@ -2623,7 +3064,8 @@ func (OneOfUUIDAndIntEnum1) AllValues() []OneOfUUIDAndIntEnum1 {
 // Ref: #/components/schemas/OneOfWithNullable
 // OneOfWithNullable represents sum type.
 type OneOfWithNullable struct {
-	Type        OneOfWithNullableType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type        OneOfWithNullableType
 	Null        struct{}
 	String      string
 	Int         int
@@ -2755,7 +3197,8 @@ func (s *OnePropertyObject) SetFoo(val string) {
 // Ref: #/components/schemas/OneVariantHasNoUniqueFields
 // OneVariantHasNoUniqueFields represents sum type.
 type OneVariantHasNoUniqueFields struct {
-	Type                         OneVariantHasNoUniqueFieldsType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                         OneVariantHasNoUniqueFieldsType
 	OneVariantHasNoUniqueFields0 OneVariantHasNoUniqueFields0
 	OneVariantHasNoUniqueFields1 OneVariantHasNoUniqueFields1
 }
@@ -3704,6 +4147,236 @@ func (o OptInt32) Or(d int32) int32 {
 	return d
 }
 
+// NewOptIssue1310Properties returns new OptIssue1310Properties with value set to v.
+func NewOptIssue1310Properties(v *Issue1310Properties) OptIssue1310Properties {
+	return OptIssue1310Properties{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptIssue1310Properties is optional *Issue1310Properties.
+type OptIssue1310Properties struct {
+	Value *Issue1310Properties
+	Set   bool
+}
+
+// IsSet returns true if OptIssue1310Properties was set.
+func (o OptIssue1310Properties) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptIssue1310Properties) Reset() {
+	var v *Issue1310Properties
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptIssue1310Properties) SetTo(v *Issue1310Properties) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptIssue1310Properties) Get() (v *Issue1310Properties, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptIssue1310Properties) Or(d *Issue1310Properties) *Issue1310Properties {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptIssue1461NullableOptionalTest returns new OptIssue1461NullableOptionalTest with value set to v.
+func NewOptIssue1461NullableOptionalTest(v Issue1461NullableOptionalTest) OptIssue1461NullableOptionalTest {
+	return OptIssue1461NullableOptionalTest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptIssue1461NullableOptionalTest is optional Issue1461NullableOptionalTest.
+type OptIssue1461NullableOptionalTest struct {
+	Value Issue1461NullableOptionalTest
+	Set   bool
+}
+
+// IsSet returns true if OptIssue1461NullableOptionalTest was set.
+func (o OptIssue1461NullableOptionalTest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptIssue1461NullableOptionalTest) Reset() {
+	var v Issue1461NullableOptionalTest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptIssue1461NullableOptionalTest) SetTo(v Issue1461NullableOptionalTest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptIssue1461NullableOptionalTest) Get() (v Issue1461NullableOptionalTest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptIssue1461NullableOptionalTest) Or(d Issue1461NullableOptionalTest) Issue1461NullableOptionalTest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptIssue1461NullableTest returns new OptIssue1461NullableTest with value set to v.
+func NewOptIssue1461NullableTest(v Issue1461NullableTest) OptIssue1461NullableTest {
+	return OptIssue1461NullableTest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptIssue1461NullableTest is optional Issue1461NullableTest.
+type OptIssue1461NullableTest struct {
+	Value Issue1461NullableTest
+	Set   bool
+}
+
+// IsSet returns true if OptIssue1461NullableTest was set.
+func (o OptIssue1461NullableTest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptIssue1461NullableTest) Reset() {
+	var v Issue1461NullableTest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptIssue1461NullableTest) SetTo(v Issue1461NullableTest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptIssue1461NullableTest) Get() (v Issue1461NullableTest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptIssue1461NullableTest) Or(d Issue1461NullableTest) Issue1461NullableTest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptIssue1461OptionalTest returns new OptIssue1461OptionalTest with value set to v.
+func NewOptIssue1461OptionalTest(v Issue1461OptionalTest) OptIssue1461OptionalTest {
+	return OptIssue1461OptionalTest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptIssue1461OptionalTest is optional Issue1461OptionalTest.
+type OptIssue1461OptionalTest struct {
+	Value Issue1461OptionalTest
+	Set   bool
+}
+
+// IsSet returns true if OptIssue1461OptionalTest was set.
+func (o OptIssue1461OptionalTest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptIssue1461OptionalTest) Reset() {
+	var v Issue1461OptionalTest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptIssue1461OptionalTest) SetTo(v Issue1461OptionalTest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptIssue1461OptionalTest) Get() (v Issue1461OptionalTest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptIssue1461OptionalTest) Or(d Issue1461OptionalTest) Issue1461OptionalTest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptIssue1461RequiredTest returns new OptIssue1461RequiredTest with value set to v.
+func NewOptIssue1461RequiredTest(v Issue1461RequiredTest) OptIssue1461RequiredTest {
+	return OptIssue1461RequiredTest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptIssue1461RequiredTest is optional Issue1461RequiredTest.
+type OptIssue1461RequiredTest struct {
+	Value Issue1461RequiredTest
+	Set   bool
+}
+
+// IsSet returns true if OptIssue1461RequiredTest was set.
+func (o OptIssue1461RequiredTest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptIssue1461RequiredTest) Reset() {
+	var v Issue1461RequiredTest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptIssue1461RequiredTest) SetTo(v Issue1461RequiredTest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptIssue1461RequiredTest) Get() (v Issue1461RequiredTest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptIssue1461RequiredTest) Or(d Issue1461RequiredTest) Issue1461RequiredTest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptIssue943 returns new OptIssue943 with value set to v.
 func NewOptIssue943(v Issue943) OptIssue943 {
 	return OptIssue943{
@@ -4013,15 +4686,20 @@ func (o *OptNilString) SetTo(v string) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilString) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilString) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v string
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilString) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4076,15 +4754,20 @@ func (o *OptNilStringArray) SetTo(v []string) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringArray) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringArray) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v []string
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -5453,7 +6136,7 @@ func (s *RecursiveMapAdditional) init() RecursiveMapAdditional {
 // Ref: #/components/schemas/StringIntMap
 type StringIntMap struct {
 	AdditionalProps StringIntMapAdditional
-	// Pattern: "string_[^\r\n\u2028\u2029]*".
+	// Pattern: "string_.*".
 	Pattern0Props StringIntMapPattern0
 }
 
@@ -5522,6 +6205,35 @@ func (s *StringStringMap) init() StringStringMap {
 	}
 	return m
 }
+
+// Ref: #/components/schemas/TestDecimalValidation
+type TestDecimalValidation struct {
+	Minmax     decimal.Decimal `json:"minmax"`
+	MultipleOf decimal.Decimal `json:"multipleOf"`
+}
+
+// GetMinmax returns the value of Minmax.
+func (s *TestDecimalValidation) GetMinmax() decimal.Decimal {
+	return s.Minmax
+}
+
+// GetMultipleOf returns the value of MultipleOf.
+func (s *TestDecimalValidation) GetMultipleOf() decimal.Decimal {
+	return s.MultipleOf
+}
+
+// SetMinmax sets the value of Minmax.
+func (s *TestDecimalValidation) SetMinmax(val decimal.Decimal) {
+	s.Minmax = val
+}
+
+// SetMultipleOf sets the value of MultipleOf.
+func (s *TestDecimalValidation) SetMultipleOf(val decimal.Decimal) {
+	s.MultipleOf = val
+}
+
+// TestDecimalValidationOK is response for TestDecimalValidation operation.
+type TestDecimalValidationOK struct{}
 
 // Ref: #/components/schemas/TestFloatValidation
 type TestFloatValidation struct {

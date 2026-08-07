@@ -8,17 +8,30 @@ import (
 	"time"
 
 	"github.com/go-faster/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
-	"go.opentelemetry.io/otel/trace"
-
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/otelogen"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
+	"go.opentelemetry.io/otel/trace"
 )
+
+type codeRecorder struct {
+	http.ResponseWriter
+	status int
+}
+
+func (c *codeRecorder) WriteHeader(status int) {
+	c.status = status
+	c.ResponseWriter.WriteHeader(status)
+}
+
+func (c *codeRecorder) Unwrap() http.ResponseWriter {
+	return c.ResponseWriter
+}
 
 // handleDataGetRequest handles dataGet operation.
 //
@@ -26,14 +39,18 @@ import (
 //
 // GET /name/{id}/{key}
 func (s *Server) handleDataGetRequest(args [2]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("dataGet"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/name/{id}/{key}"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "DataGet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), DataGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -47,24 +64,48 @@ func (s *Server) handleDataGetRequest(args [2]string, argsEscaped bool, w http.R
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "DataGet",
+			Name: DataGetOperation,
 			ID:   "dataGet",
 		}
 	)
@@ -79,14 +120,17 @@ func (s *Server) handleDataGetRequest(args [2]string, argsEscaped bool, w http.R
 		return
 	}
 
+	var rawBody []byte
+
 	var response string
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "DataGet",
+			OperationName:    DataGetOperation,
 			OperationSummary: "",
 			OperationID:      "dataGet",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "id",
@@ -142,14 +186,18 @@ func (s *Server) handleDataGetRequest(args [2]string, argsEscaped bool, w http.R
 //
 // GET /name
 func (s *Server) handleDataGetAnyRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("dataGetAny"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/name"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "DataGetAny",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), DataGetAnyOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -163,32 +211,59 @@ func (s *Server) handleDataGetAnyRequest(args [0]string, argsEscaped bool, w htt
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err error
 	)
+
+	var rawBody []byte
 
 	var response string
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "DataGetAny",
+			OperationName:    DataGetAnyOperation,
 			OperationSummary: "",
 			OperationID:      "dataGetAny",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -235,14 +310,18 @@ func (s *Server) handleDataGetAnyRequest(args [0]string, argsEscaped bool, w htt
 //
 // GET /name/{id}
 func (s *Server) handleDataGetIDRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("dataGetID"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/name/{id}"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "DataGetID",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), DataGetIDOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -256,24 +335,48 @@ func (s *Server) handleDataGetIDRequest(args [1]string, argsEscaped bool, w http
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "DataGetID",
+			Name: DataGetIDOperation,
 			ID:   "dataGetID",
 		}
 	)
@@ -288,14 +391,17 @@ func (s *Server) handleDataGetIDRequest(args [1]string, argsEscaped bool, w http
 		return
 	}
 
+	var rawBody []byte
+
 	var response string
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "DataGetID",
+			OperationName:    DataGetIDOperation,
 			OperationSummary: "",
 			OperationID:      "dataGetID",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "id",

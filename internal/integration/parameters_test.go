@@ -2,11 +2,15 @@ package integration
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
+	"time"
 
 	"github.com/go-faster/errors"
 	"github.com/stretchr/testify/assert"
@@ -18,6 +22,10 @@ import (
 type testParameters struct{}
 
 var _ api.Handler = (*testParameters)(nil)
+
+func (s *testParameters) OptionalParameters(ctx context.Context, params api.OptionalParametersParams) (*api.OptionalQueryParametersResponse, error) {
+	return nil, nil
+}
 
 func (s *testParameters) OptionalArrayParameter(ctx context.Context, params api.OptionalArrayParameterParams) (string, error) {
 	return "", nil
@@ -82,6 +90,13 @@ func (s *testParameters) SimilarNames(ctx context.Context, params api.SimilarNam
 	panic("implement me")
 }
 
+func (s *testParameters) SpaceDelimitedParameter(ctx context.Context, params api.SpaceDelimitedParameterParams) (*api.SpaceDelimitedParameterOK, error) {
+	return &api.SpaceDelimitedParameterOK{
+		Exploded: params.Exploded,
+		Joined:   params.Joined,
+	}, nil
+}
+
 func TestParameters(t *testing.T) {
 	ctx := context.Background()
 
@@ -124,6 +139,18 @@ func TestParameters(t *testing.T) {
 		require.Equal(t, oneLevel, *resp)
 	})
 
+	t.Run("SpaceDelimitedParameter", func(t *testing.T) {
+		exploded := []string{"a", "b", "c"}
+		joined := []string{"1", "2", "3"}
+		resp, err := client.SpaceDelimitedParameter(ctx, api.SpaceDelimitedParameterParams{
+			Exploded: exploded,
+			Joined:   joined,
+		})
+		require.NoError(t, err)
+		require.Equal(t, exploded, resp.Exploded)
+		require.Equal(t, joined, resp.Joined)
+	})
+
 	const plainParam = "`\"';,./<>?[]{}\\|~!@#$%^&*()_+-="
 	for i, param := range []string{
 		"%",
@@ -132,7 +159,6 @@ func TestParameters(t *testing.T) {
 		"/%",
 		plainParam,
 	} {
-		param := param
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
 			t.Run("PathParameter", func(t *testing.T) {
 				h, err := client.PathParameter(ctx, api.PathParameterParams{Value: param})
@@ -209,4 +235,131 @@ func TestOptionalArrayParameter(t *testing.T) {
 	resp, err := client.OptionalArrayParameter(ctx, api.OptionalArrayParameterParams{})
 	require.NoError(t, err)
 	require.Equal(t, "ok", resp)
+}
+
+func TestParametersCanBeLogged(t *testing.T) {
+	testCases := []struct {
+		name         string
+		params       any
+		expectedJSON string
+	}{
+		{
+			name:         "ObjectQueryParameter empty",
+			params:       api.ObjectQueryParameterParams{},
+			expectedJSON: `{}`,
+		},
+		{
+			name: "ObjectQueryParameter all provided",
+			params: api.ObjectQueryParameterParams{
+				FormObject: api.NewOptOneLevelObject(api.OneLevelObject{Min: 1, Max: 5, Filter: "abc"}),
+				DeepObject: api.NewOptOneLevelObject(api.OneLevelObject{Min: 2, Max: 6, Filter: "def"}),
+			},
+			expectedJSON: `{"FormObject":{"min":1,"max":5,"filter":"abc"},"DeepObject":{"min":2,"max":6,"filter":"def"}}`,
+		},
+		{
+			name:         "ObjectCookieParameter",
+			params:       api.ObjectCookieParameterParams{Value: api.OneLevelObject{Min: 1, Max: 5, Filter: "abc"}},
+			expectedJSON: `{"Value":{"min":1,"max":5,"filter":"abc"}}`,
+		},
+		{
+			name: "ContentParameters",
+			params: api.ContentParametersParams{
+				Query:   api.User{ID: 1, Username: "admin", Role: api.UserRoleAdmin},
+				Path:    api.User{ID: 2, Username: "alice", Role: api.UserRoleUser},
+				XHeader: api.User{ID: 3, Username: "bob", Role: api.UserRoleBot},
+				Cookie:  api.User{ID: 4, Username: "charlie", Role: api.UserRoleAdmin},
+			},
+			expectedJSON: `{"Query":{"id":1,"username":"admin","role":"admin","friends":null},"Path":{"id":2,"username":"alice","role":"user","friends":null},"XHeader":{"id":3,"username":"bob","role":"bot","friends":null},"Cookie":{"id":4,"username":"charlie","role":"admin","friends":null}}`,
+		},
+		{
+			name:         "PathParameter",
+			params:       api.PathParameterParams{Value: "a string"},
+			expectedJSON: `{"Value":"a string"}`,
+		},
+		{
+			name:         "HeaderParameter",
+			params:       api.HeaderParameterParams{XValue: "a string"},
+			expectedJSON: `{"XValue":"a string"}`,
+		},
+		{
+			name:         "CookieParameter",
+			params:       api.CookieParameterParams{Value: "a string"},
+			expectedJSON: `{"Value":"a string"}`,
+		},
+		{
+			name:         "OptionalArrayParameter empty",
+			params:       api.OptionalArrayParameterParams{},
+			expectedJSON: `{}`,
+		},
+		{
+			name: "OptionalArrayParameter all provided",
+			params: api.OptionalArrayParameterParams{
+				Query:  []string{"a", "b", "c"},
+				Header: []string{"d", "e", "f"},
+			},
+			expectedJSON: `{"Query":["a","b","c"],"Header":["d","e","f"]}`,
+		},
+		{
+			name: "ComplicatedParameterNameGet",
+			params: api.ComplicatedParameterNameGetParams{
+				Eq:       "eq",
+				Plus:     "plus",
+				Question: "question",
+				And:      "and",
+				Percent:  "percent",
+			},
+			expectedJSON: `{"Eq":"eq","Plus":"plus","Question":"question","And":"and","Percent":"percent"}`,
+		},
+		{
+			name:         "OptionalParametersParams empty",
+			params:       api.OptionalParametersParams{},
+			expectedJSON: `{}`,
+		},
+		{
+			name: "OptionalParametersParams all provided",
+			params: api.OptionalParametersParams{
+				Integer: api.NewOptInt(1),
+				String:  api.NewOptString("a string"),
+				Boolean: api.NewOptBool(true),
+				Object: api.NewOptOptionalParametersObject(api.OptionalParametersObject{
+					Key: api.NewOptString("key"),
+				}),
+				Timestamp: api.NewOptDateTime(time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)),
+				Array:     []string{"a", "b", "c"},
+			},
+			expectedJSON: `{"Integer":1,"String":"a string","Boolean":true,"Object":{"Value":{"key":"key"},"Set":true},"Timestamp":"2021-01-01T00:00:00Z","Array":["a","b","c"]}`,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Run("can be marshaled with encoding/json", func(t *testing.T) {
+				got, err := json.Marshal(tc.params)
+				require.NoError(t, err)
+				assert.Equal(t, tc.expectedJSON, string(got))
+			})
+
+			t.Run("can be logged with slog", func(t *testing.T) {
+				// init new logger
+				builder := &strings.Builder{}
+				loggerOpts := &slog.HandlerOptions{
+					ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
+						// copy/paste of log/slog/internal/slogtest.RemoveTime
+						if a.Key == slog.TimeKey && len(groups) == 0 {
+							return slog.Attr{}
+						}
+						return a
+					},
+				}
+				logger := slog.New(slog.NewJSONHandler(builder, loggerOpts))
+
+				// log
+				logger.Info("test", "params", tc.params)
+
+				// assert
+				expectedLog := fmt.Sprintf(`{"level":"INFO","msg":"test","params":%s}`, tc.expectedJSON) + "\n"
+				assert.Equal(t, expectedLog, builder.String())
+			})
+		})
+	}
 }

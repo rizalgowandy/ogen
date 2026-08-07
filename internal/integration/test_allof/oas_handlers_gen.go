@@ -8,32 +8,49 @@ import (
 	"time"
 
 	"github.com/go-faster/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
-	"go.opentelemetry.io/otel/trace"
-
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/otelogen"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
+	"go.opentelemetry.io/otel/trace"
 )
 
-// handleNullableStringsRequest handles nullableStrings operation.
+type codeRecorder struct {
+	http.ResponseWriter
+	status int
+}
+
+func (c *codeRecorder) WriteHeader(status int) {
+	c.status = status
+	c.ResponseWriter.WriteHeader(status)
+}
+
+func (c *codeRecorder) Unwrap() http.ResponseWriter {
+	return c.ResponseWriter
+}
+
+// handleAllOfWithSiblingExtensionsRequest handles allOfWithSiblingExtensions operation.
 //
-// Nullable strings.
+// AllOf combined with ogen-specific sibling keywords (must be applied, not dropped).
 //
-// POST /nullableStrings
-func (s *Server) handleNullableStringsRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+// POST /allOfWithSiblingExtensions
+func (s *Server) handleAllOfWithSiblingExtensionsRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
-		otelogen.OperationID("nullableStrings"),
+		otelogen.OperationID("allOfWithSiblingExtensions"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/nullableStrings"),
+		semconv.HTTPRouteKey.String("/allOfWithSiblingExtensions"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "NullableStrings",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), AllOfWithSiblingExtensionsOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -47,28 +64,731 @@ func (s *Server) handleNullableStringsRequest(args [0]string, argsEscaped bool, 
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "NullableStrings",
+			Name: AllOfWithSiblingExtensionsOperation,
+			ID:   "allOfWithSiblingExtensions",
+		}
+	)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeAllOfWithSiblingExtensionsRequest(r)
+	if err != nil {
+		err = &ogenerrors.DecodeRequestError{
+			OperationContext: opErrContext,
+			Err:              err,
+		}
+		defer recordError("DecodeRequest", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+	defer func() {
+		if err := close(); err != nil {
+			recordError("CloseRequest", err)
+		}
+	}()
+
+	var response *AllOfWithSiblingExtensionsOK
+	if m := s.cfg.Middleware; m != nil {
+		mreq := middleware.Request{
+			Context:          ctx,
+			OperationName:    AllOfWithSiblingExtensionsOperation,
+			OperationSummary: "",
+			OperationID:      "allOfWithSiblingExtensions",
+			Body:             request,
+			RawBody:          rawBody,
+			Params:           middleware.Parameters{},
+			Raw:              r,
+		}
+
+		type (
+			Request  = *AllOfWithSiblingExtensionsReq
+			Params   = struct{}
+			Response = *AllOfWithSiblingExtensionsOK
+		)
+		response, err = middleware.HookMiddleware[
+			Request,
+			Params,
+			Response,
+		](
+			m,
+			mreq,
+			nil,
+			func(ctx context.Context, request Request, params Params) (response Response, err error) {
+				err = s.h.AllOfWithSiblingExtensions(ctx, request)
+				return response, err
+			},
+		)
+	} else {
+		err = s.h.AllOfWithSiblingExtensions(ctx, request)
+	}
+	if err != nil {
+		defer recordError("Internal", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	if err := encodeAllOfWithSiblingExtensionsResponse(response, w, span); err != nil {
+		defer recordError("EncodeResponse", err)
+		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
+			s.cfg.ErrorHandler(ctx, w, r, err)
+		}
+		return
+	}
+}
+
+// handleAllOfWithSiblingPropertiesRequest handles allOfWithSiblingProperties operation.
+//
+// AllOf combined with sibling properties and required (logical AND).
+//
+// POST /allOfWithSiblingProperties
+func (s *Server) handleAllOfWithSiblingPropertiesRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("allOfWithSiblingProperties"),
+		semconv.HTTPRequestMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/allOfWithSiblingProperties"),
+	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
+
+	// Start a span for this request.
+	ctx, span := s.cfg.Tracer.Start(r.Context(), AllOfWithSiblingPropertiesOperation,
+		trace.WithAttributes(otelAttrs...),
+		serverSpanKind,
+	)
+	defer span.End()
+
+	// Add Labeler to context.
+	labeler := &Labeler{attrs: otelAttrs}
+	ctx = contextWithLabeler(ctx, labeler)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
+
+		// Increment request counter.
+		s.requests.Add(ctx, 1, attrOpt)
+
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
+	}()
+
+	var (
+		recordError = func(stage string, err error) {
+			span.RecordError(err)
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
+		}
+		err          error
+		opErrContext = ogenerrors.OperationContext{
+			Name: AllOfWithSiblingPropertiesOperation,
+			ID:   "allOfWithSiblingProperties",
+		}
+	)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeAllOfWithSiblingPropertiesRequest(r)
+	if err != nil {
+		err = &ogenerrors.DecodeRequestError{
+			OperationContext: opErrContext,
+			Err:              err,
+		}
+		defer recordError("DecodeRequest", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+	defer func() {
+		if err := close(); err != nil {
+			recordError("CloseRequest", err)
+		}
+	}()
+
+	var response *AllOfWithSiblingPropertiesOK
+	if m := s.cfg.Middleware; m != nil {
+		mreq := middleware.Request{
+			Context:          ctx,
+			OperationName:    AllOfWithSiblingPropertiesOperation,
+			OperationSummary: "",
+			OperationID:      "allOfWithSiblingProperties",
+			Body:             request,
+			RawBody:          rawBody,
+			Params:           middleware.Parameters{},
+			Raw:              r,
+		}
+
+		type (
+			Request  = *AllOfWithSiblingPropertiesReq
+			Params   = struct{}
+			Response = *AllOfWithSiblingPropertiesOK
+		)
+		response, err = middleware.HookMiddleware[
+			Request,
+			Params,
+			Response,
+		](
+			m,
+			mreq,
+			nil,
+			func(ctx context.Context, request Request, params Params) (response Response, err error) {
+				err = s.h.AllOfWithSiblingProperties(ctx, request)
+				return response, err
+			},
+		)
+	} else {
+		err = s.h.AllOfWithSiblingProperties(ctx, request)
+	}
+	if err != nil {
+		defer recordError("Internal", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	if err := encodeAllOfWithSiblingPropertiesResponse(response, w, span); err != nil {
+		defer recordError("EncodeResponse", err)
+		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
+			s.cfg.ErrorHandler(ctx, w, r, err)
+		}
+		return
+	}
+}
+
+// handleGetAdminFooRequest handles getAdminFoo operation.
+//
+// Returns Foo + admin-only fields via allOf.
+//
+// GET /admin/foo
+func (s *Server) handleGetAdminFooRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getAdminFoo"),
+		semconv.HTTPRequestMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/admin/foo"),
+	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
+
+	// Start a span for this request.
+	ctx, span := s.cfg.Tracer.Start(r.Context(), GetAdminFooOperation,
+		trace.WithAttributes(otelAttrs...),
+		serverSpanKind,
+	)
+	defer span.End()
+
+	// Add Labeler to context.
+	labeler := &Labeler{attrs: otelAttrs}
+	ctx = contextWithLabeler(ctx, labeler)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
+
+		// Increment request counter.
+		s.requests.Add(ctx, 1, attrOpt)
+
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
+	}()
+
+	var (
+		recordError = func(stage string, err error) {
+			span.RecordError(err)
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
+		}
+		err error
+	)
+
+	var rawBody []byte
+
+	var response *GetAdminFooOK
+	if m := s.cfg.Middleware; m != nil {
+		mreq := middleware.Request{
+			Context:          ctx,
+			OperationName:    GetAdminFooOperation,
+			OperationSummary: "",
+			OperationID:      "getAdminFoo",
+			Body:             nil,
+			RawBody:          rawBody,
+			Params:           middleware.Parameters{},
+			Raw:              r,
+		}
+
+		type (
+			Request  = struct{}
+			Params   = struct{}
+			Response = *GetAdminFooOK
+		)
+		response, err = middleware.HookMiddleware[
+			Request,
+			Params,
+			Response,
+		](
+			m,
+			mreq,
+			nil,
+			func(ctx context.Context, request Request, params Params) (response Response, err error) {
+				response, err = s.h.GetAdminFoo(ctx)
+				return response, err
+			},
+		)
+	} else {
+		response, err = s.h.GetAdminFoo(ctx)
+	}
+	if err != nil {
+		defer recordError("Internal", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	if err := encodeGetAdminFooResponse(response, w, span); err != nil {
+		defer recordError("EncodeResponse", err)
+		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
+			s.cfg.ErrorHandler(ctx, w, r, err)
+		}
+		return
+	}
+}
+
+// handleGetFooRequest handles getFoo operation.
+//
+// Returns a Foo (base schema with $ref nested types).
+//
+// GET /foo
+func (s *Server) handleGetFooRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getFoo"),
+		semconv.HTTPRequestMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/foo"),
+	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
+
+	// Start a span for this request.
+	ctx, span := s.cfg.Tracer.Start(r.Context(), GetFooOperation,
+		trace.WithAttributes(otelAttrs...),
+		serverSpanKind,
+	)
+	defer span.End()
+
+	// Add Labeler to context.
+	labeler := &Labeler{attrs: otelAttrs}
+	ctx = contextWithLabeler(ctx, labeler)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
+
+		// Increment request counter.
+		s.requests.Add(ctx, 1, attrOpt)
+
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
+	}()
+
+	var (
+		recordError = func(stage string, err error) {
+			span.RecordError(err)
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
+		}
+		err error
+	)
+
+	var rawBody []byte
+
+	var response *Foo
+	if m := s.cfg.Middleware; m != nil {
+		mreq := middleware.Request{
+			Context:          ctx,
+			OperationName:    GetFooOperation,
+			OperationSummary: "",
+			OperationID:      "getFoo",
+			Body:             nil,
+			RawBody:          rawBody,
+			Params:           middleware.Parameters{},
+			Raw:              r,
+		}
+
+		type (
+			Request  = struct{}
+			Params   = struct{}
+			Response = *Foo
+		)
+		response, err = middleware.HookMiddleware[
+			Request,
+			Params,
+			Response,
+		](
+			m,
+			mreq,
+			nil,
+			func(ctx context.Context, request Request, params Params) (response Response, err error) {
+				response, err = s.h.GetFoo(ctx)
+				return response, err
+			},
+		)
+	} else {
+		response, err = s.h.GetFoo(ctx)
+	}
+	if err != nil {
+		defer recordError("Internal", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	if err := encodeGetFooResponse(response, w, span); err != nil {
+		defer recordError("EncodeResponse", err)
+		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
+			s.cfg.ErrorHandler(ctx, w, r, err)
+		}
+		return
+	}
+}
+
+// handleMultiAllOfWithSiblingPropertiesRequest handles multiAllOfWithSiblingProperties operation.
+//
+// Multiple allOf subschemas combined with sibling properties.
+//
+// POST /multiAllOfWithSiblingProperties
+func (s *Server) handleMultiAllOfWithSiblingPropertiesRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("multiAllOfWithSiblingProperties"),
+		semconv.HTTPRequestMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/multiAllOfWithSiblingProperties"),
+	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
+
+	// Start a span for this request.
+	ctx, span := s.cfg.Tracer.Start(r.Context(), MultiAllOfWithSiblingPropertiesOperation,
+		trace.WithAttributes(otelAttrs...),
+		serverSpanKind,
+	)
+	defer span.End()
+
+	// Add Labeler to context.
+	labeler := &Labeler{attrs: otelAttrs}
+	ctx = contextWithLabeler(ctx, labeler)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
+
+		// Increment request counter.
+		s.requests.Add(ctx, 1, attrOpt)
+
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
+	}()
+
+	var (
+		recordError = func(stage string, err error) {
+			span.RecordError(err)
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
+		}
+		err          error
+		opErrContext = ogenerrors.OperationContext{
+			Name: MultiAllOfWithSiblingPropertiesOperation,
+			ID:   "multiAllOfWithSiblingProperties",
+		}
+	)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeMultiAllOfWithSiblingPropertiesRequest(r)
+	if err != nil {
+		err = &ogenerrors.DecodeRequestError{
+			OperationContext: opErrContext,
+			Err:              err,
+		}
+		defer recordError("DecodeRequest", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+	defer func() {
+		if err := close(); err != nil {
+			recordError("CloseRequest", err)
+		}
+	}()
+
+	var response *MultiAllOfWithSiblingPropertiesOK
+	if m := s.cfg.Middleware; m != nil {
+		mreq := middleware.Request{
+			Context:          ctx,
+			OperationName:    MultiAllOfWithSiblingPropertiesOperation,
+			OperationSummary: "",
+			OperationID:      "multiAllOfWithSiblingProperties",
+			Body:             request,
+			RawBody:          rawBody,
+			Params:           middleware.Parameters{},
+			Raw:              r,
+		}
+
+		type (
+			Request  = *MultiAllOfWithSiblingPropertiesReq
+			Params   = struct{}
+			Response = *MultiAllOfWithSiblingPropertiesOK
+		)
+		response, err = middleware.HookMiddleware[
+			Request,
+			Params,
+			Response,
+		](
+			m,
+			mreq,
+			nil,
+			func(ctx context.Context, request Request, params Params) (response Response, err error) {
+				err = s.h.MultiAllOfWithSiblingProperties(ctx, request)
+				return response, err
+			},
+		)
+	} else {
+		err = s.h.MultiAllOfWithSiblingProperties(ctx, request)
+	}
+	if err != nil {
+		defer recordError("Internal", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	if err := encodeMultiAllOfWithSiblingPropertiesResponse(response, w, span); err != nil {
+		defer recordError("EncodeResponse", err)
+		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
+			s.cfg.ErrorHandler(ctx, w, r, err)
+		}
+		return
+	}
+}
+
+// handleNullableStringsRequest handles nullableStrings operation.
+//
+// Nullable strings.
+//
+// POST /nullableStrings
+func (s *Server) handleNullableStringsRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("nullableStrings"),
+		semconv.HTTPRequestMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/nullableStrings"),
+	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
+
+	// Start a span for this request.
+	ctx, span := s.cfg.Tracer.Start(r.Context(), NullableStringsOperation,
+		trace.WithAttributes(otelAttrs...),
+		serverSpanKind,
+	)
+	defer span.End()
+
+	// Add Labeler to context.
+	labeler := &Labeler{attrs: otelAttrs}
+	ctx = contextWithLabeler(ctx, labeler)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
+
+		// Increment request counter.
+		s.requests.Add(ctx, 1, attrOpt)
+
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
+	}()
+
+	var (
+		recordError = func(stage string, err error) {
+			span.RecordError(err)
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
+		}
+		err          error
+		opErrContext = ogenerrors.OperationContext{
+			Name: NullableStringsOperation,
 			ID:   "nullableStrings",
 		}
 	)
-	request, close, err := s.decodeNullableStringsRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeNullableStringsRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -88,10 +808,11 @@ func (s *Server) handleNullableStringsRequest(args [0]string, argsEscaped bool, 
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "NullableStrings",
+			OperationName:    NullableStringsOperation,
 			OperationSummary: "",
 			OperationID:      "nullableStrings",
 			Body:             request,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -138,14 +859,18 @@ func (s *Server) handleNullableStringsRequest(args [0]string, argsEscaped bool, 
 //
 // POST /objectsWithConflictingArrayProperty
 func (s *Server) handleObjectsWithConflictingArrayPropertyRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("objectsWithConflictingArrayProperty"),
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/objectsWithConflictingArrayProperty"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "ObjectsWithConflictingArrayProperty",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), ObjectsWithConflictingArrayPropertyOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -159,28 +884,54 @@ func (s *Server) handleObjectsWithConflictingArrayPropertyRequest(args [0]string
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "ObjectsWithConflictingArrayProperty",
+			Name: ObjectsWithConflictingArrayPropertyOperation,
 			ID:   "objectsWithConflictingArrayProperty",
 		}
 	)
-	request, close, err := s.decodeObjectsWithConflictingArrayPropertyRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeObjectsWithConflictingArrayPropertyRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -200,10 +951,11 @@ func (s *Server) handleObjectsWithConflictingArrayPropertyRequest(args [0]string
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "ObjectsWithConflictingArrayProperty",
+			OperationName:    ObjectsWithConflictingArrayPropertyOperation,
 			OperationSummary: "",
 			OperationID:      "objectsWithConflictingArrayProperty",
 			Body:             request,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -250,14 +1002,18 @@ func (s *Server) handleObjectsWithConflictingArrayPropertyRequest(args [0]string
 //
 // POST /objectsWithConflictingProperties
 func (s *Server) handleObjectsWithConflictingPropertiesRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("objectsWithConflictingProperties"),
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/objectsWithConflictingProperties"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "ObjectsWithConflictingProperties",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), ObjectsWithConflictingPropertiesOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -271,28 +1027,54 @@ func (s *Server) handleObjectsWithConflictingPropertiesRequest(args [0]string, a
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "ObjectsWithConflictingProperties",
+			Name: ObjectsWithConflictingPropertiesOperation,
 			ID:   "objectsWithConflictingProperties",
 		}
 	)
-	request, close, err := s.decodeObjectsWithConflictingPropertiesRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeObjectsWithConflictingPropertiesRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -312,10 +1094,11 @@ func (s *Server) handleObjectsWithConflictingPropertiesRequest(args [0]string, a
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "ObjectsWithConflictingProperties",
+			OperationName:    ObjectsWithConflictingPropertiesOperation,
 			OperationSummary: "",
 			OperationID:      "objectsWithConflictingProperties",
 			Body:             request,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -356,20 +1139,24 @@ func (s *Server) handleObjectsWithConflictingPropertiesRequest(args [0]string, a
 	}
 }
 
-// handleReferencedAllofRequest handles referencedAllof operation.
+// handleReferencedAllOfNullableRequest handles referencedAllOfNullable operation.
 //
-// Referenced allOf.
+// Referenced allOf, but requestBody contains nullable refs.
 //
-// POST /referencedAllof
-func (s *Server) handleReferencedAllofRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+// POST /referencedAllOfNullable
+func (s *Server) handleReferencedAllOfNullableRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
-		otelogen.OperationID("referencedAllof"),
+		otelogen.OperationID("referencedAllOfNullable"),
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/referencedAllof"),
+		semconv.HTTPRouteKey.String("/referencedAllOfNullable"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "ReferencedAllof",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), ReferencedAllOfNullableOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -383,28 +1170,197 @@ func (s *Server) handleReferencedAllofRequest(args [0]string, argsEscaped bool, 
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "ReferencedAllof",
+			Name: ReferencedAllOfNullableOperation,
+			ID:   "referencedAllOfNullable",
+		}
+	)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeReferencedAllOfNullableRequest(r)
+	if err != nil {
+		err = &ogenerrors.DecodeRequestError{
+			OperationContext: opErrContext,
+			Err:              err,
+		}
+		defer recordError("DecodeRequest", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+	defer func() {
+		if err := close(); err != nil {
+			recordError("CloseRequest", err)
+		}
+	}()
+
+	var response *ReferencedAllOfNullableOK
+	if m := s.cfg.Middleware; m != nil {
+		mreq := middleware.Request{
+			Context:          ctx,
+			OperationName:    ReferencedAllOfNullableOperation,
+			OperationSummary: "",
+			OperationID:      "referencedAllOfNullable",
+			Body:             request,
+			RawBody:          rawBody,
+			Params:           middleware.Parameters{},
+			Raw:              r,
+		}
+
+		type (
+			Request  = ReferencedAllOfNullableReq
+			Params   = struct{}
+			Response = *ReferencedAllOfNullableOK
+		)
+		response, err = middleware.HookMiddleware[
+			Request,
+			Params,
+			Response,
+		](
+			m,
+			mreq,
+			nil,
+			func(ctx context.Context, request Request, params Params) (response Response, err error) {
+				err = s.h.ReferencedAllOfNullable(ctx, request)
+				return response, err
+			},
+		)
+	} else {
+		err = s.h.ReferencedAllOfNullable(ctx, request)
+	}
+	if err != nil {
+		defer recordError("Internal", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	if err := encodeReferencedAllOfNullableResponse(response, w, span); err != nil {
+		defer recordError("EncodeResponse", err)
+		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
+			s.cfg.ErrorHandler(ctx, w, r, err)
+		}
+		return
+	}
+}
+
+// handleReferencedAllofRequest handles referencedAllof operation.
+//
+// Referenced allOf.
+//
+// POST /referencedAllof
+func (s *Server) handleReferencedAllofRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("referencedAllof"),
+		semconv.HTTPRequestMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/referencedAllof"),
+	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
+
+	// Start a span for this request.
+	ctx, span := s.cfg.Tracer.Start(r.Context(), ReferencedAllofOperation,
+		trace.WithAttributes(otelAttrs...),
+		serverSpanKind,
+	)
+	defer span.End()
+
+	// Add Labeler to context.
+	labeler := &Labeler{attrs: otelAttrs}
+	ctx = contextWithLabeler(ctx, labeler)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
+
+		// Increment request counter.
+		s.requests.Add(ctx, 1, attrOpt)
+
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
+	}()
+
+	var (
+		recordError = func(stage string, err error) {
+			span.RecordError(err)
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
+		}
+		err          error
+		opErrContext = ogenerrors.OperationContext{
+			Name: ReferencedAllofOperation,
 			ID:   "referencedAllof",
 		}
 	)
-	request, close, err := s.decodeReferencedAllofRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeReferencedAllofRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -424,10 +1380,11 @@ func (s *Server) handleReferencedAllofRequest(args [0]string, argsEscaped bool, 
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "ReferencedAllof",
+			OperationName:    ReferencedAllofOperation,
 			OperationSummary: "",
 			OperationID:      "referencedAllof",
 			Body:             request,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -474,14 +1431,18 @@ func (s *Server) handleReferencedAllofRequest(args [0]string, argsEscaped bool, 
 //
 // POST /referencedAllofOptional
 func (s *Server) handleReferencedAllofOptionalRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("referencedAllofOptional"),
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/referencedAllofOptional"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "ReferencedAllofOptional",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), ReferencedAllofOptionalOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -495,28 +1456,54 @@ func (s *Server) handleReferencedAllofOptionalRequest(args [0]string, argsEscape
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "ReferencedAllofOptional",
+			Name: ReferencedAllofOptionalOperation,
 			ID:   "referencedAllofOptional",
 		}
 	)
-	request, close, err := s.decodeReferencedAllofOptionalRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeReferencedAllofOptionalRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -536,10 +1523,11 @@ func (s *Server) handleReferencedAllofOptionalRequest(args [0]string, argsEscape
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "ReferencedAllofOptional",
+			OperationName:    ReferencedAllofOptionalOperation,
 			OperationSummary: "",
 			OperationID:      "referencedAllofOptional",
 			Body:             request,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -586,14 +1574,18 @@ func (s *Server) handleReferencedAllofOptionalRequest(args [0]string, argsEscape
 //
 // POST /simpleInteger
 func (s *Server) handleSimpleIntegerRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("simpleInteger"),
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/simpleInteger"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "SimpleInteger",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), SimpleIntegerOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -607,28 +1599,54 @@ func (s *Server) handleSimpleIntegerRequest(args [0]string, argsEscaped bool, w 
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "SimpleInteger",
+			Name: SimpleIntegerOperation,
 			ID:   "simpleInteger",
 		}
 	)
-	request, close, err := s.decodeSimpleIntegerRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeSimpleIntegerRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -648,10 +1666,11 @@ func (s *Server) handleSimpleIntegerRequest(args [0]string, argsEscaped bool, w 
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "SimpleInteger",
+			OperationName:    SimpleIntegerOperation,
 			OperationSummary: "",
 			OperationID:      "simpleInteger",
 			Body:             request,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -698,14 +1717,18 @@ func (s *Server) handleSimpleIntegerRequest(args [0]string, argsEscaped bool, w 
 //
 // POST /simpleObjects
 func (s *Server) handleSimpleObjectsRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("simpleObjects"),
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/simpleObjects"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "SimpleObjects",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), SimpleObjectsOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -719,28 +1742,54 @@ func (s *Server) handleSimpleObjectsRequest(args [0]string, argsEscaped bool, w 
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "SimpleObjects",
+			Name: SimpleObjectsOperation,
 			ID:   "simpleObjects",
 		}
 	)
-	request, close, err := s.decodeSimpleObjectsRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeSimpleObjectsRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -760,10 +1809,11 @@ func (s *Server) handleSimpleObjectsRequest(args [0]string, argsEscaped bool, w 
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "SimpleObjects",
+			OperationName:    SimpleObjectsOperation,
 			OperationSummary: "",
 			OperationID:      "simpleObjects",
 			Body:             request,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -808,14 +1858,18 @@ func (s *Server) handleSimpleObjectsRequest(args [0]string, argsEscaped bool, w 
 //
 // POST /stringsNotype
 func (s *Server) handleStringsNotypeRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("stringsNotype"),
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/stringsNotype"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "StringsNotype",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), StringsNotypeOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -829,28 +1883,54 @@ func (s *Server) handleStringsNotypeRequest(args [0]string, argsEscaped bool, w 
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "StringsNotype",
+			Name: StringsNotypeOperation,
 			ID:   "stringsNotype",
 		}
 	)
-	request, close, err := s.decodeStringsNotypeRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeStringsNotypeRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -870,10 +1950,11 @@ func (s *Server) handleStringsNotypeRequest(args [0]string, argsEscaped bool, w 
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "StringsNotype",
+			OperationName:    StringsNotypeOperation,
 			OperationSummary: "",
 			OperationID:      "stringsNotype",
 			Body:             request,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}

@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
 )
 
 // Error Response Schema.
@@ -57,10 +58,10 @@ func (o *NilBool) SetTo(v bool) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilBool) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilBool) SetToNull() {
 	o.Null = true
 	var v bool
@@ -102,10 +103,10 @@ func (o *NilDate) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilDate) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilDate) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -147,10 +148,10 @@ func (o *NilDateTime) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilDateTime) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilDateTime) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -167,6 +168,51 @@ func (o NilDateTime) Get() (v time.Time, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilDateTime) Or(d time.Time) time.Time {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilDecimal returns new NilDecimal with value set to v.
+func NewNilDecimal(v decimal.Decimal) NilDecimal {
+	return NilDecimal{
+		Value: v,
+	}
+}
+
+// NilDecimal is nullable decimal.Decimal.
+type NilDecimal struct {
+	Value decimal.Decimal
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilDecimal) SetTo(v decimal.Decimal) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilDecimal) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilDecimal) SetToNull() {
+	o.Null = true
+	var v decimal.Decimal
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilDecimal) Get() (v decimal.Decimal, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilDecimal) Or(d decimal.Decimal) decimal.Decimal {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -192,10 +238,10 @@ func (o *NilDuration) SetTo(v time.Duration) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilDuration) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilDuration) SetToNull() {
 	o.Null = true
 	var v time.Duration
@@ -237,10 +283,10 @@ func (o *NilFloat32) SetTo(v float32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilFloat32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilFloat32) SetToNull() {
 	o.Null = true
 	var v float32
@@ -282,10 +328,10 @@ func (o *NilFloat64) SetTo(v float64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilFloat64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilFloat64) SetToNull() {
 	o.Null = true
 	var v float64
@@ -302,6 +348,51 @@ func (o NilFloat64) Get() (v float64, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilFloat64) Or(d float64) float64 {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilHTTPDate returns new NilHTTPDate with value set to v.
+func NewNilHTTPDate(v time.Time) NilHTTPDate {
+	return NilHTTPDate{
+		Value: v,
+	}
+}
+
+// NilHTTPDate is nullable time.Time.
+type NilHTTPDate struct {
+	Value time.Time
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilHTTPDate) SetTo(v time.Time) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilHTTPDate) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilHTTPDate) SetToNull() {
+	o.Null = true
+	var v time.Time
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilHTTPDate) Get() (v time.Time, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilHTTPDate) Or(d time.Time) time.Time {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -327,10 +418,10 @@ func (o *NilHardwareAddr) SetTo(v net.HardwareAddr) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilHardwareAddr) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilHardwareAddr) SetToNull() {
 	o.Null = true
 	var v net.HardwareAddr
@@ -372,10 +463,10 @@ func (o *NilIP) SetTo(v netip.Addr) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilIP) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilIP) SetToNull() {
 	o.Null = true
 	var v netip.Addr
@@ -417,10 +508,10 @@ func (o *NilIPv4) SetTo(v netip.Addr) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilIPv4) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilIPv4) SetToNull() {
 	o.Null = true
 	var v netip.Addr
@@ -462,10 +553,10 @@ func (o *NilIPv6) SetTo(v netip.Addr) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilIPv6) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilIPv6) SetToNull() {
 	o.Null = true
 	var v netip.Addr
@@ -507,10 +598,10 @@ func (o *NilInt) SetTo(v int) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilInt) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilInt) SetToNull() {
 	o.Null = true
 	var v int
@@ -552,10 +643,10 @@ func (o *NilInt16) SetTo(v int16) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilInt16) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilInt16) SetToNull() {
 	o.Null = true
 	var v int16
@@ -597,10 +688,10 @@ func (o *NilInt32) SetTo(v int32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilInt32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilInt32) SetToNull() {
 	o.Null = true
 	var v int32
@@ -642,10 +733,10 @@ func (o *NilInt64) SetTo(v int64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilInt64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilInt64) SetToNull() {
 	o.Null = true
 	var v int64
@@ -687,10 +778,10 @@ func (o *NilInt8) SetTo(v int8) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilInt8) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilInt8) SetToNull() {
 	o.Null = true
 	var v int8
@@ -732,10 +823,10 @@ func (o *NilString) SetTo(v string) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilString) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilString) SetToNull() {
 	o.Null = true
 	var v string
@@ -752,6 +843,51 @@ func (o NilString) Get() (v string, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilString) Or(d string) string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilStringDecimal returns new NilStringDecimal with value set to v.
+func NewNilStringDecimal(v decimal.Decimal) NilStringDecimal {
+	return NilStringDecimal{
+		Value: v,
+	}
+}
+
+// NilStringDecimal is nullable decimal.Decimal.
+type NilStringDecimal struct {
+	Value decimal.Decimal
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilStringDecimal) SetTo(v decimal.Decimal) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilStringDecimal) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilStringDecimal) SetToNull() {
+	o.Null = true
+	var v decimal.Decimal
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilStringDecimal) Get() (v decimal.Decimal, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilStringDecimal) Or(d decimal.Decimal) decimal.Decimal {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -777,10 +913,10 @@ func (o *NilStringFloat32) SetTo(v float32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringFloat32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringFloat32) SetToNull() {
 	o.Null = true
 	var v float32
@@ -822,10 +958,10 @@ func (o *NilStringFloat64) SetTo(v float64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringFloat64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringFloat64) SetToNull() {
 	o.Null = true
 	var v float64
@@ -867,10 +1003,10 @@ func (o *NilStringInt) SetTo(v int) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringInt) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringInt) SetToNull() {
 	o.Null = true
 	var v int
@@ -912,10 +1048,10 @@ func (o *NilStringInt16) SetTo(v int16) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringInt16) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringInt16) SetToNull() {
 	o.Null = true
 	var v int16
@@ -957,10 +1093,10 @@ func (o *NilStringInt32) SetTo(v int32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringInt32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringInt32) SetToNull() {
 	o.Null = true
 	var v int32
@@ -1002,10 +1138,10 @@ func (o *NilStringInt64) SetTo(v int64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringInt64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringInt64) SetToNull() {
 	o.Null = true
 	var v int64
@@ -1047,10 +1183,10 @@ func (o *NilStringInt8) SetTo(v int8) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringInt8) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringInt8) SetToNull() {
 	o.Null = true
 	var v int8
@@ -1092,10 +1228,10 @@ func (o *NilStringUint) SetTo(v uint) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringUint) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringUint) SetToNull() {
 	o.Null = true
 	var v uint
@@ -1137,10 +1273,10 @@ func (o *NilStringUint16) SetTo(v uint16) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringUint16) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringUint16) SetToNull() {
 	o.Null = true
 	var v uint16
@@ -1182,10 +1318,10 @@ func (o *NilStringUint32) SetTo(v uint32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringUint32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringUint32) SetToNull() {
 	o.Null = true
 	var v uint32
@@ -1227,10 +1363,10 @@ func (o *NilStringUint64) SetTo(v uint64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringUint64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringUint64) SetToNull() {
 	o.Null = true
 	var v uint64
@@ -1272,10 +1408,10 @@ func (o *NilStringUint8) SetTo(v uint8) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringUint8) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringUint8) SetToNull() {
 	o.Null = true
 	var v uint8
@@ -1317,10 +1453,10 @@ func (o *NilStringUnixMicro) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringUnixMicro) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringUnixMicro) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -1362,10 +1498,10 @@ func (o *NilStringUnixMilli) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringUnixMilli) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringUnixMilli) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -1407,10 +1543,10 @@ func (o *NilStringUnixNano) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringUnixNano) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringUnixNano) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -1452,10 +1588,10 @@ func (o *NilStringUnixSeconds) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilStringUnixSeconds) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilStringUnixSeconds) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -1497,10 +1633,10 @@ func (o *NilTime) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilTime) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilTime) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -1542,10 +1678,10 @@ func (o *NilURI) SetTo(v url.URL) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilURI) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilURI) SetToNull() {
 	o.Null = true
 	var v url.URL
@@ -1587,10 +1723,10 @@ func (o *NilUUID) SetTo(v uuid.UUID) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilUUID) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilUUID) SetToNull() {
 	o.Null = true
 	var v uuid.UUID
@@ -1632,10 +1768,10 @@ func (o *NilUint) SetTo(v uint) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilUint) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilUint) SetToNull() {
 	o.Null = true
 	var v uint
@@ -1677,10 +1813,10 @@ func (o *NilUint16) SetTo(v uint16) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilUint16) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilUint16) SetToNull() {
 	o.Null = true
 	var v uint16
@@ -1722,10 +1858,10 @@ func (o *NilUint32) SetTo(v uint32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilUint32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilUint32) SetToNull() {
 	o.Null = true
 	var v uint32
@@ -1767,10 +1903,10 @@ func (o *NilUint64) SetTo(v uint64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilUint64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilUint64) SetToNull() {
 	o.Null = true
 	var v uint64
@@ -1812,10 +1948,10 @@ func (o *NilUint8) SetTo(v uint8) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilUint8) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilUint8) SetToNull() {
 	o.Null = true
 	var v uint8
@@ -1857,10 +1993,10 @@ func (o *NilUnixMicro) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilUnixMicro) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilUnixMicro) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -1902,10 +2038,10 @@ func (o *NilUnixMilli) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilUnixMilli) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilUnixMilli) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -1947,10 +2083,10 @@ func (o *NilUnixNano) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilUnixNano) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilUnixNano) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -1992,10 +2128,10 @@ func (o *NilUnixSeconds) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilUnixSeconds) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilUnixSeconds) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -2156,6 +2292,52 @@ func (o OptDateTime) Or(d time.Time) time.Time {
 	return d
 }
 
+// NewOptDecimal returns new OptDecimal with value set to v.
+func NewOptDecimal(v decimal.Decimal) OptDecimal {
+	return OptDecimal{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDecimal is optional decimal.Decimal.
+type OptDecimal struct {
+	Value decimal.Decimal
+	Set   bool
+}
+
+// IsSet returns true if OptDecimal was set.
+func (o OptDecimal) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDecimal) Reset() {
+	var v decimal.Decimal
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDecimal) SetTo(v decimal.Decimal) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDecimal) Get() (v decimal.Decimal, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDecimal) Or(d decimal.Decimal) decimal.Decimal {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptDuration returns new OptDuration with value set to v.
 func NewOptDuration(v time.Duration) OptDuration {
 	return OptDuration{
@@ -2288,6 +2470,52 @@ func (o OptFloat64) Get() (v float64, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptFloat64) Or(d float64) float64 {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptHTTPDate returns new OptHTTPDate with value set to v.
+func NewOptHTTPDate(v time.Time) OptHTTPDate {
+	return OptHTTPDate{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptHTTPDate is optional time.Time.
+type OptHTTPDate struct {
+	Value time.Time
+	Set   bool
+}
+
+// IsSet returns true if OptHTTPDate was set.
+func (o OptHTTPDate) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptHTTPDate) Reset() {
+	var v time.Time
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptHTTPDate) SetTo(v time.Time) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptHTTPDate) Get() (v time.Time, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptHTTPDate) Or(d time.Time) time.Time {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -2741,15 +2969,20 @@ func (o *OptNilBool) SetTo(v bool) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilBool) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilBool) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v bool
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilBool) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -2804,15 +3037,20 @@ func (o *OptNilByte) SetTo(v []byte) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilByte) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilByte) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v []byte
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilByte) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -2867,15 +3105,20 @@ func (o *OptNilDate) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilDate) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilDate) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilDate) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -2930,15 +3173,20 @@ func (o *OptNilDateTime) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilDateTime) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilDateTime) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilDateTime) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -2954,6 +3202,74 @@ func (o OptNilDateTime) Get() (v time.Time, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilDateTime) Or(d time.Time) time.Time {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilDecimal returns new OptNilDecimal with value set to v.
+func NewOptNilDecimal(v decimal.Decimal) OptNilDecimal {
+	return OptNilDecimal{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilDecimal is optional nullable decimal.Decimal.
+type OptNilDecimal struct {
+	Value decimal.Decimal
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilDecimal was set.
+func (o OptNilDecimal) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilDecimal) Reset() {
+	var v decimal.Decimal
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilDecimal) SetTo(v decimal.Decimal) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilDecimal) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilDecimal) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v decimal.Decimal
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilDecimal) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilDecimal) Get() (v decimal.Decimal, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilDecimal) Or(d decimal.Decimal) decimal.Decimal {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -2993,15 +3309,20 @@ func (o *OptNilDuration) SetTo(v time.Duration) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilDuration) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilDuration) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Duration
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilDuration) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3056,15 +3377,20 @@ func (o *OptNilFloat32) SetTo(v float32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilFloat32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilFloat32) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v float32
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilFloat32) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3119,15 +3445,20 @@ func (o *OptNilFloat64) SetTo(v float64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilFloat64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilFloat64) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v float64
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilFloat64) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3143,6 +3474,74 @@ func (o OptNilFloat64) Get() (v float64, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilFloat64) Or(d float64) float64 {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHTTPDate returns new OptNilHTTPDate with value set to v.
+func NewOptNilHTTPDate(v time.Time) OptNilHTTPDate {
+	return OptNilHTTPDate{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHTTPDate is optional nullable time.Time.
+type OptNilHTTPDate struct {
+	Value time.Time
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHTTPDate was set.
+func (o OptNilHTTPDate) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHTTPDate) Reset() {
+	var v time.Time
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHTTPDate) SetTo(v time.Time) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilHTTPDate) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilHTTPDate) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v time.Time
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHTTPDate) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHTTPDate) Get() (v time.Time, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHTTPDate) Or(d time.Time) time.Time {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -3182,15 +3581,20 @@ func (o *OptNilHardwareAddr) SetTo(v net.HardwareAddr) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilHardwareAddr) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilHardwareAddr) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v net.HardwareAddr
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHardwareAddr) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3245,15 +3649,20 @@ func (o *OptNilIP) SetTo(v netip.Addr) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilIP) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilIP) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v netip.Addr
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilIP) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3308,15 +3717,20 @@ func (o *OptNilIPv4) SetTo(v netip.Addr) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilIPv4) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilIPv4) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v netip.Addr
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilIPv4) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3371,15 +3785,20 @@ func (o *OptNilIPv6) SetTo(v netip.Addr) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilIPv6) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilIPv6) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v netip.Addr
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilIPv6) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3434,15 +3853,20 @@ func (o *OptNilInt) SetTo(v int) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilInt) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilInt) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v int
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilInt) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3497,15 +3921,20 @@ func (o *OptNilInt16) SetTo(v int16) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilInt16) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilInt16) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v int16
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilInt16) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3560,15 +3989,20 @@ func (o *OptNilInt32) SetTo(v int32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilInt32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilInt32) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v int32
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilInt32) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3623,15 +4057,20 @@ func (o *OptNilInt64) SetTo(v int64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilInt64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilInt64) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v int64
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilInt64) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3686,15 +4125,20 @@ func (o *OptNilInt8) SetTo(v int8) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilInt8) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilInt8) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v int8
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilInt8) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3749,15 +4193,20 @@ func (o *OptNilString) SetTo(v string) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilString) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilString) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v string
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilString) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3773,6 +4222,74 @@ func (o OptNilString) Get() (v string, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilString) Or(d string) string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStringDecimal returns new OptNilStringDecimal with value set to v.
+func NewOptNilStringDecimal(v decimal.Decimal) OptNilStringDecimal {
+	return OptNilStringDecimal{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStringDecimal is optional nullable decimal.Decimal.
+type OptNilStringDecimal struct {
+	Value decimal.Decimal
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStringDecimal was set.
+func (o OptNilStringDecimal) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStringDecimal) Reset() {
+	var v decimal.Decimal
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStringDecimal) SetTo(v decimal.Decimal) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilStringDecimal) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilStringDecimal) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v decimal.Decimal
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringDecimal) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStringDecimal) Get() (v decimal.Decimal, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStringDecimal) Or(d decimal.Decimal) decimal.Decimal {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -3812,15 +4329,20 @@ func (o *OptNilStringFloat32) SetTo(v float32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringFloat32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringFloat32) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v float32
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringFloat32) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3875,15 +4397,20 @@ func (o *OptNilStringFloat64) SetTo(v float64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringFloat64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringFloat64) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v float64
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringFloat64) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -3938,15 +4465,20 @@ func (o *OptNilStringInt) SetTo(v int) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringInt) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringInt) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v int
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringInt) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4001,15 +4533,20 @@ func (o *OptNilStringInt16) SetTo(v int16) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringInt16) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringInt16) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v int16
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringInt16) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4064,15 +4601,20 @@ func (o *OptNilStringInt32) SetTo(v int32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringInt32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringInt32) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v int32
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringInt32) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4127,15 +4669,20 @@ func (o *OptNilStringInt64) SetTo(v int64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringInt64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringInt64) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v int64
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringInt64) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4190,15 +4737,20 @@ func (o *OptNilStringInt8) SetTo(v int8) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringInt8) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringInt8) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v int8
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringInt8) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4253,15 +4805,20 @@ func (o *OptNilStringUint) SetTo(v uint) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringUint) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringUint) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v uint
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringUint) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4316,15 +4873,20 @@ func (o *OptNilStringUint16) SetTo(v uint16) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringUint16) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringUint16) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v uint16
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringUint16) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4379,15 +4941,20 @@ func (o *OptNilStringUint32) SetTo(v uint32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringUint32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringUint32) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v uint32
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringUint32) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4442,15 +5009,20 @@ func (o *OptNilStringUint64) SetTo(v uint64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringUint64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringUint64) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v uint64
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringUint64) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4505,15 +5077,20 @@ func (o *OptNilStringUint8) SetTo(v uint8) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringUint8) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringUint8) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v uint8
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringUint8) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4568,15 +5145,20 @@ func (o *OptNilStringUnixMicro) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringUnixMicro) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringUnixMicro) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringUnixMicro) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4631,15 +5213,20 @@ func (o *OptNilStringUnixMilli) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringUnixMilli) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringUnixMilli) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringUnixMilli) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4694,15 +5281,20 @@ func (o *OptNilStringUnixNano) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringUnixNano) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringUnixNano) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringUnixNano) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4757,15 +5349,20 @@ func (o *OptNilStringUnixSeconds) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringUnixSeconds) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringUnixSeconds) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringUnixSeconds) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4820,15 +5417,20 @@ func (o *OptNilTime) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilTime) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilTime) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilTime) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4883,15 +5485,20 @@ func (o *OptNilURI) SetTo(v url.URL) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilURI) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilURI) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v url.URL
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilURI) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4946,15 +5553,20 @@ func (o *OptNilUUID) SetTo(v uuid.UUID) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilUUID) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilUUID) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v uuid.UUID
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilUUID) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -5009,15 +5621,20 @@ func (o *OptNilUint) SetTo(v uint) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilUint) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilUint) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v uint
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilUint) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -5072,15 +5689,20 @@ func (o *OptNilUint16) SetTo(v uint16) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilUint16) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilUint16) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v uint16
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilUint16) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -5135,15 +5757,20 @@ func (o *OptNilUint32) SetTo(v uint32) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilUint32) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilUint32) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v uint32
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilUint32) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -5198,15 +5825,20 @@ func (o *OptNilUint64) SetTo(v uint64) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilUint64) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilUint64) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v uint64
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilUint64) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -5261,15 +5893,20 @@ func (o *OptNilUint8) SetTo(v uint8) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilUint8) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilUint8) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v uint8
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilUint8) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -5324,15 +5961,20 @@ func (o *OptNilUnixMicro) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilUnixMicro) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilUnixMicro) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilUnixMicro) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -5387,15 +6029,20 @@ func (o *OptNilUnixMilli) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilUnixMilli) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilUnixMilli) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilUnixMilli) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -5450,15 +6097,20 @@ func (o *OptNilUnixNano) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilUnixNano) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilUnixNano) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilUnixNano) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -5513,15 +6165,20 @@ func (o *OptNilUnixSeconds) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilUnixSeconds) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilUnixSeconds) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilUnixSeconds) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -5629,6 +6286,52 @@ func (o OptString) Get() (v string, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptString) Or(d string) string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStringDecimal returns new OptStringDecimal with value set to v.
+func NewOptStringDecimal(v decimal.Decimal) OptStringDecimal {
+	return OptStringDecimal{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStringDecimal is optional decimal.Decimal.
+type OptStringDecimal struct {
+	Value decimal.Decimal
+	Set   bool
+}
+
+// IsSet returns true if OptStringDecimal was set.
+func (o OptStringDecimal) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStringDecimal) Reset() {
+	var v decimal.Decimal
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStringDecimal) SetTo(v decimal.Decimal) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStringDecimal) Get() (v decimal.Decimal, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStringDecimal) Or(d decimal.Decimal) decimal.Decimal {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -6992,6 +7695,7 @@ type TestRequestFormatTestReq struct {
 	RequiredArrayIntegerUnixMinusSeconds       []time.Time          `json:"required_array_integer_unix-seconds"`
 	RequiredArrayNull                          []struct{}           `json:"required_array_null"`
 	RequiredArrayNumber                        []float64            `json:"required_array_number"`
+	RequiredArrayNumberDecimal                 []decimal.Decimal    `json:"required_array_number_decimal"`
 	RequiredArrayNumberDouble                  []float64            `json:"required_array_number_double"`
 	RequiredArrayNumberFloat                   []float32            `json:"required_array_number_float"`
 	RequiredArrayNumberInt32                   []int32              `json:"required_array_number_int32"`
@@ -7002,11 +7706,13 @@ type TestRequestFormatTestReq struct {
 	RequiredArrayStringByte                    [][]byte             `json:"required_array_string_byte"`
 	RequiredArrayStringDate                    []time.Time          `json:"required_array_string_date"`
 	RequiredArrayStringDateMinusTime           []time.Time          `json:"required_array_string_date-time"`
+	RequiredArrayStringDecimal                 []decimal.Decimal    `json:"required_array_string_decimal"`
 	RequiredArrayStringDuration                []time.Duration      `json:"required_array_string_duration"`
 	RequiredArrayStringEmail                   []string             `json:"required_array_string_email"`
 	RequiredArrayStringFloat32                 []float32            `json:"required_array_string_float32"`
 	RequiredArrayStringFloat64                 []float64            `json:"required_array_string_float64"`
 	RequiredArrayStringHostname                []string             `json:"required_array_string_hostname"`
+	RequiredArrayStringHTTPMinusDate           []time.Time          `json:"required_array_string_http-date"`
 	RequiredArrayStringInt                     []int                `json:"required_array_string_int"`
 	RequiredArrayStringInt16                   []int16              `json:"required_array_string_int16"`
 	RequiredArrayStringInt32                   []int32              `json:"required_array_string_int32"`
@@ -7050,6 +7756,7 @@ type TestRequestFormatTestReq struct {
 	RequiredDoubleArrayIntegerUnixMinusSeconds [][]time.Time        `json:"required_double_array_integer_unix-seconds"`
 	RequiredDoubleArrayNull                    [][]struct{}         `json:"required_double_array_null"`
 	RequiredDoubleArrayNumber                  [][]float64          `json:"required_double_array_number"`
+	RequiredDoubleArrayNumberDecimal           [][]decimal.Decimal  `json:"required_double_array_number_decimal"`
 	RequiredDoubleArrayNumberDouble            [][]float64          `json:"required_double_array_number_double"`
 	RequiredDoubleArrayNumberFloat             [][]float32          `json:"required_double_array_number_float"`
 	RequiredDoubleArrayNumberInt32             [][]int32            `json:"required_double_array_number_int32"`
@@ -7060,11 +7767,13 @@ type TestRequestFormatTestReq struct {
 	RequiredDoubleArrayStringByte              [][][]byte           `json:"required_double_array_string_byte"`
 	RequiredDoubleArrayStringDate              [][]time.Time        `json:"required_double_array_string_date"`
 	RequiredDoubleArrayStringDateMinusTime     [][]time.Time        `json:"required_double_array_string_date-time"`
+	RequiredDoubleArrayStringDecimal           [][]decimal.Decimal  `json:"required_double_array_string_decimal"`
 	RequiredDoubleArrayStringDuration          [][]time.Duration    `json:"required_double_array_string_duration"`
 	RequiredDoubleArrayStringEmail             [][]string           `json:"required_double_array_string_email"`
 	RequiredDoubleArrayStringFloat32           [][]float32          `json:"required_double_array_string_float32"`
 	RequiredDoubleArrayStringFloat64           [][]float64          `json:"required_double_array_string_float64"`
 	RequiredDoubleArrayStringHostname          [][]string           `json:"required_double_array_string_hostname"`
+	RequiredDoubleArrayStringHTTPMinusDate     [][]time.Time        `json:"required_double_array_string_http-date"`
 	RequiredDoubleArrayStringInt               [][]int              `json:"required_double_array_string_int"`
 	RequiredDoubleArrayStringInt16             [][]int16            `json:"required_double_array_string_int16"`
 	RequiredDoubleArrayStringInt32             [][]int32            `json:"required_double_array_string_int32"`
@@ -7105,6 +7814,7 @@ type TestRequestFormatTestReq struct {
 	RequiredIntegerUnixMinusSeconds            time.Time            `json:"required_integer_unix-seconds"`
 	RequiredNull                               struct{}             `json:"required_null"`
 	RequiredNumber                             float64              `json:"required_number"`
+	RequiredNumberDecimal                      decimal.Decimal      `json:"required_number_decimal"`
 	RequiredNumberDouble                       float64              `json:"required_number_double"`
 	RequiredNumberFloat                        float32              `json:"required_number_float"`
 	RequiredNumberInt32                        int32                `json:"required_number_int32"`
@@ -7115,11 +7825,13 @@ type TestRequestFormatTestReq struct {
 	RequiredStringByte                         []byte               `json:"required_string_byte"`
 	RequiredStringDate                         time.Time            `json:"required_string_date"`
 	RequiredStringDateMinusTime                time.Time            `json:"required_string_date-time"`
+	RequiredStringDecimal                      decimal.Decimal      `json:"required_string_decimal"`
 	RequiredStringDuration                     time.Duration        `json:"required_string_duration"`
 	RequiredStringEmail                        string               `json:"required_string_email"`
 	RequiredStringFloat32                      float32              `json:"required_string_float32"`
 	RequiredStringFloat64                      float64              `json:"required_string_float64"`
 	RequiredStringHostname                     string               `json:"required_string_hostname"`
+	RequiredStringHTTPMinusDate                time.Time            `json:"required_string_http-date"`
 	RequiredStringInt                          int                  `json:"required_string_int"`
 	RequiredStringInt16                        int16                `json:"required_string_int16"`
 	RequiredStringInt32                        int32                `json:"required_string_int32"`
@@ -7163,6 +7875,7 @@ type TestRequestFormatTestReq struct {
 	OptionalArrayIntegerUnixMinusSeconds       []time.Time          `json:"optional_array_integer_unix-seconds"`
 	OptionalArrayNull                          []struct{}           `json:"optional_array_null"`
 	OptionalArrayNumber                        []float64            `json:"optional_array_number"`
+	OptionalArrayNumberDecimal                 []decimal.Decimal    `json:"optional_array_number_decimal"`
 	OptionalArrayNumberDouble                  []float64            `json:"optional_array_number_double"`
 	OptionalArrayNumberFloat                   []float32            `json:"optional_array_number_float"`
 	OptionalArrayNumberInt32                   []int32              `json:"optional_array_number_int32"`
@@ -7173,11 +7886,13 @@ type TestRequestFormatTestReq struct {
 	OptionalArrayStringByte                    [][]byte             `json:"optional_array_string_byte"`
 	OptionalArrayStringDate                    []time.Time          `json:"optional_array_string_date"`
 	OptionalArrayStringDateMinusTime           []time.Time          `json:"optional_array_string_date-time"`
+	OptionalArrayStringDecimal                 []decimal.Decimal    `json:"optional_array_string_decimal"`
 	OptionalArrayStringDuration                []time.Duration      `json:"optional_array_string_duration"`
 	OptionalArrayStringEmail                   []string             `json:"optional_array_string_email"`
 	OptionalArrayStringFloat32                 []float32            `json:"optional_array_string_float32"`
 	OptionalArrayStringFloat64                 []float64            `json:"optional_array_string_float64"`
 	OptionalArrayStringHostname                []string             `json:"optional_array_string_hostname"`
+	OptionalArrayStringHTTPMinusDate           []time.Time          `json:"optional_array_string_http-date"`
 	OptionalArrayStringInt                     []int                `json:"optional_array_string_int"`
 	OptionalArrayStringInt16                   []int16              `json:"optional_array_string_int16"`
 	OptionalArrayStringInt32                   []int32              `json:"optional_array_string_int32"`
@@ -7221,6 +7936,7 @@ type TestRequestFormatTestReq struct {
 	OptionalDoubleArrayIntegerUnixMinusSeconds [][]time.Time        `json:"optional_double_array_integer_unix-seconds"`
 	OptionalDoubleArrayNull                    [][]struct{}         `json:"optional_double_array_null"`
 	OptionalDoubleArrayNumber                  [][]float64          `json:"optional_double_array_number"`
+	OptionalDoubleArrayNumberDecimal           [][]decimal.Decimal  `json:"optional_double_array_number_decimal"`
 	OptionalDoubleArrayNumberDouble            [][]float64          `json:"optional_double_array_number_double"`
 	OptionalDoubleArrayNumberFloat             [][]float32          `json:"optional_double_array_number_float"`
 	OptionalDoubleArrayNumberInt32             [][]int32            `json:"optional_double_array_number_int32"`
@@ -7231,11 +7947,13 @@ type TestRequestFormatTestReq struct {
 	OptionalDoubleArrayStringByte              [][][]byte           `json:"optional_double_array_string_byte"`
 	OptionalDoubleArrayStringDate              [][]time.Time        `json:"optional_double_array_string_date"`
 	OptionalDoubleArrayStringDateMinusTime     [][]time.Time        `json:"optional_double_array_string_date-time"`
+	OptionalDoubleArrayStringDecimal           [][]decimal.Decimal  `json:"optional_double_array_string_decimal"`
 	OptionalDoubleArrayStringDuration          [][]time.Duration    `json:"optional_double_array_string_duration"`
 	OptionalDoubleArrayStringEmail             [][]string           `json:"optional_double_array_string_email"`
 	OptionalDoubleArrayStringFloat32           [][]float32          `json:"optional_double_array_string_float32"`
 	OptionalDoubleArrayStringFloat64           [][]float64          `json:"optional_double_array_string_float64"`
 	OptionalDoubleArrayStringHostname          [][]string           `json:"optional_double_array_string_hostname"`
+	OptionalDoubleArrayStringHTTPMinusDate     [][]time.Time        `json:"optional_double_array_string_http-date"`
 	OptionalDoubleArrayStringInt               [][]int              `json:"optional_double_array_string_int"`
 	OptionalDoubleArrayStringInt16             [][]int16            `json:"optional_double_array_string_int16"`
 	OptionalDoubleArrayStringInt32             [][]int32            `json:"optional_double_array_string_int32"`
@@ -7276,6 +7994,7 @@ type TestRequestFormatTestReq struct {
 	OptionalIntegerUnixMinusSeconds            OptUnixSeconds       `json:"optional_integer_unix-seconds"`
 	OptionalNull                               OptNull              `json:"optional_null"`
 	OptionalNumber                             OptFloat64           `json:"optional_number"`
+	OptionalNumberDecimal                      OptDecimal           `json:"optional_number_decimal"`
 	OptionalNumberDouble                       OptFloat64           `json:"optional_number_double"`
 	OptionalNumberFloat                        OptFloat32           `json:"optional_number_float"`
 	OptionalNumberInt32                        OptInt32             `json:"optional_number_int32"`
@@ -7286,11 +8005,13 @@ type TestRequestFormatTestReq struct {
 	OptionalStringByte                         []byte               `json:"optional_string_byte"`
 	OptionalStringDate                         OptDate              `json:"optional_string_date"`
 	OptionalStringDateMinusTime                OptDateTime          `json:"optional_string_date-time"`
+	OptionalStringDecimal                      OptStringDecimal     `json:"optional_string_decimal"`
 	OptionalStringDuration                     OptDuration          `json:"optional_string_duration"`
 	OptionalStringEmail                        OptString            `json:"optional_string_email"`
 	OptionalStringFloat32                      OptStringFloat32     `json:"optional_string_float32"`
 	OptionalStringFloat64                      OptStringFloat64     `json:"optional_string_float64"`
 	OptionalStringHostname                     OptString            `json:"optional_string_hostname"`
+	OptionalStringHTTPMinusDate                OptHTTPDate          `json:"optional_string_http-date"`
 	OptionalStringInt                          OptStringInt         `json:"optional_string_int"`
 	OptionalStringInt16                        OptStringInt16       `json:"optional_string_int16"`
 	OptionalStringInt32                        OptStringInt32       `json:"optional_string_int32"`
@@ -7416,6 +8137,11 @@ func (s *TestRequestFormatTestReq) GetRequiredArrayNumber() []float64 {
 	return s.RequiredArrayNumber
 }
 
+// GetRequiredArrayNumberDecimal returns the value of RequiredArrayNumberDecimal.
+func (s *TestRequestFormatTestReq) GetRequiredArrayNumberDecimal() []decimal.Decimal {
+	return s.RequiredArrayNumberDecimal
+}
+
 // GetRequiredArrayNumberDouble returns the value of RequiredArrayNumberDouble.
 func (s *TestRequestFormatTestReq) GetRequiredArrayNumberDouble() []float64 {
 	return s.RequiredArrayNumberDouble
@@ -7466,6 +8192,11 @@ func (s *TestRequestFormatTestReq) GetRequiredArrayStringDateMinusTime() []time.
 	return s.RequiredArrayStringDateMinusTime
 }
 
+// GetRequiredArrayStringDecimal returns the value of RequiredArrayStringDecimal.
+func (s *TestRequestFormatTestReq) GetRequiredArrayStringDecimal() []decimal.Decimal {
+	return s.RequiredArrayStringDecimal
+}
+
 // GetRequiredArrayStringDuration returns the value of RequiredArrayStringDuration.
 func (s *TestRequestFormatTestReq) GetRequiredArrayStringDuration() []time.Duration {
 	return s.RequiredArrayStringDuration
@@ -7489,6 +8220,11 @@ func (s *TestRequestFormatTestReq) GetRequiredArrayStringFloat64() []float64 {
 // GetRequiredArrayStringHostname returns the value of RequiredArrayStringHostname.
 func (s *TestRequestFormatTestReq) GetRequiredArrayStringHostname() []string {
 	return s.RequiredArrayStringHostname
+}
+
+// GetRequiredArrayStringHTTPMinusDate returns the value of RequiredArrayStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) GetRequiredArrayStringHTTPMinusDate() []time.Time {
+	return s.RequiredArrayStringHTTPMinusDate
 }
 
 // GetRequiredArrayStringInt returns the value of RequiredArrayStringInt.
@@ -7706,6 +8442,11 @@ func (s *TestRequestFormatTestReq) GetRequiredDoubleArrayNumber() [][]float64 {
 	return s.RequiredDoubleArrayNumber
 }
 
+// GetRequiredDoubleArrayNumberDecimal returns the value of RequiredDoubleArrayNumberDecimal.
+func (s *TestRequestFormatTestReq) GetRequiredDoubleArrayNumberDecimal() [][]decimal.Decimal {
+	return s.RequiredDoubleArrayNumberDecimal
+}
+
 // GetRequiredDoubleArrayNumberDouble returns the value of RequiredDoubleArrayNumberDouble.
 func (s *TestRequestFormatTestReq) GetRequiredDoubleArrayNumberDouble() [][]float64 {
 	return s.RequiredDoubleArrayNumberDouble
@@ -7756,6 +8497,11 @@ func (s *TestRequestFormatTestReq) GetRequiredDoubleArrayStringDateMinusTime() [
 	return s.RequiredDoubleArrayStringDateMinusTime
 }
 
+// GetRequiredDoubleArrayStringDecimal returns the value of RequiredDoubleArrayStringDecimal.
+func (s *TestRequestFormatTestReq) GetRequiredDoubleArrayStringDecimal() [][]decimal.Decimal {
+	return s.RequiredDoubleArrayStringDecimal
+}
+
 // GetRequiredDoubleArrayStringDuration returns the value of RequiredDoubleArrayStringDuration.
 func (s *TestRequestFormatTestReq) GetRequiredDoubleArrayStringDuration() [][]time.Duration {
 	return s.RequiredDoubleArrayStringDuration
@@ -7779,6 +8525,11 @@ func (s *TestRequestFormatTestReq) GetRequiredDoubleArrayStringFloat64() [][]flo
 // GetRequiredDoubleArrayStringHostname returns the value of RequiredDoubleArrayStringHostname.
 func (s *TestRequestFormatTestReq) GetRequiredDoubleArrayStringHostname() [][]string {
 	return s.RequiredDoubleArrayStringHostname
+}
+
+// GetRequiredDoubleArrayStringHTTPMinusDate returns the value of RequiredDoubleArrayStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) GetRequiredDoubleArrayStringHTTPMinusDate() [][]time.Time {
+	return s.RequiredDoubleArrayStringHTTPMinusDate
 }
 
 // GetRequiredDoubleArrayStringInt returns the value of RequiredDoubleArrayStringInt.
@@ -7981,6 +8732,11 @@ func (s *TestRequestFormatTestReq) GetRequiredNumber() float64 {
 	return s.RequiredNumber
 }
 
+// GetRequiredNumberDecimal returns the value of RequiredNumberDecimal.
+func (s *TestRequestFormatTestReq) GetRequiredNumberDecimal() decimal.Decimal {
+	return s.RequiredNumberDecimal
+}
+
 // GetRequiredNumberDouble returns the value of RequiredNumberDouble.
 func (s *TestRequestFormatTestReq) GetRequiredNumberDouble() float64 {
 	return s.RequiredNumberDouble
@@ -8031,6 +8787,11 @@ func (s *TestRequestFormatTestReq) GetRequiredStringDateMinusTime() time.Time {
 	return s.RequiredStringDateMinusTime
 }
 
+// GetRequiredStringDecimal returns the value of RequiredStringDecimal.
+func (s *TestRequestFormatTestReq) GetRequiredStringDecimal() decimal.Decimal {
+	return s.RequiredStringDecimal
+}
+
 // GetRequiredStringDuration returns the value of RequiredStringDuration.
 func (s *TestRequestFormatTestReq) GetRequiredStringDuration() time.Duration {
 	return s.RequiredStringDuration
@@ -8054,6 +8815,11 @@ func (s *TestRequestFormatTestReq) GetRequiredStringFloat64() float64 {
 // GetRequiredStringHostname returns the value of RequiredStringHostname.
 func (s *TestRequestFormatTestReq) GetRequiredStringHostname() string {
 	return s.RequiredStringHostname
+}
+
+// GetRequiredStringHTTPMinusDate returns the value of RequiredStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) GetRequiredStringHTTPMinusDate() time.Time {
+	return s.RequiredStringHTTPMinusDate
 }
 
 // GetRequiredStringInt returns the value of RequiredStringInt.
@@ -8271,6 +9037,11 @@ func (s *TestRequestFormatTestReq) GetOptionalArrayNumber() []float64 {
 	return s.OptionalArrayNumber
 }
 
+// GetOptionalArrayNumberDecimal returns the value of OptionalArrayNumberDecimal.
+func (s *TestRequestFormatTestReq) GetOptionalArrayNumberDecimal() []decimal.Decimal {
+	return s.OptionalArrayNumberDecimal
+}
+
 // GetOptionalArrayNumberDouble returns the value of OptionalArrayNumberDouble.
 func (s *TestRequestFormatTestReq) GetOptionalArrayNumberDouble() []float64 {
 	return s.OptionalArrayNumberDouble
@@ -8321,6 +9092,11 @@ func (s *TestRequestFormatTestReq) GetOptionalArrayStringDateMinusTime() []time.
 	return s.OptionalArrayStringDateMinusTime
 }
 
+// GetOptionalArrayStringDecimal returns the value of OptionalArrayStringDecimal.
+func (s *TestRequestFormatTestReq) GetOptionalArrayStringDecimal() []decimal.Decimal {
+	return s.OptionalArrayStringDecimal
+}
+
 // GetOptionalArrayStringDuration returns the value of OptionalArrayStringDuration.
 func (s *TestRequestFormatTestReq) GetOptionalArrayStringDuration() []time.Duration {
 	return s.OptionalArrayStringDuration
@@ -8344,6 +9120,11 @@ func (s *TestRequestFormatTestReq) GetOptionalArrayStringFloat64() []float64 {
 // GetOptionalArrayStringHostname returns the value of OptionalArrayStringHostname.
 func (s *TestRequestFormatTestReq) GetOptionalArrayStringHostname() []string {
 	return s.OptionalArrayStringHostname
+}
+
+// GetOptionalArrayStringHTTPMinusDate returns the value of OptionalArrayStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) GetOptionalArrayStringHTTPMinusDate() []time.Time {
+	return s.OptionalArrayStringHTTPMinusDate
 }
 
 // GetOptionalArrayStringInt returns the value of OptionalArrayStringInt.
@@ -8561,6 +9342,11 @@ func (s *TestRequestFormatTestReq) GetOptionalDoubleArrayNumber() [][]float64 {
 	return s.OptionalDoubleArrayNumber
 }
 
+// GetOptionalDoubleArrayNumberDecimal returns the value of OptionalDoubleArrayNumberDecimal.
+func (s *TestRequestFormatTestReq) GetOptionalDoubleArrayNumberDecimal() [][]decimal.Decimal {
+	return s.OptionalDoubleArrayNumberDecimal
+}
+
 // GetOptionalDoubleArrayNumberDouble returns the value of OptionalDoubleArrayNumberDouble.
 func (s *TestRequestFormatTestReq) GetOptionalDoubleArrayNumberDouble() [][]float64 {
 	return s.OptionalDoubleArrayNumberDouble
@@ -8611,6 +9397,11 @@ func (s *TestRequestFormatTestReq) GetOptionalDoubleArrayStringDateMinusTime() [
 	return s.OptionalDoubleArrayStringDateMinusTime
 }
 
+// GetOptionalDoubleArrayStringDecimal returns the value of OptionalDoubleArrayStringDecimal.
+func (s *TestRequestFormatTestReq) GetOptionalDoubleArrayStringDecimal() [][]decimal.Decimal {
+	return s.OptionalDoubleArrayStringDecimal
+}
+
 // GetOptionalDoubleArrayStringDuration returns the value of OptionalDoubleArrayStringDuration.
 func (s *TestRequestFormatTestReq) GetOptionalDoubleArrayStringDuration() [][]time.Duration {
 	return s.OptionalDoubleArrayStringDuration
@@ -8634,6 +9425,11 @@ func (s *TestRequestFormatTestReq) GetOptionalDoubleArrayStringFloat64() [][]flo
 // GetOptionalDoubleArrayStringHostname returns the value of OptionalDoubleArrayStringHostname.
 func (s *TestRequestFormatTestReq) GetOptionalDoubleArrayStringHostname() [][]string {
 	return s.OptionalDoubleArrayStringHostname
+}
+
+// GetOptionalDoubleArrayStringHTTPMinusDate returns the value of OptionalDoubleArrayStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) GetOptionalDoubleArrayStringHTTPMinusDate() [][]time.Time {
+	return s.OptionalDoubleArrayStringHTTPMinusDate
 }
 
 // GetOptionalDoubleArrayStringInt returns the value of OptionalDoubleArrayStringInt.
@@ -8836,6 +9632,11 @@ func (s *TestRequestFormatTestReq) GetOptionalNumber() OptFloat64 {
 	return s.OptionalNumber
 }
 
+// GetOptionalNumberDecimal returns the value of OptionalNumberDecimal.
+func (s *TestRequestFormatTestReq) GetOptionalNumberDecimal() OptDecimal {
+	return s.OptionalNumberDecimal
+}
+
 // GetOptionalNumberDouble returns the value of OptionalNumberDouble.
 func (s *TestRequestFormatTestReq) GetOptionalNumberDouble() OptFloat64 {
 	return s.OptionalNumberDouble
@@ -8886,6 +9687,11 @@ func (s *TestRequestFormatTestReq) GetOptionalStringDateMinusTime() OptDateTime 
 	return s.OptionalStringDateMinusTime
 }
 
+// GetOptionalStringDecimal returns the value of OptionalStringDecimal.
+func (s *TestRequestFormatTestReq) GetOptionalStringDecimal() OptStringDecimal {
+	return s.OptionalStringDecimal
+}
+
 // GetOptionalStringDuration returns the value of OptionalStringDuration.
 func (s *TestRequestFormatTestReq) GetOptionalStringDuration() OptDuration {
 	return s.OptionalStringDuration
@@ -8909,6 +9715,11 @@ func (s *TestRequestFormatTestReq) GetOptionalStringFloat64() OptStringFloat64 {
 // GetOptionalStringHostname returns the value of OptionalStringHostname.
 func (s *TestRequestFormatTestReq) GetOptionalStringHostname() OptString {
 	return s.OptionalStringHostname
+}
+
+// GetOptionalStringHTTPMinusDate returns the value of OptionalStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) GetOptionalStringHTTPMinusDate() OptHTTPDate {
+	return s.OptionalStringHTTPMinusDate
 }
 
 // GetOptionalStringInt returns the value of OptionalStringInt.
@@ -9126,6 +9937,11 @@ func (s *TestRequestFormatTestReq) SetRequiredArrayNumber(val []float64) {
 	s.RequiredArrayNumber = val
 }
 
+// SetRequiredArrayNumberDecimal sets the value of RequiredArrayNumberDecimal.
+func (s *TestRequestFormatTestReq) SetRequiredArrayNumberDecimal(val []decimal.Decimal) {
+	s.RequiredArrayNumberDecimal = val
+}
+
 // SetRequiredArrayNumberDouble sets the value of RequiredArrayNumberDouble.
 func (s *TestRequestFormatTestReq) SetRequiredArrayNumberDouble(val []float64) {
 	s.RequiredArrayNumberDouble = val
@@ -9176,6 +9992,11 @@ func (s *TestRequestFormatTestReq) SetRequiredArrayStringDateMinusTime(val []tim
 	s.RequiredArrayStringDateMinusTime = val
 }
 
+// SetRequiredArrayStringDecimal sets the value of RequiredArrayStringDecimal.
+func (s *TestRequestFormatTestReq) SetRequiredArrayStringDecimal(val []decimal.Decimal) {
+	s.RequiredArrayStringDecimal = val
+}
+
 // SetRequiredArrayStringDuration sets the value of RequiredArrayStringDuration.
 func (s *TestRequestFormatTestReq) SetRequiredArrayStringDuration(val []time.Duration) {
 	s.RequiredArrayStringDuration = val
@@ -9199,6 +10020,11 @@ func (s *TestRequestFormatTestReq) SetRequiredArrayStringFloat64(val []float64) 
 // SetRequiredArrayStringHostname sets the value of RequiredArrayStringHostname.
 func (s *TestRequestFormatTestReq) SetRequiredArrayStringHostname(val []string) {
 	s.RequiredArrayStringHostname = val
+}
+
+// SetRequiredArrayStringHTTPMinusDate sets the value of RequiredArrayStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) SetRequiredArrayStringHTTPMinusDate(val []time.Time) {
+	s.RequiredArrayStringHTTPMinusDate = val
 }
 
 // SetRequiredArrayStringInt sets the value of RequiredArrayStringInt.
@@ -9416,6 +10242,11 @@ func (s *TestRequestFormatTestReq) SetRequiredDoubleArrayNumber(val [][]float64)
 	s.RequiredDoubleArrayNumber = val
 }
 
+// SetRequiredDoubleArrayNumberDecimal sets the value of RequiredDoubleArrayNumberDecimal.
+func (s *TestRequestFormatTestReq) SetRequiredDoubleArrayNumberDecimal(val [][]decimal.Decimal) {
+	s.RequiredDoubleArrayNumberDecimal = val
+}
+
 // SetRequiredDoubleArrayNumberDouble sets the value of RequiredDoubleArrayNumberDouble.
 func (s *TestRequestFormatTestReq) SetRequiredDoubleArrayNumberDouble(val [][]float64) {
 	s.RequiredDoubleArrayNumberDouble = val
@@ -9466,6 +10297,11 @@ func (s *TestRequestFormatTestReq) SetRequiredDoubleArrayStringDateMinusTime(val
 	s.RequiredDoubleArrayStringDateMinusTime = val
 }
 
+// SetRequiredDoubleArrayStringDecimal sets the value of RequiredDoubleArrayStringDecimal.
+func (s *TestRequestFormatTestReq) SetRequiredDoubleArrayStringDecimal(val [][]decimal.Decimal) {
+	s.RequiredDoubleArrayStringDecimal = val
+}
+
 // SetRequiredDoubleArrayStringDuration sets the value of RequiredDoubleArrayStringDuration.
 func (s *TestRequestFormatTestReq) SetRequiredDoubleArrayStringDuration(val [][]time.Duration) {
 	s.RequiredDoubleArrayStringDuration = val
@@ -9489,6 +10325,11 @@ func (s *TestRequestFormatTestReq) SetRequiredDoubleArrayStringFloat64(val [][]f
 // SetRequiredDoubleArrayStringHostname sets the value of RequiredDoubleArrayStringHostname.
 func (s *TestRequestFormatTestReq) SetRequiredDoubleArrayStringHostname(val [][]string) {
 	s.RequiredDoubleArrayStringHostname = val
+}
+
+// SetRequiredDoubleArrayStringHTTPMinusDate sets the value of RequiredDoubleArrayStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) SetRequiredDoubleArrayStringHTTPMinusDate(val [][]time.Time) {
+	s.RequiredDoubleArrayStringHTTPMinusDate = val
 }
 
 // SetRequiredDoubleArrayStringInt sets the value of RequiredDoubleArrayStringInt.
@@ -9691,6 +10532,11 @@ func (s *TestRequestFormatTestReq) SetRequiredNumber(val float64) {
 	s.RequiredNumber = val
 }
 
+// SetRequiredNumberDecimal sets the value of RequiredNumberDecimal.
+func (s *TestRequestFormatTestReq) SetRequiredNumberDecimal(val decimal.Decimal) {
+	s.RequiredNumberDecimal = val
+}
+
 // SetRequiredNumberDouble sets the value of RequiredNumberDouble.
 func (s *TestRequestFormatTestReq) SetRequiredNumberDouble(val float64) {
 	s.RequiredNumberDouble = val
@@ -9741,6 +10587,11 @@ func (s *TestRequestFormatTestReq) SetRequiredStringDateMinusTime(val time.Time)
 	s.RequiredStringDateMinusTime = val
 }
 
+// SetRequiredStringDecimal sets the value of RequiredStringDecimal.
+func (s *TestRequestFormatTestReq) SetRequiredStringDecimal(val decimal.Decimal) {
+	s.RequiredStringDecimal = val
+}
+
 // SetRequiredStringDuration sets the value of RequiredStringDuration.
 func (s *TestRequestFormatTestReq) SetRequiredStringDuration(val time.Duration) {
 	s.RequiredStringDuration = val
@@ -9764,6 +10615,11 @@ func (s *TestRequestFormatTestReq) SetRequiredStringFloat64(val float64) {
 // SetRequiredStringHostname sets the value of RequiredStringHostname.
 func (s *TestRequestFormatTestReq) SetRequiredStringHostname(val string) {
 	s.RequiredStringHostname = val
+}
+
+// SetRequiredStringHTTPMinusDate sets the value of RequiredStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) SetRequiredStringHTTPMinusDate(val time.Time) {
+	s.RequiredStringHTTPMinusDate = val
 }
 
 // SetRequiredStringInt sets the value of RequiredStringInt.
@@ -9981,6 +10837,11 @@ func (s *TestRequestFormatTestReq) SetOptionalArrayNumber(val []float64) {
 	s.OptionalArrayNumber = val
 }
 
+// SetOptionalArrayNumberDecimal sets the value of OptionalArrayNumberDecimal.
+func (s *TestRequestFormatTestReq) SetOptionalArrayNumberDecimal(val []decimal.Decimal) {
+	s.OptionalArrayNumberDecimal = val
+}
+
 // SetOptionalArrayNumberDouble sets the value of OptionalArrayNumberDouble.
 func (s *TestRequestFormatTestReq) SetOptionalArrayNumberDouble(val []float64) {
 	s.OptionalArrayNumberDouble = val
@@ -10031,6 +10892,11 @@ func (s *TestRequestFormatTestReq) SetOptionalArrayStringDateMinusTime(val []tim
 	s.OptionalArrayStringDateMinusTime = val
 }
 
+// SetOptionalArrayStringDecimal sets the value of OptionalArrayStringDecimal.
+func (s *TestRequestFormatTestReq) SetOptionalArrayStringDecimal(val []decimal.Decimal) {
+	s.OptionalArrayStringDecimal = val
+}
+
 // SetOptionalArrayStringDuration sets the value of OptionalArrayStringDuration.
 func (s *TestRequestFormatTestReq) SetOptionalArrayStringDuration(val []time.Duration) {
 	s.OptionalArrayStringDuration = val
@@ -10054,6 +10920,11 @@ func (s *TestRequestFormatTestReq) SetOptionalArrayStringFloat64(val []float64) 
 // SetOptionalArrayStringHostname sets the value of OptionalArrayStringHostname.
 func (s *TestRequestFormatTestReq) SetOptionalArrayStringHostname(val []string) {
 	s.OptionalArrayStringHostname = val
+}
+
+// SetOptionalArrayStringHTTPMinusDate sets the value of OptionalArrayStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) SetOptionalArrayStringHTTPMinusDate(val []time.Time) {
+	s.OptionalArrayStringHTTPMinusDate = val
 }
 
 // SetOptionalArrayStringInt sets the value of OptionalArrayStringInt.
@@ -10271,6 +11142,11 @@ func (s *TestRequestFormatTestReq) SetOptionalDoubleArrayNumber(val [][]float64)
 	s.OptionalDoubleArrayNumber = val
 }
 
+// SetOptionalDoubleArrayNumberDecimal sets the value of OptionalDoubleArrayNumberDecimal.
+func (s *TestRequestFormatTestReq) SetOptionalDoubleArrayNumberDecimal(val [][]decimal.Decimal) {
+	s.OptionalDoubleArrayNumberDecimal = val
+}
+
 // SetOptionalDoubleArrayNumberDouble sets the value of OptionalDoubleArrayNumberDouble.
 func (s *TestRequestFormatTestReq) SetOptionalDoubleArrayNumberDouble(val [][]float64) {
 	s.OptionalDoubleArrayNumberDouble = val
@@ -10321,6 +11197,11 @@ func (s *TestRequestFormatTestReq) SetOptionalDoubleArrayStringDateMinusTime(val
 	s.OptionalDoubleArrayStringDateMinusTime = val
 }
 
+// SetOptionalDoubleArrayStringDecimal sets the value of OptionalDoubleArrayStringDecimal.
+func (s *TestRequestFormatTestReq) SetOptionalDoubleArrayStringDecimal(val [][]decimal.Decimal) {
+	s.OptionalDoubleArrayStringDecimal = val
+}
+
 // SetOptionalDoubleArrayStringDuration sets the value of OptionalDoubleArrayStringDuration.
 func (s *TestRequestFormatTestReq) SetOptionalDoubleArrayStringDuration(val [][]time.Duration) {
 	s.OptionalDoubleArrayStringDuration = val
@@ -10344,6 +11225,11 @@ func (s *TestRequestFormatTestReq) SetOptionalDoubleArrayStringFloat64(val [][]f
 // SetOptionalDoubleArrayStringHostname sets the value of OptionalDoubleArrayStringHostname.
 func (s *TestRequestFormatTestReq) SetOptionalDoubleArrayStringHostname(val [][]string) {
 	s.OptionalDoubleArrayStringHostname = val
+}
+
+// SetOptionalDoubleArrayStringHTTPMinusDate sets the value of OptionalDoubleArrayStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) SetOptionalDoubleArrayStringHTTPMinusDate(val [][]time.Time) {
+	s.OptionalDoubleArrayStringHTTPMinusDate = val
 }
 
 // SetOptionalDoubleArrayStringInt sets the value of OptionalDoubleArrayStringInt.
@@ -10546,6 +11432,11 @@ func (s *TestRequestFormatTestReq) SetOptionalNumber(val OptFloat64) {
 	s.OptionalNumber = val
 }
 
+// SetOptionalNumberDecimal sets the value of OptionalNumberDecimal.
+func (s *TestRequestFormatTestReq) SetOptionalNumberDecimal(val OptDecimal) {
+	s.OptionalNumberDecimal = val
+}
+
 // SetOptionalNumberDouble sets the value of OptionalNumberDouble.
 func (s *TestRequestFormatTestReq) SetOptionalNumberDouble(val OptFloat64) {
 	s.OptionalNumberDouble = val
@@ -10596,6 +11487,11 @@ func (s *TestRequestFormatTestReq) SetOptionalStringDateMinusTime(val OptDateTim
 	s.OptionalStringDateMinusTime = val
 }
 
+// SetOptionalStringDecimal sets the value of OptionalStringDecimal.
+func (s *TestRequestFormatTestReq) SetOptionalStringDecimal(val OptStringDecimal) {
+	s.OptionalStringDecimal = val
+}
+
 // SetOptionalStringDuration sets the value of OptionalStringDuration.
 func (s *TestRequestFormatTestReq) SetOptionalStringDuration(val OptDuration) {
 	s.OptionalStringDuration = val
@@ -10619,6 +11515,11 @@ func (s *TestRequestFormatTestReq) SetOptionalStringFloat64(val OptStringFloat64
 // SetOptionalStringHostname sets the value of OptionalStringHostname.
 func (s *TestRequestFormatTestReq) SetOptionalStringHostname(val OptString) {
 	s.OptionalStringHostname = val
+}
+
+// SetOptionalStringHTTPMinusDate sets the value of OptionalStringHTTPMinusDate.
+func (s *TestRequestFormatTestReq) SetOptionalStringHTTPMinusDate(val OptHTTPDate) {
+	s.OptionalStringHTTPMinusDate = val
 }
 
 // SetOptionalStringInt sets the value of OptionalStringInt.
@@ -10759,6 +11660,7 @@ type TestRequestRequiredFormatTestReq struct {
 	RequiredArrayIntegerUnixMinusSeconds       []time.Time          `json:"required_array_integer_unix-seconds"`
 	RequiredArrayNull                          []struct{}           `json:"required_array_null"`
 	RequiredArrayNumber                        []float64            `json:"required_array_number"`
+	RequiredArrayNumberDecimal                 []decimal.Decimal    `json:"required_array_number_decimal"`
 	RequiredArrayNumberDouble                  []float64            `json:"required_array_number_double"`
 	RequiredArrayNumberFloat                   []float32            `json:"required_array_number_float"`
 	RequiredArrayNumberInt32                   []int32              `json:"required_array_number_int32"`
@@ -10769,11 +11671,13 @@ type TestRequestRequiredFormatTestReq struct {
 	RequiredArrayStringByte                    [][]byte             `json:"required_array_string_byte"`
 	RequiredArrayStringDate                    []time.Time          `json:"required_array_string_date"`
 	RequiredArrayStringDateMinusTime           []time.Time          `json:"required_array_string_date-time"`
+	RequiredArrayStringDecimal                 []decimal.Decimal    `json:"required_array_string_decimal"`
 	RequiredArrayStringDuration                []time.Duration      `json:"required_array_string_duration"`
 	RequiredArrayStringEmail                   []string             `json:"required_array_string_email"`
 	RequiredArrayStringFloat32                 []float32            `json:"required_array_string_float32"`
 	RequiredArrayStringFloat64                 []float64            `json:"required_array_string_float64"`
 	RequiredArrayStringHostname                []string             `json:"required_array_string_hostname"`
+	RequiredArrayStringHTTPMinusDate           []time.Time          `json:"required_array_string_http-date"`
 	RequiredArrayStringInt                     []int                `json:"required_array_string_int"`
 	RequiredArrayStringInt16                   []int16              `json:"required_array_string_int16"`
 	RequiredArrayStringInt32                   []int32              `json:"required_array_string_int32"`
@@ -10817,6 +11721,7 @@ type TestRequestRequiredFormatTestReq struct {
 	RequiredDoubleArrayIntegerUnixMinusSeconds [][]time.Time        `json:"required_double_array_integer_unix-seconds"`
 	RequiredDoubleArrayNull                    [][]struct{}         `json:"required_double_array_null"`
 	RequiredDoubleArrayNumber                  [][]float64          `json:"required_double_array_number"`
+	RequiredDoubleArrayNumberDecimal           [][]decimal.Decimal  `json:"required_double_array_number_decimal"`
 	RequiredDoubleArrayNumberDouble            [][]float64          `json:"required_double_array_number_double"`
 	RequiredDoubleArrayNumberFloat             [][]float32          `json:"required_double_array_number_float"`
 	RequiredDoubleArrayNumberInt32             [][]int32            `json:"required_double_array_number_int32"`
@@ -10827,11 +11732,13 @@ type TestRequestRequiredFormatTestReq struct {
 	RequiredDoubleArrayStringByte              [][][]byte           `json:"required_double_array_string_byte"`
 	RequiredDoubleArrayStringDate              [][]time.Time        `json:"required_double_array_string_date"`
 	RequiredDoubleArrayStringDateMinusTime     [][]time.Time        `json:"required_double_array_string_date-time"`
+	RequiredDoubleArrayStringDecimal           [][]decimal.Decimal  `json:"required_double_array_string_decimal"`
 	RequiredDoubleArrayStringDuration          [][]time.Duration    `json:"required_double_array_string_duration"`
 	RequiredDoubleArrayStringEmail             [][]string           `json:"required_double_array_string_email"`
 	RequiredDoubleArrayStringFloat32           [][]float32          `json:"required_double_array_string_float32"`
 	RequiredDoubleArrayStringFloat64           [][]float64          `json:"required_double_array_string_float64"`
 	RequiredDoubleArrayStringHostname          [][]string           `json:"required_double_array_string_hostname"`
+	RequiredDoubleArrayStringHTTPMinusDate     [][]time.Time        `json:"required_double_array_string_http-date"`
 	RequiredDoubleArrayStringInt               [][]int              `json:"required_double_array_string_int"`
 	RequiredDoubleArrayStringInt16             [][]int16            `json:"required_double_array_string_int16"`
 	RequiredDoubleArrayStringInt32             [][]int32            `json:"required_double_array_string_int32"`
@@ -10872,6 +11779,7 @@ type TestRequestRequiredFormatTestReq struct {
 	RequiredIntegerUnixMinusSeconds            time.Time            `json:"required_integer_unix-seconds"`
 	RequiredNull                               struct{}             `json:"required_null"`
 	RequiredNumber                             float64              `json:"required_number"`
+	RequiredNumberDecimal                      decimal.Decimal      `json:"required_number_decimal"`
 	RequiredNumberDouble                       float64              `json:"required_number_double"`
 	RequiredNumberFloat                        float32              `json:"required_number_float"`
 	RequiredNumberInt32                        int32                `json:"required_number_int32"`
@@ -10882,11 +11790,13 @@ type TestRequestRequiredFormatTestReq struct {
 	RequiredStringByte                         []byte               `json:"required_string_byte"`
 	RequiredStringDate                         time.Time            `json:"required_string_date"`
 	RequiredStringDateMinusTime                time.Time            `json:"required_string_date-time"`
+	RequiredStringDecimal                      decimal.Decimal      `json:"required_string_decimal"`
 	RequiredStringDuration                     time.Duration        `json:"required_string_duration"`
 	RequiredStringEmail                        string               `json:"required_string_email"`
 	RequiredStringFloat32                      float32              `json:"required_string_float32"`
 	RequiredStringFloat64                      float64              `json:"required_string_float64"`
 	RequiredStringHostname                     string               `json:"required_string_hostname"`
+	RequiredStringHTTPMinusDate                time.Time            `json:"required_string_http-date"`
 	RequiredStringInt                          int                  `json:"required_string_int"`
 	RequiredStringInt16                        int16                `json:"required_string_int16"`
 	RequiredStringInt32                        int32                `json:"required_string_int32"`
@@ -10930,6 +11840,7 @@ type TestRequestRequiredFormatTestReq struct {
 	OptionalArrayIntegerUnixMinusSeconds       []time.Time          `json:"optional_array_integer_unix-seconds"`
 	OptionalArrayNull                          []struct{}           `json:"optional_array_null"`
 	OptionalArrayNumber                        []float64            `json:"optional_array_number"`
+	OptionalArrayNumberDecimal                 []decimal.Decimal    `json:"optional_array_number_decimal"`
 	OptionalArrayNumberDouble                  []float64            `json:"optional_array_number_double"`
 	OptionalArrayNumberFloat                   []float32            `json:"optional_array_number_float"`
 	OptionalArrayNumberInt32                   []int32              `json:"optional_array_number_int32"`
@@ -10940,11 +11851,13 @@ type TestRequestRequiredFormatTestReq struct {
 	OptionalArrayStringByte                    [][]byte             `json:"optional_array_string_byte"`
 	OptionalArrayStringDate                    []time.Time          `json:"optional_array_string_date"`
 	OptionalArrayStringDateMinusTime           []time.Time          `json:"optional_array_string_date-time"`
+	OptionalArrayStringDecimal                 []decimal.Decimal    `json:"optional_array_string_decimal"`
 	OptionalArrayStringDuration                []time.Duration      `json:"optional_array_string_duration"`
 	OptionalArrayStringEmail                   []string             `json:"optional_array_string_email"`
 	OptionalArrayStringFloat32                 []float32            `json:"optional_array_string_float32"`
 	OptionalArrayStringFloat64                 []float64            `json:"optional_array_string_float64"`
 	OptionalArrayStringHostname                []string             `json:"optional_array_string_hostname"`
+	OptionalArrayStringHTTPMinusDate           []time.Time          `json:"optional_array_string_http-date"`
 	OptionalArrayStringInt                     []int                `json:"optional_array_string_int"`
 	OptionalArrayStringInt16                   []int16              `json:"optional_array_string_int16"`
 	OptionalArrayStringInt32                   []int32              `json:"optional_array_string_int32"`
@@ -10988,6 +11901,7 @@ type TestRequestRequiredFormatTestReq struct {
 	OptionalDoubleArrayIntegerUnixMinusSeconds [][]time.Time        `json:"optional_double_array_integer_unix-seconds"`
 	OptionalDoubleArrayNull                    [][]struct{}         `json:"optional_double_array_null"`
 	OptionalDoubleArrayNumber                  [][]float64          `json:"optional_double_array_number"`
+	OptionalDoubleArrayNumberDecimal           [][]decimal.Decimal  `json:"optional_double_array_number_decimal"`
 	OptionalDoubleArrayNumberDouble            [][]float64          `json:"optional_double_array_number_double"`
 	OptionalDoubleArrayNumberFloat             [][]float32          `json:"optional_double_array_number_float"`
 	OptionalDoubleArrayNumberInt32             [][]int32            `json:"optional_double_array_number_int32"`
@@ -10998,11 +11912,13 @@ type TestRequestRequiredFormatTestReq struct {
 	OptionalDoubleArrayStringByte              [][][]byte           `json:"optional_double_array_string_byte"`
 	OptionalDoubleArrayStringDate              [][]time.Time        `json:"optional_double_array_string_date"`
 	OptionalDoubleArrayStringDateMinusTime     [][]time.Time        `json:"optional_double_array_string_date-time"`
+	OptionalDoubleArrayStringDecimal           [][]decimal.Decimal  `json:"optional_double_array_string_decimal"`
 	OptionalDoubleArrayStringDuration          [][]time.Duration    `json:"optional_double_array_string_duration"`
 	OptionalDoubleArrayStringEmail             [][]string           `json:"optional_double_array_string_email"`
 	OptionalDoubleArrayStringFloat32           [][]float32          `json:"optional_double_array_string_float32"`
 	OptionalDoubleArrayStringFloat64           [][]float64          `json:"optional_double_array_string_float64"`
 	OptionalDoubleArrayStringHostname          [][]string           `json:"optional_double_array_string_hostname"`
+	OptionalDoubleArrayStringHTTPMinusDate     [][]time.Time        `json:"optional_double_array_string_http-date"`
 	OptionalDoubleArrayStringInt               [][]int              `json:"optional_double_array_string_int"`
 	OptionalDoubleArrayStringInt16             [][]int16            `json:"optional_double_array_string_int16"`
 	OptionalDoubleArrayStringInt32             [][]int32            `json:"optional_double_array_string_int32"`
@@ -11043,6 +11959,7 @@ type TestRequestRequiredFormatTestReq struct {
 	OptionalIntegerUnixMinusSeconds            OptUnixSeconds       `json:"optional_integer_unix-seconds"`
 	OptionalNull                               OptNull              `json:"optional_null"`
 	OptionalNumber                             OptFloat64           `json:"optional_number"`
+	OptionalNumberDecimal                      OptDecimal           `json:"optional_number_decimal"`
 	OptionalNumberDouble                       OptFloat64           `json:"optional_number_double"`
 	OptionalNumberFloat                        OptFloat32           `json:"optional_number_float"`
 	OptionalNumberInt32                        OptInt32             `json:"optional_number_int32"`
@@ -11053,11 +11970,13 @@ type TestRequestRequiredFormatTestReq struct {
 	OptionalStringByte                         []byte               `json:"optional_string_byte"`
 	OptionalStringDate                         OptDate              `json:"optional_string_date"`
 	OptionalStringDateMinusTime                OptDateTime          `json:"optional_string_date-time"`
+	OptionalStringDecimal                      OptStringDecimal     `json:"optional_string_decimal"`
 	OptionalStringDuration                     OptDuration          `json:"optional_string_duration"`
 	OptionalStringEmail                        OptString            `json:"optional_string_email"`
 	OptionalStringFloat32                      OptStringFloat32     `json:"optional_string_float32"`
 	OptionalStringFloat64                      OptStringFloat64     `json:"optional_string_float64"`
 	OptionalStringHostname                     OptString            `json:"optional_string_hostname"`
+	OptionalStringHTTPMinusDate                OptHTTPDate          `json:"optional_string_http-date"`
 	OptionalStringInt                          OptStringInt         `json:"optional_string_int"`
 	OptionalStringInt16                        OptStringInt16       `json:"optional_string_int16"`
 	OptionalStringInt32                        OptStringInt32       `json:"optional_string_int32"`
@@ -11183,6 +12102,11 @@ func (s *TestRequestRequiredFormatTestReq) GetRequiredArrayNumber() []float64 {
 	return s.RequiredArrayNumber
 }
 
+// GetRequiredArrayNumberDecimal returns the value of RequiredArrayNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetRequiredArrayNumberDecimal() []decimal.Decimal {
+	return s.RequiredArrayNumberDecimal
+}
+
 // GetRequiredArrayNumberDouble returns the value of RequiredArrayNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) GetRequiredArrayNumberDouble() []float64 {
 	return s.RequiredArrayNumberDouble
@@ -11233,6 +12157,11 @@ func (s *TestRequestRequiredFormatTestReq) GetRequiredArrayStringDateMinusTime()
 	return s.RequiredArrayStringDateMinusTime
 }
 
+// GetRequiredArrayStringDecimal returns the value of RequiredArrayStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetRequiredArrayStringDecimal() []decimal.Decimal {
+	return s.RequiredArrayStringDecimal
+}
+
 // GetRequiredArrayStringDuration returns the value of RequiredArrayStringDuration.
 func (s *TestRequestRequiredFormatTestReq) GetRequiredArrayStringDuration() []time.Duration {
 	return s.RequiredArrayStringDuration
@@ -11256,6 +12185,11 @@ func (s *TestRequestRequiredFormatTestReq) GetRequiredArrayStringFloat64() []flo
 // GetRequiredArrayStringHostname returns the value of RequiredArrayStringHostname.
 func (s *TestRequestRequiredFormatTestReq) GetRequiredArrayStringHostname() []string {
 	return s.RequiredArrayStringHostname
+}
+
+// GetRequiredArrayStringHTTPMinusDate returns the value of RequiredArrayStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) GetRequiredArrayStringHTTPMinusDate() []time.Time {
+	return s.RequiredArrayStringHTTPMinusDate
 }
 
 // GetRequiredArrayStringInt returns the value of RequiredArrayStringInt.
@@ -11473,6 +12407,11 @@ func (s *TestRequestRequiredFormatTestReq) GetRequiredDoubleArrayNumber() [][]fl
 	return s.RequiredDoubleArrayNumber
 }
 
+// GetRequiredDoubleArrayNumberDecimal returns the value of RequiredDoubleArrayNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetRequiredDoubleArrayNumberDecimal() [][]decimal.Decimal {
+	return s.RequiredDoubleArrayNumberDecimal
+}
+
 // GetRequiredDoubleArrayNumberDouble returns the value of RequiredDoubleArrayNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) GetRequiredDoubleArrayNumberDouble() [][]float64 {
 	return s.RequiredDoubleArrayNumberDouble
@@ -11523,6 +12462,11 @@ func (s *TestRequestRequiredFormatTestReq) GetRequiredDoubleArrayStringDateMinus
 	return s.RequiredDoubleArrayStringDateMinusTime
 }
 
+// GetRequiredDoubleArrayStringDecimal returns the value of RequiredDoubleArrayStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetRequiredDoubleArrayStringDecimal() [][]decimal.Decimal {
+	return s.RequiredDoubleArrayStringDecimal
+}
+
 // GetRequiredDoubleArrayStringDuration returns the value of RequiredDoubleArrayStringDuration.
 func (s *TestRequestRequiredFormatTestReq) GetRequiredDoubleArrayStringDuration() [][]time.Duration {
 	return s.RequiredDoubleArrayStringDuration
@@ -11546,6 +12490,11 @@ func (s *TestRequestRequiredFormatTestReq) GetRequiredDoubleArrayStringFloat64()
 // GetRequiredDoubleArrayStringHostname returns the value of RequiredDoubleArrayStringHostname.
 func (s *TestRequestRequiredFormatTestReq) GetRequiredDoubleArrayStringHostname() [][]string {
 	return s.RequiredDoubleArrayStringHostname
+}
+
+// GetRequiredDoubleArrayStringHTTPMinusDate returns the value of RequiredDoubleArrayStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) GetRequiredDoubleArrayStringHTTPMinusDate() [][]time.Time {
+	return s.RequiredDoubleArrayStringHTTPMinusDate
 }
 
 // GetRequiredDoubleArrayStringInt returns the value of RequiredDoubleArrayStringInt.
@@ -11748,6 +12697,11 @@ func (s *TestRequestRequiredFormatTestReq) GetRequiredNumber() float64 {
 	return s.RequiredNumber
 }
 
+// GetRequiredNumberDecimal returns the value of RequiredNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetRequiredNumberDecimal() decimal.Decimal {
+	return s.RequiredNumberDecimal
+}
+
 // GetRequiredNumberDouble returns the value of RequiredNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) GetRequiredNumberDouble() float64 {
 	return s.RequiredNumberDouble
@@ -11798,6 +12752,11 @@ func (s *TestRequestRequiredFormatTestReq) GetRequiredStringDateMinusTime() time
 	return s.RequiredStringDateMinusTime
 }
 
+// GetRequiredStringDecimal returns the value of RequiredStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetRequiredStringDecimal() decimal.Decimal {
+	return s.RequiredStringDecimal
+}
+
 // GetRequiredStringDuration returns the value of RequiredStringDuration.
 func (s *TestRequestRequiredFormatTestReq) GetRequiredStringDuration() time.Duration {
 	return s.RequiredStringDuration
@@ -11821,6 +12780,11 @@ func (s *TestRequestRequiredFormatTestReq) GetRequiredStringFloat64() float64 {
 // GetRequiredStringHostname returns the value of RequiredStringHostname.
 func (s *TestRequestRequiredFormatTestReq) GetRequiredStringHostname() string {
 	return s.RequiredStringHostname
+}
+
+// GetRequiredStringHTTPMinusDate returns the value of RequiredStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) GetRequiredStringHTTPMinusDate() time.Time {
+	return s.RequiredStringHTTPMinusDate
 }
 
 // GetRequiredStringInt returns the value of RequiredStringInt.
@@ -12038,6 +13002,11 @@ func (s *TestRequestRequiredFormatTestReq) GetOptionalArrayNumber() []float64 {
 	return s.OptionalArrayNumber
 }
 
+// GetOptionalArrayNumberDecimal returns the value of OptionalArrayNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetOptionalArrayNumberDecimal() []decimal.Decimal {
+	return s.OptionalArrayNumberDecimal
+}
+
 // GetOptionalArrayNumberDouble returns the value of OptionalArrayNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) GetOptionalArrayNumberDouble() []float64 {
 	return s.OptionalArrayNumberDouble
@@ -12088,6 +13057,11 @@ func (s *TestRequestRequiredFormatTestReq) GetOptionalArrayStringDateMinusTime()
 	return s.OptionalArrayStringDateMinusTime
 }
 
+// GetOptionalArrayStringDecimal returns the value of OptionalArrayStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetOptionalArrayStringDecimal() []decimal.Decimal {
+	return s.OptionalArrayStringDecimal
+}
+
 // GetOptionalArrayStringDuration returns the value of OptionalArrayStringDuration.
 func (s *TestRequestRequiredFormatTestReq) GetOptionalArrayStringDuration() []time.Duration {
 	return s.OptionalArrayStringDuration
@@ -12111,6 +13085,11 @@ func (s *TestRequestRequiredFormatTestReq) GetOptionalArrayStringFloat64() []flo
 // GetOptionalArrayStringHostname returns the value of OptionalArrayStringHostname.
 func (s *TestRequestRequiredFormatTestReq) GetOptionalArrayStringHostname() []string {
 	return s.OptionalArrayStringHostname
+}
+
+// GetOptionalArrayStringHTTPMinusDate returns the value of OptionalArrayStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) GetOptionalArrayStringHTTPMinusDate() []time.Time {
+	return s.OptionalArrayStringHTTPMinusDate
 }
 
 // GetOptionalArrayStringInt returns the value of OptionalArrayStringInt.
@@ -12328,6 +13307,11 @@ func (s *TestRequestRequiredFormatTestReq) GetOptionalDoubleArrayNumber() [][]fl
 	return s.OptionalDoubleArrayNumber
 }
 
+// GetOptionalDoubleArrayNumberDecimal returns the value of OptionalDoubleArrayNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetOptionalDoubleArrayNumberDecimal() [][]decimal.Decimal {
+	return s.OptionalDoubleArrayNumberDecimal
+}
+
 // GetOptionalDoubleArrayNumberDouble returns the value of OptionalDoubleArrayNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) GetOptionalDoubleArrayNumberDouble() [][]float64 {
 	return s.OptionalDoubleArrayNumberDouble
@@ -12378,6 +13362,11 @@ func (s *TestRequestRequiredFormatTestReq) GetOptionalDoubleArrayStringDateMinus
 	return s.OptionalDoubleArrayStringDateMinusTime
 }
 
+// GetOptionalDoubleArrayStringDecimal returns the value of OptionalDoubleArrayStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetOptionalDoubleArrayStringDecimal() [][]decimal.Decimal {
+	return s.OptionalDoubleArrayStringDecimal
+}
+
 // GetOptionalDoubleArrayStringDuration returns the value of OptionalDoubleArrayStringDuration.
 func (s *TestRequestRequiredFormatTestReq) GetOptionalDoubleArrayStringDuration() [][]time.Duration {
 	return s.OptionalDoubleArrayStringDuration
@@ -12401,6 +13390,11 @@ func (s *TestRequestRequiredFormatTestReq) GetOptionalDoubleArrayStringFloat64()
 // GetOptionalDoubleArrayStringHostname returns the value of OptionalDoubleArrayStringHostname.
 func (s *TestRequestRequiredFormatTestReq) GetOptionalDoubleArrayStringHostname() [][]string {
 	return s.OptionalDoubleArrayStringHostname
+}
+
+// GetOptionalDoubleArrayStringHTTPMinusDate returns the value of OptionalDoubleArrayStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) GetOptionalDoubleArrayStringHTTPMinusDate() [][]time.Time {
+	return s.OptionalDoubleArrayStringHTTPMinusDate
 }
 
 // GetOptionalDoubleArrayStringInt returns the value of OptionalDoubleArrayStringInt.
@@ -12603,6 +13597,11 @@ func (s *TestRequestRequiredFormatTestReq) GetOptionalNumber() OptFloat64 {
 	return s.OptionalNumber
 }
 
+// GetOptionalNumberDecimal returns the value of OptionalNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetOptionalNumberDecimal() OptDecimal {
+	return s.OptionalNumberDecimal
+}
+
 // GetOptionalNumberDouble returns the value of OptionalNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) GetOptionalNumberDouble() OptFloat64 {
 	return s.OptionalNumberDouble
@@ -12653,6 +13652,11 @@ func (s *TestRequestRequiredFormatTestReq) GetOptionalStringDateMinusTime() OptD
 	return s.OptionalStringDateMinusTime
 }
 
+// GetOptionalStringDecimal returns the value of OptionalStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) GetOptionalStringDecimal() OptStringDecimal {
+	return s.OptionalStringDecimal
+}
+
 // GetOptionalStringDuration returns the value of OptionalStringDuration.
 func (s *TestRequestRequiredFormatTestReq) GetOptionalStringDuration() OptDuration {
 	return s.OptionalStringDuration
@@ -12676,6 +13680,11 @@ func (s *TestRequestRequiredFormatTestReq) GetOptionalStringFloat64() OptStringF
 // GetOptionalStringHostname returns the value of OptionalStringHostname.
 func (s *TestRequestRequiredFormatTestReq) GetOptionalStringHostname() OptString {
 	return s.OptionalStringHostname
+}
+
+// GetOptionalStringHTTPMinusDate returns the value of OptionalStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) GetOptionalStringHTTPMinusDate() OptHTTPDate {
+	return s.OptionalStringHTTPMinusDate
 }
 
 // GetOptionalStringInt returns the value of OptionalStringInt.
@@ -12893,6 +13902,11 @@ func (s *TestRequestRequiredFormatTestReq) SetRequiredArrayNumber(val []float64)
 	s.RequiredArrayNumber = val
 }
 
+// SetRequiredArrayNumberDecimal sets the value of RequiredArrayNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetRequiredArrayNumberDecimal(val []decimal.Decimal) {
+	s.RequiredArrayNumberDecimal = val
+}
+
 // SetRequiredArrayNumberDouble sets the value of RequiredArrayNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) SetRequiredArrayNumberDouble(val []float64) {
 	s.RequiredArrayNumberDouble = val
@@ -12943,6 +13957,11 @@ func (s *TestRequestRequiredFormatTestReq) SetRequiredArrayStringDateMinusTime(v
 	s.RequiredArrayStringDateMinusTime = val
 }
 
+// SetRequiredArrayStringDecimal sets the value of RequiredArrayStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetRequiredArrayStringDecimal(val []decimal.Decimal) {
+	s.RequiredArrayStringDecimal = val
+}
+
 // SetRequiredArrayStringDuration sets the value of RequiredArrayStringDuration.
 func (s *TestRequestRequiredFormatTestReq) SetRequiredArrayStringDuration(val []time.Duration) {
 	s.RequiredArrayStringDuration = val
@@ -12966,6 +13985,11 @@ func (s *TestRequestRequiredFormatTestReq) SetRequiredArrayStringFloat64(val []f
 // SetRequiredArrayStringHostname sets the value of RequiredArrayStringHostname.
 func (s *TestRequestRequiredFormatTestReq) SetRequiredArrayStringHostname(val []string) {
 	s.RequiredArrayStringHostname = val
+}
+
+// SetRequiredArrayStringHTTPMinusDate sets the value of RequiredArrayStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) SetRequiredArrayStringHTTPMinusDate(val []time.Time) {
+	s.RequiredArrayStringHTTPMinusDate = val
 }
 
 // SetRequiredArrayStringInt sets the value of RequiredArrayStringInt.
@@ -13183,6 +14207,11 @@ func (s *TestRequestRequiredFormatTestReq) SetRequiredDoubleArrayNumber(val [][]
 	s.RequiredDoubleArrayNumber = val
 }
 
+// SetRequiredDoubleArrayNumberDecimal sets the value of RequiredDoubleArrayNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetRequiredDoubleArrayNumberDecimal(val [][]decimal.Decimal) {
+	s.RequiredDoubleArrayNumberDecimal = val
+}
+
 // SetRequiredDoubleArrayNumberDouble sets the value of RequiredDoubleArrayNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) SetRequiredDoubleArrayNumberDouble(val [][]float64) {
 	s.RequiredDoubleArrayNumberDouble = val
@@ -13233,6 +14262,11 @@ func (s *TestRequestRequiredFormatTestReq) SetRequiredDoubleArrayStringDateMinus
 	s.RequiredDoubleArrayStringDateMinusTime = val
 }
 
+// SetRequiredDoubleArrayStringDecimal sets the value of RequiredDoubleArrayStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetRequiredDoubleArrayStringDecimal(val [][]decimal.Decimal) {
+	s.RequiredDoubleArrayStringDecimal = val
+}
+
 // SetRequiredDoubleArrayStringDuration sets the value of RequiredDoubleArrayStringDuration.
 func (s *TestRequestRequiredFormatTestReq) SetRequiredDoubleArrayStringDuration(val [][]time.Duration) {
 	s.RequiredDoubleArrayStringDuration = val
@@ -13256,6 +14290,11 @@ func (s *TestRequestRequiredFormatTestReq) SetRequiredDoubleArrayStringFloat64(v
 // SetRequiredDoubleArrayStringHostname sets the value of RequiredDoubleArrayStringHostname.
 func (s *TestRequestRequiredFormatTestReq) SetRequiredDoubleArrayStringHostname(val [][]string) {
 	s.RequiredDoubleArrayStringHostname = val
+}
+
+// SetRequiredDoubleArrayStringHTTPMinusDate sets the value of RequiredDoubleArrayStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) SetRequiredDoubleArrayStringHTTPMinusDate(val [][]time.Time) {
+	s.RequiredDoubleArrayStringHTTPMinusDate = val
 }
 
 // SetRequiredDoubleArrayStringInt sets the value of RequiredDoubleArrayStringInt.
@@ -13458,6 +14497,11 @@ func (s *TestRequestRequiredFormatTestReq) SetRequiredNumber(val float64) {
 	s.RequiredNumber = val
 }
 
+// SetRequiredNumberDecimal sets the value of RequiredNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetRequiredNumberDecimal(val decimal.Decimal) {
+	s.RequiredNumberDecimal = val
+}
+
 // SetRequiredNumberDouble sets the value of RequiredNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) SetRequiredNumberDouble(val float64) {
 	s.RequiredNumberDouble = val
@@ -13508,6 +14552,11 @@ func (s *TestRequestRequiredFormatTestReq) SetRequiredStringDateMinusTime(val ti
 	s.RequiredStringDateMinusTime = val
 }
 
+// SetRequiredStringDecimal sets the value of RequiredStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetRequiredStringDecimal(val decimal.Decimal) {
+	s.RequiredStringDecimal = val
+}
+
 // SetRequiredStringDuration sets the value of RequiredStringDuration.
 func (s *TestRequestRequiredFormatTestReq) SetRequiredStringDuration(val time.Duration) {
 	s.RequiredStringDuration = val
@@ -13531,6 +14580,11 @@ func (s *TestRequestRequiredFormatTestReq) SetRequiredStringFloat64(val float64)
 // SetRequiredStringHostname sets the value of RequiredStringHostname.
 func (s *TestRequestRequiredFormatTestReq) SetRequiredStringHostname(val string) {
 	s.RequiredStringHostname = val
+}
+
+// SetRequiredStringHTTPMinusDate sets the value of RequiredStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) SetRequiredStringHTTPMinusDate(val time.Time) {
+	s.RequiredStringHTTPMinusDate = val
 }
 
 // SetRequiredStringInt sets the value of RequiredStringInt.
@@ -13748,6 +14802,11 @@ func (s *TestRequestRequiredFormatTestReq) SetOptionalArrayNumber(val []float64)
 	s.OptionalArrayNumber = val
 }
 
+// SetOptionalArrayNumberDecimal sets the value of OptionalArrayNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetOptionalArrayNumberDecimal(val []decimal.Decimal) {
+	s.OptionalArrayNumberDecimal = val
+}
+
 // SetOptionalArrayNumberDouble sets the value of OptionalArrayNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) SetOptionalArrayNumberDouble(val []float64) {
 	s.OptionalArrayNumberDouble = val
@@ -13798,6 +14857,11 @@ func (s *TestRequestRequiredFormatTestReq) SetOptionalArrayStringDateMinusTime(v
 	s.OptionalArrayStringDateMinusTime = val
 }
 
+// SetOptionalArrayStringDecimal sets the value of OptionalArrayStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetOptionalArrayStringDecimal(val []decimal.Decimal) {
+	s.OptionalArrayStringDecimal = val
+}
+
 // SetOptionalArrayStringDuration sets the value of OptionalArrayStringDuration.
 func (s *TestRequestRequiredFormatTestReq) SetOptionalArrayStringDuration(val []time.Duration) {
 	s.OptionalArrayStringDuration = val
@@ -13821,6 +14885,11 @@ func (s *TestRequestRequiredFormatTestReq) SetOptionalArrayStringFloat64(val []f
 // SetOptionalArrayStringHostname sets the value of OptionalArrayStringHostname.
 func (s *TestRequestRequiredFormatTestReq) SetOptionalArrayStringHostname(val []string) {
 	s.OptionalArrayStringHostname = val
+}
+
+// SetOptionalArrayStringHTTPMinusDate sets the value of OptionalArrayStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) SetOptionalArrayStringHTTPMinusDate(val []time.Time) {
+	s.OptionalArrayStringHTTPMinusDate = val
 }
 
 // SetOptionalArrayStringInt sets the value of OptionalArrayStringInt.
@@ -14038,6 +15107,11 @@ func (s *TestRequestRequiredFormatTestReq) SetOptionalDoubleArrayNumber(val [][]
 	s.OptionalDoubleArrayNumber = val
 }
 
+// SetOptionalDoubleArrayNumberDecimal sets the value of OptionalDoubleArrayNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetOptionalDoubleArrayNumberDecimal(val [][]decimal.Decimal) {
+	s.OptionalDoubleArrayNumberDecimal = val
+}
+
 // SetOptionalDoubleArrayNumberDouble sets the value of OptionalDoubleArrayNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) SetOptionalDoubleArrayNumberDouble(val [][]float64) {
 	s.OptionalDoubleArrayNumberDouble = val
@@ -14088,6 +15162,11 @@ func (s *TestRequestRequiredFormatTestReq) SetOptionalDoubleArrayStringDateMinus
 	s.OptionalDoubleArrayStringDateMinusTime = val
 }
 
+// SetOptionalDoubleArrayStringDecimal sets the value of OptionalDoubleArrayStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetOptionalDoubleArrayStringDecimal(val [][]decimal.Decimal) {
+	s.OptionalDoubleArrayStringDecimal = val
+}
+
 // SetOptionalDoubleArrayStringDuration sets the value of OptionalDoubleArrayStringDuration.
 func (s *TestRequestRequiredFormatTestReq) SetOptionalDoubleArrayStringDuration(val [][]time.Duration) {
 	s.OptionalDoubleArrayStringDuration = val
@@ -14111,6 +15190,11 @@ func (s *TestRequestRequiredFormatTestReq) SetOptionalDoubleArrayStringFloat64(v
 // SetOptionalDoubleArrayStringHostname sets the value of OptionalDoubleArrayStringHostname.
 func (s *TestRequestRequiredFormatTestReq) SetOptionalDoubleArrayStringHostname(val [][]string) {
 	s.OptionalDoubleArrayStringHostname = val
+}
+
+// SetOptionalDoubleArrayStringHTTPMinusDate sets the value of OptionalDoubleArrayStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) SetOptionalDoubleArrayStringHTTPMinusDate(val [][]time.Time) {
+	s.OptionalDoubleArrayStringHTTPMinusDate = val
 }
 
 // SetOptionalDoubleArrayStringInt sets the value of OptionalDoubleArrayStringInt.
@@ -14313,6 +15397,11 @@ func (s *TestRequestRequiredFormatTestReq) SetOptionalNumber(val OptFloat64) {
 	s.OptionalNumber = val
 }
 
+// SetOptionalNumberDecimal sets the value of OptionalNumberDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetOptionalNumberDecimal(val OptDecimal) {
+	s.OptionalNumberDecimal = val
+}
+
 // SetOptionalNumberDouble sets the value of OptionalNumberDouble.
 func (s *TestRequestRequiredFormatTestReq) SetOptionalNumberDouble(val OptFloat64) {
 	s.OptionalNumberDouble = val
@@ -14363,6 +15452,11 @@ func (s *TestRequestRequiredFormatTestReq) SetOptionalStringDateMinusTime(val Op
 	s.OptionalStringDateMinusTime = val
 }
 
+// SetOptionalStringDecimal sets the value of OptionalStringDecimal.
+func (s *TestRequestRequiredFormatTestReq) SetOptionalStringDecimal(val OptStringDecimal) {
+	s.OptionalStringDecimal = val
+}
+
 // SetOptionalStringDuration sets the value of OptionalStringDuration.
 func (s *TestRequestRequiredFormatTestReq) SetOptionalStringDuration(val OptDuration) {
 	s.OptionalStringDuration = val
@@ -14386,6 +15480,11 @@ func (s *TestRequestRequiredFormatTestReq) SetOptionalStringFloat64(val OptStrin
 // SetOptionalStringHostname sets the value of OptionalStringHostname.
 func (s *TestRequestRequiredFormatTestReq) SetOptionalStringHostname(val OptString) {
 	s.OptionalStringHostname = val
+}
+
+// SetOptionalStringHTTPMinusDate sets the value of OptionalStringHTTPMinusDate.
+func (s *TestRequestRequiredFormatTestReq) SetOptionalStringHTTPMinusDate(val OptHTTPDate) {
+	s.OptionalStringHTTPMinusDate = val
 }
 
 // SetOptionalStringInt sets the value of OptionalStringInt.
@@ -14526,6 +15625,7 @@ type TestResponseFormatTestOK struct {
 	RequiredArrayIntegerUnixMinusSeconds       []time.Time          `json:"required_array_integer_unix-seconds"`
 	RequiredArrayNull                          []struct{}           `json:"required_array_null"`
 	RequiredArrayNumber                        []float64            `json:"required_array_number"`
+	RequiredArrayNumberDecimal                 []decimal.Decimal    `json:"required_array_number_decimal"`
 	RequiredArrayNumberDouble                  []float64            `json:"required_array_number_double"`
 	RequiredArrayNumberFloat                   []float32            `json:"required_array_number_float"`
 	RequiredArrayNumberInt32                   []int32              `json:"required_array_number_int32"`
@@ -14536,11 +15636,13 @@ type TestResponseFormatTestOK struct {
 	RequiredArrayStringByte                    [][]byte             `json:"required_array_string_byte"`
 	RequiredArrayStringDate                    []time.Time          `json:"required_array_string_date"`
 	RequiredArrayStringDateMinusTime           []time.Time          `json:"required_array_string_date-time"`
+	RequiredArrayStringDecimal                 []decimal.Decimal    `json:"required_array_string_decimal"`
 	RequiredArrayStringDuration                []time.Duration      `json:"required_array_string_duration"`
 	RequiredArrayStringEmail                   []string             `json:"required_array_string_email"`
 	RequiredArrayStringFloat32                 []float32            `json:"required_array_string_float32"`
 	RequiredArrayStringFloat64                 []float64            `json:"required_array_string_float64"`
 	RequiredArrayStringHostname                []string             `json:"required_array_string_hostname"`
+	RequiredArrayStringHTTPMinusDate           []time.Time          `json:"required_array_string_http-date"`
 	RequiredArrayStringInt                     []int                `json:"required_array_string_int"`
 	RequiredArrayStringInt16                   []int16              `json:"required_array_string_int16"`
 	RequiredArrayStringInt32                   []int32              `json:"required_array_string_int32"`
@@ -14584,6 +15686,7 @@ type TestResponseFormatTestOK struct {
 	RequiredDoubleArrayIntegerUnixMinusSeconds [][]time.Time        `json:"required_double_array_integer_unix-seconds"`
 	RequiredDoubleArrayNull                    [][]struct{}         `json:"required_double_array_null"`
 	RequiredDoubleArrayNumber                  [][]float64          `json:"required_double_array_number"`
+	RequiredDoubleArrayNumberDecimal           [][]decimal.Decimal  `json:"required_double_array_number_decimal"`
 	RequiredDoubleArrayNumberDouble            [][]float64          `json:"required_double_array_number_double"`
 	RequiredDoubleArrayNumberFloat             [][]float32          `json:"required_double_array_number_float"`
 	RequiredDoubleArrayNumberInt32             [][]int32            `json:"required_double_array_number_int32"`
@@ -14594,11 +15697,13 @@ type TestResponseFormatTestOK struct {
 	RequiredDoubleArrayStringByte              [][][]byte           `json:"required_double_array_string_byte"`
 	RequiredDoubleArrayStringDate              [][]time.Time        `json:"required_double_array_string_date"`
 	RequiredDoubleArrayStringDateMinusTime     [][]time.Time        `json:"required_double_array_string_date-time"`
+	RequiredDoubleArrayStringDecimal           [][]decimal.Decimal  `json:"required_double_array_string_decimal"`
 	RequiredDoubleArrayStringDuration          [][]time.Duration    `json:"required_double_array_string_duration"`
 	RequiredDoubleArrayStringEmail             [][]string           `json:"required_double_array_string_email"`
 	RequiredDoubleArrayStringFloat32           [][]float32          `json:"required_double_array_string_float32"`
 	RequiredDoubleArrayStringFloat64           [][]float64          `json:"required_double_array_string_float64"`
 	RequiredDoubleArrayStringHostname          [][]string           `json:"required_double_array_string_hostname"`
+	RequiredDoubleArrayStringHTTPMinusDate     [][]time.Time        `json:"required_double_array_string_http-date"`
 	RequiredDoubleArrayStringInt               [][]int              `json:"required_double_array_string_int"`
 	RequiredDoubleArrayStringInt16             [][]int16            `json:"required_double_array_string_int16"`
 	RequiredDoubleArrayStringInt32             [][]int32            `json:"required_double_array_string_int32"`
@@ -14639,6 +15744,7 @@ type TestResponseFormatTestOK struct {
 	RequiredIntegerUnixMinusSeconds            time.Time            `json:"required_integer_unix-seconds"`
 	RequiredNull                               struct{}             `json:"required_null"`
 	RequiredNumber                             float64              `json:"required_number"`
+	RequiredNumberDecimal                      decimal.Decimal      `json:"required_number_decimal"`
 	RequiredNumberDouble                       float64              `json:"required_number_double"`
 	RequiredNumberFloat                        float32              `json:"required_number_float"`
 	RequiredNumberInt32                        int32                `json:"required_number_int32"`
@@ -14649,11 +15755,13 @@ type TestResponseFormatTestOK struct {
 	RequiredStringByte                         []byte               `json:"required_string_byte"`
 	RequiredStringDate                         time.Time            `json:"required_string_date"`
 	RequiredStringDateMinusTime                time.Time            `json:"required_string_date-time"`
+	RequiredStringDecimal                      decimal.Decimal      `json:"required_string_decimal"`
 	RequiredStringDuration                     time.Duration        `json:"required_string_duration"`
 	RequiredStringEmail                        string               `json:"required_string_email"`
 	RequiredStringFloat32                      float32              `json:"required_string_float32"`
 	RequiredStringFloat64                      float64              `json:"required_string_float64"`
 	RequiredStringHostname                     string               `json:"required_string_hostname"`
+	RequiredStringHTTPMinusDate                time.Time            `json:"required_string_http-date"`
 	RequiredStringInt                          int                  `json:"required_string_int"`
 	RequiredStringInt16                        int16                `json:"required_string_int16"`
 	RequiredStringInt32                        int32                `json:"required_string_int32"`
@@ -14697,6 +15805,7 @@ type TestResponseFormatTestOK struct {
 	OptionalArrayIntegerUnixMinusSeconds       []time.Time          `json:"optional_array_integer_unix-seconds"`
 	OptionalArrayNull                          []struct{}           `json:"optional_array_null"`
 	OptionalArrayNumber                        []float64            `json:"optional_array_number"`
+	OptionalArrayNumberDecimal                 []decimal.Decimal    `json:"optional_array_number_decimal"`
 	OptionalArrayNumberDouble                  []float64            `json:"optional_array_number_double"`
 	OptionalArrayNumberFloat                   []float32            `json:"optional_array_number_float"`
 	OptionalArrayNumberInt32                   []int32              `json:"optional_array_number_int32"`
@@ -14707,11 +15816,13 @@ type TestResponseFormatTestOK struct {
 	OptionalArrayStringByte                    [][]byte             `json:"optional_array_string_byte"`
 	OptionalArrayStringDate                    []time.Time          `json:"optional_array_string_date"`
 	OptionalArrayStringDateMinusTime           []time.Time          `json:"optional_array_string_date-time"`
+	OptionalArrayStringDecimal                 []decimal.Decimal    `json:"optional_array_string_decimal"`
 	OptionalArrayStringDuration                []time.Duration      `json:"optional_array_string_duration"`
 	OptionalArrayStringEmail                   []string             `json:"optional_array_string_email"`
 	OptionalArrayStringFloat32                 []float32            `json:"optional_array_string_float32"`
 	OptionalArrayStringFloat64                 []float64            `json:"optional_array_string_float64"`
 	OptionalArrayStringHostname                []string             `json:"optional_array_string_hostname"`
+	OptionalArrayStringHTTPMinusDate           []time.Time          `json:"optional_array_string_http-date"`
 	OptionalArrayStringInt                     []int                `json:"optional_array_string_int"`
 	OptionalArrayStringInt16                   []int16              `json:"optional_array_string_int16"`
 	OptionalArrayStringInt32                   []int32              `json:"optional_array_string_int32"`
@@ -14755,6 +15866,7 @@ type TestResponseFormatTestOK struct {
 	OptionalDoubleArrayIntegerUnixMinusSeconds [][]time.Time        `json:"optional_double_array_integer_unix-seconds"`
 	OptionalDoubleArrayNull                    [][]struct{}         `json:"optional_double_array_null"`
 	OptionalDoubleArrayNumber                  [][]float64          `json:"optional_double_array_number"`
+	OptionalDoubleArrayNumberDecimal           [][]decimal.Decimal  `json:"optional_double_array_number_decimal"`
 	OptionalDoubleArrayNumberDouble            [][]float64          `json:"optional_double_array_number_double"`
 	OptionalDoubleArrayNumberFloat             [][]float32          `json:"optional_double_array_number_float"`
 	OptionalDoubleArrayNumberInt32             [][]int32            `json:"optional_double_array_number_int32"`
@@ -14765,11 +15877,13 @@ type TestResponseFormatTestOK struct {
 	OptionalDoubleArrayStringByte              [][][]byte           `json:"optional_double_array_string_byte"`
 	OptionalDoubleArrayStringDate              [][]time.Time        `json:"optional_double_array_string_date"`
 	OptionalDoubleArrayStringDateMinusTime     [][]time.Time        `json:"optional_double_array_string_date-time"`
+	OptionalDoubleArrayStringDecimal           [][]decimal.Decimal  `json:"optional_double_array_string_decimal"`
 	OptionalDoubleArrayStringDuration          [][]time.Duration    `json:"optional_double_array_string_duration"`
 	OptionalDoubleArrayStringEmail             [][]string           `json:"optional_double_array_string_email"`
 	OptionalDoubleArrayStringFloat32           [][]float32          `json:"optional_double_array_string_float32"`
 	OptionalDoubleArrayStringFloat64           [][]float64          `json:"optional_double_array_string_float64"`
 	OptionalDoubleArrayStringHostname          [][]string           `json:"optional_double_array_string_hostname"`
+	OptionalDoubleArrayStringHTTPMinusDate     [][]time.Time        `json:"optional_double_array_string_http-date"`
 	OptionalDoubleArrayStringInt               [][]int              `json:"optional_double_array_string_int"`
 	OptionalDoubleArrayStringInt16             [][]int16            `json:"optional_double_array_string_int16"`
 	OptionalDoubleArrayStringInt32             [][]int32            `json:"optional_double_array_string_int32"`
@@ -14810,6 +15924,7 @@ type TestResponseFormatTestOK struct {
 	OptionalIntegerUnixMinusSeconds            OptUnixSeconds       `json:"optional_integer_unix-seconds"`
 	OptionalNull                               OptNull              `json:"optional_null"`
 	OptionalNumber                             OptFloat64           `json:"optional_number"`
+	OptionalNumberDecimal                      OptDecimal           `json:"optional_number_decimal"`
 	OptionalNumberDouble                       OptFloat64           `json:"optional_number_double"`
 	OptionalNumberFloat                        OptFloat32           `json:"optional_number_float"`
 	OptionalNumberInt32                        OptInt32             `json:"optional_number_int32"`
@@ -14820,11 +15935,13 @@ type TestResponseFormatTestOK struct {
 	OptionalStringByte                         []byte               `json:"optional_string_byte"`
 	OptionalStringDate                         OptDate              `json:"optional_string_date"`
 	OptionalStringDateMinusTime                OptDateTime          `json:"optional_string_date-time"`
+	OptionalStringDecimal                      OptStringDecimal     `json:"optional_string_decimal"`
 	OptionalStringDuration                     OptDuration          `json:"optional_string_duration"`
 	OptionalStringEmail                        OptString            `json:"optional_string_email"`
 	OptionalStringFloat32                      OptStringFloat32     `json:"optional_string_float32"`
 	OptionalStringFloat64                      OptStringFloat64     `json:"optional_string_float64"`
 	OptionalStringHostname                     OptString            `json:"optional_string_hostname"`
+	OptionalStringHTTPMinusDate                OptHTTPDate          `json:"optional_string_http-date"`
 	OptionalStringInt                          OptStringInt         `json:"optional_string_int"`
 	OptionalStringInt16                        OptStringInt16       `json:"optional_string_int16"`
 	OptionalStringInt32                        OptStringInt32       `json:"optional_string_int32"`
@@ -14950,6 +16067,11 @@ func (s *TestResponseFormatTestOK) GetRequiredArrayNumber() []float64 {
 	return s.RequiredArrayNumber
 }
 
+// GetRequiredArrayNumberDecimal returns the value of RequiredArrayNumberDecimal.
+func (s *TestResponseFormatTestOK) GetRequiredArrayNumberDecimal() []decimal.Decimal {
+	return s.RequiredArrayNumberDecimal
+}
+
 // GetRequiredArrayNumberDouble returns the value of RequiredArrayNumberDouble.
 func (s *TestResponseFormatTestOK) GetRequiredArrayNumberDouble() []float64 {
 	return s.RequiredArrayNumberDouble
@@ -15000,6 +16122,11 @@ func (s *TestResponseFormatTestOK) GetRequiredArrayStringDateMinusTime() []time.
 	return s.RequiredArrayStringDateMinusTime
 }
 
+// GetRequiredArrayStringDecimal returns the value of RequiredArrayStringDecimal.
+func (s *TestResponseFormatTestOK) GetRequiredArrayStringDecimal() []decimal.Decimal {
+	return s.RequiredArrayStringDecimal
+}
+
 // GetRequiredArrayStringDuration returns the value of RequiredArrayStringDuration.
 func (s *TestResponseFormatTestOK) GetRequiredArrayStringDuration() []time.Duration {
 	return s.RequiredArrayStringDuration
@@ -15023,6 +16150,11 @@ func (s *TestResponseFormatTestOK) GetRequiredArrayStringFloat64() []float64 {
 // GetRequiredArrayStringHostname returns the value of RequiredArrayStringHostname.
 func (s *TestResponseFormatTestOK) GetRequiredArrayStringHostname() []string {
 	return s.RequiredArrayStringHostname
+}
+
+// GetRequiredArrayStringHTTPMinusDate returns the value of RequiredArrayStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) GetRequiredArrayStringHTTPMinusDate() []time.Time {
+	return s.RequiredArrayStringHTTPMinusDate
 }
 
 // GetRequiredArrayStringInt returns the value of RequiredArrayStringInt.
@@ -15240,6 +16372,11 @@ func (s *TestResponseFormatTestOK) GetRequiredDoubleArrayNumber() [][]float64 {
 	return s.RequiredDoubleArrayNumber
 }
 
+// GetRequiredDoubleArrayNumberDecimal returns the value of RequiredDoubleArrayNumberDecimal.
+func (s *TestResponseFormatTestOK) GetRequiredDoubleArrayNumberDecimal() [][]decimal.Decimal {
+	return s.RequiredDoubleArrayNumberDecimal
+}
+
 // GetRequiredDoubleArrayNumberDouble returns the value of RequiredDoubleArrayNumberDouble.
 func (s *TestResponseFormatTestOK) GetRequiredDoubleArrayNumberDouble() [][]float64 {
 	return s.RequiredDoubleArrayNumberDouble
@@ -15290,6 +16427,11 @@ func (s *TestResponseFormatTestOK) GetRequiredDoubleArrayStringDateMinusTime() [
 	return s.RequiredDoubleArrayStringDateMinusTime
 }
 
+// GetRequiredDoubleArrayStringDecimal returns the value of RequiredDoubleArrayStringDecimal.
+func (s *TestResponseFormatTestOK) GetRequiredDoubleArrayStringDecimal() [][]decimal.Decimal {
+	return s.RequiredDoubleArrayStringDecimal
+}
+
 // GetRequiredDoubleArrayStringDuration returns the value of RequiredDoubleArrayStringDuration.
 func (s *TestResponseFormatTestOK) GetRequiredDoubleArrayStringDuration() [][]time.Duration {
 	return s.RequiredDoubleArrayStringDuration
@@ -15313,6 +16455,11 @@ func (s *TestResponseFormatTestOK) GetRequiredDoubleArrayStringFloat64() [][]flo
 // GetRequiredDoubleArrayStringHostname returns the value of RequiredDoubleArrayStringHostname.
 func (s *TestResponseFormatTestOK) GetRequiredDoubleArrayStringHostname() [][]string {
 	return s.RequiredDoubleArrayStringHostname
+}
+
+// GetRequiredDoubleArrayStringHTTPMinusDate returns the value of RequiredDoubleArrayStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) GetRequiredDoubleArrayStringHTTPMinusDate() [][]time.Time {
+	return s.RequiredDoubleArrayStringHTTPMinusDate
 }
 
 // GetRequiredDoubleArrayStringInt returns the value of RequiredDoubleArrayStringInt.
@@ -15515,6 +16662,11 @@ func (s *TestResponseFormatTestOK) GetRequiredNumber() float64 {
 	return s.RequiredNumber
 }
 
+// GetRequiredNumberDecimal returns the value of RequiredNumberDecimal.
+func (s *TestResponseFormatTestOK) GetRequiredNumberDecimal() decimal.Decimal {
+	return s.RequiredNumberDecimal
+}
+
 // GetRequiredNumberDouble returns the value of RequiredNumberDouble.
 func (s *TestResponseFormatTestOK) GetRequiredNumberDouble() float64 {
 	return s.RequiredNumberDouble
@@ -15565,6 +16717,11 @@ func (s *TestResponseFormatTestOK) GetRequiredStringDateMinusTime() time.Time {
 	return s.RequiredStringDateMinusTime
 }
 
+// GetRequiredStringDecimal returns the value of RequiredStringDecimal.
+func (s *TestResponseFormatTestOK) GetRequiredStringDecimal() decimal.Decimal {
+	return s.RequiredStringDecimal
+}
+
 // GetRequiredStringDuration returns the value of RequiredStringDuration.
 func (s *TestResponseFormatTestOK) GetRequiredStringDuration() time.Duration {
 	return s.RequiredStringDuration
@@ -15588,6 +16745,11 @@ func (s *TestResponseFormatTestOK) GetRequiredStringFloat64() float64 {
 // GetRequiredStringHostname returns the value of RequiredStringHostname.
 func (s *TestResponseFormatTestOK) GetRequiredStringHostname() string {
 	return s.RequiredStringHostname
+}
+
+// GetRequiredStringHTTPMinusDate returns the value of RequiredStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) GetRequiredStringHTTPMinusDate() time.Time {
+	return s.RequiredStringHTTPMinusDate
 }
 
 // GetRequiredStringInt returns the value of RequiredStringInt.
@@ -15805,6 +16967,11 @@ func (s *TestResponseFormatTestOK) GetOptionalArrayNumber() []float64 {
 	return s.OptionalArrayNumber
 }
 
+// GetOptionalArrayNumberDecimal returns the value of OptionalArrayNumberDecimal.
+func (s *TestResponseFormatTestOK) GetOptionalArrayNumberDecimal() []decimal.Decimal {
+	return s.OptionalArrayNumberDecimal
+}
+
 // GetOptionalArrayNumberDouble returns the value of OptionalArrayNumberDouble.
 func (s *TestResponseFormatTestOK) GetOptionalArrayNumberDouble() []float64 {
 	return s.OptionalArrayNumberDouble
@@ -15855,6 +17022,11 @@ func (s *TestResponseFormatTestOK) GetOptionalArrayStringDateMinusTime() []time.
 	return s.OptionalArrayStringDateMinusTime
 }
 
+// GetOptionalArrayStringDecimal returns the value of OptionalArrayStringDecimal.
+func (s *TestResponseFormatTestOK) GetOptionalArrayStringDecimal() []decimal.Decimal {
+	return s.OptionalArrayStringDecimal
+}
+
 // GetOptionalArrayStringDuration returns the value of OptionalArrayStringDuration.
 func (s *TestResponseFormatTestOK) GetOptionalArrayStringDuration() []time.Duration {
 	return s.OptionalArrayStringDuration
@@ -15878,6 +17050,11 @@ func (s *TestResponseFormatTestOK) GetOptionalArrayStringFloat64() []float64 {
 // GetOptionalArrayStringHostname returns the value of OptionalArrayStringHostname.
 func (s *TestResponseFormatTestOK) GetOptionalArrayStringHostname() []string {
 	return s.OptionalArrayStringHostname
+}
+
+// GetOptionalArrayStringHTTPMinusDate returns the value of OptionalArrayStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) GetOptionalArrayStringHTTPMinusDate() []time.Time {
+	return s.OptionalArrayStringHTTPMinusDate
 }
 
 // GetOptionalArrayStringInt returns the value of OptionalArrayStringInt.
@@ -16095,6 +17272,11 @@ func (s *TestResponseFormatTestOK) GetOptionalDoubleArrayNumber() [][]float64 {
 	return s.OptionalDoubleArrayNumber
 }
 
+// GetOptionalDoubleArrayNumberDecimal returns the value of OptionalDoubleArrayNumberDecimal.
+func (s *TestResponseFormatTestOK) GetOptionalDoubleArrayNumberDecimal() [][]decimal.Decimal {
+	return s.OptionalDoubleArrayNumberDecimal
+}
+
 // GetOptionalDoubleArrayNumberDouble returns the value of OptionalDoubleArrayNumberDouble.
 func (s *TestResponseFormatTestOK) GetOptionalDoubleArrayNumberDouble() [][]float64 {
 	return s.OptionalDoubleArrayNumberDouble
@@ -16145,6 +17327,11 @@ func (s *TestResponseFormatTestOK) GetOptionalDoubleArrayStringDateMinusTime() [
 	return s.OptionalDoubleArrayStringDateMinusTime
 }
 
+// GetOptionalDoubleArrayStringDecimal returns the value of OptionalDoubleArrayStringDecimal.
+func (s *TestResponseFormatTestOK) GetOptionalDoubleArrayStringDecimal() [][]decimal.Decimal {
+	return s.OptionalDoubleArrayStringDecimal
+}
+
 // GetOptionalDoubleArrayStringDuration returns the value of OptionalDoubleArrayStringDuration.
 func (s *TestResponseFormatTestOK) GetOptionalDoubleArrayStringDuration() [][]time.Duration {
 	return s.OptionalDoubleArrayStringDuration
@@ -16168,6 +17355,11 @@ func (s *TestResponseFormatTestOK) GetOptionalDoubleArrayStringFloat64() [][]flo
 // GetOptionalDoubleArrayStringHostname returns the value of OptionalDoubleArrayStringHostname.
 func (s *TestResponseFormatTestOK) GetOptionalDoubleArrayStringHostname() [][]string {
 	return s.OptionalDoubleArrayStringHostname
+}
+
+// GetOptionalDoubleArrayStringHTTPMinusDate returns the value of OptionalDoubleArrayStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) GetOptionalDoubleArrayStringHTTPMinusDate() [][]time.Time {
+	return s.OptionalDoubleArrayStringHTTPMinusDate
 }
 
 // GetOptionalDoubleArrayStringInt returns the value of OptionalDoubleArrayStringInt.
@@ -16370,6 +17562,11 @@ func (s *TestResponseFormatTestOK) GetOptionalNumber() OptFloat64 {
 	return s.OptionalNumber
 }
 
+// GetOptionalNumberDecimal returns the value of OptionalNumberDecimal.
+func (s *TestResponseFormatTestOK) GetOptionalNumberDecimal() OptDecimal {
+	return s.OptionalNumberDecimal
+}
+
 // GetOptionalNumberDouble returns the value of OptionalNumberDouble.
 func (s *TestResponseFormatTestOK) GetOptionalNumberDouble() OptFloat64 {
 	return s.OptionalNumberDouble
@@ -16420,6 +17617,11 @@ func (s *TestResponseFormatTestOK) GetOptionalStringDateMinusTime() OptDateTime 
 	return s.OptionalStringDateMinusTime
 }
 
+// GetOptionalStringDecimal returns the value of OptionalStringDecimal.
+func (s *TestResponseFormatTestOK) GetOptionalStringDecimal() OptStringDecimal {
+	return s.OptionalStringDecimal
+}
+
 // GetOptionalStringDuration returns the value of OptionalStringDuration.
 func (s *TestResponseFormatTestOK) GetOptionalStringDuration() OptDuration {
 	return s.OptionalStringDuration
@@ -16443,6 +17645,11 @@ func (s *TestResponseFormatTestOK) GetOptionalStringFloat64() OptStringFloat64 {
 // GetOptionalStringHostname returns the value of OptionalStringHostname.
 func (s *TestResponseFormatTestOK) GetOptionalStringHostname() OptString {
 	return s.OptionalStringHostname
+}
+
+// GetOptionalStringHTTPMinusDate returns the value of OptionalStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) GetOptionalStringHTTPMinusDate() OptHTTPDate {
+	return s.OptionalStringHTTPMinusDate
 }
 
 // GetOptionalStringInt returns the value of OptionalStringInt.
@@ -16660,6 +17867,11 @@ func (s *TestResponseFormatTestOK) SetRequiredArrayNumber(val []float64) {
 	s.RequiredArrayNumber = val
 }
 
+// SetRequiredArrayNumberDecimal sets the value of RequiredArrayNumberDecimal.
+func (s *TestResponseFormatTestOK) SetRequiredArrayNumberDecimal(val []decimal.Decimal) {
+	s.RequiredArrayNumberDecimal = val
+}
+
 // SetRequiredArrayNumberDouble sets the value of RequiredArrayNumberDouble.
 func (s *TestResponseFormatTestOK) SetRequiredArrayNumberDouble(val []float64) {
 	s.RequiredArrayNumberDouble = val
@@ -16710,6 +17922,11 @@ func (s *TestResponseFormatTestOK) SetRequiredArrayStringDateMinusTime(val []tim
 	s.RequiredArrayStringDateMinusTime = val
 }
 
+// SetRequiredArrayStringDecimal sets the value of RequiredArrayStringDecimal.
+func (s *TestResponseFormatTestOK) SetRequiredArrayStringDecimal(val []decimal.Decimal) {
+	s.RequiredArrayStringDecimal = val
+}
+
 // SetRequiredArrayStringDuration sets the value of RequiredArrayStringDuration.
 func (s *TestResponseFormatTestOK) SetRequiredArrayStringDuration(val []time.Duration) {
 	s.RequiredArrayStringDuration = val
@@ -16733,6 +17950,11 @@ func (s *TestResponseFormatTestOK) SetRequiredArrayStringFloat64(val []float64) 
 // SetRequiredArrayStringHostname sets the value of RequiredArrayStringHostname.
 func (s *TestResponseFormatTestOK) SetRequiredArrayStringHostname(val []string) {
 	s.RequiredArrayStringHostname = val
+}
+
+// SetRequiredArrayStringHTTPMinusDate sets the value of RequiredArrayStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) SetRequiredArrayStringHTTPMinusDate(val []time.Time) {
+	s.RequiredArrayStringHTTPMinusDate = val
 }
 
 // SetRequiredArrayStringInt sets the value of RequiredArrayStringInt.
@@ -16950,6 +18172,11 @@ func (s *TestResponseFormatTestOK) SetRequiredDoubleArrayNumber(val [][]float64)
 	s.RequiredDoubleArrayNumber = val
 }
 
+// SetRequiredDoubleArrayNumberDecimal sets the value of RequiredDoubleArrayNumberDecimal.
+func (s *TestResponseFormatTestOK) SetRequiredDoubleArrayNumberDecimal(val [][]decimal.Decimal) {
+	s.RequiredDoubleArrayNumberDecimal = val
+}
+
 // SetRequiredDoubleArrayNumberDouble sets the value of RequiredDoubleArrayNumberDouble.
 func (s *TestResponseFormatTestOK) SetRequiredDoubleArrayNumberDouble(val [][]float64) {
 	s.RequiredDoubleArrayNumberDouble = val
@@ -17000,6 +18227,11 @@ func (s *TestResponseFormatTestOK) SetRequiredDoubleArrayStringDateMinusTime(val
 	s.RequiredDoubleArrayStringDateMinusTime = val
 }
 
+// SetRequiredDoubleArrayStringDecimal sets the value of RequiredDoubleArrayStringDecimal.
+func (s *TestResponseFormatTestOK) SetRequiredDoubleArrayStringDecimal(val [][]decimal.Decimal) {
+	s.RequiredDoubleArrayStringDecimal = val
+}
+
 // SetRequiredDoubleArrayStringDuration sets the value of RequiredDoubleArrayStringDuration.
 func (s *TestResponseFormatTestOK) SetRequiredDoubleArrayStringDuration(val [][]time.Duration) {
 	s.RequiredDoubleArrayStringDuration = val
@@ -17023,6 +18255,11 @@ func (s *TestResponseFormatTestOK) SetRequiredDoubleArrayStringFloat64(val [][]f
 // SetRequiredDoubleArrayStringHostname sets the value of RequiredDoubleArrayStringHostname.
 func (s *TestResponseFormatTestOK) SetRequiredDoubleArrayStringHostname(val [][]string) {
 	s.RequiredDoubleArrayStringHostname = val
+}
+
+// SetRequiredDoubleArrayStringHTTPMinusDate sets the value of RequiredDoubleArrayStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) SetRequiredDoubleArrayStringHTTPMinusDate(val [][]time.Time) {
+	s.RequiredDoubleArrayStringHTTPMinusDate = val
 }
 
 // SetRequiredDoubleArrayStringInt sets the value of RequiredDoubleArrayStringInt.
@@ -17225,6 +18462,11 @@ func (s *TestResponseFormatTestOK) SetRequiredNumber(val float64) {
 	s.RequiredNumber = val
 }
 
+// SetRequiredNumberDecimal sets the value of RequiredNumberDecimal.
+func (s *TestResponseFormatTestOK) SetRequiredNumberDecimal(val decimal.Decimal) {
+	s.RequiredNumberDecimal = val
+}
+
 // SetRequiredNumberDouble sets the value of RequiredNumberDouble.
 func (s *TestResponseFormatTestOK) SetRequiredNumberDouble(val float64) {
 	s.RequiredNumberDouble = val
@@ -17275,6 +18517,11 @@ func (s *TestResponseFormatTestOK) SetRequiredStringDateMinusTime(val time.Time)
 	s.RequiredStringDateMinusTime = val
 }
 
+// SetRequiredStringDecimal sets the value of RequiredStringDecimal.
+func (s *TestResponseFormatTestOK) SetRequiredStringDecimal(val decimal.Decimal) {
+	s.RequiredStringDecimal = val
+}
+
 // SetRequiredStringDuration sets the value of RequiredStringDuration.
 func (s *TestResponseFormatTestOK) SetRequiredStringDuration(val time.Duration) {
 	s.RequiredStringDuration = val
@@ -17298,6 +18545,11 @@ func (s *TestResponseFormatTestOK) SetRequiredStringFloat64(val float64) {
 // SetRequiredStringHostname sets the value of RequiredStringHostname.
 func (s *TestResponseFormatTestOK) SetRequiredStringHostname(val string) {
 	s.RequiredStringHostname = val
+}
+
+// SetRequiredStringHTTPMinusDate sets the value of RequiredStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) SetRequiredStringHTTPMinusDate(val time.Time) {
+	s.RequiredStringHTTPMinusDate = val
 }
 
 // SetRequiredStringInt sets the value of RequiredStringInt.
@@ -17515,6 +18767,11 @@ func (s *TestResponseFormatTestOK) SetOptionalArrayNumber(val []float64) {
 	s.OptionalArrayNumber = val
 }
 
+// SetOptionalArrayNumberDecimal sets the value of OptionalArrayNumberDecimal.
+func (s *TestResponseFormatTestOK) SetOptionalArrayNumberDecimal(val []decimal.Decimal) {
+	s.OptionalArrayNumberDecimal = val
+}
+
 // SetOptionalArrayNumberDouble sets the value of OptionalArrayNumberDouble.
 func (s *TestResponseFormatTestOK) SetOptionalArrayNumberDouble(val []float64) {
 	s.OptionalArrayNumberDouble = val
@@ -17565,6 +18822,11 @@ func (s *TestResponseFormatTestOK) SetOptionalArrayStringDateMinusTime(val []tim
 	s.OptionalArrayStringDateMinusTime = val
 }
 
+// SetOptionalArrayStringDecimal sets the value of OptionalArrayStringDecimal.
+func (s *TestResponseFormatTestOK) SetOptionalArrayStringDecimal(val []decimal.Decimal) {
+	s.OptionalArrayStringDecimal = val
+}
+
 // SetOptionalArrayStringDuration sets the value of OptionalArrayStringDuration.
 func (s *TestResponseFormatTestOK) SetOptionalArrayStringDuration(val []time.Duration) {
 	s.OptionalArrayStringDuration = val
@@ -17588,6 +18850,11 @@ func (s *TestResponseFormatTestOK) SetOptionalArrayStringFloat64(val []float64) 
 // SetOptionalArrayStringHostname sets the value of OptionalArrayStringHostname.
 func (s *TestResponseFormatTestOK) SetOptionalArrayStringHostname(val []string) {
 	s.OptionalArrayStringHostname = val
+}
+
+// SetOptionalArrayStringHTTPMinusDate sets the value of OptionalArrayStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) SetOptionalArrayStringHTTPMinusDate(val []time.Time) {
+	s.OptionalArrayStringHTTPMinusDate = val
 }
 
 // SetOptionalArrayStringInt sets the value of OptionalArrayStringInt.
@@ -17805,6 +19072,11 @@ func (s *TestResponseFormatTestOK) SetOptionalDoubleArrayNumber(val [][]float64)
 	s.OptionalDoubleArrayNumber = val
 }
 
+// SetOptionalDoubleArrayNumberDecimal sets the value of OptionalDoubleArrayNumberDecimal.
+func (s *TestResponseFormatTestOK) SetOptionalDoubleArrayNumberDecimal(val [][]decimal.Decimal) {
+	s.OptionalDoubleArrayNumberDecimal = val
+}
+
 // SetOptionalDoubleArrayNumberDouble sets the value of OptionalDoubleArrayNumberDouble.
 func (s *TestResponseFormatTestOK) SetOptionalDoubleArrayNumberDouble(val [][]float64) {
 	s.OptionalDoubleArrayNumberDouble = val
@@ -17855,6 +19127,11 @@ func (s *TestResponseFormatTestOK) SetOptionalDoubleArrayStringDateMinusTime(val
 	s.OptionalDoubleArrayStringDateMinusTime = val
 }
 
+// SetOptionalDoubleArrayStringDecimal sets the value of OptionalDoubleArrayStringDecimal.
+func (s *TestResponseFormatTestOK) SetOptionalDoubleArrayStringDecimal(val [][]decimal.Decimal) {
+	s.OptionalDoubleArrayStringDecimal = val
+}
+
 // SetOptionalDoubleArrayStringDuration sets the value of OptionalDoubleArrayStringDuration.
 func (s *TestResponseFormatTestOK) SetOptionalDoubleArrayStringDuration(val [][]time.Duration) {
 	s.OptionalDoubleArrayStringDuration = val
@@ -17878,6 +19155,11 @@ func (s *TestResponseFormatTestOK) SetOptionalDoubleArrayStringFloat64(val [][]f
 // SetOptionalDoubleArrayStringHostname sets the value of OptionalDoubleArrayStringHostname.
 func (s *TestResponseFormatTestOK) SetOptionalDoubleArrayStringHostname(val [][]string) {
 	s.OptionalDoubleArrayStringHostname = val
+}
+
+// SetOptionalDoubleArrayStringHTTPMinusDate sets the value of OptionalDoubleArrayStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) SetOptionalDoubleArrayStringHTTPMinusDate(val [][]time.Time) {
+	s.OptionalDoubleArrayStringHTTPMinusDate = val
 }
 
 // SetOptionalDoubleArrayStringInt sets the value of OptionalDoubleArrayStringInt.
@@ -18080,6 +19362,11 @@ func (s *TestResponseFormatTestOK) SetOptionalNumber(val OptFloat64) {
 	s.OptionalNumber = val
 }
 
+// SetOptionalNumberDecimal sets the value of OptionalNumberDecimal.
+func (s *TestResponseFormatTestOK) SetOptionalNumberDecimal(val OptDecimal) {
+	s.OptionalNumberDecimal = val
+}
+
 // SetOptionalNumberDouble sets the value of OptionalNumberDouble.
 func (s *TestResponseFormatTestOK) SetOptionalNumberDouble(val OptFloat64) {
 	s.OptionalNumberDouble = val
@@ -18130,6 +19417,11 @@ func (s *TestResponseFormatTestOK) SetOptionalStringDateMinusTime(val OptDateTim
 	s.OptionalStringDateMinusTime = val
 }
 
+// SetOptionalStringDecimal sets the value of OptionalStringDecimal.
+func (s *TestResponseFormatTestOK) SetOptionalStringDecimal(val OptStringDecimal) {
+	s.OptionalStringDecimal = val
+}
+
 // SetOptionalStringDuration sets the value of OptionalStringDuration.
 func (s *TestResponseFormatTestOK) SetOptionalStringDuration(val OptDuration) {
 	s.OptionalStringDuration = val
@@ -18153,6 +19445,11 @@ func (s *TestResponseFormatTestOK) SetOptionalStringFloat64(val OptStringFloat64
 // SetOptionalStringHostname sets the value of OptionalStringHostname.
 func (s *TestResponseFormatTestOK) SetOptionalStringHostname(val OptString) {
 	s.OptionalStringHostname = val
+}
+
+// SetOptionalStringHTTPMinusDate sets the value of OptionalStringHTTPMinusDate.
+func (s *TestResponseFormatTestOK) SetOptionalStringHTTPMinusDate(val OptHTTPDate) {
+	s.OptionalStringHTTPMinusDate = val
 }
 
 // SetOptionalStringInt sets the value of OptionalStringInt.

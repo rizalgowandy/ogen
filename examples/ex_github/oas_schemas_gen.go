@@ -319,9 +319,11 @@ type ActionsCreateOrUpdateEnvironmentSecretNoContent struct{}
 func (*ActionsCreateOrUpdateEnvironmentSecretNoContent) actionsCreateOrUpdateEnvironmentSecretRes() {}
 
 type ActionsCreateOrUpdateEnvironmentSecretReq struct {
-	// Value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.
-	// io/doc/bindings_for_other_languages) using the public key retrieved from the [Get an environment
-	// public key](https://docs.github.com/rest/reference/actions#get-an-environment-public-key) endpoint.
+	// Value for your secret, encrypted with [LibSodium] using the public key retrieved from the
+	// [Get an environment public key] endpoint.
+	//
+	// [LibSodium]: https://libsodium.gitbook.io/doc/bindings_for_other_languages
+	// [Get an environment public key]: https://docs.github.com/rest/reference/actions#get-an-environment-public-key
 	EncryptedValue string `json:"encrypted_value"`
 	// ID of the key you used to encrypt the secret.
 	KeyID string `json:"key_id"`
@@ -353,26 +355,28 @@ type ActionsCreateOrUpdateOrgSecretNoContent struct{}
 func (*ActionsCreateOrUpdateOrgSecretNoContent) actionsCreateOrUpdateOrgSecretRes() {}
 
 type ActionsCreateOrUpdateOrgSecretReq struct {
-	// Value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.
-	// io/doc/bindings_for_other_languages) using the public key retrieved from the [Get an organization
-	// public key](https://docs.github.com/rest/reference/actions#get-an-organization-public-key)
-	// endpoint.
+	// Value for your secret, encrypted with [LibSodium] using the public key retrieved from the
+	// [Get an organization public key] endpoint.
+	//
+	// [LibSodium]: https://libsodium.gitbook.io/doc/bindings_for_other_languages
+	// [Get an organization public key]: https://docs.github.com/rest/reference/actions#get-an-organization-public-key
 	EncryptedValue OptString `json:"encrypted_value"`
 	// ID of the key you used to encrypt the secret.
 	KeyID OptString `json:"key_id"`
-	// Configures the access that repositories have to the organization secret. Can be one of:
-	// \- `all` - All repositories in an organization can access the secret.
-	// \- `private` - Private repositories in an organization can access the secret.
-	// \- `selected` - Only specific repositories can access the secret.
+	// Configures the access that repositories have to the organization secret. Can be one of: \- `all` -
+	// All repositories in an organization can access the secret. \- `private` - Private repositories in an
+	// organization can access the secret. \- `selected` - Only specific repositories can access the
+	// secret.
 	Visibility ActionsCreateOrUpdateOrgSecretReqVisibility `json:"visibility"`
 	// An array of repository ids that can access the organization secret. You can only provide a list of
 	// repository ids when the `visibility` is set to `selected`. You can manage the list of selected
-	// repositories using the [List selected repositories for an organization secret](https://docs.github.
-	// com/rest/reference/actions#list-selected-repositories-for-an-organization-secret), [Set selected
-	// repositories for an organization secret](https://docs.github.
-	// com/rest/reference/actions#set-selected-repositories-for-an-organization-secret), and [Remove
-	// selected repository from an organization secret](https://docs.github.
-	// com/rest/reference/actions#remove-selected-repository-from-an-organization-secret) endpoints.
+	// repositories using the [List selected repositories for an organization secret],
+	// [Set selected repositories for an organization secret], and
+	// [Remove selected repository from an organization secret] endpoints.
+	//
+	// [List selected repositories for an organization secret]: https://docs.github.com/rest/reference/actions#list-selected-repositories-for-an-organization-secret
+	// [Set selected repositories for an organization secret]: https://docs.github.com/rest/reference/actions#set-selected-repositories-for-an-organization-secret
+	// [Remove selected repository from an organization secret]: https://docs.github.com/rest/reference/actions#remove-selected-repository-from-an-organization-secret
 	SelectedRepositoryIds []string `json:"selected_repository_ids"`
 }
 
@@ -416,10 +420,10 @@ func (s *ActionsCreateOrUpdateOrgSecretReq) SetSelectedRepositoryIds(val []strin
 	s.SelectedRepositoryIds = val
 }
 
-// Configures the access that repositories have to the organization secret. Can be one of:
-// \- `all` - All repositories in an organization can access the secret.
-// \- `private` - Private repositories in an organization can access the secret.
-// \- `selected` - Only specific repositories can access the secret.
+// Configures the access that repositories have to the organization secret. Can be one of: \- `all` -
+// All repositories in an organization can access the secret. \- `private` - Private repositories in an
+// organization can access the secret. \- `selected` - Only specific repositories can access the
+// secret.
 type ActionsCreateOrUpdateOrgSecretReqVisibility string
 
 const (
@@ -478,9 +482,11 @@ type ActionsCreateOrUpdateRepoSecretNoContent struct{}
 func (*ActionsCreateOrUpdateRepoSecretNoContent) actionsCreateOrUpdateRepoSecretRes() {}
 
 type ActionsCreateOrUpdateRepoSecretReq struct {
-	// Value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.
-	// io/doc/bindings_for_other_languages) using the public key retrieved from the [Get a repository
-	// public key](https://docs.github.com/rest/reference/actions#get-a-repository-public-key) endpoint.
+	// Value for your secret, encrypted with [LibSodium] using the public key retrieved from the
+	// [Get a repository public key] endpoint.
+	//
+	// [LibSodium]: https://libsodium.gitbook.io/doc/bindings_for_other_languages
+	// [Get a repository public key]: https://docs.github.com/rest/reference/actions#get-a-repository-public-key
 	EncryptedValue OptString `json:"encrypted_value"`
 	// ID of the key you used to encrypt the secret.
 	KeyID OptString `json:"key_id"`
@@ -608,6 +614,50 @@ func (s *ActionsCreateSelfHostedRunnerGroupForOrgReqVisibility) UnmarshalText(da
 	}
 }
 
+// ActionsCreateWorkflowDispatchNoContent is response for ActionsCreateWorkflowDispatch operation.
+type ActionsCreateWorkflowDispatchNoContent struct{}
+
+type ActionsCreateWorkflowDispatchReq struct {
+	// The git reference for the workflow. The reference can be a branch or tag name.
+	Ref string `json:"ref"`
+	// Input keys and values configured in the workflow file. The maximum number of properties is 10. Any
+	// default properties configured in the workflow file will be used when `inputs` are omitted.
+	Inputs OptActionsCreateWorkflowDispatchReqInputs `json:"inputs"`
+}
+
+// GetRef returns the value of Ref.
+func (s *ActionsCreateWorkflowDispatchReq) GetRef() string {
+	return s.Ref
+}
+
+// GetInputs returns the value of Inputs.
+func (s *ActionsCreateWorkflowDispatchReq) GetInputs() OptActionsCreateWorkflowDispatchReqInputs {
+	return s.Inputs
+}
+
+// SetRef sets the value of Ref.
+func (s *ActionsCreateWorkflowDispatchReq) SetRef(val string) {
+	s.Ref = val
+}
+
+// SetInputs sets the value of Inputs.
+func (s *ActionsCreateWorkflowDispatchReq) SetInputs(val OptActionsCreateWorkflowDispatchReqInputs) {
+	s.Inputs = val
+}
+
+// Input keys and values configured in the workflow file. The maximum number of properties is 10. Any
+// default properties configured in the workflow file will be used when `inputs` are omitted.
+type ActionsCreateWorkflowDispatchReqInputs map[string]string
+
+func (s *ActionsCreateWorkflowDispatchReqInputs) init() ActionsCreateWorkflowDispatchReqInputs {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
 // ActionsDeleteArtifactNoContent is response for ActionsDeleteArtifact operation.
 type ActionsDeleteArtifactNoContent struct{}
 
@@ -637,6 +687,9 @@ type ActionsDeleteWorkflowRunNoContent struct{}
 
 // ActionsDisableSelectedRepositoryGithubActionsOrganizationNoContent is response for ActionsDisableSelectedRepositoryGithubActionsOrganization operation.
 type ActionsDisableSelectedRepositoryGithubActionsOrganizationNoContent struct{}
+
+// ActionsDisableWorkflowNoContent is response for ActionsDisableWorkflow operation.
+type ActionsDisableWorkflowNoContent struct{}
 
 // ActionsDownloadArtifactFound is response for ActionsDownloadArtifact operation.
 type ActionsDownloadArtifactFound struct {
@@ -686,13 +739,16 @@ func (s *ActionsDownloadWorkflowRunLogsFound) SetLocation(val OptString) {
 // ActionsEnableSelectedRepositoryGithubActionsOrganizationNoContent is response for ActionsEnableSelectedRepositoryGithubActionsOrganization operation.
 type ActionsEnableSelectedRepositoryGithubActionsOrganizationNoContent struct{}
 
+// ActionsEnableWorkflowNoContent is response for ActionsEnableWorkflow operation.
+type ActionsEnableWorkflowNoContent struct{}
+
 type ActionsEnabled bool
 
 // Ref: #/components/schemas/actions-enterprise-permissions
 type ActionsEnterprisePermissions struct {
 	EnabledOrganizations EnabledOrganizations `json:"enabled_organizations"`
 	// The API URL to use to get or set the selected organizations that are allowed to run GitHub Actions,
-	//  when `enabled_organizations` is set to `selected`.
+	// when `enabled_organizations` is set to `selected`.
 	SelectedOrganizationsURL OptString             `json:"selected_organizations_url"`
 	AllowedActions           OptAllowedActions     `json:"allowed_actions"`
 	SelectedActionsURL       OptSelectedActionsURL `json:"selected_actions_url"`
@@ -1440,6 +1496,57 @@ func (s *ActionsListWorkflowRunsForRepoOKHeaders) SetResponse(val ActionsListWor
 	s.Response = val
 }
 
+type ActionsListWorkflowRunsOK struct {
+	TotalCount   int           `json:"total_count"`
+	WorkflowRuns []WorkflowRun `json:"workflow_runs"`
+}
+
+// GetTotalCount returns the value of TotalCount.
+func (s *ActionsListWorkflowRunsOK) GetTotalCount() int {
+	return s.TotalCount
+}
+
+// GetWorkflowRuns returns the value of WorkflowRuns.
+func (s *ActionsListWorkflowRunsOK) GetWorkflowRuns() []WorkflowRun {
+	return s.WorkflowRuns
+}
+
+// SetTotalCount sets the value of TotalCount.
+func (s *ActionsListWorkflowRunsOK) SetTotalCount(val int) {
+	s.TotalCount = val
+}
+
+// SetWorkflowRuns sets the value of WorkflowRuns.
+func (s *ActionsListWorkflowRunsOK) SetWorkflowRuns(val []WorkflowRun) {
+	s.WorkflowRuns = val
+}
+
+// ActionsListWorkflowRunsOKHeaders wraps ActionsListWorkflowRunsOK with response headers.
+type ActionsListWorkflowRunsOKHeaders struct {
+	Link     OptString
+	Response ActionsListWorkflowRunsOK
+}
+
+// GetLink returns the value of Link.
+func (s *ActionsListWorkflowRunsOKHeaders) GetLink() OptString {
+	return s.Link
+}
+
+// GetResponse returns the value of Response.
+func (s *ActionsListWorkflowRunsOKHeaders) GetResponse() ActionsListWorkflowRunsOK {
+	return s.Response
+}
+
+// SetLink sets the value of Link.
+func (s *ActionsListWorkflowRunsOKHeaders) SetLink(val OptString) {
+	s.Link = val
+}
+
+// SetResponse sets the value of Response.
+func (s *ActionsListWorkflowRunsOKHeaders) SetResponse(val ActionsListWorkflowRunsOK) {
+	s.Response = val
+}
+
 // Ref: #/components/schemas/actions-organization-permissions
 type ActionsOrganizationPermissions struct {
 	EnabledRepositories EnabledRepositories `json:"enabled_repositories"`
@@ -1623,8 +1730,8 @@ type ActionsRetryWorkflowCreated struct{}
 type ActionsReviewPendingDeploymentsForRunReq struct {
 	// The list of environment ids to approve or reject.
 	EnvironmentIds []int `json:"environment_ids"`
-	// Whether to approve or reject deployment to the specified environments. Must be one of: `approved`
-	// or `rejected`.
+	// Whether to approve or reject deployment to the specified environments. Must be one of: `approved` or
+	// `rejected`.
 	State ActionsReviewPendingDeploymentsForRunReqState `json:"state"`
 	// A comment to accompany the deployment review.
 	Comment string `json:"comment"`
@@ -1660,8 +1767,8 @@ func (s *ActionsReviewPendingDeploymentsForRunReq) SetComment(val string) {
 	s.Comment = val
 }
 
-// Whether to approve or reject deployment to the specified environments. Must be one of: `approved`
-// or `rejected`.
+// Whether to approve or reject deployment to the specified environments. Must be one of: `approved` or
+// `rejected`.
 type ActionsReviewPendingDeploymentsForRunReqState string
 
 const (
@@ -1828,10 +1935,11 @@ type ActionsSetSelectedReposForOrgSecretNoContent struct{}
 type ActionsSetSelectedReposForOrgSecretReq struct {
 	// An array of repository ids that can access the organization secret. You can only provide a list of
 	// repository ids when the `visibility` is set to `selected`. You can add and remove individual
-	// repositories using the [Set selected repositories for an organization secret](https://docs.github.
-	// com/rest/reference/actions#set-selected-repositories-for-an-organization-secret) and [Remove
-	// selected repository from an organization secret](https://docs.github.
-	// com/rest/reference/actions#remove-selected-repository-from-an-organization-secret) endpoints.
+	// repositories using the [Set selected repositories for an organization secret] and
+	// [Remove selected repository from an organization secret] endpoints.
+	//
+	// [Set selected repositories for an organization secret]: https://docs.github.com/rest/reference/actions#set-selected-repositories-for-an-organization-secret
+	// [Remove selected repository from an organization secret]: https://docs.github.com/rest/reference/actions#remove-selected-repository-from-an-organization-secret
 	SelectedRepositoryIds []int `json:"selected_repository_ids"`
 }
 
@@ -2111,33 +2219,62 @@ type ActivityListReposStarredByAuthenticatedUserForbidden BasicError
 func (*ActivityListReposStarredByAuthenticatedUserForbidden) activityListReposStarredByAuthenticatedUserRes() {
 }
 
-// ActivityListReposStarredByAuthenticatedUserOKHeaders wraps []Repository with response headers.
-type ActivityListReposStarredByAuthenticatedUserOKHeaders struct {
+// ActivityListReposStarredByAuthenticatedUserOKApplicationJSONHeaders wraps []Repository with response headers.
+type ActivityListReposStarredByAuthenticatedUserOKApplicationJSONHeaders struct {
 	Link     OptString
 	Response []Repository
 }
 
 // GetLink returns the value of Link.
-func (s *ActivityListReposStarredByAuthenticatedUserOKHeaders) GetLink() OptString {
+func (s *ActivityListReposStarredByAuthenticatedUserOKApplicationJSONHeaders) GetLink() OptString {
 	return s.Link
 }
 
 // GetResponse returns the value of Response.
-func (s *ActivityListReposStarredByAuthenticatedUserOKHeaders) GetResponse() []Repository {
+func (s *ActivityListReposStarredByAuthenticatedUserOKApplicationJSONHeaders) GetResponse() []Repository {
 	return s.Response
 }
 
 // SetLink sets the value of Link.
-func (s *ActivityListReposStarredByAuthenticatedUserOKHeaders) SetLink(val OptString) {
+func (s *ActivityListReposStarredByAuthenticatedUserOKApplicationJSONHeaders) SetLink(val OptString) {
 	s.Link = val
 }
 
 // SetResponse sets the value of Response.
-func (s *ActivityListReposStarredByAuthenticatedUserOKHeaders) SetResponse(val []Repository) {
+func (s *ActivityListReposStarredByAuthenticatedUserOKApplicationJSONHeaders) SetResponse(val []Repository) {
 	s.Response = val
 }
 
-func (*ActivityListReposStarredByAuthenticatedUserOKHeaders) activityListReposStarredByAuthenticatedUserRes() {
+func (*ActivityListReposStarredByAuthenticatedUserOKApplicationJSONHeaders) activityListReposStarredByAuthenticatedUserRes() {
+}
+
+// ActivityListReposStarredByAuthenticatedUserOKApplicationVndGithubV3StarJSONHeaders wraps []StarredRepository with response headers.
+type ActivityListReposStarredByAuthenticatedUserOKApplicationVndGithubV3StarJSONHeaders struct {
+	Link     OptString
+	Response []StarredRepository
+}
+
+// GetLink returns the value of Link.
+func (s *ActivityListReposStarredByAuthenticatedUserOKApplicationVndGithubV3StarJSONHeaders) GetLink() OptString {
+	return s.Link
+}
+
+// GetResponse returns the value of Response.
+func (s *ActivityListReposStarredByAuthenticatedUserOKApplicationVndGithubV3StarJSONHeaders) GetResponse() []StarredRepository {
+	return s.Response
+}
+
+// SetLink sets the value of Link.
+func (s *ActivityListReposStarredByAuthenticatedUserOKApplicationVndGithubV3StarJSONHeaders) SetLink(val OptString) {
+	s.Link = val
+}
+
+// SetResponse sets the value of Response.
+func (s *ActivityListReposStarredByAuthenticatedUserOKApplicationVndGithubV3StarJSONHeaders) SetResponse(val []StarredRepository) {
+	s.Response = val
+}
+
+func (*ActivityListReposStarredByAuthenticatedUserOKApplicationVndGithubV3StarJSONHeaders) activityListReposStarredByAuthenticatedUserRes() {
 }
 
 type ActivityListReposStarredByAuthenticatedUserUnauthorized BasicError
@@ -2320,10 +2457,11 @@ func (s *ActivityMarkRepoNotificationsAsReadAccepted) SetURL(val OptString) {
 func (*ActivityMarkRepoNotificationsAsReadAccepted) activityMarkRepoNotificationsAsReadRes() {}
 
 type ActivityMarkRepoNotificationsAsReadReq struct {
-	// Describes the last point that notifications were checked. Anything updated since this time will
-	// not be marked as read. If you omit this parameter, all notifications are marked as read. This is a
-	// timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	// Default: The current timestamp.
+	// Describes the last point that notifications were checked. Anything updated since this time will not
+	// be marked as read. If you omit this parameter, all notifications are marked as read. This is a
+	// timestamp in [ISO 8601] format: `YYYY-MM-DDTHH:MM:SSZ`. Default: The current timestamp.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
 	LastReadAt OptDateTime `json:"last_read_at"`
 }
 
@@ -2594,23 +2732,23 @@ type AppPermissions struct {
 	// The level of permission to grant the access token to search repositories, list collaborators, and
 	// access repository metadata. Can be one of: `read` or `write`.
 	Metadata OptAppPermissionsMetadata `json:"metadata"`
-	// The level of permission to grant the access token for packages published to GitHub Packages. Can
-	// be one of: `read` or `write`.
+	// The level of permission to grant the access token for packages published to GitHub Packages. Can be
+	// one of: `read` or `write`.
 	Packages OptAppPermissionsPackages `json:"packages"`
 	// The level of permission to grant the access token to retrieve Pages statuses, configuration, and
 	// builds, as well as create new builds. Can be one of: `read` or `write`.
 	Pages OptAppPermissionsPages `json:"pages"`
-	// The level of permission to grant the access token for pull requests and related comments,
-	// assignees, labels, milestones, and merges. Can be one of: `read` or `write`.
+	// The level of permission to grant the access token for pull requests and related comments, assignees,
+	// labels, milestones, and merges. Can be one of: `read` or `write`.
 	PullRequests OptAppPermissionsPullRequests `json:"pull_requests"`
-	// The level of permission to grant the access token to manage the post-receive hooks for a
-	// repository. Can be one of: `read` or `write`.
+	// The level of permission to grant the access token to manage the post-receive hooks for a repository.
+	// Can be one of: `read` or `write`.
 	RepositoryHooks OptAppPermissionsRepositoryHooks `json:"repository_hooks"`
-	// The level of permission to grant the access token to manage repository projects, columns, and
-	// cards. Can be one of: `read`, `write`, or `admin`.
+	// The level of permission to grant the access token to manage repository projects, columns, and cards.
+	// Can be one of: `read`, `write`, or `admin`.
 	RepositoryProjects OptAppPermissionsRepositoryProjects `json:"repository_projects"`
-	// The level of permission to grant the access token to view and manage secret scanning alerts. Can
-	// be one of: `read` or `write`.
+	// The level of permission to grant the access token to view and manage secret scanning alerts. Can be
+	// one of: `read` or `write`.
 	SecretScanningAlerts OptAppPermissionsSecretScanningAlerts `json:"secret_scanning_alerts"`
 	// The level of permission to grant the access token to manage repository secrets. Can be one of:
 	// `read` or `write`.
@@ -2630,8 +2768,8 @@ type AppPermissions struct {
 	// The level of permission to grant the access token to update GitHub Actions workflow files. Can be
 	// one of: `write`.
 	Workflows OptAppPermissionsWorkflows `json:"workflows"`
-	// The level of permission to grant the access token for organization teams and members. Can be one
-	// of: `read` or `write`.
+	// The level of permission to grant the access token for organization teams and members. Can be one of:
+	// `read` or `write`.
 	Members OptAppPermissionsMembers `json:"members"`
 	// The level of permission to grant the access token to manage access to an organization. Can be one
 	// of: `read` or `write`.
@@ -2639,8 +2777,8 @@ type AppPermissions struct {
 	// The level of permission to grant the access token to manage the post-receive hooks for an
 	// organization. Can be one of: `read` or `write`.
 	OrganizationHooks OptAppPermissionsOrganizationHooks `json:"organization_hooks"`
-	// The level of permission to grant the access token for viewing an organization's plan. Can be one
-	// of: `read`.
+	// The level of permission to grant the access token for viewing an organization's plan. Can be one of:
+	// `read`.
 	OrganizationPlan OptAppPermissionsOrganizationPlan `json:"organization_plan"`
 	// The level of permission to grant the access token to manage organization projects, columns, and
 	// cards. Can be one of: `read`, `write`, or `admin`.
@@ -3316,8 +3454,8 @@ func (s *AppPermissionsIssues) UnmarshalText(data []byte) error {
 	}
 }
 
-// The level of permission to grant the access token for organization teams and members. Can be one
-// of: `read` or `write`.
+// The level of permission to grant the access token for organization teams and members. Can be one of:
+// `read` or `write`.
 type AppPermissionsMembers string
 
 const (
@@ -3531,8 +3669,8 @@ func (s *AppPermissionsOrganizationPackages) UnmarshalText(data []byte) error {
 	}
 }
 
-// The level of permission to grant the access token for viewing an organization's plan. Can be one
-// of: `read`.
+// The level of permission to grant the access token for viewing an organization's plan. Can be one of:
+// `read`.
 type AppPermissionsOrganizationPlan string
 
 const (
@@ -3746,8 +3884,8 @@ func (s *AppPermissionsOrganizationUserBlocking) UnmarshalText(data []byte) erro
 	}
 }
 
-// The level of permission to grant the access token for packages published to GitHub Packages. Can
-// be one of: `read` or `write`.
+// The level of permission to grant the access token for packages published to GitHub Packages. Can be
+// one of: `read` or `write`.
 type AppPermissionsPackages string
 
 const (
@@ -3832,8 +3970,8 @@ func (s *AppPermissionsPages) UnmarshalText(data []byte) error {
 	}
 }
 
-// The level of permission to grant the access token for pull requests and related comments,
-// assignees, labels, milestones, and merges. Can be one of: `read` or `write`.
+// The level of permission to grant the access token for pull requests and related comments, assignees,
+// labels, milestones, and merges. Can be one of: `read` or `write`.
 type AppPermissionsPullRequests string
 
 const (
@@ -3875,8 +4013,8 @@ func (s *AppPermissionsPullRequests) UnmarshalText(data []byte) error {
 	}
 }
 
-// The level of permission to grant the access token to manage the post-receive hooks for a
-// repository. Can be one of: `read` or `write`.
+// The level of permission to grant the access token to manage the post-receive hooks for a repository.
+// Can be one of: `read` or `write`.
 type AppPermissionsRepositoryHooks string
 
 const (
@@ -3918,8 +4056,8 @@ func (s *AppPermissionsRepositoryHooks) UnmarshalText(data []byte) error {
 	}
 }
 
-// The level of permission to grant the access token to manage repository projects, columns, and
-// cards. Can be one of: `read`, `write`, or `admin`.
+// The level of permission to grant the access token to manage repository projects, columns, and cards.
+// Can be one of: `read`, `write`, or `admin`.
 type AppPermissionsRepositoryProjects string
 
 const (
@@ -3968,8 +4106,8 @@ func (s *AppPermissionsRepositoryProjects) UnmarshalText(data []byte) error {
 	}
 }
 
-// The level of permission to grant the access token to view and manage secret scanning alerts. Can
-// be one of: `read` or `write`.
+// The level of permission to grant the access token to view and manage secret scanning alerts. Can be
+// one of: `read` or `write`.
 type AppPermissionsSecretScanningAlerts string
 
 const (
@@ -5382,17 +5520,17 @@ func (*AppsScopeTokenNotFound) appsScopeTokenRes() {}
 type AppsScopeTokenReq struct {
 	// The OAuth access token used to authenticate to the GitHub API.
 	AccessToken string `json:"access_token"`
-	// The name of the user or organization to scope the user-to-server access token to. **Required**
-	// unless `target_id` is specified.
+	// The name of the user or organization to scope the user-to-server access token to. Required unless
+	// `target_id` is specified.
 	Target OptString `json:"target"`
-	// The ID of the user or organization to scope the user-to-server access token to. **Required**
-	// unless `target` is specified.
+	// The ID of the user or organization to scope the user-to-server access token to. Required unless
+	// `target` is specified.
 	TargetID OptInt `json:"target_id"`
-	// The list of repository names to scope the user-to-server access token to. `repositories` may not
-	// be specified if `repository_ids` is specified.
+	// The list of repository names to scope the user-to-server access token to. `repositories` may not be
+	// specified if `repository_ids` is specified.
 	Repositories []string `json:"repositories"`
-	// The list of repository IDs to scope the user-to-server access token to. `repository_ids` may not
-	// be specified if `repositories` is specified.
+	// The list of repository IDs to scope the user-to-server access token to. `repository_ids` may not be
+	// specified if `repositories` is specified.
 	RepositoryIds []int             `json:"repository_ids"`
 	Permissions   OptAppPermissions `json:"permissions"`
 }
@@ -5638,8 +5776,9 @@ func (s *Artifact) SetUpdatedAt(val NilDateTime) {
 
 // Ref: #/components/schemas/audit-log-event
 type AuditLogEvent struct {
-	// The time the audit log event occurred, given as a [Unix timestamp](http://en.wikipedia.
-	// org/wiki/Unix_time).
+	// The time the audit log event occurred, given as a [Unix timestamp].
+	//
+	// [Unix timestamp]: http://en.wikipedia.org/wiki/Unix_time
 	Timestamp OptInt `json:"@timestamp"`
 	// The name of the action that was performed, for example `user.login` or `repo.create`.
 	Action    OptString `json:"action"`
@@ -5658,8 +5797,9 @@ type AuditLogEvent struct {
 	Config      []jx.Raw  `json:"config"`
 	ConfigWas   []jx.Raw  `json:"config_was"`
 	ContentType OptString `json:"content_type"`
-	// The time the audit log event was recorded, given as a [Unix timestamp](http://en.wikipedia.
-	// org/wiki/Unix_time).
+	// The time the audit log event was recorded, given as a [Unix timestamp].
+	//
+	// [Unix timestamp]: http://en.wikipedia.org/wiki/Unix_time
 	CreatedAt            OptInt    `json:"created_at"`
 	DeployKeyFingerprint OptString `json:"deploy_key_fingerprint"`
 	// A unique identifier for an audit event.
@@ -7354,6 +7494,7 @@ func (*BasicError) reposUpdateCommitCommentRes()                         {}
 func (*BasicError) reposUpdateReleaseRes()                               {}
 func (*BasicError) reposUpdateStatusCheckProtectionRes()                 {}
 func (*BasicError) reposUpdateWebhookRes()                               {}
+func (*BasicError) scimUpdateAttributeForUserRes()                       {}
 func (*BasicError) searchCodeRes()                                       {}
 func (*BasicError) searchIssuesAndPullRequestsRes()                      {}
 func (*BasicError) secretScanningListAlertsForOrgRes()                   {}
@@ -9681,6 +9822,838 @@ func (s *CheckSuiteStatus) UnmarshalText(data []byte) error {
 	}
 }
 
+type ChecksCreateReq struct {
+	// The name of the check. For example, "code-coverage".
+	Name string `json:"name"`
+	// The SHA of the commit.
+	HeadSha string `json:"head_sha"`
+	// The URL of the integrator's site that has the full details of the check. If the integrator does not
+	// provide this, then the homepage of the GitHub app is used.
+	DetailsURL OptString `json:"details_url"`
+	// A reference for the run on the integrator's system.
+	ExternalID OptString `json:"external_id"`
+	// The current status. Can be one of `queued`, `in_progress`, or `completed`.
+	Status OptChecksCreateReqStatus `json:"status"`
+	// The time that the check run began. This is a timestamp in [ISO 8601] format: `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	StartedAt OptDateTime `json:"started_at"`
+	// Required if you provide `completed_at` or a `status` of `completed`. The final conclusion of the
+	// check. Can be one of `action_required`, `cancelled`, `failure`, `neutral`, `success`, `skipped`,
+	// `stale`, or `timed_out`. When the conclusion is `action_required`, additional details should be
+	// provided on the site specified by `details_url`. Note: Providing `conclusion` will automatically set
+	// the `status` parameter to `completed`. You cannot change a check run conclusion to `stale`, only
+	// GitHub can set this.
+	Conclusion OptChecksCreateReqConclusion `json:"conclusion"`
+	// The time the check completed. This is a timestamp in [ISO 8601] format: `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	CompletedAt OptDateTime `json:"completed_at"`
+	// Check runs can accept a variety of data in the `output` object, including a `title` and `summary`
+	// and can optionally provide descriptive details about the run. See the [output object] description.
+	//
+	// [output object]: https://docs.github.com/rest/reference/checks#output-object
+	Output OptChecksCreateReqOutput `json:"output"`
+	// Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For
+	// example, a code linting app can display a button that automatically fixes detected errors. The
+	// button created in this object is displayed after the check run completes. When a user clicks the
+	// button, GitHub sends the [check_run.requested_action webhook] to your app. Each action includes a
+	// `label`, `identifier` and `description`. A maximum of three actions are accepted. See the
+	// [actions object] description. To learn more about check runs and requested actions, see
+	// "[Check runs and requested actions]." To learn more about check runs and requested actions, see
+	// "[Check runs and requested actions].".
+	//
+	// [check_run.requested_action webhook]: https://docs.github.com/webhooks/event-payloads/#check_run
+	// [actions object]: https://docs.github.com/rest/reference/checks#actions-object
+	// [Check runs and requested actions]: https://docs.github.com/rest/reference/checks#check-runs-and-requested-actions
+	Actions []ChecksCreateReqActionsItem `json:"actions"`
+	OneOf   ChecksCreateReqSum
+}
+
+// GetName returns the value of Name.
+func (s *ChecksCreateReq) GetName() string {
+	return s.Name
+}
+
+// GetHeadSha returns the value of HeadSha.
+func (s *ChecksCreateReq) GetHeadSha() string {
+	return s.HeadSha
+}
+
+// GetDetailsURL returns the value of DetailsURL.
+func (s *ChecksCreateReq) GetDetailsURL() OptString {
+	return s.DetailsURL
+}
+
+// GetExternalID returns the value of ExternalID.
+func (s *ChecksCreateReq) GetExternalID() OptString {
+	return s.ExternalID
+}
+
+// GetStatus returns the value of Status.
+func (s *ChecksCreateReq) GetStatus() OptChecksCreateReqStatus {
+	return s.Status
+}
+
+// GetStartedAt returns the value of StartedAt.
+func (s *ChecksCreateReq) GetStartedAt() OptDateTime {
+	return s.StartedAt
+}
+
+// GetConclusion returns the value of Conclusion.
+func (s *ChecksCreateReq) GetConclusion() OptChecksCreateReqConclusion {
+	return s.Conclusion
+}
+
+// GetCompletedAt returns the value of CompletedAt.
+func (s *ChecksCreateReq) GetCompletedAt() OptDateTime {
+	return s.CompletedAt
+}
+
+// GetOutput returns the value of Output.
+func (s *ChecksCreateReq) GetOutput() OptChecksCreateReqOutput {
+	return s.Output
+}
+
+// GetActions returns the value of Actions.
+func (s *ChecksCreateReq) GetActions() []ChecksCreateReqActionsItem {
+	return s.Actions
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *ChecksCreateReq) GetOneOf() ChecksCreateReqSum {
+	return s.OneOf
+}
+
+// SetName sets the value of Name.
+func (s *ChecksCreateReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetHeadSha sets the value of HeadSha.
+func (s *ChecksCreateReq) SetHeadSha(val string) {
+	s.HeadSha = val
+}
+
+// SetDetailsURL sets the value of DetailsURL.
+func (s *ChecksCreateReq) SetDetailsURL(val OptString) {
+	s.DetailsURL = val
+}
+
+// SetExternalID sets the value of ExternalID.
+func (s *ChecksCreateReq) SetExternalID(val OptString) {
+	s.ExternalID = val
+}
+
+// SetStatus sets the value of Status.
+func (s *ChecksCreateReq) SetStatus(val OptChecksCreateReqStatus) {
+	s.Status = val
+}
+
+// SetStartedAt sets the value of StartedAt.
+func (s *ChecksCreateReq) SetStartedAt(val OptDateTime) {
+	s.StartedAt = val
+}
+
+// SetConclusion sets the value of Conclusion.
+func (s *ChecksCreateReq) SetConclusion(val OptChecksCreateReqConclusion) {
+	s.Conclusion = val
+}
+
+// SetCompletedAt sets the value of CompletedAt.
+func (s *ChecksCreateReq) SetCompletedAt(val OptDateTime) {
+	s.CompletedAt = val
+}
+
+// SetOutput sets the value of Output.
+func (s *ChecksCreateReq) SetOutput(val OptChecksCreateReqOutput) {
+	s.Output = val
+}
+
+// SetActions sets the value of Actions.
+func (s *ChecksCreateReq) SetActions(val []ChecksCreateReqActionsItem) {
+	s.Actions = val
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *ChecksCreateReq) SetOneOf(val ChecksCreateReqSum) {
+	s.OneOf = val
+}
+
+type ChecksCreateReqActionsItem struct {
+	// The text to be displayed on a button in the web UI. The maximum size is 20 characters.
+	Label string `json:"label"`
+	// A short explanation of what this action would do. The maximum size is 40 characters.
+	Description string `json:"description"`
+	// A reference for the action on the integrator's system. The maximum size is 20 characters.
+	Identifier string `json:"identifier"`
+}
+
+// GetLabel returns the value of Label.
+func (s *ChecksCreateReqActionsItem) GetLabel() string {
+	return s.Label
+}
+
+// GetDescription returns the value of Description.
+func (s *ChecksCreateReqActionsItem) GetDescription() string {
+	return s.Description
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ChecksCreateReqActionsItem) GetIdentifier() string {
+	return s.Identifier
+}
+
+// SetLabel sets the value of Label.
+func (s *ChecksCreateReqActionsItem) SetLabel(val string) {
+	s.Label = val
+}
+
+// SetDescription sets the value of Description.
+func (s *ChecksCreateReqActionsItem) SetDescription(val string) {
+	s.Description = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ChecksCreateReqActionsItem) SetIdentifier(val string) {
+	s.Identifier = val
+}
+
+// Required if you provide `completed_at` or a `status` of `completed`. The final conclusion of the
+// check. Can be one of `action_required`, `cancelled`, `failure`, `neutral`, `success`, `skipped`,
+// `stale`, or `timed_out`. When the conclusion is `action_required`, additional details should be
+// provided on the site specified by `details_url`. Note: Providing `conclusion` will automatically set
+// the `status` parameter to `completed`. You cannot change a check run conclusion to `stale`, only
+// GitHub can set this.
+type ChecksCreateReqConclusion string
+
+const (
+	ChecksCreateReqConclusionActionRequired ChecksCreateReqConclusion = "action_required"
+	ChecksCreateReqConclusionCancelled      ChecksCreateReqConclusion = "cancelled"
+	ChecksCreateReqConclusionFailure        ChecksCreateReqConclusion = "failure"
+	ChecksCreateReqConclusionNeutral        ChecksCreateReqConclusion = "neutral"
+	ChecksCreateReqConclusionSuccess        ChecksCreateReqConclusion = "success"
+	ChecksCreateReqConclusionSkipped        ChecksCreateReqConclusion = "skipped"
+	ChecksCreateReqConclusionStale          ChecksCreateReqConclusion = "stale"
+	ChecksCreateReqConclusionTimedOut       ChecksCreateReqConclusion = "timed_out"
+)
+
+// AllValues returns all ChecksCreateReqConclusion values.
+func (ChecksCreateReqConclusion) AllValues() []ChecksCreateReqConclusion {
+	return []ChecksCreateReqConclusion{
+		ChecksCreateReqConclusionActionRequired,
+		ChecksCreateReqConclusionCancelled,
+		ChecksCreateReqConclusionFailure,
+		ChecksCreateReqConclusionNeutral,
+		ChecksCreateReqConclusionSuccess,
+		ChecksCreateReqConclusionSkipped,
+		ChecksCreateReqConclusionStale,
+		ChecksCreateReqConclusionTimedOut,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ChecksCreateReqConclusion) MarshalText() ([]byte, error) {
+	switch s {
+	case ChecksCreateReqConclusionActionRequired:
+		return []byte(s), nil
+	case ChecksCreateReqConclusionCancelled:
+		return []byte(s), nil
+	case ChecksCreateReqConclusionFailure:
+		return []byte(s), nil
+	case ChecksCreateReqConclusionNeutral:
+		return []byte(s), nil
+	case ChecksCreateReqConclusionSuccess:
+		return []byte(s), nil
+	case ChecksCreateReqConclusionSkipped:
+		return []byte(s), nil
+	case ChecksCreateReqConclusionStale:
+		return []byte(s), nil
+	case ChecksCreateReqConclusionTimedOut:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ChecksCreateReqConclusion) UnmarshalText(data []byte) error {
+	switch ChecksCreateReqConclusion(data) {
+	case ChecksCreateReqConclusionActionRequired:
+		*s = ChecksCreateReqConclusionActionRequired
+		return nil
+	case ChecksCreateReqConclusionCancelled:
+		*s = ChecksCreateReqConclusionCancelled
+		return nil
+	case ChecksCreateReqConclusionFailure:
+		*s = ChecksCreateReqConclusionFailure
+		return nil
+	case ChecksCreateReqConclusionNeutral:
+		*s = ChecksCreateReqConclusionNeutral
+		return nil
+	case ChecksCreateReqConclusionSuccess:
+		*s = ChecksCreateReqConclusionSuccess
+		return nil
+	case ChecksCreateReqConclusionSkipped:
+		*s = ChecksCreateReqConclusionSkipped
+		return nil
+	case ChecksCreateReqConclusionStale:
+		*s = ChecksCreateReqConclusionStale
+		return nil
+	case ChecksCreateReqConclusionTimedOut:
+		*s = ChecksCreateReqConclusionTimedOut
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Check runs can accept a variety of data in the `output` object, including a `title` and `summary`
+// and can optionally provide descriptive details about the run. See the [output object] description.
+//
+// [output object]: https://docs.github.com/rest/reference/checks#output-object
+type ChecksCreateReqOutput struct {
+	// The title of the check run.
+	Title string `json:"title"`
+	// The summary of the check run. This parameter supports Markdown.
+	Summary string `json:"summary"`
+	// The details of the check run. This parameter supports Markdown.
+	Text OptString `json:"text"`
+	// Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in
+	// the Checks and Files changed tab of the pull request. The Checks API limits the number of
+	// annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make
+	// multiple requests to the [Update a check run] endpoint. Each time you update the check run,
+	// annotations are appended to the list of annotations that already exist for the check run. For
+	// details about how you can view annotations on GitHub, see "[About status checks]". See the
+	// [annotations object] description for details about how to use this parameter.
+	//
+	// [Update a check run]: https://docs.github.com/rest/reference/checks#update-a-check-run
+	// [About status checks]: https://help.github.com/articles/about-status-checks#checks
+	// [annotations object]: https://docs.github.com/rest/reference/checks#annotations-object
+	Annotations []ChecksCreateReqOutputAnnotationsItem `json:"annotations"`
+	// Adds images to the output displayed in the GitHub pull request UI. See the [images object]
+	// description for details.
+	//
+	// [images object]: https://docs.github.com/rest/reference/checks#images-object
+	Images []ChecksCreateReqOutputImagesItem `json:"images"`
+}
+
+// GetTitle returns the value of Title.
+func (s *ChecksCreateReqOutput) GetTitle() string {
+	return s.Title
+}
+
+// GetSummary returns the value of Summary.
+func (s *ChecksCreateReqOutput) GetSummary() string {
+	return s.Summary
+}
+
+// GetText returns the value of Text.
+func (s *ChecksCreateReqOutput) GetText() OptString {
+	return s.Text
+}
+
+// GetAnnotations returns the value of Annotations.
+func (s *ChecksCreateReqOutput) GetAnnotations() []ChecksCreateReqOutputAnnotationsItem {
+	return s.Annotations
+}
+
+// GetImages returns the value of Images.
+func (s *ChecksCreateReqOutput) GetImages() []ChecksCreateReqOutputImagesItem {
+	return s.Images
+}
+
+// SetTitle sets the value of Title.
+func (s *ChecksCreateReqOutput) SetTitle(val string) {
+	s.Title = val
+}
+
+// SetSummary sets the value of Summary.
+func (s *ChecksCreateReqOutput) SetSummary(val string) {
+	s.Summary = val
+}
+
+// SetText sets the value of Text.
+func (s *ChecksCreateReqOutput) SetText(val OptString) {
+	s.Text = val
+}
+
+// SetAnnotations sets the value of Annotations.
+func (s *ChecksCreateReqOutput) SetAnnotations(val []ChecksCreateReqOutputAnnotationsItem) {
+	s.Annotations = val
+}
+
+// SetImages sets the value of Images.
+func (s *ChecksCreateReqOutput) SetImages(val []ChecksCreateReqOutputImagesItem) {
+	s.Images = val
+}
+
+type ChecksCreateReqOutputAnnotationsItem struct {
+	// The path of the file to add an annotation to. For example, `assets/css/main.css`.
+	Path string `json:"path"`
+	// The start line of the annotation.
+	StartLine int `json:"start_line"`
+	// The end line of the annotation.
+	EndLine int `json:"end_line"`
+	// The start column of the annotation. Annotations only support `start_column` and `end_column` on the
+	// same line. Omit this parameter if `start_line` and `end_line` have different values.
+	StartColumn OptInt `json:"start_column"`
+	// The end column of the annotation. Annotations only support `start_column` and `end_column` on the
+	// same line. Omit this parameter if `start_line` and `end_line` have different values.
+	EndColumn OptInt `json:"end_column"`
+	// The level of the annotation. Can be one of `notice`, `warning`, or `failure`.
+	AnnotationLevel ChecksCreateReqOutputAnnotationsItemAnnotationLevel `json:"annotation_level"`
+	// A short description of the feedback for these lines of code. The maximum size is 64 KB.
+	Message string `json:"message"`
+	// The title that represents the annotation. The maximum size is 255 characters.
+	Title OptString `json:"title"`
+	// Details about this annotation. The maximum size is 64 KB.
+	RawDetails OptString `json:"raw_details"`
+}
+
+// GetPath returns the value of Path.
+func (s *ChecksCreateReqOutputAnnotationsItem) GetPath() string {
+	return s.Path
+}
+
+// GetStartLine returns the value of StartLine.
+func (s *ChecksCreateReqOutputAnnotationsItem) GetStartLine() int {
+	return s.StartLine
+}
+
+// GetEndLine returns the value of EndLine.
+func (s *ChecksCreateReqOutputAnnotationsItem) GetEndLine() int {
+	return s.EndLine
+}
+
+// GetStartColumn returns the value of StartColumn.
+func (s *ChecksCreateReqOutputAnnotationsItem) GetStartColumn() OptInt {
+	return s.StartColumn
+}
+
+// GetEndColumn returns the value of EndColumn.
+func (s *ChecksCreateReqOutputAnnotationsItem) GetEndColumn() OptInt {
+	return s.EndColumn
+}
+
+// GetAnnotationLevel returns the value of AnnotationLevel.
+func (s *ChecksCreateReqOutputAnnotationsItem) GetAnnotationLevel() ChecksCreateReqOutputAnnotationsItemAnnotationLevel {
+	return s.AnnotationLevel
+}
+
+// GetMessage returns the value of Message.
+func (s *ChecksCreateReqOutputAnnotationsItem) GetMessage() string {
+	return s.Message
+}
+
+// GetTitle returns the value of Title.
+func (s *ChecksCreateReqOutputAnnotationsItem) GetTitle() OptString {
+	return s.Title
+}
+
+// GetRawDetails returns the value of RawDetails.
+func (s *ChecksCreateReqOutputAnnotationsItem) GetRawDetails() OptString {
+	return s.RawDetails
+}
+
+// SetPath sets the value of Path.
+func (s *ChecksCreateReqOutputAnnotationsItem) SetPath(val string) {
+	s.Path = val
+}
+
+// SetStartLine sets the value of StartLine.
+func (s *ChecksCreateReqOutputAnnotationsItem) SetStartLine(val int) {
+	s.StartLine = val
+}
+
+// SetEndLine sets the value of EndLine.
+func (s *ChecksCreateReqOutputAnnotationsItem) SetEndLine(val int) {
+	s.EndLine = val
+}
+
+// SetStartColumn sets the value of StartColumn.
+func (s *ChecksCreateReqOutputAnnotationsItem) SetStartColumn(val OptInt) {
+	s.StartColumn = val
+}
+
+// SetEndColumn sets the value of EndColumn.
+func (s *ChecksCreateReqOutputAnnotationsItem) SetEndColumn(val OptInt) {
+	s.EndColumn = val
+}
+
+// SetAnnotationLevel sets the value of AnnotationLevel.
+func (s *ChecksCreateReqOutputAnnotationsItem) SetAnnotationLevel(val ChecksCreateReqOutputAnnotationsItemAnnotationLevel) {
+	s.AnnotationLevel = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ChecksCreateReqOutputAnnotationsItem) SetMessage(val string) {
+	s.Message = val
+}
+
+// SetTitle sets the value of Title.
+func (s *ChecksCreateReqOutputAnnotationsItem) SetTitle(val OptString) {
+	s.Title = val
+}
+
+// SetRawDetails sets the value of RawDetails.
+func (s *ChecksCreateReqOutputAnnotationsItem) SetRawDetails(val OptString) {
+	s.RawDetails = val
+}
+
+// The level of the annotation. Can be one of `notice`, `warning`, or `failure`.
+type ChecksCreateReqOutputAnnotationsItemAnnotationLevel string
+
+const (
+	ChecksCreateReqOutputAnnotationsItemAnnotationLevelNotice  ChecksCreateReqOutputAnnotationsItemAnnotationLevel = "notice"
+	ChecksCreateReqOutputAnnotationsItemAnnotationLevelWarning ChecksCreateReqOutputAnnotationsItemAnnotationLevel = "warning"
+	ChecksCreateReqOutputAnnotationsItemAnnotationLevelFailure ChecksCreateReqOutputAnnotationsItemAnnotationLevel = "failure"
+)
+
+// AllValues returns all ChecksCreateReqOutputAnnotationsItemAnnotationLevel values.
+func (ChecksCreateReqOutputAnnotationsItemAnnotationLevel) AllValues() []ChecksCreateReqOutputAnnotationsItemAnnotationLevel {
+	return []ChecksCreateReqOutputAnnotationsItemAnnotationLevel{
+		ChecksCreateReqOutputAnnotationsItemAnnotationLevelNotice,
+		ChecksCreateReqOutputAnnotationsItemAnnotationLevelWarning,
+		ChecksCreateReqOutputAnnotationsItemAnnotationLevelFailure,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ChecksCreateReqOutputAnnotationsItemAnnotationLevel) MarshalText() ([]byte, error) {
+	switch s {
+	case ChecksCreateReqOutputAnnotationsItemAnnotationLevelNotice:
+		return []byte(s), nil
+	case ChecksCreateReqOutputAnnotationsItemAnnotationLevelWarning:
+		return []byte(s), nil
+	case ChecksCreateReqOutputAnnotationsItemAnnotationLevelFailure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ChecksCreateReqOutputAnnotationsItemAnnotationLevel) UnmarshalText(data []byte) error {
+	switch ChecksCreateReqOutputAnnotationsItemAnnotationLevel(data) {
+	case ChecksCreateReqOutputAnnotationsItemAnnotationLevelNotice:
+		*s = ChecksCreateReqOutputAnnotationsItemAnnotationLevelNotice
+		return nil
+	case ChecksCreateReqOutputAnnotationsItemAnnotationLevelWarning:
+		*s = ChecksCreateReqOutputAnnotationsItemAnnotationLevelWarning
+		return nil
+	case ChecksCreateReqOutputAnnotationsItemAnnotationLevelFailure:
+		*s = ChecksCreateReqOutputAnnotationsItemAnnotationLevelFailure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ChecksCreateReqOutputImagesItem struct {
+	// The alternative text for the image.
+	Alt string `json:"alt"`
+	// The full URL of the image.
+	ImageURL string `json:"image_url"`
+	// A short image description.
+	Caption OptString `json:"caption"`
+}
+
+// GetAlt returns the value of Alt.
+func (s *ChecksCreateReqOutputImagesItem) GetAlt() string {
+	return s.Alt
+}
+
+// GetImageURL returns the value of ImageURL.
+func (s *ChecksCreateReqOutputImagesItem) GetImageURL() string {
+	return s.ImageURL
+}
+
+// GetCaption returns the value of Caption.
+func (s *ChecksCreateReqOutputImagesItem) GetCaption() OptString {
+	return s.Caption
+}
+
+// SetAlt sets the value of Alt.
+func (s *ChecksCreateReqOutputImagesItem) SetAlt(val string) {
+	s.Alt = val
+}
+
+// SetImageURL sets the value of ImageURL.
+func (s *ChecksCreateReqOutputImagesItem) SetImageURL(val string) {
+	s.ImageURL = val
+}
+
+// SetCaption sets the value of Caption.
+func (s *ChecksCreateReqOutputImagesItem) SetCaption(val OptString) {
+	s.Caption = val
+}
+
+// The current status. Can be one of `queued`, `in_progress`, or `completed`.
+type ChecksCreateReqStatus string
+
+const (
+	ChecksCreateReqStatusQueued     ChecksCreateReqStatus = "queued"
+	ChecksCreateReqStatusInProgress ChecksCreateReqStatus = "in_progress"
+	ChecksCreateReqStatusCompleted  ChecksCreateReqStatus = "completed"
+)
+
+// AllValues returns all ChecksCreateReqStatus values.
+func (ChecksCreateReqStatus) AllValues() []ChecksCreateReqStatus {
+	return []ChecksCreateReqStatus{
+		ChecksCreateReqStatusQueued,
+		ChecksCreateReqStatusInProgress,
+		ChecksCreateReqStatusCompleted,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ChecksCreateReqStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case ChecksCreateReqStatusQueued:
+		return []byte(s), nil
+	case ChecksCreateReqStatusInProgress:
+		return []byte(s), nil
+	case ChecksCreateReqStatusCompleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ChecksCreateReqStatus) UnmarshalText(data []byte) error {
+	switch ChecksCreateReqStatus(data) {
+	case ChecksCreateReqStatusQueued:
+		*s = ChecksCreateReqStatusQueued
+		return nil
+	case ChecksCreateReqStatusInProgress:
+		*s = ChecksCreateReqStatusInProgress
+		return nil
+	case ChecksCreateReqStatusCompleted:
+		*s = ChecksCreateReqStatusCompleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ChecksCreateReqSum represents sum type.
+type ChecksCreateReqSum struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ChecksCreateReqSumType
+	ChecksCreateReqSum0 ChecksCreateReqSum0
+	ChecksCreateReqSum1 ChecksCreateReqSum1
+}
+
+// ChecksCreateReqSumType is oneOf type of ChecksCreateReqSum.
+type ChecksCreateReqSumType string
+
+// Possible values for ChecksCreateReqSumType.
+const (
+	ChecksCreateReqSum0ChecksCreateReqSum ChecksCreateReqSumType = "ChecksCreateReqSum0"
+	ChecksCreateReqSum1ChecksCreateReqSum ChecksCreateReqSumType = "ChecksCreateReqSum1"
+)
+
+// IsChecksCreateReqSum0 reports whether ChecksCreateReqSum is ChecksCreateReqSum0.
+func (s ChecksCreateReqSum) IsChecksCreateReqSum0() bool {
+	return s.Type == ChecksCreateReqSum0ChecksCreateReqSum
+}
+
+// IsChecksCreateReqSum1 reports whether ChecksCreateReqSum is ChecksCreateReqSum1.
+func (s ChecksCreateReqSum) IsChecksCreateReqSum1() bool {
+	return s.Type == ChecksCreateReqSum1ChecksCreateReqSum
+}
+
+// SetChecksCreateReqSum0 sets ChecksCreateReqSum to ChecksCreateReqSum0.
+func (s *ChecksCreateReqSum) SetChecksCreateReqSum0(v ChecksCreateReqSum0) {
+	s.Type = ChecksCreateReqSum0ChecksCreateReqSum
+	s.ChecksCreateReqSum0 = v
+}
+
+// GetChecksCreateReqSum0 returns ChecksCreateReqSum0 and true boolean if ChecksCreateReqSum is ChecksCreateReqSum0.
+func (s ChecksCreateReqSum) GetChecksCreateReqSum0() (v ChecksCreateReqSum0, ok bool) {
+	if !s.IsChecksCreateReqSum0() {
+		return v, false
+	}
+	return s.ChecksCreateReqSum0, true
+}
+
+// NewChecksCreateReqSum0ChecksCreateReqSum returns new ChecksCreateReqSum from ChecksCreateReqSum0.
+func NewChecksCreateReqSum0ChecksCreateReqSum(v ChecksCreateReqSum0) ChecksCreateReqSum {
+	var s ChecksCreateReqSum
+	s.SetChecksCreateReqSum0(v)
+	return s
+}
+
+// SetChecksCreateReqSum1 sets ChecksCreateReqSum to ChecksCreateReqSum1.
+func (s *ChecksCreateReqSum) SetChecksCreateReqSum1(v ChecksCreateReqSum1) {
+	s.Type = ChecksCreateReqSum1ChecksCreateReqSum
+	s.ChecksCreateReqSum1 = v
+}
+
+// GetChecksCreateReqSum1 returns ChecksCreateReqSum1 and true boolean if ChecksCreateReqSum is ChecksCreateReqSum1.
+func (s ChecksCreateReqSum) GetChecksCreateReqSum1() (v ChecksCreateReqSum1, ok bool) {
+	if !s.IsChecksCreateReqSum1() {
+		return v, false
+	}
+	return s.ChecksCreateReqSum1, true
+}
+
+// NewChecksCreateReqSum1ChecksCreateReqSum returns new ChecksCreateReqSum from ChecksCreateReqSum1.
+func NewChecksCreateReqSum1ChecksCreateReqSum(v ChecksCreateReqSum1) ChecksCreateReqSum {
+	var s ChecksCreateReqSum
+	s.SetChecksCreateReqSum1(v)
+	return s
+}
+
+type ChecksCreateReqSum0 struct {
+	Status          ChecksCreateReqSum0Status `json:"status"`
+	AdditionalProps ChecksCreateReqSum0Additional
+}
+
+// GetStatus returns the value of Status.
+func (s *ChecksCreateReqSum0) GetStatus() ChecksCreateReqSum0Status {
+	return s.Status
+}
+
+// GetAdditionalProps returns the value of AdditionalProps.
+func (s *ChecksCreateReqSum0) GetAdditionalProps() ChecksCreateReqSum0Additional {
+	return s.AdditionalProps
+}
+
+// SetStatus sets the value of Status.
+func (s *ChecksCreateReqSum0) SetStatus(val ChecksCreateReqSum0Status) {
+	s.Status = val
+}
+
+// SetAdditionalProps sets the value of AdditionalProps.
+func (s *ChecksCreateReqSum0) SetAdditionalProps(val ChecksCreateReqSum0Additional) {
+	s.AdditionalProps = val
+}
+
+type ChecksCreateReqSum0Additional map[string]jx.Raw
+
+func (s *ChecksCreateReqSum0Additional) init() ChecksCreateReqSum0Additional {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type ChecksCreateReqSum0Status string
+
+const (
+	ChecksCreateReqSum0StatusCompleted ChecksCreateReqSum0Status = "completed"
+)
+
+// AllValues returns all ChecksCreateReqSum0Status values.
+func (ChecksCreateReqSum0Status) AllValues() []ChecksCreateReqSum0Status {
+	return []ChecksCreateReqSum0Status{
+		ChecksCreateReqSum0StatusCompleted,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ChecksCreateReqSum0Status) MarshalText() ([]byte, error) {
+	switch s {
+	case ChecksCreateReqSum0StatusCompleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ChecksCreateReqSum0Status) UnmarshalText(data []byte) error {
+	switch ChecksCreateReqSum0Status(data) {
+	case ChecksCreateReqSum0StatusCompleted:
+		*s = ChecksCreateReqSum0StatusCompleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ChecksCreateReqSum1 struct {
+	Status          OptChecksCreateReqSum1Status `json:"status"`
+	AdditionalProps ChecksCreateReqSum1Additional
+}
+
+// GetStatus returns the value of Status.
+func (s *ChecksCreateReqSum1) GetStatus() OptChecksCreateReqSum1Status {
+	return s.Status
+}
+
+// GetAdditionalProps returns the value of AdditionalProps.
+func (s *ChecksCreateReqSum1) GetAdditionalProps() ChecksCreateReqSum1Additional {
+	return s.AdditionalProps
+}
+
+// SetStatus sets the value of Status.
+func (s *ChecksCreateReqSum1) SetStatus(val OptChecksCreateReqSum1Status) {
+	s.Status = val
+}
+
+// SetAdditionalProps sets the value of AdditionalProps.
+func (s *ChecksCreateReqSum1) SetAdditionalProps(val ChecksCreateReqSum1Additional) {
+	s.AdditionalProps = val
+}
+
+type ChecksCreateReqSum1Additional map[string]jx.Raw
+
+func (s *ChecksCreateReqSum1Additional) init() ChecksCreateReqSum1Additional {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type ChecksCreateReqSum1Status string
+
+const (
+	ChecksCreateReqSum1StatusQueued     ChecksCreateReqSum1Status = "queued"
+	ChecksCreateReqSum1StatusInProgress ChecksCreateReqSum1Status = "in_progress"
+)
+
+// AllValues returns all ChecksCreateReqSum1Status values.
+func (ChecksCreateReqSum1Status) AllValues() []ChecksCreateReqSum1Status {
+	return []ChecksCreateReqSum1Status{
+		ChecksCreateReqSum1StatusQueued,
+		ChecksCreateReqSum1StatusInProgress,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ChecksCreateReqSum1Status) MarshalText() ([]byte, error) {
+	switch s {
+	case ChecksCreateReqSum1StatusQueued:
+		return []byte(s), nil
+	case ChecksCreateReqSum1StatusInProgress:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ChecksCreateReqSum1Status) UnmarshalText(data []byte) error {
+	switch ChecksCreateReqSum1Status(data) {
+	case ChecksCreateReqSum1StatusQueued:
+		*s = ChecksCreateReqSum1StatusQueued
+		return nil
+	case ChecksCreateReqSum1StatusInProgress:
+		*s = ChecksCreateReqSum1StatusInProgress
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type ChecksCreateSuiteCreated CheckSuite
 
 func (*ChecksCreateSuiteCreated) checksCreateSuiteRes() {}
@@ -9969,8 +10942,9 @@ type ChecksRerequestSuiteCreated struct{}
 
 type ChecksSetSuitesPreferencesReq struct {
 	// Enables or disables automatic creation of CheckSuite events upon pushes to the repository. Enabled
-	// by default. See the [`auto_trigger_checks` object](https://docs.github.
-	// com/rest/reference/checks#auto_trigger_checks-object) description for details.
+	// by default. See the [auto_trigger_checks object] description for details.
+	//
+	// [auto_trigger_checks object]: https://docs.github.com/rest/reference/checks#auto_trigger_checks-object
 	AutoTriggerChecks []ChecksSetSuitesPreferencesReqAutoTriggerChecksItem `json:"auto_trigger_checks"`
 }
 
@@ -10375,8 +11349,8 @@ func (s *CodeScanningAlertClassification) UnmarshalText(data []byte) error {
 
 type CodeScanningAlertDismissedAt time.Time
 
-// **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be
-// one of: `false positive`, `won't fix`, and `used in tests`.
+// Required when the state is dismissed. The reason for dismissing or closing the alert. Can be one of:
+// `false positive`, `won't fix`, and `used in tests`.
 // Ref: #/components/schemas/code-scanning-alert-dismissed-reason
 type CodeScanningAlertDismissedReason string
 
@@ -10439,8 +11413,8 @@ type CodeScanningAlertInstance struct {
 	Message     OptCodeScanningAlertInstanceMessage `json:"message"`
 	Location    OptCodeScanningAlertLocation        `json:"location"`
 	HTMLURL     OptString                           `json:"html_url"`
-	// Classifications that have been applied to the file that triggered the alert.
-	// For example identifying it as documentation, or a generated file.
+	// Classifications that have been applied to the file that triggered the alert. For example identifying
+	// it as documentation, or a generated file.
 	Classifications []NilCodeScanningAlertClassification `json:"classifications"`
 }
 
@@ -11451,9 +12425,9 @@ type CodeScanningAnalysisToolVersion string
 
 type CodeScanningAnalysisURL url.URL
 
-type CodeScanningDeleteAnalysisBadRequest BasicError
+type CodeScanningDeleteAnalysisApplicationJSONBadRequest BasicError
 
-func (*CodeScanningDeleteAnalysisBadRequest) codeScanningDeleteAnalysisRes() {}
+func (*CodeScanningDeleteAnalysisApplicationJSONBadRequest) codeScanningDeleteAnalysisRes() {}
 
 type CodeScanningDeleteAnalysisForbidden BasicError
 
@@ -11691,17 +12665,19 @@ type CodeScanningUploadSarifReq struct {
 	CommitSha CodeScanningAnalysisCommitSha `json:"commit_sha"`
 	Ref       CodeScanningRef               `json:"ref"`
 	Sarif     CodeScanningAnalysisSarifFile `json:"sarif"`
-	// The base directory used in the analysis, as it appears in the SARIF file.
-	// This property is used to convert file paths from absolute to relative, so that alerts can be
-	// mapped to their correct location in the repository.
+	// The base directory used in the analysis, as it appears in the SARIF file. This property is used to
+	// convert file paths from absolute to relative, so that alerts can be mapped to their correct location
+	// in the repository.
 	CheckoutURI OptURI `json:"checkout_uri"`
-	// The time that the analysis run began. This is a timestamp in [ISO 8601](https://en.wikipedia.
-	// org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+	// The time that the analysis run began. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
 	StartedAt OptDateTime `json:"started_at"`
-	// The name of the tool used to generate the code scanning analysis. If this parameter is not used,
-	// the tool name defaults to "API". If the uploaded SARIF contains a tool GUID, this will be
-	// available for filtering using the `tool_guid` parameter of operations such as `GET
-	// /repos/{owner}/{repo}/code-scanning/alerts`.
+	// The name of the tool used to generate the code scanning analysis. If this parameter is not used, the
+	// tool name defaults to "API". If the uploaded SARIF contains a tool GUID, this will be available for
+	// filtering using the `tool_guid` parameter of operations such as
+	// `GET /repos/{owner}/{repo}/code-scanning/alerts`.
 	ToolName OptString `json:"tool_name"`
 }
 
@@ -14300,15 +15276,15 @@ type CredentialAuthorization struct {
 	CredentialID int `json:"credential_id"`
 	// Human-readable description of the credential type.
 	CredentialType string `json:"credential_type"`
-	// Last eight characters of the credential. Only included in responses with credential_type of
-	// personal access token.
+	// Last eight characters of the credential. Only included in responses with credential_type of personal
+	// access token.
 	TokenLastEight OptString `json:"token_last_eight"`
 	// Date when the credential was authorized for use.
 	CredentialAuthorizedAt time.Time `json:"credential_authorized_at"`
 	// List of oauth scopes the token has been granted.
 	Scopes []string `json:"scopes"`
-	// Unique string to distinguish the credential. Only included in responses with credential_type of
-	// SSH Key.
+	// Unique string to distinguish the credential. Only included in responses with credential_type of SSH
+	// Key.
 	Fingerprint OptString `json:"fingerprint"`
 	// Date when the credential was last accessed. May be null if it was never accessed.
 	CredentialAccessedAt   OptNilDateTime `json:"credential_accessed_at"`
@@ -14756,7 +15732,8 @@ func (*Deployment) reposGetDeploymentRes()    {}
 
 // DeploymentPayload represents sum type.
 type DeploymentPayload struct {
-	Type               DeploymentPayloadType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type               DeploymentPayloadType
 	DeploymentPayload0 DeploymentPayload0
 	String             string
 }
@@ -15594,8 +16571,8 @@ func (*EmptyObject) actionsCreateOrUpdateEnvironmentSecretRes() {}
 func (*EmptyObject) actionsCreateOrUpdateOrgSecretRes()         {}
 func (*EmptyObject) reposGetPagesHealthCheckRes()               {}
 
-// The policy that controls the organizations in the enterprise that are allowed to run GitHub
-// Actions. Can be one of: `all`, `none`, or `selected`.
+// The policy that controls the organizations in the enterprise that are allowed to run GitHub Actions.
+// Can be one of: `all`, `none`, or `selected`.
 // Ref: #/components/schemas/enabled-organizations
 type EnabledOrganizations string
 
@@ -16476,7 +17453,9 @@ func (s *EnterpriseAdminSetSelfHostedRunnersInGroupForEnterpriseReq) SetRunners(
 type EnterpriseAdminUpdateAttributeForEnterpriseGroupReq struct {
 	// The SCIM schema URIs.
 	Schemas []string `json:"schemas"`
-	// Array of [SCIM operations](https://tools.ietf.org/html/rfc7644#section-3.5.2).
+	// Array of [SCIM operations].
+	//
+	// [SCIM operations]: https://tools.ietf.org/html/rfc7644#section-3.5.2
 	Operations []EnterpriseAdminUpdateAttributeForEnterpriseGroupReqOperationsItem `json:"Operations"`
 }
 
@@ -16607,7 +17586,8 @@ func (s *EnterpriseAdminUpdateAttributeForEnterpriseGroupReqOperationsItemOp) Un
 
 // EnterpriseAdminUpdateAttributeForEnterpriseGroupReqOperationsItemValue represents sum type.
 type EnterpriseAdminUpdateAttributeForEnterpriseGroupReqOperationsItemValue struct {
-	Type                                                                    EnterpriseAdminUpdateAttributeForEnterpriseGroupReqOperationsItemValueType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                                                                    EnterpriseAdminUpdateAttributeForEnterpriseGroupReqOperationsItemValueType
 	String                                                                  string
 	EnterpriseAdminUpdateAttributeForEnterpriseGroupReqOperationsItemValue1 EnterpriseAdminUpdateAttributeForEnterpriseGroupReqOperationsItemValue1
 	AnyArray                                                                []jx.Raw
@@ -16706,7 +17686,9 @@ type EnterpriseAdminUpdateAttributeForEnterpriseGroupReqOperationsItemValue1 str
 type EnterpriseAdminUpdateAttributeForEnterpriseUserReq struct {
 	// The SCIM schema URIs.
 	Schemas []string `json:"schemas"`
-	// Array of [SCIM operations](https://tools.ietf.org/html/rfc7644#section-3.5.2).
+	// Array of [SCIM operations].
+	//
+	// [SCIM operations]: https://tools.ietf.org/html/rfc7644#section-3.5.2
 	Operations []EnterpriseAdminUpdateAttributeForEnterpriseUserReqOperationsItem `json:"Operations"`
 }
 
@@ -20347,7 +21329,8 @@ func (s *GistsCreateReqFilesItem) SetContent(val string) {
 
 // GistsCreateReqPublic represents sum type.
 type GistsCreateReqPublic struct {
-	Type                  GistsCreateReqPublicType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                  GistsCreateReqPublicType
 	Bool                  bool
 	GistsCreateReqPublic1 GistsCreateReqPublic1
 }
@@ -21150,19 +22133,20 @@ type GitCreateCommitReq struct {
 	// be written as a root commit. For a single parent, an array of one SHA should be provided; for a
 	// merge commit, an array of more than one should be provided.
 	Parents []string `json:"parents"`
-	// Information about the author of the commit. By default, the `author` will be the authenticated
-	// user and the current date. See the `author` and `committer` object below for details.
+	// Information about the author of the commit. By default, the `author` will be the authenticated user
+	// and the current date. See the `author` and `committer` object below for details.
 	Author OptGitCreateCommitReqAuthor `json:"author"`
 	// Information about the person who is making the commit. By default, `committer` will use the
 	// information set in `author`. See the `author` and `committer` object below for details.
 	Committer OptGitCreateCommitReqCommitter `json:"committer"`
-	// The [PGP signature](https://en.wikipedia.org/wiki/Pretty_Good_Privacy) of the commit. GitHub adds
-	// the signature to the `gpgsig` header of the created commit. For a commit signature to be
-	// verifiable by Git or GitHub, it must be an ASCII-armored detached PGP signature over the string
-	// commit as it would be written to the object database. To pass a `signature` parameter, you need to
-	// first manually create a valid PGP signature, which can be complicated. You may find it easier to
-	// [use the command line](https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work) to create
-	// signed commits.
+	// The [PGP signature] of the commit. GitHub adds the signature to the `gpgsig` header of the created
+	// commit. For a commit signature to be verifiable by Git or GitHub, it must be an ASCII-armored
+	// detached PGP signature over the string commit as it would be written to the object database. To pass
+	// a `signature` parameter, you need to first manually create a valid PGP signature, which can be
+	// complicated. You may find it easier to [use the command line] to create signed commits.
+	//
+	// [PGP signature]: https://en.wikipedia.org/wiki/Pretty_Good_Privacy
+	// [use the command line]: https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work
 	Signature OptString `json:"signature"`
 }
 
@@ -21226,15 +22210,17 @@ func (s *GitCreateCommitReq) SetSignature(val OptString) {
 	s.Signature = val
 }
 
-// Information about the author of the commit. By default, the `author` will be the authenticated
-// user and the current date. See the `author` and `committer` object below for details.
+// Information about the author of the commit. By default, the `author` will be the authenticated user
+// and the current date. See the `author` and `committer` object below for details.
 type GitCreateCommitReqAuthor struct {
 	// The name of the author (or committer) of the commit.
 	Name string `json:"name"`
 	// The email of the author (or committer) of the commit.
 	Email string `json:"email"`
-	// Indicates when this commit was authored (or committed). This is a timestamp in [ISO
-	// 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+	// Indicates when this commit was authored (or committed). This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
 	Date OptDateTime `json:"date"`
 }
 
@@ -21275,8 +22261,10 @@ type GitCreateCommitReqCommitter struct {
 	Name OptString `json:"name"`
 	// The email of the author (or committer) of the commit.
 	Email OptString `json:"email"`
-	// Indicates when this commit was authored (or committed). This is a timestamp in [ISO
-	// 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+	// Indicates when this commit was authored (or committed). This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
 	Date OptDateTime `json:"date"`
 }
 
@@ -21311,8 +22299,8 @@ func (s *GitCreateCommitReqCommitter) SetDate(val OptDateTime) {
 }
 
 type GitCreateRefReq struct {
-	// The name of the fully qualified reference (ie: `refs/heads/master`). If it doesn't start with
-	// 'refs' and have at least two slashes, it will be rejected.
+	// The name of the fully qualified reference (ie: `refs/heads/master`). If it doesn't start with 'refs'
+	// and have at least two slashes, it will be rejected.
 	Ref string `json:"ref"`
 	// The SHA1 value for this reference.
 	Sha string    `json:"sha"`
@@ -21419,8 +22407,9 @@ type GitCreateTagReqTagger struct {
 	Name string `json:"name"`
 	// The email of the author of the tag.
 	Email string `json:"email"`
-	// When this object was tagged. This is a timestamp in [ISO 8601](https://en.wikipedia.
-	// org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+	// When this object was tagged. This is a timestamp in [ISO 8601] format: `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
 	Date OptDateTime `json:"date"`
 }
 
@@ -21519,12 +22508,11 @@ type GitCreateTreeReq struct {
 	// provided, a new Git tree object will be created from entries in the Git tree object pointed to by
 	// `base_tree` and entries defined in the `tree` parameter. Entries defined in the `tree` parameter
 	// will overwrite items from `base_tree` with the same `path`. If you're creating new changes on a
-	// branch, then normally you'd set `base_tree` to the SHA1 of the Git tree object of the current
-	// latest commit on the branch you're working on.
-	// If not provided, GitHub will create a new Git tree object from only the entries defined in the
-	// `tree` parameter. If you create a new commit pointing to such a tree, then all files which were a
-	// part of the parent commit's tree and were not defined in the `tree` parameter will be listed as
-	// deleted by the new commit.
+	// branch, then normally you'd set `base_tree` to the SHA1 of the Git tree object of the current latest
+	// commit on the branch you're working on. If not provided, GitHub will create a new Git tree object
+	// from only the entries defined in the `tree` parameter. If you create a new commit pointing to such a
+	// tree, then all files which were a part of the parent commit's tree and were not defined in the
+	// `tree` parameter will be listed as deleted by the new commit.
 	BaseTree OptString `json:"base_tree"`
 }
 
@@ -21552,20 +22540,22 @@ type GitCreateTreeReqTreeItem struct {
 	// The file referenced in the tree.
 	Path OptString `json:"path"`
 	// The file mode; one of `100644` for file (blob), `100755` for executable (blob), `040000` for
-	// subdirectory (tree), `160000` for submodule (commit), or `120000` for a blob that specifies the
-	// path of a symlink.
+	// subdirectory (tree), `160000` for submodule (commit), or `120000` for a blob that specifies the path
+	// of a symlink.
 	Mode OptGitCreateTreeReqTreeItemMode `json:"mode"`
 	// Either `blob`, `tree`, or `commit`.
 	Type OptGitCreateTreeReqTreeItemType `json:"type"`
-	// The SHA1 checksum ID of the object in the tree. Also called `tree.sha`. If the value is `null`
-	// then the file will be deleted.
-	// **Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both
-	// `tree.sha` and `content` will return an error.
+	// The SHA1 checksum ID of the object in the tree. Also called `tree.sha`. If the value is `null` then
+	// the file will be deleted.
+	//
+	// Note: Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha`
+	// and `content` will return an error.
 	Sha OptNilString `json:"sha"`
 	// The content you want this file to have. GitHub will write this blob out and use that SHA for this
 	// entry. Use either this, or `tree.sha`.
-	// **Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both
-	// `tree.sha` and `content` will return an error.
+	//
+	// Note: Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha`
+	// and `content` will return an error.
 	Content OptString `json:"content"`
 }
 
@@ -21620,8 +22610,8 @@ func (s *GitCreateTreeReqTreeItem) SetContent(val OptString) {
 }
 
 // The file mode; one of `100644` for file (blob), `100755` for executable (blob), `040000` for
-// subdirectory (tree), `160000` for submodule (commit), or `120000` for a blob that specifies the
-// path of a symlink.
+// subdirectory (tree), `160000` for submodule (commit), or `120000` for a blob that specifies the path
+// of a symlink.
 type GitCreateTreeReqTreeItemMode string
 
 const (
@@ -23001,8 +23991,8 @@ func (s *HookConfig) SetToken(val OptString) {
 type HookDelivery struct {
 	// Unique identifier of the delivery.
 	ID int `json:"id"`
-	// Unique identifier for the event (shared with all deliveries for all webhooks that subscribe to
-	// this event).
+	// Unique identifier for the event (shared with all deliveries for all webhooks that subscribe to this
+	// event).
 	GUID string `json:"guid"`
 	// Time when the delivery was delivered.
 	DeliveredAt time.Time `json:"delivered_at"`
@@ -23177,8 +24167,8 @@ func (*HookDelivery) reposGetWebhookDeliveryRes() {}
 type HookDeliveryItem struct {
 	// Unique identifier of the webhook delivery.
 	ID int `json:"id"`
-	// Unique identifier for the event (shared with all deliveries for all webhooks that subscribe to
-	// this event).
+	// Unique identifier for the event (shared with all deliveries for all webhooks that subscribe to this
+	// event).
 	GUID string `json:"guid"`
 	// Time when the webhook delivery occurred.
 	DeliveredAt time.Time `json:"delivered_at"`
@@ -24109,8 +25099,8 @@ func (s *InstallationTokenRepositorySelection) UnmarshalText(data []byte) error 
 	}
 }
 
-// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and
-// user accounts and granted access to specific repositories. They come with granular permissions and
+// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user
+// accounts and granted access to specific repositories. They come with granular permissions and
 // built-in webhooks. GitHub apps are first class actors within GitHub.
 // Ref: #/components/schemas/integration
 type Integration struct {
@@ -24457,9 +25447,8 @@ func (s *InteractionExpiry) UnmarshalText(data []byte) error {
 	}
 }
 
-// The type of GitHub user that can comment, open issues, or create pull requests while the
-// interaction limit is in effect. Can be one of: `existing_users`, `contributors_only`,
-// `collaborators_only`.
+// The type of GitHub user that can comment, open issues, or create pull requests while the interaction
+// limit is in effect. Can be one of: `existing_users`, `contributors_only`, `collaborators_only`.
 // Ref: #/components/schemas/interaction-group
 type InteractionGroup string
 
@@ -25628,7 +26617,8 @@ func (*IssueHeaders) issuesCreateRes() {}
 
 // IssueLabelsItem represents sum type.
 type IssueLabelsItem struct {
-	Type             IssueLabelsItemType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type             IssueLabelsItemType
 	String           string
 	IssueLabelsItem1 IssueLabelsItem1
 }
@@ -26728,8 +27718,8 @@ func (s *IssueSimplePullRequest) SetURL(val NilURI) {
 }
 
 type IssuesAddAssigneesReq struct {
-	// Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees
-	// to an issue. Assignees are silently ignored otherwise._.
+	// Usernames of people to assign this issue to. NOTE: Only users with push access can add assignees to
+	// an issue. Assignees are silently ignored otherwise.
 	Assignees []string `json:"assignees"`
 }
 
@@ -26785,12 +27775,15 @@ func (*IssuesCreateGone) issuesCreateRes() {}
 
 type IssuesCreateLabelReq struct {
 	// The name of the label. Emoji can be added to label names, using either native emoji or colon-style
-	// markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.
-	// githubassets.com/images/icons/emoji/unicode/1f353.png ":strawberry:"). For a full list of
-	// available emoji and codes, see "[Emoji cheat sheet](https://github.com/ikatyang/emoji-cheat-sheet).
-	// ".
+	// markup. For example, typing `:strawberry:` will render the emoji [:strawberry:]. For a full list of
+	// available emoji and codes, see "[Emoji cheat sheet].".
+	//
+	// [:strawberry:]: https://github.githubassets.com/images/icons/emoji/unicode/1f353.png
+	// [Emoji cheat sheet]: https://github.com/ikatyang/emoji-cheat-sheet
 	Name string `json:"name"`
-	// The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`.
+	// The [hexadecimal color code] for the label, without the leading `#`.
+	//
+	// [hexadecimal color code]: http://www.color-hex.com/
 	Color OptString `json:"color"`
 	// A short description of the label.
 	Description OptString `json:"description"`
@@ -26833,8 +27826,9 @@ type IssuesCreateMilestoneReq struct {
 	State OptIssuesCreateMilestoneReqState `json:"state"`
 	// A description of the milestone.
 	Description OptString `json:"description"`
-	// The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
-	// format: `YYYY-MM-DDTHH:MM:SSZ`.
+	// The milestone due date. This is a timestamp in [ISO 8601] format: `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
 	DueOn OptDateTime `json:"due_on"`
 }
 
@@ -26929,16 +27923,15 @@ type IssuesCreateReq struct {
 	Title IssuesCreateReqTitle `json:"title"`
 	// The contents of the issue.
 	Body OptString `json:"body"`
-	// Login for the user that this issue should be assigned to. _NOTE: Only users with push access can
-	// set the assignee for new issues. The assignee is silently dropped otherwise. **This field is
-	// deprecated.**_.
+	// Login for the user that this issue should be assigned to. NOTE: Only users with push access can set
+	// the assignee for new issues. The assignee is silently dropped otherwise. This field is deprecated.
 	Assignee  OptNilString                   `json:"assignee"`
 	Milestone OptNilIssuesCreateReqMilestone `json:"milestone"`
-	// Labels to associate with this issue. _NOTE: Only users with push access can set labels for new
-	// issues. Labels are silently dropped otherwise._.
+	// Labels to associate with this issue. NOTE: Only users with push access can set labels for new
+	// issues. Labels are silently dropped otherwise.
 	Labels []IssuesCreateReqLabelsItem `json:"labels"`
-	// Logins for Users to assign to this issue. _NOTE: Only users with push access can set assignees for
-	// new issues. Assignees are silently dropped otherwise._.
+	// Logins for Users to assign to this issue. NOTE: Only users with push access can set assignees for
+	// new issues. Assignees are silently dropped otherwise.
 	Assignees []string `json:"assignees"`
 }
 
@@ -27004,7 +27997,8 @@ func (s *IssuesCreateReq) SetAssignees(val []string) {
 
 // IssuesCreateReqLabelsItem represents sum type.
 type IssuesCreateReqLabelsItem struct {
-	Type                       IssuesCreateReqLabelsItemType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                       IssuesCreateReqLabelsItemType
 	String                     string
 	IssuesCreateReqLabelsItem1 IssuesCreateReqLabelsItem1
 }
@@ -27117,7 +28111,8 @@ func (s *IssuesCreateReqLabelsItem1) SetColor(val OptNilString) {
 
 // IssuesCreateReqMilestone represents sum type.
 type IssuesCreateReqMilestone struct {
-	Type   IssuesCreateReqMilestoneType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type   IssuesCreateReqMilestoneType
 	String string
 	Int    int
 }
@@ -27182,7 +28177,8 @@ func NewIntIssuesCreateReqMilestone(v int) IssuesCreateReqMilestone {
 // The title of the issue.
 // IssuesCreateReqTitle represents sum type.
 type IssuesCreateReqTitle struct {
-	Type   IssuesCreateReqTitleType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type   IssuesCreateReqTitleType
 	String string
 	Int    int
 }
@@ -28410,11 +29406,7 @@ func (*IssuesLockNotFound) issuesLockRes() {}
 
 type IssuesLockReq struct {
 	// The reason for locking the issue or pull request conversation. Lock will fail if you don't use one
-	// of these reasons:
-	// \* `off-topic`
-	// \* `too heated`
-	// \* `resolved`
-	// \* `spam`.
+	// of these reasons: \* `off-topic` \* `too heated` \* `resolved` \* `spam`.
 	LockReason OptIssuesLockReqLockReason `json:"lock_reason"`
 }
 
@@ -28429,11 +29421,7 @@ func (s *IssuesLockReq) SetLockReason(val OptIssuesLockReqLockReason) {
 }
 
 // The reason for locking the issue or pull request conversation. Lock will fail if you don't use one
-// of these reasons:
-// \* `off-topic`
-// \* `too heated`
-// \* `resolved`
-// \* `spam`.
+// of these reasons: \* `off-topic` \* `too heated` \* `resolved` \* `spam`.
 type IssuesLockReqLockReason string
 
 const (
@@ -28495,8 +29483,8 @@ type IssuesRemoveAllLabelsNoContent struct{}
 func (*IssuesRemoveAllLabelsNoContent) issuesRemoveAllLabelsRes() {}
 
 type IssuesRemoveAssigneesReq struct {
-	// Usernames of assignees to remove from an issue. _NOTE: Only users with push access can remove
-	// assignees from an issue. Assignees are silently ignored otherwise._.
+	// Usernames of assignees to remove from an issue. NOTE: Only users with push access can remove
+	// assignees from an issue. Assignees are silently ignored otherwise.
 	Assignees []string `json:"assignees"`
 }
 
@@ -28560,12 +29548,15 @@ func (*IssuesUpdateGone) issuesUpdateRes() {}
 
 type IssuesUpdateLabelReq struct {
 	// The new name of the label. Emoji can be added to label names, using either native emoji or
-	// colon-style markup. For example, typing `:strawberry:` will render the emoji
-	// ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png
-	// ":strawberry:"). For a full list of available emoji and codes, see "[Emoji cheat
-	// sheet](https://github.com/ikatyang/emoji-cheat-sheet).".
+	// colon-style markup. For example, typing `:strawberry:` will render the emoji [:strawberry:]. For a
+	// full list of available emoji and codes, see "[Emoji cheat sheet].".
+	//
+	// [:strawberry:]: https://github.githubassets.com/images/icons/emoji/unicode/1f353.png
+	// [Emoji cheat sheet]: https://github.com/ikatyang/emoji-cheat-sheet
 	NewName OptString `json:"new_name"`
-	// The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`.
+	// The [hexadecimal color code] for the label, without the leading `#`.
+	//
+	// [hexadecimal color code]: http://www.color-hex.com/
 	Color OptString `json:"color"`
 	// A short description of the label.
 	Description OptString `json:"description"`
@@ -28608,8 +29599,9 @@ type IssuesUpdateMilestoneReq struct {
 	State OptIssuesUpdateMilestoneReqState `json:"state"`
 	// A description of the milestone.
 	Description OptString `json:"description"`
-	// The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
-	// format: `YYYY-MM-DDTHH:MM:SSZ`.
+	// The milestone due date. This is a timestamp in [ISO 8601] format: `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
 	DueOn OptDateTime `json:"due_on"`
 }
 
@@ -28708,19 +29700,19 @@ type IssuesUpdateReq struct {
 	Title OptNilIssuesUpdateReqTitle `json:"title"`
 	// The contents of the issue.
 	Body OptNilString `json:"body"`
-	// Login for the user that this issue should be assigned to. **This field is deprecated.**.
+	// Login for the user that this issue should be assigned to. This field is deprecated.
 	Assignee OptNilString `json:"assignee"`
 	// State of the issue. Either `open` or `closed`.
 	State     OptIssuesUpdateReqState        `json:"state"`
 	Milestone OptNilIssuesUpdateReqMilestone `json:"milestone"`
-	// Labels to associate with this issue. Pass one or more Labels to _replace_ the set of Labels on
-	// this Issue. Send an empty array (`[]`) to clear all Labels from the Issue. _NOTE: Only users with
-	// push access can set labels for issues. Labels are silently dropped otherwise._.
+	// Labels to associate with this issue. Pass one or more Labels to replace the set of Labels on this
+	// Issue. Send an empty array (`[]`) to clear all Labels from the Issue. NOTE: Only users with push
+	// access can set labels for issues. Labels are silently dropped otherwise.
 	Labels []IssuesUpdateReqLabelsItem `json:"labels"`
-	// Logins for Users to assign to this issue. Pass one or more user logins to _replace_ the set of
-	// assignees on this Issue. Send an empty array (`[]`) to clear all assignees from the Issue. _NOTE:
+	// Logins for Users to assign to this issue. Pass one or more user logins to replace the set of
+	// assignees on this Issue. Send an empty array (`[]`) to clear all assignees from the Issue. NOTE:
 	// Only users with push access can set assignees for new issues. Assignees are silently dropped
-	// otherwise._.
+	// otherwise.
 	Assignees []string `json:"assignees"`
 }
 
@@ -28796,7 +29788,8 @@ func (s *IssuesUpdateReq) SetAssignees(val []string) {
 
 // IssuesUpdateReqLabelsItem represents sum type.
 type IssuesUpdateReqLabelsItem struct {
-	Type                       IssuesUpdateReqLabelsItemType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                       IssuesUpdateReqLabelsItemType
 	String                     string
 	IssuesUpdateReqLabelsItem1 IssuesUpdateReqLabelsItem1
 }
@@ -28909,7 +29902,8 @@ func (s *IssuesUpdateReqLabelsItem1) SetColor(val OptNilString) {
 
 // IssuesUpdateReqMilestone represents sum type.
 type IssuesUpdateReqMilestone struct {
-	Type   IssuesUpdateReqMilestoneType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type   IssuesUpdateReqMilestoneType
 	String string
 	Int    int
 }
@@ -29016,7 +30010,8 @@ func (s *IssuesUpdateReqState) UnmarshalText(data []byte) error {
 // The title of the issue.
 // IssuesUpdateReqTitle represents sum type.
 type IssuesUpdateReqTitle struct {
-	Type   IssuesUpdateReqTitleType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type   IssuesUpdateReqTitleType
 	String string
 	Int    int
 }
@@ -31871,8 +32866,8 @@ func (s *MigrationsMapCommitAuthorReq) SetName(val OptString) {
 }
 
 type MigrationsSetLfsPreferenceReq struct {
-	// Can be one of `opt_in` (large files will be stored using Git LFS) or `opt_out` (large files will
-	// be removed during the import).
+	// Can be one of `opt_in` (large files will be stored using Git LFS) or `opt_out` (large files will be
+	// removed during the import).
 	UseLfs MigrationsSetLfsPreferenceReqUseLfs `json:"use_lfs"`
 }
 
@@ -31886,8 +32881,8 @@ func (s *MigrationsSetLfsPreferenceReq) SetUseLfs(val MigrationsSetLfsPreference
 	s.UseLfs = val
 }
 
-// Can be one of `opt_in` (large files will be stored using Git LFS) or `opt_out` (large files will
-// be removed during the import).
+// Can be one of `opt_in` (large files will be stored using Git LFS) or `opt_out` (large files will be
+// removed during the import).
 type MigrationsSetLfsPreferenceReqUseLfs string
 
 const (
@@ -32160,9 +33155,9 @@ func (s *MigrationsStartForOrgReqExcludeItem) UnmarshalText(data []byte) error {
 type MigrationsStartImportReq struct {
 	// The URL of the originating repository.
 	VcsURL string `json:"vcs_url"`
-	// The originating VCS type. Can be one of `subversion`, `git`, `mercurial`, or `tfvc`. Please be
-	// aware that without this parameter, the import job will take additional time to detect the VCS type
-	// before beginning the import. This detection step will be reflected in the response.
+	// The originating VCS type. Can be one of `subversion`, `git`, `mercurial`, or `tfvc`. Please be aware
+	// that without this parameter, the import job will take additional time to detect the VCS type before
+	// beginning the import. This detection step will be reflected in the response.
 	Vcs OptMigrationsStartImportReqVcs `json:"vcs"`
 	// If authentication is required, the username to provide to `vcs_url`.
 	VcsUsername OptString `json:"vcs_username"`
@@ -32222,9 +33217,9 @@ func (s *MigrationsStartImportReq) SetTfvcProject(val OptString) {
 	s.TfvcProject = val
 }
 
-// The originating VCS type. Can be one of `subversion`, `git`, `mercurial`, or `tfvc`. Please be
-// aware that without this parameter, the import job will take additional time to detect the VCS type
-// before beginning the import. This detection step will be reflected in the response.
+// The originating VCS type. Can be one of `subversion`, `git`, `mercurial`, or `tfvc`. Please be aware
+// that without this parameter, the import job will take additional time to detect the VCS type before
+// beginning the import. This detection step will be reflected in the response.
 type MigrationsStartImportReqVcs string
 
 const (
@@ -33675,10 +34670,10 @@ func (o *NilAutoMerge) SetTo(v AutoMerge) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilAutoMerge) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilAutoMerge) SetToNull() {
 	o.Null = true
 	var v AutoMerge
@@ -33720,10 +34715,10 @@ func (o *NilBool) SetTo(v bool) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilBool) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilBool) SetToNull() {
 	o.Null = true
 	var v bool
@@ -33765,10 +34760,10 @@ func (o *NilCheckRunCheckSuite) SetTo(v CheckRunCheckSuite) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilCheckRunCheckSuite) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilCheckRunCheckSuite) SetToNull() {
 	o.Null = true
 	var v CheckRunCheckSuite
@@ -33810,10 +34805,10 @@ func (o *NilCheckRunConclusion) SetTo(v CheckRunConclusion) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilCheckRunConclusion) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilCheckRunConclusion) SetToNull() {
 	o.Null = true
 	var v CheckRunConclusion
@@ -33855,10 +34850,10 @@ func (o *NilCheckSuiteConclusion) SetTo(v CheckSuiteConclusion) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilCheckSuiteConclusion) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilCheckSuiteConclusion) SetToNull() {
 	o.Null = true
 	var v CheckSuiteConclusion
@@ -33900,10 +34895,10 @@ func (o *NilCheckSuiteStatus) SetTo(v CheckSuiteStatus) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilCheckSuiteStatus) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilCheckSuiteStatus) SetToNull() {
 	o.Null = true
 	var v CheckSuiteStatus
@@ -33945,10 +34940,10 @@ func (o *NilCodeScanningAlertClassification) SetTo(v CodeScanningAlertClassifica
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilCodeScanningAlertClassification) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilCodeScanningAlertClassification) SetToNull() {
 	o.Null = true
 	var v CodeScanningAlertClassification
@@ -33990,10 +34985,10 @@ func (o *NilCodeScanningAlertDismissedAt) SetTo(v CodeScanningAlertDismissedAt) 
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilCodeScanningAlertDismissedAt) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilCodeScanningAlertDismissedAt) SetToNull() {
 	o.Null = true
 	var v CodeScanningAlertDismissedAt
@@ -34035,10 +35030,10 @@ func (o *NilCodeScanningAlertDismissedReason) SetTo(v CodeScanningAlertDismissed
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilCodeScanningAlertDismissedReason) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilCodeScanningAlertDismissedReason) SetToNull() {
 	o.Null = true
 	var v CodeScanningAlertDismissedReason
@@ -34080,10 +35075,10 @@ func (o *NilDateTime) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilDateTime) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilDateTime) SetToNull() {
 	o.Null = true
 	var v time.Time
@@ -34125,10 +35120,10 @@ func (o *NilFileCommitContent) SetTo(v FileCommitContent) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilFileCommitContent) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilFileCommitContent) SetToNull() {
 	o.Null = true
 	var v FileCommitContent
@@ -34170,10 +35165,10 @@ func (o *NilGistSimpleFilesItem) SetTo(v GistSimpleFilesItem) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilGistSimpleFilesItem) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilGistSimpleFilesItem) SetToNull() {
 	o.Null = true
 	var v GistSimpleFilesItem
@@ -34215,10 +35210,10 @@ func (o *NilHookDeliveryRequestHeaders) SetTo(v HookDeliveryRequestHeaders) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilHookDeliveryRequestHeaders) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilHookDeliveryRequestHeaders) SetToNull() {
 	o.Null = true
 	var v HookDeliveryRequestHeaders
@@ -34260,10 +35255,10 @@ func (o *NilHookDeliveryRequestPayload) SetTo(v HookDeliveryRequestPayload) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilHookDeliveryRequestPayload) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilHookDeliveryRequestPayload) SetToNull() {
 	o.Null = true
 	var v HookDeliveryRequestPayload
@@ -34305,10 +35300,10 @@ func (o *NilHookDeliveryResponseHeaders) SetTo(v HookDeliveryResponseHeaders) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilHookDeliveryResponseHeaders) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilHookDeliveryResponseHeaders) SetToNull() {
 	o.Null = true
 	var v HookDeliveryResponseHeaders
@@ -34350,10 +35345,10 @@ func (o *NilInt) SetTo(v int) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilInt) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilInt) SetToNull() {
 	o.Null = true
 	var v int
@@ -34395,10 +35390,10 @@ func (o *NilNullableCodeOfConductSimple) SetTo(v NullableCodeOfConductSimple) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableCodeOfConductSimple) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableCodeOfConductSimple) SetToNull() {
 	o.Null = true
 	var v NullableCodeOfConductSimple
@@ -34440,10 +35435,10 @@ func (o *NilNullableCommunityHealthFile) SetTo(v NullableCommunityHealthFile) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableCommunityHealthFile) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableCommunityHealthFile) SetToNull() {
 	o.Null = true
 	var v NullableCommunityHealthFile
@@ -34485,10 +35480,10 @@ func (o *NilNullableGitUser) SetTo(v NullableGitUser) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableGitUser) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableGitUser) SetToNull() {
 	o.Null = true
 	var v NullableGitUser
@@ -34530,10 +35525,10 @@ func (o *NilNullableIntegration) SetTo(v NullableIntegration) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableIntegration) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableIntegration) SetToNull() {
 	o.Null = true
 	var v NullableIntegration
@@ -34575,10 +35570,10 @@ func (o *NilNullableLicenseSimple) SetTo(v NullableLicenseSimple) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableLicenseSimple) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableLicenseSimple) SetToNull() {
 	o.Null = true
 	var v NullableLicenseSimple
@@ -34620,10 +35615,10 @@ func (o *NilNullableMilestone) SetTo(v NullableMilestone) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableMilestone) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableMilestone) SetToNull() {
 	o.Null = true
 	var v NullableMilestone
@@ -34665,10 +35660,10 @@ func (o *NilNullableSimpleCommit) SetTo(v NullableSimpleCommit) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableSimpleCommit) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableSimpleCommit) SetToNull() {
 	o.Null = true
 	var v NullableSimpleCommit
@@ -34710,10 +35705,10 @@ func (o *NilNullableSimpleCommitAuthor) SetTo(v NullableSimpleCommitAuthor) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableSimpleCommitAuthor) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableSimpleCommitAuthor) SetToNull() {
 	o.Null = true
 	var v NullableSimpleCommitAuthor
@@ -34755,10 +35750,10 @@ func (o *NilNullableSimpleCommitCommitter) SetTo(v NullableSimpleCommitCommitter
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableSimpleCommitCommitter) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableSimpleCommitCommitter) SetToNull() {
 	o.Null = true
 	var v NullableSimpleCommitCommitter
@@ -34800,10 +35795,10 @@ func (o *NilNullableSimpleUser) SetTo(v NullableSimpleUser) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableSimpleUser) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableSimpleUser) SetToNull() {
 	o.Null = true
 	var v NullableSimpleUser
@@ -34845,10 +35840,10 @@ func (o *NilNullableTeamSimple) SetTo(v NullableTeamSimple) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilNullableTeamSimple) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilNullableTeamSimple) SetToNull() {
 	o.Null = true
 	var v NullableTeamSimple
@@ -34890,10 +35885,10 @@ func (o *NilPageStatus) SetTo(v PageStatus) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilPageStatus) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilPageStatus) SetToNull() {
 	o.Null = true
 	var v PageStatus
@@ -34935,10 +35930,10 @@ func (o *NilPullRequestHeadRepo) SetTo(v PullRequestHeadRepo) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilPullRequestHeadRepo) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilPullRequestHeadRepo) SetToNull() {
 	o.Null = true
 	var v PullRequestHeadRepo
@@ -34980,10 +35975,10 @@ func (o *NilPullRequestHeadRepoLicense) SetTo(v PullRequestHeadRepoLicense) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilPullRequestHeadRepoLicense) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilPullRequestHeadRepoLicense) SetToNull() {
 	o.Null = true
 	var v PullRequestHeadRepoLicense
@@ -35025,10 +36020,10 @@ func (o *NilReposCreatePagesSiteReq) SetTo(v ReposCreatePagesSiteReq) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilReposCreatePagesSiteReq) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilReposCreatePagesSiteReq) SetToNull() {
 	o.Null = true
 	var v ReposCreatePagesSiteReq
@@ -35070,10 +36065,10 @@ func (o *NilReposUpdateBranchProtectionReqRequiredPullRequestReviews) SetTo(v Re
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilReposUpdateBranchProtectionReqRequiredPullRequestReviews) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilReposUpdateBranchProtectionReqRequiredPullRequestReviews) SetToNull() {
 	o.Null = true
 	var v ReposUpdateBranchProtectionReqRequiredPullRequestReviews
@@ -35115,10 +36110,10 @@ func (o *NilReposUpdateBranchProtectionReqRequiredStatusChecks) SetTo(v ReposUpd
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilReposUpdateBranchProtectionReqRequiredStatusChecks) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilReposUpdateBranchProtectionReqRequiredStatusChecks) SetToNull() {
 	o.Null = true
 	var v ReposUpdateBranchProtectionReqRequiredStatusChecks
@@ -35160,10 +36155,10 @@ func (o *NilReposUpdateBranchProtectionReqRestrictions) SetTo(v ReposUpdateBranc
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilReposUpdateBranchProtectionReqRestrictions) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilReposUpdateBranchProtectionReqRestrictions) SetToNull() {
 	o.Null = true
 	var v ReposUpdateBranchProtectionReqRestrictions
@@ -35205,10 +36200,10 @@ func (o *NilSimpleCommitAuthor) SetTo(v SimpleCommitAuthor) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilSimpleCommitAuthor) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilSimpleCommitAuthor) SetToNull() {
 	o.Null = true
 	var v SimpleCommitAuthor
@@ -35250,10 +36245,10 @@ func (o *NilSimpleCommitCommitter) SetTo(v SimpleCommitCommitter) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilSimpleCommitCommitter) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilSimpleCommitCommitter) SetToNull() {
 	o.Null = true
 	var v SimpleCommitCommitter
@@ -35295,10 +36290,10 @@ func (o *NilString) SetTo(v string) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilString) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilString) SetToNull() {
 	o.Null = true
 	var v string
@@ -35340,10 +36335,10 @@ func (o *NilURI) SetTo(v url.URL) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilURI) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilURI) SetToNull() {
 	o.Null = true
 	var v url.URL
@@ -35474,6 +36469,11 @@ func (*NotModified) reposListForAuthenticatedUserRes()                     {}
 func (*NotModified) reposListInvitationsForAuthenticatedUserRes()          {}
 func (*NotModified) reposListPublicRes()                                   {}
 func (*NotModified) scimDeleteUserFromOrgRes()                             {}
+func (*NotModified) scimGetProvisioningInformationForUserRes()             {}
+func (*NotModified) scimListProvisionedIdentitiesRes()                     {}
+func (*NotModified) scimProvisionAndInviteUserRes()                        {}
+func (*NotModified) scimSetInformationForProvisionedUserRes()              {}
+func (*NotModified) scimUpdateAttributeForUserRes()                        {}
 func (*NotModified) searchCodeRes()                                        {}
 func (*NotModified) searchCommitsRes()                                     {}
 func (*NotModified) searchIssuesAndPullRequestsRes()                       {}
@@ -35621,8 +36621,8 @@ func (s *NullableGitUser) SetDate(val OptString) {
 	s.Date = val
 }
 
-// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and
-// user accounts and granted access to specific repositories. They come with granular permissions and
+// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user
+// accounts and granted access to specific repositories. They come with granular permissions and
 // built-in webhooks. GitHub apps are first class actors within GitHub.
 // Ref: #/components/schemas/nullable-integration
 type NullableIntegration struct {
@@ -40112,8 +41112,7 @@ type OAuthAuthorizationsCreateAuthorizationReq struct {
 	ClientID OptString `json:"client_id"`
 	// The OAuth app client secret for which to create the token.
 	ClientSecret OptString `json:"client_secret"`
-	// A unique string to distinguish an authorization from others created for the same client ID and
-	// user.
+	// A unique string to distinguish an authorization from others created for the same client ID and user.
 	Fingerprint OptString `json:"fingerprint"`
 }
 
@@ -40310,8 +41309,7 @@ type OAuthAuthorizationsGetOrCreateAuthorizationForAppReq struct {
 	Note OptString `json:"note"`
 	// A URL to remind you what app the OAuth token is for.
 	NoteURL OptString `json:"note_url"`
-	// A unique string to distinguish an authorization from others created for the same client ID and
-	// user.
+	// A unique string to distinguish an authorization from others created for the same client ID and user.
 	Fingerprint OptString `json:"fingerprint"`
 }
 
@@ -40462,8 +41460,7 @@ type OAuthAuthorizationsUpdateAuthorizationReq struct {
 	Note OptString `json:"note"`
 	// A URL to remind you what app the OAuth token is for.
 	NoteURL OptString `json:"note_url"`
-	// A unique string to distinguish an authorization from others created for the same client ID and
-	// user.
+	// A unique string to distinguish an authorization from others created for the same client ID and user.
 	Fingerprint OptString `json:"fingerprint"`
 }
 
@@ -40613,6 +41610,52 @@ func (o OptActionsCreateSelfHostedRunnerGroupForOrgReqVisibility) Get() (v Actio
 
 // Or returns value if set, or given parameter if does not.
 func (o OptActionsCreateSelfHostedRunnerGroupForOrgReqVisibility) Or(d ActionsCreateSelfHostedRunnerGroupForOrgReqVisibility) ActionsCreateSelfHostedRunnerGroupForOrgReqVisibility {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptActionsCreateWorkflowDispatchReqInputs returns new OptActionsCreateWorkflowDispatchReqInputs with value set to v.
+func NewOptActionsCreateWorkflowDispatchReqInputs(v ActionsCreateWorkflowDispatchReqInputs) OptActionsCreateWorkflowDispatchReqInputs {
+	return OptActionsCreateWorkflowDispatchReqInputs{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptActionsCreateWorkflowDispatchReqInputs is optional ActionsCreateWorkflowDispatchReqInputs.
+type OptActionsCreateWorkflowDispatchReqInputs struct {
+	Value ActionsCreateWorkflowDispatchReqInputs
+	Set   bool
+}
+
+// IsSet returns true if OptActionsCreateWorkflowDispatchReqInputs was set.
+func (o OptActionsCreateWorkflowDispatchReqInputs) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptActionsCreateWorkflowDispatchReqInputs) Reset() {
+	var v ActionsCreateWorkflowDispatchReqInputs
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptActionsCreateWorkflowDispatchReqInputs) SetTo(v ActionsCreateWorkflowDispatchReqInputs) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptActionsCreateWorkflowDispatchReqInputs) Get() (v ActionsCreateWorkflowDispatchReqInputs, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptActionsCreateWorkflowDispatchReqInputs) Or(d ActionsCreateWorkflowDispatchReqInputs) ActionsCreateWorkflowDispatchReqInputs {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -43603,6 +44646,190 @@ func (o OptBranchRestrictionPolicyAppsItemPermissions) Get() (v BranchRestrictio
 
 // Or returns value if set, or given parameter if does not.
 func (o OptBranchRestrictionPolicyAppsItemPermissions) Or(d BranchRestrictionPolicyAppsItemPermissions) BranchRestrictionPolicyAppsItemPermissions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptChecksCreateReqConclusion returns new OptChecksCreateReqConclusion with value set to v.
+func NewOptChecksCreateReqConclusion(v ChecksCreateReqConclusion) OptChecksCreateReqConclusion {
+	return OptChecksCreateReqConclusion{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptChecksCreateReqConclusion is optional ChecksCreateReqConclusion.
+type OptChecksCreateReqConclusion struct {
+	Value ChecksCreateReqConclusion
+	Set   bool
+}
+
+// IsSet returns true if OptChecksCreateReqConclusion was set.
+func (o OptChecksCreateReqConclusion) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptChecksCreateReqConclusion) Reset() {
+	var v ChecksCreateReqConclusion
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptChecksCreateReqConclusion) SetTo(v ChecksCreateReqConclusion) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptChecksCreateReqConclusion) Get() (v ChecksCreateReqConclusion, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptChecksCreateReqConclusion) Or(d ChecksCreateReqConclusion) ChecksCreateReqConclusion {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptChecksCreateReqOutput returns new OptChecksCreateReqOutput with value set to v.
+func NewOptChecksCreateReqOutput(v ChecksCreateReqOutput) OptChecksCreateReqOutput {
+	return OptChecksCreateReqOutput{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptChecksCreateReqOutput is optional ChecksCreateReqOutput.
+type OptChecksCreateReqOutput struct {
+	Value ChecksCreateReqOutput
+	Set   bool
+}
+
+// IsSet returns true if OptChecksCreateReqOutput was set.
+func (o OptChecksCreateReqOutput) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptChecksCreateReqOutput) Reset() {
+	var v ChecksCreateReqOutput
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptChecksCreateReqOutput) SetTo(v ChecksCreateReqOutput) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptChecksCreateReqOutput) Get() (v ChecksCreateReqOutput, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptChecksCreateReqOutput) Or(d ChecksCreateReqOutput) ChecksCreateReqOutput {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptChecksCreateReqStatus returns new OptChecksCreateReqStatus with value set to v.
+func NewOptChecksCreateReqStatus(v ChecksCreateReqStatus) OptChecksCreateReqStatus {
+	return OptChecksCreateReqStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptChecksCreateReqStatus is optional ChecksCreateReqStatus.
+type OptChecksCreateReqStatus struct {
+	Value ChecksCreateReqStatus
+	Set   bool
+}
+
+// IsSet returns true if OptChecksCreateReqStatus was set.
+func (o OptChecksCreateReqStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptChecksCreateReqStatus) Reset() {
+	var v ChecksCreateReqStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptChecksCreateReqStatus) SetTo(v ChecksCreateReqStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptChecksCreateReqStatus) Get() (v ChecksCreateReqStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptChecksCreateReqStatus) Or(d ChecksCreateReqStatus) ChecksCreateReqStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptChecksCreateReqSum1Status returns new OptChecksCreateReqSum1Status with value set to v.
+func NewOptChecksCreateReqSum1Status(v ChecksCreateReqSum1Status) OptChecksCreateReqSum1Status {
+	return OptChecksCreateReqSum1Status{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptChecksCreateReqSum1Status is optional ChecksCreateReqSum1Status.
+type OptChecksCreateReqSum1Status struct {
+	Value ChecksCreateReqSum1Status
+	Set   bool
+}
+
+// IsSet returns true if OptChecksCreateReqSum1Status was set.
+func (o OptChecksCreateReqSum1Status) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptChecksCreateReqSum1Status) Reset() {
+	var v ChecksCreateReqSum1Status
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptChecksCreateReqSum1Status) SetTo(v ChecksCreateReqSum1Status) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptChecksCreateReqSum1Status) Get() (v ChecksCreateReqSum1Status, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptChecksCreateReqSum1Status) Or(d ChecksCreateReqSum1Status) ChecksCreateReqSum1Status {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -47788,15 +49015,20 @@ func (o *OptNilBool) SetTo(v bool) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilBool) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilBool) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v bool
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilBool) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -47851,15 +49083,20 @@ func (o *OptNilCodeScanningAlertDismissedReason) SetTo(v CodeScanningAlertDismis
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilCodeScanningAlertDismissedReason) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilCodeScanningAlertDismissedReason) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v CodeScanningAlertDismissedReason
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilCodeScanningAlertDismissedReason) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -47914,15 +49151,20 @@ func (o *OptNilCodeScanningAlertRuleSecuritySeverityLevel) SetTo(v CodeScanningA
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilCodeScanningAlertRuleSecuritySeverityLevel) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilCodeScanningAlertRuleSecuritySeverityLevel) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v CodeScanningAlertRuleSecuritySeverityLevel
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilCodeScanningAlertRuleSecuritySeverityLevel) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -47977,15 +49219,20 @@ func (o *OptNilCodeScanningAlertRuleSeverity) SetTo(v CodeScanningAlertRuleSever
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilCodeScanningAlertRuleSeverity) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilCodeScanningAlertRuleSeverity) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v CodeScanningAlertRuleSeverity
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilCodeScanningAlertRuleSeverity) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48040,15 +49287,20 @@ func (o *OptNilCodeScanningAlertRuleSummarySeverity) SetTo(v CodeScanningAlertRu
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilCodeScanningAlertRuleSummarySeverity) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilCodeScanningAlertRuleSummarySeverity) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v CodeScanningAlertRuleSummarySeverity
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilCodeScanningAlertRuleSummarySeverity) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48103,15 +49355,20 @@ func (o *OptNilCodeScanningAnalysisToolGUID) SetTo(v CodeScanningAnalysisToolGUI
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilCodeScanningAnalysisToolGUID) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilCodeScanningAnalysisToolGUID) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v CodeScanningAnalysisToolGUID
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilCodeScanningAnalysisToolGUID) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48166,15 +49423,20 @@ func (o *OptNilCodeScanningAnalysisToolVersion) SetTo(v CodeScanningAnalysisTool
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilCodeScanningAnalysisToolVersion) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilCodeScanningAnalysisToolVersion) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v CodeScanningAnalysisToolVersion
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilCodeScanningAnalysisToolVersion) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48229,15 +49491,20 @@ func (o *OptNilDateTime) SetTo(v time.Time) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilDateTime) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilDateTime) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v time.Time
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilDateTime) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48292,15 +49559,20 @@ func (o *OptNilFullRepositorySecurityAndAnalysis) SetTo(v FullRepositorySecurity
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilFullRepositorySecurityAndAnalysis) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilFullRepositorySecurityAndAnalysis) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v FullRepositorySecurityAndAnalysis
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilFullRepositorySecurityAndAnalysis) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48355,15 +49627,20 @@ func (o *OptNilGistHistoryArray) SetTo(v []GistHistory) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilGistHistoryArray) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilGistHistoryArray) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v []GistHistory
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilGistHistoryArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48418,15 +49695,20 @@ func (o *OptNilGistSimpleForkOf) SetTo(v GistSimpleForkOf) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilGistSimpleForkOf) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilGistSimpleForkOf) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v GistSimpleForkOf
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilGistSimpleForkOf) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48481,15 +49763,20 @@ func (o *OptNilGistSimpleForksItemArray) SetTo(v []GistSimpleForksItem) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilGistSimpleForksItemArray) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilGistSimpleForksItemArray) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v []GistSimpleForksItem
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilGistSimpleForksItemArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48544,15 +49831,20 @@ func (o *OptNilInt) SetTo(v int) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilInt) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilInt) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v int
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilInt) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48607,15 +49899,20 @@ func (o *OptNilIssuesCreateReqMilestone) SetTo(v IssuesCreateReqMilestone) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilIssuesCreateReqMilestone) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilIssuesCreateReqMilestone) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v IssuesCreateReqMilestone
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilIssuesCreateReqMilestone) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48670,15 +49967,20 @@ func (o *OptNilIssuesLockReq) SetTo(v IssuesLockReq) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilIssuesLockReq) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilIssuesLockReq) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v IssuesLockReq
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilIssuesLockReq) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48733,15 +50035,20 @@ func (o *OptNilIssuesUpdateReqMilestone) SetTo(v IssuesUpdateReqMilestone) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilIssuesUpdateReqMilestone) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilIssuesUpdateReqMilestone) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v IssuesUpdateReqMilestone
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilIssuesUpdateReqMilestone) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48796,15 +50103,20 @@ func (o *OptNilIssuesUpdateReqTitle) SetTo(v IssuesUpdateReqTitle) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilIssuesUpdateReqTitle) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilIssuesUpdateReqTitle) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v IssuesUpdateReqTitle
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilIssuesUpdateReqTitle) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48859,15 +50171,20 @@ func (o *OptNilMarketplacePurchaseMarketplacePendingChange) SetTo(v MarketplaceP
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilMarketplacePurchaseMarketplacePendingChange) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilMarketplacePurchaseMarketplacePendingChange) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v MarketplacePurchaseMarketplacePendingChange
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilMarketplacePurchaseMarketplacePendingChange) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48922,15 +50239,20 @@ func (o *OptNilMigrationsUpdateImportReq) SetTo(v MigrationsUpdateImportReq) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilMigrationsUpdateImportReq) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilMigrationsUpdateImportReq) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v MigrationsUpdateImportReq
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilMigrationsUpdateImportReq) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -48985,15 +50307,20 @@ func (o *OptNilMinimalRepositoryLicense) SetTo(v MinimalRepositoryLicense) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilMinimalRepositoryLicense) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilMinimalRepositoryLicense) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v MinimalRepositoryLicense
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilMinimalRepositoryLicense) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49048,15 +50375,20 @@ func (o *OptNilNullableIntegration) SetTo(v NullableIntegration) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilNullableIntegration) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilNullableIntegration) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v NullableIntegration
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNullableIntegration) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49111,15 +50443,20 @@ func (o *OptNilNullableMinimalRepository) SetTo(v NullableMinimalRepository) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilNullableMinimalRepository) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilNullableMinimalRepository) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v NullableMinimalRepository
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNullableMinimalRepository) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49174,15 +50511,20 @@ func (o *OptNilNullableMinimalRepositoryLicense) SetTo(v NullableMinimalReposito
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilNullableMinimalRepositoryLicense) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilNullableMinimalRepositoryLicense) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v NullableMinimalRepositoryLicense
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNullableMinimalRepositoryLicense) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49237,15 +50579,20 @@ func (o *OptNilNullableRepository) SetTo(v NullableRepository) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilNullableRepository) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilNullableRepository) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v NullableRepository
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNullableRepository) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49300,15 +50647,20 @@ func (o *OptNilNullableRepositoryTemplateRepository) SetTo(v NullableRepositoryT
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilNullableRepositoryTemplateRepository) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilNullableRepositoryTemplateRepository) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v NullableRepositoryTemplateRepository
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNullableRepositoryTemplateRepository) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49363,15 +50715,20 @@ func (o *OptNilNullableScopedInstallation) SetTo(v NullableScopedInstallation) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilNullableScopedInstallation) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilNullableScopedInstallation) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v NullableScopedInstallation
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNullableScopedInstallation) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49426,15 +50783,20 @@ func (o *OptNilNullableSimpleUser) SetTo(v NullableSimpleUser) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilNullableSimpleUser) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilNullableSimpleUser) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v NullableSimpleUser
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNullableSimpleUser) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49489,15 +50851,20 @@ func (o *OptNilNullableTeamSimple) SetTo(v NullableTeamSimple) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilNullableTeamSimple) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilNullableTeamSimple) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v NullableTeamSimple
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNullableTeamSimple) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49552,15 +50919,20 @@ func (o *OptNilPageProtectedDomainState) SetTo(v PageProtectedDomainState) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilPageProtectedDomainState) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilPageProtectedDomainState) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v PageProtectedDomainState
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilPageProtectedDomainState) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49615,15 +50987,20 @@ func (o *OptNilPagesHealthCheckAltDomain) SetTo(v PagesHealthCheckAltDomain) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilPagesHealthCheckAltDomain) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilPagesHealthCheckAltDomain) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v PagesHealthCheckAltDomain
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilPagesHealthCheckAltDomain) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49678,15 +51055,20 @@ func (o *OptNilProjectsAddCollaboratorReq) SetTo(v ProjectsAddCollaboratorReq) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilProjectsAddCollaboratorReq) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilProjectsAddCollaboratorReq) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v ProjectsAddCollaboratorReq
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilProjectsAddCollaboratorReq) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49741,15 +51123,20 @@ func (o *OptNilPullRequestReviewCommentStartSide) SetTo(v PullRequestReviewComme
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilPullRequestReviewCommentStartSide) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilPullRequestReviewCommentStartSide) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v PullRequestReviewCommentStartSide
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilPullRequestReviewCommentStartSide) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49804,15 +51191,20 @@ func (o *OptNilPullsMergeReq) SetTo(v PullsMergeReq) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilPullsMergeReq) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilPullsMergeReq) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v PullsMergeReq
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilPullsMergeReq) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49867,15 +51259,20 @@ func (o *OptNilPullsUpdateBranchReq) SetTo(v PullsUpdateBranchReq) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilPullsUpdateBranchReq) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilPullsUpdateBranchReq) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v PullsUpdateBranchReq
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilPullsUpdateBranchReq) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49930,15 +51327,20 @@ func (o *OptNilReposCreateForkReq) SetTo(v ReposCreateForkReq) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilReposCreateForkReq) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilReposCreateForkReq) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v ReposCreateForkReq
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilReposCreateForkReq) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -49993,15 +51395,20 @@ func (o *OptNilReposCreateWebhookReq) SetTo(v ReposCreateWebhookReq) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilReposCreateWebhookReq) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilReposCreateWebhookReq) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v ReposCreateWebhookReq
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilReposCreateWebhookReq) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50056,15 +51463,20 @@ func (o *OptNilReposUpdateReqSecurityAndAnalysis) SetTo(v ReposUpdateReqSecurity
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilReposUpdateReqSecurityAndAnalysis) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilReposUpdateReqSecurityAndAnalysis) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v ReposUpdateReqSecurityAndAnalysis
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilReposUpdateReqSecurityAndAnalysis) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50119,15 +51531,20 @@ func (o *OptNilRepositoryTemplateRepository) SetTo(v RepositoryTemplateRepositor
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilRepositoryTemplateRepository) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilRepositoryTemplateRepository) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v RepositoryTemplateRepository
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilRepositoryTemplateRepository) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50182,15 +51599,20 @@ func (o *OptNilReviewCommentStartSide) SetTo(v ReviewCommentStartSide) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilReviewCommentStartSide) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilReviewCommentStartSide) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v ReviewCommentStartSide
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilReviewCommentStartSide) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50245,15 +51667,20 @@ func (o *OptNilSecretScanningAlertResolution) SetTo(v SecretScanningAlertResolut
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilSecretScanningAlertResolution) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilSecretScanningAlertResolution) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v SecretScanningAlertResolution
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilSecretScanningAlertResolution) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50308,15 +51735,20 @@ func (o *OptNilSimpleUserArray) SetTo(v []SimpleUser) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilSimpleUserArray) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilSimpleUserArray) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v []SimpleUser
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilSimpleUserArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50371,15 +51803,20 @@ func (o *OptNilString) SetTo(v string) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilString) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilString) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v string
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilString) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50434,15 +51871,20 @@ func (o *OptNilStringArray) SetTo(v []string) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilStringArray) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilStringArray) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v []string
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50497,15 +51939,20 @@ func (o *OptNilTeamArray) SetTo(v []Team) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilTeamArray) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilTeamArray) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v []Team
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilTeamArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50560,15 +52007,20 @@ func (o *OptNilTeamSimpleArray) SetTo(v []TeamSimple) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilTeamSimpleArray) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilTeamSimpleArray) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v []TeamSimple
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilTeamSimpleArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50623,15 +52075,20 @@ func (o *OptNilTeamsAddOrUpdateProjectPermissionsInOrgReq) SetTo(v TeamsAddOrUpd
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilTeamsAddOrUpdateProjectPermissionsInOrgReq) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilTeamsAddOrUpdateProjectPermissionsInOrgReq) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v TeamsAddOrUpdateProjectPermissionsInOrgReq
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilTeamsAddOrUpdateProjectPermissionsInOrgReq) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50686,15 +52143,20 @@ func (o *OptNilTopicSearchResultItemAliasesItemArray) SetTo(v []TopicSearchResul
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilTopicSearchResultItemAliasesItemArray) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilTopicSearchResultItemAliasesItemArray) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v []TopicSearchResultItemAliasesItem
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilTopicSearchResultItemAliasesItemArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50749,15 +52211,20 @@ func (o *OptNilTopicSearchResultItemRelatedItemArray) SetTo(v []TopicSearchResul
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilTopicSearchResultItemRelatedItemArray) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilTopicSearchResultItemRelatedItemArray) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v []TopicSearchResultItemRelatedItem
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilTopicSearchResultItemRelatedItemArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -50812,15 +52279,20 @@ func (o *OptNilURI) SetTo(v url.URL) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o OptNilURI) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *OptNilURI) SetToNull() {
 	o.Set = true
 	o.Null = true
 	var v url.URL
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilURI) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -57424,6 +58896,52 @@ func (o OptScimGroupListEnterpriseResourcesItemMeta) Or(d ScimGroupListEnterpris
 	return d
 }
 
+// NewOptScimUpdateAttributeForUserReqOperationsItemValue returns new OptScimUpdateAttributeForUserReqOperationsItemValue with value set to v.
+func NewOptScimUpdateAttributeForUserReqOperationsItemValue(v ScimUpdateAttributeForUserReqOperationsItemValue) OptScimUpdateAttributeForUserReqOperationsItemValue {
+	return OptScimUpdateAttributeForUserReqOperationsItemValue{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptScimUpdateAttributeForUserReqOperationsItemValue is optional ScimUpdateAttributeForUserReqOperationsItemValue.
+type OptScimUpdateAttributeForUserReqOperationsItemValue struct {
+	Value ScimUpdateAttributeForUserReqOperationsItemValue
+	Set   bool
+}
+
+// IsSet returns true if OptScimUpdateAttributeForUserReqOperationsItemValue was set.
+func (o OptScimUpdateAttributeForUserReqOperationsItemValue) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptScimUpdateAttributeForUserReqOperationsItemValue) Reset() {
+	var v ScimUpdateAttributeForUserReqOperationsItemValue
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptScimUpdateAttributeForUserReqOperationsItemValue) SetTo(v ScimUpdateAttributeForUserReqOperationsItemValue) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptScimUpdateAttributeForUserReqOperationsItemValue) Get() (v ScimUpdateAttributeForUserReqOperationsItemValue, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptScimUpdateAttributeForUserReqOperationsItemValue) Or(d ScimUpdateAttributeForUserReqOperationsItemValue) ScimUpdateAttributeForUserReqOperationsItemValue {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptScimUserListEnterpriseResourcesItemMeta returns new OptScimUserListEnterpriseResourcesItemMeta with value set to v.
 func NewOptScimUserListEnterpriseResourcesItemMeta(v ScimUserListEnterpriseResourcesItemMeta) OptScimUserListEnterpriseResourcesItemMeta {
 	return OptScimUserListEnterpriseResourcesItemMeta{
@@ -57510,6 +59028,52 @@ func (o OptScimUserListEnterpriseResourcesItemName) Get() (v ScimUserListEnterpr
 
 // Or returns value if set, or given parameter if does not.
 func (o OptScimUserListEnterpriseResourcesItemName) Or(d ScimUserListEnterpriseResourcesItemName) ScimUserListEnterpriseResourcesItemName {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptScimUserOperationsItemValue returns new OptScimUserOperationsItemValue with value set to v.
+func NewOptScimUserOperationsItemValue(v ScimUserOperationsItemValue) OptScimUserOperationsItemValue {
+	return OptScimUserOperationsItemValue{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptScimUserOperationsItemValue is optional ScimUserOperationsItemValue.
+type OptScimUserOperationsItemValue struct {
+	Value ScimUserOperationsItemValue
+	Set   bool
+}
+
+// IsSet returns true if OptScimUserOperationsItemValue was set.
+func (o OptScimUserOperationsItemValue) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptScimUserOperationsItemValue) Reset() {
+	var v ScimUserOperationsItemValue
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptScimUserOperationsItemValue) SetTo(v ScimUserOperationsItemValue) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptScimUserOperationsItemValue) Get() (v ScimUserOperationsItemValue, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptScimUserOperationsItemValue) Or(d ScimUserOperationsItemValue) ScimUserOperationsItemValue {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -60230,6 +61794,144 @@ func (o OptWorkflowRunUsageBillableWINDOWS) Or(d WorkflowRunUsageBillableWINDOWS
 	return d
 }
 
+// NewOptWorkflowUsageBillableMACOS returns new OptWorkflowUsageBillableMACOS with value set to v.
+func NewOptWorkflowUsageBillableMACOS(v WorkflowUsageBillableMACOS) OptWorkflowUsageBillableMACOS {
+	return OptWorkflowUsageBillableMACOS{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWorkflowUsageBillableMACOS is optional WorkflowUsageBillableMACOS.
+type OptWorkflowUsageBillableMACOS struct {
+	Value WorkflowUsageBillableMACOS
+	Set   bool
+}
+
+// IsSet returns true if OptWorkflowUsageBillableMACOS was set.
+func (o OptWorkflowUsageBillableMACOS) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWorkflowUsageBillableMACOS) Reset() {
+	var v WorkflowUsageBillableMACOS
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWorkflowUsageBillableMACOS) SetTo(v WorkflowUsageBillableMACOS) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWorkflowUsageBillableMACOS) Get() (v WorkflowUsageBillableMACOS, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWorkflowUsageBillableMACOS) Or(d WorkflowUsageBillableMACOS) WorkflowUsageBillableMACOS {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptWorkflowUsageBillableUBUNTU returns new OptWorkflowUsageBillableUBUNTU with value set to v.
+func NewOptWorkflowUsageBillableUBUNTU(v WorkflowUsageBillableUBUNTU) OptWorkflowUsageBillableUBUNTU {
+	return OptWorkflowUsageBillableUBUNTU{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWorkflowUsageBillableUBUNTU is optional WorkflowUsageBillableUBUNTU.
+type OptWorkflowUsageBillableUBUNTU struct {
+	Value WorkflowUsageBillableUBUNTU
+	Set   bool
+}
+
+// IsSet returns true if OptWorkflowUsageBillableUBUNTU was set.
+func (o OptWorkflowUsageBillableUBUNTU) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWorkflowUsageBillableUBUNTU) Reset() {
+	var v WorkflowUsageBillableUBUNTU
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWorkflowUsageBillableUBUNTU) SetTo(v WorkflowUsageBillableUBUNTU) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWorkflowUsageBillableUBUNTU) Get() (v WorkflowUsageBillableUBUNTU, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWorkflowUsageBillableUBUNTU) Or(d WorkflowUsageBillableUBUNTU) WorkflowUsageBillableUBUNTU {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptWorkflowUsageBillableWINDOWS returns new OptWorkflowUsageBillableWINDOWS with value set to v.
+func NewOptWorkflowUsageBillableWINDOWS(v WorkflowUsageBillableWINDOWS) OptWorkflowUsageBillableWINDOWS {
+	return OptWorkflowUsageBillableWINDOWS{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWorkflowUsageBillableWINDOWS is optional WorkflowUsageBillableWINDOWS.
+type OptWorkflowUsageBillableWINDOWS struct {
+	Value WorkflowUsageBillableWINDOWS
+	Set   bool
+}
+
+// IsSet returns true if OptWorkflowUsageBillableWINDOWS was set.
+func (o OptWorkflowUsageBillableWINDOWS) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWorkflowUsageBillableWINDOWS) Reset() {
+	var v WorkflowUsageBillableWINDOWS
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWorkflowUsageBillableWINDOWS) SetTo(v WorkflowUsageBillableWINDOWS) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWorkflowUsageBillableWINDOWS) Get() (v WorkflowUsageBillableWINDOWS, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWorkflowUsageBillableWINDOWS) Or(d WorkflowUsageBillableWINDOWS) WorkflowUsageBillableWINDOWS {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 type Order string
 
 const (
@@ -61825,18 +63527,16 @@ type OrgsConvertMemberToOutsideCollaboratorNoContent struct{}
 func (*OrgsConvertMemberToOutsideCollaboratorNoContent) orgsConvertMemberToOutsideCollaboratorRes() {}
 
 type OrgsCreateInvitationReq struct {
-	// **Required unless you provide `email`**. GitHub user ID for the person you are inviting.
+	// Required unless you provide `email`. GitHub user ID for the person you are inviting.
 	InviteeID OptInt `json:"invitee_id"`
-	// **Required unless you provide `invitee_id`**. Email address of the person you are inviting, which
-	// can be an existing GitHub user.
+	// Required unless you provide `invitee_id`. Email address of the person you are inviting, which can be
+	// an existing GitHub user.
 	Email OptString `json:"email"`
-	// Specify role for new member. Can be one of:
-	// \* `admin` - Organization owners with full administrative rights to the organization and complete
-	// access to all repositories and teams.
-	// \* `direct_member` - Non-owner organization members with ability to see other members and join
-	// teams by invitation.
-	// \* `billing_manager` - Non-owner organization members with ability to manage the billing settings
-	// of your organization.
+	// Specify role for new member. Can be one of: \* `admin` - Organization owners with full
+	// administrative rights to the organization and complete access to all repositories and teams. \*
+	// `direct_member` - Non-owner organization members with ability to see other members and join teams by
+	// invitation. \* `billing_manager` - Non-owner organization members with ability to manage the billing
+	// settings of your organization.
 	Role OptOrgsCreateInvitationReqRole `json:"role"`
 	// Specify IDs for the teams you want to invite new members to.
 	TeamIds []int `json:"team_ids"`
@@ -61882,13 +63582,11 @@ func (s *OrgsCreateInvitationReq) SetTeamIds(val []int) {
 	s.TeamIds = val
 }
 
-// Specify role for new member. Can be one of:
-// \* `admin` - Organization owners with full administrative rights to the organization and complete
-// access to all repositories and teams.
-// \* `direct_member` - Non-owner organization members with ability to see other members and join
-// teams by invitation.
-// \* `billing_manager` - Non-owner organization members with ability to manage the billing settings
-// of your organization.
+// Specify role for new member. Can be one of: \* `admin` - Organization owners with full
+// administrative rights to the organization and complete access to all repositories and teams. \*
+// `direct_member` - Non-owner organization members with ability to see other members and join teams by
+// invitation. \* `billing_manager` - Non-owner organization members with ability to manage the billing
+// settings of your organization.
 type OrgsCreateInvitationReqRole string
 
 const (
@@ -61940,11 +63638,13 @@ func (s *OrgsCreateInvitationReqRole) UnmarshalText(data []byte) error {
 type OrgsCreateWebhookReq struct {
 	// Must be passed as "web".
 	Name string `json:"name"`
-	// Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.
-	// github.com/rest/reference/orgs#create-hook-config-params).
+	// Key/value pairs to provide settings for this webhook. [These are defined below].
+	//
+	// [These are defined below]: https://docs.github.com/rest/reference/orgs#create-hook-config-params
 	Config OrgsCreateWebhookReqConfig `json:"config"`
-	// Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered
-	// for.
+	// Determines what [events] the hook is triggered for.
+	//
+	// [events]: https://docs.github.com/webhooks/event-payloads
 	Events []string `json:"events"`
 	// Determines if notifications are sent when the webhook is triggered. Set to `true` to send
 	// notifications.
@@ -61991,8 +63691,9 @@ func (s *OrgsCreateWebhookReq) SetActive(val OptBool) {
 	s.Active = val
 }
 
-// Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.
-// github.com/rest/reference/orgs#create-hook-config-params).
+// Key/value pairs to provide settings for this webhook. [These are defined below].
+//
+// [These are defined below]: https://docs.github.com/rest/reference/orgs#create-hook-config-params
 type OrgsCreateWebhookReqConfig struct {
 	URL         WebhookConfigURL            `json:"url"`
 	ContentType OptWebhookConfigContentType `json:"content_type"`
@@ -62664,9 +64365,9 @@ type OrgsRemoveSamlSSOAuthorizationNoContent struct{}
 func (*OrgsRemoveSamlSSOAuthorizationNoContent) orgsRemoveSamlSSOAuthorizationRes() {}
 
 type OrgsSetMembershipForUserReq struct {
-	// The role to give the user in the organization. Can be one of:
-	// \* `admin` - The user will become an owner of the organization.
-	// \* `member` - The user will become a non-owner member of the organization.
+	// The role to give the user in the organization. Can be one of: \* `admin` - The user will become an
+	// owner of the organization. \* `member` - The user will become a non-owner member of the
+	// organization.
 	Role OptOrgsSetMembershipForUserReqRole `json:"role"`
 }
 
@@ -62680,9 +64381,9 @@ func (s *OrgsSetMembershipForUserReq) SetRole(val OptOrgsSetMembershipForUserReq
 	s.Role = val
 }
 
-// The role to give the user in the organization. Can be one of:
-// \* `admin` - The user will become an owner of the organization.
-// \* `member` - The user will become a non-owner member of the organization.
+// The role to give the user in the organization. Can be one of: \* `admin` - The user will become an
+// owner of the organization. \* `member` - The user will become a non-owner member of the
+// organization.
 type OrgsSetMembershipForUserReqRole string
 
 const (
@@ -62841,11 +64542,13 @@ func (s *OrgsUpdateWebhookConfigForOrgReq) SetInsecureSsl(val OptWebhookConfigIn
 }
 
 type OrgsUpdateWebhookReq struct {
-	// Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.
-	// github.com/rest/reference/orgs#update-hook-config-params).
+	// Key/value pairs to provide settings for this webhook. [These are defined below].
+	//
+	// [These are defined below]: https://docs.github.com/rest/reference/orgs#update-hook-config-params
 	Config OptOrgsUpdateWebhookReqConfig `json:"config"`
-	// Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered
-	// for.
+	// Determines what [events] the hook is triggered for.
+	//
+	// [events]: https://docs.github.com/webhooks/event-payloads
 	Events []string `json:"events"`
 	// Determines if notifications are sent when the webhook is triggered. Set to `true` to send
 	// notifications.
@@ -62893,8 +64596,9 @@ func (s *OrgsUpdateWebhookReq) SetName(val OptString) {
 	s.Name = val
 }
 
-// Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.
-// github.com/rest/reference/orgs#update-hook-config-params).
+// Key/value pairs to provide settings for this webhook. [These are defined below].
+//
+// [These are defined below]: https://docs.github.com/rest/reference/orgs#update-hook-config-params
 type OrgsUpdateWebhookReqConfig struct {
 	URL         WebhookConfigURL            `json:"url"`
 	ContentType OptWebhookConfigContentType `json:"content_type"`
@@ -66198,8 +67902,8 @@ type Project struct {
 	Creator   NilNullableSimpleUser `json:"creator"`
 	CreatedAt time.Time             `json:"created_at"`
 	UpdatedAt time.Time             `json:"updated_at"`
-	// The baseline permission that all organization members have on this project. Only present if owner
-	// is an organization.
+	// The baseline permission that all organization members have on this project. Only present if owner is
+	// an organization.
 	OrganizationPermission OptProjectOrganizationPermission `json:"organization_permission"`
 	// Whether or not this project can be seen by everyone. Only present if owner is an organization.
 	Private OptBool `json:"private"`
@@ -66613,8 +68317,8 @@ func (*ProjectColumn) projectsCreateColumnRes() {}
 func (*ProjectColumn) projectsGetColumnRes()    {}
 func (*ProjectColumn) projectsUpdateColumnRes() {}
 
-// The baseline permission that all organization members have on this project. Only present if owner
-// is an organization.
+// The baseline permission that all organization members have on this project. Only present if owner is
+// an organization.
 type ProjectOrganizationPermission string
 
 const (
@@ -67600,8 +69304,8 @@ func (s *ProjectsMoveCardForbiddenErrorsItem) SetField(val OptString) {
 }
 
 type ProjectsMoveCardReq struct {
-	// The position of the card in a column. Can be one of: `top`, `bottom`, or `after:<card_id>` to
-	// place after the specified card.
+	// The position of the card in a column. Can be one of: `top`, `bottom`, or `after:<card_id>` to place
+	// after the specified card.
 	Position string `json:"position"`
 	// The unique identifier of the column the card should be moved to.
 	ColumnID OptInt `json:"column_id"`
@@ -68950,9 +70654,9 @@ func (s *PublicUserPlan) SetPrivateRepos(val int) {
 	s.PrivateRepos = val
 }
 
-// Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a
-// pull request is sent, interested parties can review the set of changes, discuss potential
-// modifications, and even push follow-up commits if necessary.
+// Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a pull
+// request is sent, interested parties can review the set of changes, discuss potential modifications,
+// and even push follow-up commits if necessary.
 // Ref: #/components/schemas/pull-request
 type PullRequest struct {
 	URL               url.URL `json:"url"`
@@ -74372,8 +76076,8 @@ func (s *PullsCreateReplyForReviewCommentReq) SetBody(val string) {
 type PullsCreateReq struct {
 	// The title of the new pull request.
 	Title OptString `json:"title"`
-	// The name of the branch where your changes are implemented. For cross-repository pull requests in
-	// the same network, namespace `head` with a user like this: `username:branch`.
+	// The name of the branch where your changes are implemented. For cross-repository pull requests in the
+	// same network, namespace `head` with a user like this: `username:branch`.
 	Head string `json:"head"`
 	// The name of the branch you want the changes pulled into. This should be an existing branch on the
 	// current repository. You cannot submit a pull request to one repository that requests a merge to a
@@ -74381,12 +76085,14 @@ type PullsCreateReq struct {
 	Base string `json:"base"`
 	// The contents of the pull request.
 	Body OptString `json:"body"`
-	// Indicates whether [maintainers can modify](https://help.github.
-	// com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.
+	// Indicates whether [maintainers can modify] the pull request.
+	//
+	// [maintainers can modify]: https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/
 	MaintainerCanModify OptBool `json:"maintainer_can_modify"`
-	// Indicates whether the pull request is a draft. See "[Draft Pull Requests](https://help.github.
-	// com/en/articles/about-pull-requests#draft-pull-requests)" in the GitHub Help documentation to
-	// learn more.
+	// Indicates whether the pull request is a draft. See "[Draft Pull Requests]" in the GitHub Help
+	// documentation to learn more.
+	//
+	// [Draft Pull Requests]: https://help.github.com/en/articles/about-pull-requests#draft-pull-requests
 	Draft OptBool `json:"draft"`
 	Issue OptInt  `json:"issue"`
 }
@@ -74469,35 +76175,36 @@ type PullsCreateReviewCommentReq struct {
 	CommitID OptString `json:"commit_id"`
 	// The relative path to the file that necessitates a comment.
 	Path OptString `json:"path"`
-	// **Required without `comfort-fade` preview**. The position in the diff where you want to add a
-	// review comment. Note this value is not the same as the line number in the file. For help finding
-	// the position value, read the note above.
+	// Required without `comfort-fade` preview. The position in the diff where you want to add a review
+	// comment. Note this value is not the same as the line number in the file. For help finding the
+	// position value, read the note above.
 	Position OptInt `json:"position"`
-	// **Required with `comfort-fade` preview**. In a split diff view, the side of the diff that the pull
+	// Required with `comfort-fade` preview. In a split diff view, the side of the diff that the pull
 	// request's changes appear on. Can be `LEFT` or `RIGHT`. Use `LEFT` for deletions that appear in red.
-	//  Use `RIGHT` for additions that appear in green or unchanged lines that appear in white and are
-	// shown for context. For a multi-line comment, side represents whether the last line of the comment
-	// range is a deletion or addition. For more information, see "[Diff view options](https://help.
-	// github.com/en/articles/about-comparing-branches-in-pull-requests#diff-view-options)" in the GitHub
-	// Help documentation.
+	// Use `RIGHT` for additions that appear in green or unchanged lines that appear in white and are shown
+	// for context. For a multi-line comment, side represents whether the last line of the comment range is
+	// a deletion or addition. For more information, see "[Diff view options]" in the GitHub Help
+	// documentation.
+	//
+	// [Diff view options]: https://help.github.com/en/articles/about-comparing-branches-in-pull-requests#diff-view-options
 	Side OptPullsCreateReviewCommentReqSide `json:"side"`
-	// **Required with `comfort-fade` preview**. The line of the blob in the pull request diff that the
-	// comment applies to. For a multi-line comment, the last line of the range that your comment applies
-	// to.
+	// Required with `comfort-fade` preview. The line of the blob in the pull request diff that the comment
+	// applies to. For a multi-line comment, the last line of the range that your comment applies to.
 	Line OptInt `json:"line"`
-	// **Required when using multi-line comments**. To create multi-line comments, you must use the
-	// `comfort-fade` preview header. The `start_line` is the first line in the pull request diff that
-	// your multi-line comment applies to. To learn more about multi-line comments, see "[Commenting on a
-	// pull request](https://help.github.
-	// com/en/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request)" in the
-	// GitHub Help documentation.
+	// Required when using multi-line comments. To create multi-line comments, you must use the
+	// `comfort-fade` preview header. The `start_line` is the first line in the pull request diff that your
+	// multi-line comment applies to. To learn more about multi-line comments, see
+	// "[Commenting on a pull request]" in the GitHub Help documentation.
+	//
+	// [Commenting on a pull request]: https://help.github.com/en/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request
 	StartLine OptInt `json:"start_line"`
-	// **Required when using multi-line comments**. To create multi-line comments, you must use the
+	// Required when using multi-line comments. To create multi-line comments, you must use the
 	// `comfort-fade` preview header. The `start_side` is the starting side of the diff that the comment
-	// applies to. Can be `LEFT` or `RIGHT`. To learn more about multi-line comments, see "[Commenting on
-	// a pull request](https://help.github.
-	// com/en/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request)" in the
-	// GitHub Help documentation. See `side` in this table for additional context.
+	// applies to. Can be `LEFT` or `RIGHT`. To learn more about multi-line comments, see
+	// "[Commenting on a pull request]" in the GitHub Help documentation. See `side` in this table for
+	// additional context.
+	//
+	// [Commenting on a pull request]: https://help.github.com/en/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request
 	StartSide OptPullsCreateReviewCommentReqStartSide `json:"start_side"`
 	InReplyTo OptInt                                  `json:"in_reply_to"`
 }
@@ -74592,15 +76299,14 @@ func (s *PullsCreateReviewCommentReq) SetInReplyTo(val OptInt) {
 	s.InReplyTo = val
 }
 
-// **Required with `comfort-fade` preview**. In a split diff view, the side of the diff that the pull
+// Required with `comfort-fade` preview. In a split diff view, the side of the diff that the pull
 // request's changes appear on. Can be `LEFT` or `RIGHT`. Use `LEFT` for deletions that appear in red.
+// Use `RIGHT` for additions that appear in green or unchanged lines that appear in white and are shown
+// for context. For a multi-line comment, side represents whether the last line of the comment range is
+// a deletion or addition. For more information, see "[Diff view options]" in the GitHub Help
+// documentation.
 //
-//	Use `RIGHT` for additions that appear in green or unchanged lines that appear in white and are
-//
-// shown for context. For a multi-line comment, side represents whether the last line of the comment
-// range is a deletion or addition. For more information, see "[Diff view options](https://help.
-// github.com/en/articles/about-comparing-branches-in-pull-requests#diff-view-options)" in the GitHub
-// Help documentation.
+// [Diff view options]: https://help.github.com/en/articles/about-comparing-branches-in-pull-requests#diff-view-options
 type PullsCreateReviewCommentReqSide string
 
 const (
@@ -74642,12 +76348,13 @@ func (s *PullsCreateReviewCommentReqSide) UnmarshalText(data []byte) error {
 	}
 }
 
-// **Required when using multi-line comments**. To create multi-line comments, you must use the
+// Required when using multi-line comments. To create multi-line comments, you must use the
 // `comfort-fade` preview header. The `start_side` is the starting side of the diff that the comment
-// applies to. Can be `LEFT` or `RIGHT`. To learn more about multi-line comments, see "[Commenting on
-// a pull request](https://help.github.
-// com/en/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request)" in the
-// GitHub Help documentation. See `side` in this table for additional context.
+// applies to. Can be `LEFT` or `RIGHT`. To learn more about multi-line comments, see
+// "[Commenting on a pull request]" in the GitHub Help documentation. See `side` in this table for
+// additional context.
+//
+// [Commenting on a pull request]: https://help.github.com/en/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request
 type PullsCreateReviewCommentReqStartSide string
 
 const (
@@ -74698,16 +76405,17 @@ func (s *PullsCreateReviewCommentReqStartSide) UnmarshalText(data []byte) error 
 
 type PullsCreateReviewReq struct {
 	// The SHA of the commit that needs a review. Not using the latest commit SHA may render your review
-	// comment outdated if a subsequent commit modifies the line you specify as the `position`. Defaults
-	// to the most recent commit in the pull request when you do not specify a value.
+	// comment outdated if a subsequent commit modifies the line you specify as the `position`. Defaults to
+	// the most recent commit in the pull request when you do not specify a value.
 	CommitID OptString `json:"commit_id"`
-	// **Required** when using `REQUEST_CHANGES` or `COMMENT` for the `event` parameter. The body text of
-	// the pull request review.
+	// Required when using `REQUEST_CHANGES` or `COMMENT` for the `event` parameter. The body text of the
+	// pull request review.
 	Body OptString `json:"body"`
-	// The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`,
-	// or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you
-	// will need to [submit the pull request review](https://docs.github.
-	// com/rest/reference/pulls#submit-a-review-for-a-pull-request) when you are ready.
+	// The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or
+	// `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will
+	// need to [submit the pull request review] when you are ready.
+	//
+	// [submit the pull request review]: https://docs.github.com/rest/reference/pulls#submit-a-review-for-a-pull-request
 	Event OptPullsCreateReviewReqEvent `json:"event"`
 	// Use the following table to specify the location, destination, and contents of the draft review
 	// comment.
@@ -74757,8 +76465,8 @@ func (s *PullsCreateReviewReq) SetComments(val []PullsCreateReviewReqCommentsIte
 type PullsCreateReviewReqCommentsItem struct {
 	// The relative path to the file that necessitates a review comment.
 	Path string `json:"path"`
-	// The position in the diff where you want to add a review comment. Note this value is not the same
-	// as the line number in the file. For help finding the position value, read the note below.
+	// The position in the diff where you want to add a review comment. Note this value is not the same as
+	// the line number in the file. For help finding the position value, read the note below.
 	Position OptInt `json:"position"`
 	// Text of the review comment.
 	Body      string    `json:"body"`
@@ -74838,10 +76546,11 @@ func (s *PullsCreateReviewReqCommentsItem) SetStartSide(val OptString) {
 	s.StartSide = val
 }
 
-// The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`,
-// or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you
-// will need to [submit the pull request review](https://docs.github.
-// com/rest/reference/pulls#submit-a-review-for-a-pull-request) when you are ready.
+// The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or
+// `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will
+// need to [submit the pull request review] when you are ready.
+//
+// [submit the pull request review]: https://docs.github.com/rest/reference/pulls#submit-a-review-for-a-pull-request
 type PullsCreateReviewReqEvent string
 
 const (
@@ -75591,10 +77300,10 @@ func (*PullsSubmitReviewNotFound) pullsSubmitReviewRes() {}
 type PullsSubmitReviewReq struct {
 	// The body text of the pull request review.
 	Body OptString `json:"body"`
-	// The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`,
-	// or `COMMENT`. When you leave this blank, the API returns _HTTP 422 (Unrecognizable entity)_ and
-	// sets the review action state to `PENDING`, which means you will need to re-submit the pull request
-	// review using a review action.
+	// The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or
+	// `COMMENT`. When you leave this blank, the API returns HTTP 422 (Unrecognizable entity) and sets the
+	// review action state to `PENDING`, which means you will need to re-submit the pull request review
+	// using a review action.
 	Event PullsSubmitReviewReqEvent `json:"event"`
 }
 
@@ -75618,10 +77327,10 @@ func (s *PullsSubmitReviewReq) SetEvent(val PullsSubmitReviewReqEvent) {
 	s.Event = val
 }
 
-// The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`,
-// or `COMMENT`. When you leave this blank, the API returns _HTTP 422 (Unrecognizable entity)_ and
-// sets the review action state to `PENDING`, which means you will need to re-submit the pull request
-// review using a review action.
+// The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or
+// `COMMENT`. When you leave this blank, the API returns HTTP 422 (Unrecognizable entity) and sets the
+// review action state to `PENDING`, which means you will need to re-submit the pull request review
+// using a review action.
 type PullsSubmitReviewReqEvent string
 
 const (
@@ -75700,9 +77409,10 @@ func (*PullsUpdateBranchAccepted) pullsUpdateBranchRes() {}
 type PullsUpdateBranchReq struct {
 	// The expected SHA of the pull request's HEAD ref. This is the most recent commit on the pull
 	// request's branch. If the expected SHA does not match the pull request's HEAD, you will receive a
-	// `422 Unprocessable Entity` status. You can use the "[List commits](https://docs.github.
-	// com/rest/reference/repos#list-commits)" endpoint to find the most recent commit SHA. Default: SHA
-	// of the pull request's current HEAD ref.
+	// `422 Unprocessable Entity` status. You can use the "[List commits]" endpoint to find the most recent
+	// commit SHA. Default: SHA of the pull request's current HEAD ref.
+	//
+	// [List commits]: https://docs.github.com/rest/reference/repos#list-commits
 	ExpectedHeadSha OptString `json:"expected_head_sha"`
 }
 
@@ -75727,8 +77437,9 @@ type PullsUpdateReq struct {
 	// current repository. You cannot update the base branch on a pull request to point to another
 	// repository.
 	Base OptString `json:"base"`
-	// Indicates whether [maintainers can modify](https://help.github.
-	// com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.
+	// Indicates whether [maintainers can modify] the pull request.
+	//
+	// [maintainers can modify]: https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/
 	MaintainerCanModify OptBool `json:"maintainer_can_modify"`
 }
 
@@ -76328,8 +78039,9 @@ type ReactionsCreateForCommitCommentOK Reaction
 func (*ReactionsCreateForCommitCommentOK) reactionsCreateForCommitCommentRes() {}
 
 type ReactionsCreateForCommitCommentReq struct {
-	// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-	// commit comment.
+	// The [reaction type] to add to the commit comment.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 	Content ReactionsCreateForCommitCommentReqContent `json:"content"`
 }
 
@@ -76343,8 +78055,9 @@ func (s *ReactionsCreateForCommitCommentReq) SetContent(val ReactionsCreateForCo
 	s.Content = val
 }
 
-// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-// commit comment.
+// The [reaction type] to add to the commit comment.
+//
+// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 type ReactionsCreateForCommitCommentReqContent string
 
 const (
@@ -76437,8 +78150,9 @@ type ReactionsCreateForIssueCommentOK Reaction
 func (*ReactionsCreateForIssueCommentOK) reactionsCreateForIssueCommentRes() {}
 
 type ReactionsCreateForIssueCommentReq struct {
-	// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-	// issue comment.
+	// The [reaction type] to add to the issue comment.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 	Content ReactionsCreateForIssueCommentReqContent `json:"content"`
 }
 
@@ -76452,8 +78166,9 @@ func (s *ReactionsCreateForIssueCommentReq) SetContent(val ReactionsCreateForIss
 	s.Content = val
 }
 
-// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-// issue comment.
+// The [reaction type] to add to the issue comment.
+//
+// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 type ReactionsCreateForIssueCommentReqContent string
 
 const (
@@ -76546,8 +78261,9 @@ type ReactionsCreateForIssueOK Reaction
 func (*ReactionsCreateForIssueOK) reactionsCreateForIssueRes() {}
 
 type ReactionsCreateForIssueReq struct {
-	// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-	// issue.
+	// The [reaction type] to add to the issue.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 	Content ReactionsCreateForIssueReqContent `json:"content"`
 }
 
@@ -76561,8 +78277,9 @@ func (s *ReactionsCreateForIssueReq) SetContent(val ReactionsCreateForIssueReqCo
 	s.Content = val
 }
 
-// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-// issue.
+// The [reaction type] to add to the issue.
+//
+// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 type ReactionsCreateForIssueReqContent string
 
 const (
@@ -76657,8 +78374,9 @@ func (*ReactionsCreateForPullRequestReviewCommentOK) reactionsCreateForPullReque
 }
 
 type ReactionsCreateForPullRequestReviewCommentReq struct {
-	// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-	// pull request review comment.
+	// The [reaction type] to add to the pull request review comment.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 	Content ReactionsCreateForPullRequestReviewCommentReqContent `json:"content"`
 }
 
@@ -76672,8 +78390,9 @@ func (s *ReactionsCreateForPullRequestReviewCommentReq) SetContent(val Reactions
 	s.Content = val
 }
 
-// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-// pull request review comment.
+// The [reaction type] to add to the pull request review comment.
+//
+// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 type ReactionsCreateForPullRequestReviewCommentReqContent string
 
 const (
@@ -76766,8 +78485,9 @@ type ReactionsCreateForReleaseOK Reaction
 func (*ReactionsCreateForReleaseOK) reactionsCreateForReleaseRes() {}
 
 type ReactionsCreateForReleaseReq struct {
-	// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-	// release.
+	// The [reaction type] to add to the release.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 	Content ReactionsCreateForReleaseReqContent `json:"content"`
 }
 
@@ -76781,8 +78501,9 @@ func (s *ReactionsCreateForReleaseReq) SetContent(val ReactionsCreateForReleaseR
 	s.Content = val
 }
 
-// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-// release.
+// The [reaction type] to add to the release.
+//
+// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 type ReactionsCreateForReleaseReqContent string
 
 const (
@@ -76863,8 +78584,9 @@ func (*ReactionsCreateForTeamDiscussionCommentInOrgOK) reactionsCreateForTeamDis
 }
 
 type ReactionsCreateForTeamDiscussionCommentInOrgReq struct {
-	// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-	// team discussion comment.
+	// The [reaction type] to add to the team discussion comment.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 	Content ReactionsCreateForTeamDiscussionCommentInOrgReqContent `json:"content"`
 }
 
@@ -76878,8 +78600,9 @@ func (s *ReactionsCreateForTeamDiscussionCommentInOrgReq) SetContent(val Reactio
 	s.Content = val
 }
 
-// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-// team discussion comment.
+// The [reaction type] to add to the team discussion comment.
+//
+// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 type ReactionsCreateForTeamDiscussionCommentInOrgReqContent string
 
 const (
@@ -76964,8 +78687,9 @@ func (s *ReactionsCreateForTeamDiscussionCommentInOrgReqContent) UnmarshalText(d
 }
 
 type ReactionsCreateForTeamDiscussionCommentLegacyReq struct {
-	// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-	// team discussion comment.
+	// The [reaction type] to add to the team discussion comment.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 	Content ReactionsCreateForTeamDiscussionCommentLegacyReqContent `json:"content"`
 }
 
@@ -76979,8 +78703,9 @@ func (s *ReactionsCreateForTeamDiscussionCommentLegacyReq) SetContent(val Reacti
 	s.Content = val
 }
 
-// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-// team discussion comment.
+// The [reaction type] to add to the team discussion comment.
+//
+// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 type ReactionsCreateForTeamDiscussionCommentLegacyReqContent string
 
 const (
@@ -77073,8 +78798,9 @@ type ReactionsCreateForTeamDiscussionInOrgOK Reaction
 func (*ReactionsCreateForTeamDiscussionInOrgOK) reactionsCreateForTeamDiscussionInOrgRes() {}
 
 type ReactionsCreateForTeamDiscussionInOrgReq struct {
-	// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-	// team discussion.
+	// The [reaction type] to add to the team discussion.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 	Content ReactionsCreateForTeamDiscussionInOrgReqContent `json:"content"`
 }
 
@@ -77088,8 +78814,9 @@ func (s *ReactionsCreateForTeamDiscussionInOrgReq) SetContent(val ReactionsCreat
 	s.Content = val
 }
 
-// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-// team discussion.
+// The [reaction type] to add to the team discussion.
+//
+// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 type ReactionsCreateForTeamDiscussionInOrgReqContent string
 
 const (
@@ -77174,8 +78901,9 @@ func (s *ReactionsCreateForTeamDiscussionInOrgReqContent) UnmarshalText(data []b
 }
 
 type ReactionsCreateForTeamDiscussionLegacyReq struct {
-	// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-	// team discussion.
+	// The [reaction type] to add to the team discussion.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 	Content ReactionsCreateForTeamDiscussionLegacyReqContent `json:"content"`
 }
 
@@ -77189,8 +78917,9 @@ func (s *ReactionsCreateForTeamDiscussionLegacyReq) SetContent(val ReactionsCrea
 	s.Content = val
 }
 
-// The [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types) to add to the
-// team discussion.
+// The [reaction type] to add to the team discussion.
+//
+// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
 type ReactionsCreateForTeamDiscussionLegacyReqContent string
 
 const (
@@ -79747,7 +81476,8 @@ func (*ReposAddAppAccessRestrictionsOKApplicationJSON) reposAddAppAccessRestrict
 
 // ReposAddAppAccessRestrictionsReq represents sum type.
 type ReposAddAppAccessRestrictionsReq struct {
-	Type                              ReposAddAppAccessRestrictionsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                              ReposAddAppAccessRestrictionsReqType
 	ReposAddAppAccessRestrictionsReq0 ReposAddAppAccessRestrictionsReq0
 	StringArray                       []string
 }
@@ -79834,17 +81564,13 @@ type ReposAddCollaboratorNoContent struct{}
 func (*ReposAddCollaboratorNoContent) reposAddCollaboratorRes() {}
 
 type ReposAddCollaboratorReq struct {
-	// The permission to grant the collaborator. **Only valid on organization-owned repositories.** Can
-	// be one of:
-	// \* `pull` - can pull, but not push to or administer this repository.
-	// \* `push` - can pull and push, but not administer this repository.
-	// \* `admin` - can pull, push and administer this repository.
-	// \* `maintain` - Recommended for project managers who need to manage the repository without access
-	// to sensitive or destructive actions.
-	// \* `triage` - Recommended for contributors who need to proactively manage issues and pull requests
-	// without write access.
-	// \* custom repository role name - Can assign a custom repository role if the owning organization
-	// has defined any.
+	// The permission to grant the collaborator. Only valid on organization-owned repositories. Can be one
+	// of: \* `pull` - can pull, but not push to or administer this repository. \* `push` - can pull and
+	// push, but not administer this repository. \* `admin` - can pull, push and administer this
+	// repository. \* `maintain` - Recommended for project managers who need to manage the repository
+	// without access to sensitive or destructive actions. \* `triage` - Recommended for contributors who
+	// need to proactively manage issues and pull requests without write access. \* custom repository role
+	// name - Can assign a custom repository role if the owning organization has defined any.
 	Permission  OptReposAddCollaboratorReqPermission `json:"permission"`
 	Permissions OptString                            `json:"permissions"`
 }
@@ -79869,17 +81595,13 @@ func (s *ReposAddCollaboratorReq) SetPermissions(val OptString) {
 	s.Permissions = val
 }
 
-// The permission to grant the collaborator. **Only valid on organization-owned repositories.** Can
-// be one of:
-// \* `pull` - can pull, but not push to or administer this repository.
-// \* `push` - can pull and push, but not administer this repository.
-// \* `admin` - can pull, push and administer this repository.
-// \* `maintain` - Recommended for project managers who need to manage the repository without access
-// to sensitive or destructive actions.
-// \* `triage` - Recommended for contributors who need to proactively manage issues and pull requests
-// without write access.
-// \* custom repository role name - Can assign a custom repository role if the owning organization
-// has defined any.
+// The permission to grant the collaborator. Only valid on organization-owned repositories. Can be one
+// of: \* `pull` - can pull, but not push to or administer this repository. \* `push` - can pull and
+// push, but not administer this repository. \* `admin` - can pull, push and administer this
+// repository. \* `maintain` - Recommended for project managers who need to manage the repository
+// without access to sensitive or destructive actions. \* `triage` - Recommended for contributors who
+// need to proactively manage issues and pull requests without write access. \* custom repository role
+// name - Can assign a custom repository role if the owning organization has defined any.
 type ReposAddCollaboratorReqPermission string
 
 const (
@@ -79956,7 +81678,8 @@ func (*ReposAddStatusCheckContextsOKApplicationJSON) reposAddStatusCheckContexts
 
 // ReposAddStatusCheckContextsReq represents sum type.
 type ReposAddStatusCheckContextsReq struct {
-	Type                            ReposAddStatusCheckContextsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                            ReposAddStatusCheckContextsReqType
 	ReposAddStatusCheckContextsReq0 ReposAddStatusCheckContextsReq0
 	StringArray                     []string
 }
@@ -80043,7 +81766,8 @@ func (*ReposAddTeamAccessRestrictionsOKApplicationJSON) reposAddTeamAccessRestri
 
 // ReposAddTeamAccessRestrictionsReq represents sum type.
 type ReposAddTeamAccessRestrictionsReq struct {
-	Type                               ReposAddTeamAccessRestrictionsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                               ReposAddTeamAccessRestrictionsReqType
 	ReposAddTeamAccessRestrictionsReq0 ReposAddTeamAccessRestrictionsReq0
 	StringArray                        []string
 }
@@ -80130,7 +81854,8 @@ func (*ReposAddUserAccessRestrictionsOKApplicationJSON) reposAddUserAccessRestri
 
 // ReposAddUserAccessRestrictionsReq represents sum type.
 type ReposAddUserAccessRestrictionsReq struct {
-	Type                               ReposAddUserAccessRestrictionsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                               ReposAddUserAccessRestrictionsReqType
 	ReposAddUserAccessRestrictionsReq0 ReposAddUserAccessRestrictionsReq0
 	StringArray                        []string
 }
@@ -80240,10 +81965,10 @@ type ReposCompareCommitsNotFound BasicError
 func (*ReposCompareCommitsNotFound) reposCompareCommitsRes() {}
 
 type ReposCreateAutolinkReq struct {
-	// The prefix appended by a number will generate a link any time it is found in an issue, pull
-	// request, or commit.
+	// The prefix appended by a number will generate a link any time it is found in an issue, pull request,
+	// or commit.
 	KeyPrefix string `json:"key_prefix"`
-	// The URL must contain <num> for the reference number.
+	// The URL must contain for the reference number.
 	URLTemplate string `json:"url_template"`
 }
 
@@ -80274,7 +81999,7 @@ type ReposCreateCommitCommentReq struct {
 	Path OptString `json:"path"`
 	// Line index in the diff to comment on.
 	Position OptInt `json:"position"`
-	// **Deprecated**. Use **position** parameter instead. Line number in the file to comment on.
+	// Deprecated. Use position parameter instead. Line number in the file to comment on.
 	Line OptInt `json:"line"`
 }
 
@@ -80322,10 +82047,9 @@ type ReposCreateCommitStatusReq struct {
 	// The state of the status. Can be one of `error`, `failure`, `pending`, or `success`.
 	State ReposCreateCommitStatusReqState `json:"state"`
 	// The target URL to associate with this status. This URL will be linked from the GitHub UI to allow
-	// users to easily see the source of the status.
-	// For example, if your continuous integration system is posting build status, you would want to
-	// provide the deep link for the build output for this specific SHA:
-	// `http://ci.example.com/user/repo/build/sha`.
+	// users to easily see the source of the status. For example, if your continuous integration system is
+	// posting build status, you would want to provide the deep link for the build output for this specific
+	// SHA: `http://ci.example.com/user/repo/build/sha`.
 	TargetURL OptString `json:"target_url"`
 	// A short description of the status.
 	Description OptString `json:"description"`
@@ -80435,14 +82159,16 @@ type ReposCreateDeployKeyReq struct {
 	Title OptString `json:"title"`
 	// The contents of the key.
 	Key string `json:"key"`
-	// If `true`, the key will only be able to read repository contents. Otherwise, the key will be able
-	// to read and write.
+	// If `true`, the key will only be able to read repository contents. Otherwise, the key will be able to
+	// read and write.
+	//
 	// Deploy keys with write access can perform the same actions as an organization member with admin
-	// access, or a collaborator on a personal repository. For more information, see "[Repository
-	// permission levels for an organization](https://help.github.
-	// com/articles/repository-permission-levels-for-an-organization/)" and "[Permission levels for a
-	// user account repository](https://help.github.
-	// com/articles/permission-levels-for-a-user-account-repository/).".
+	// access, or a collaborator on a personal repository. For more information, see
+	// "[Repository permission levels for an organization]" and
+	// "[Permission levels for a user account repository].".
+	//
+	// [Repository permission levels for an organization]: https://help.github.com/articles/repository-permission-levels-for-an-organization/
+	// [Permission levels for a user account repository]: https://help.github.com/articles/permission-levels-for-a-user-account-repository/
 	ReadOnly OptBool `json:"read_only"`
 }
 
@@ -80505,10 +82231,11 @@ type ReposCreateDeploymentReq struct {
 	// Attempts to automatically merge the default branch into the requested ref, if it's behind the
 	// default branch.
 	AutoMerge OptBool `json:"auto_merge"`
-	// The [status](https://docs.github.com/rest/reference/repos#statuses) contexts to verify against
-	// commit status checks. If you omit this parameter, GitHub verifies all unique contexts before
-	// creating a deployment. To bypass checking entirely, pass an empty array. Defaults to all unique
-	// contexts.
+	// The [status] contexts to verify against commit status checks. If you omit this parameter, GitHub
+	// verifies all unique contexts before creating a deployment. To bypass checking entirely, pass an
+	// empty array. Defaults to all unique contexts.
+	//
+	// [status]: https://docs.github.com/rest/reference/repos#statuses
 	RequiredContexts []string                           `json:"required_contexts"`
 	Payload          OptReposCreateDeploymentReqPayload `json:"payload"`
 	// Name for the target deployment environment (e.g., `production`, `staging`, `qa`).
@@ -80516,16 +82243,16 @@ type ReposCreateDeploymentReq struct {
 	// Short description of the deployment.
 	Description OptNilString `json:"description"`
 	// Specifies if the given environment is specific to the deployment and will no longer exist at some
-	// point in the future. Default: `false`
-	// **Note:** This parameter requires you to use the [`application/vnd.github.
-	// ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments)
-	// custom media type.
+	// point in the future. Default: `false` Note: This parameter requires you to use the
+	// [application/vnd.github.ant-man-preview+json] custom media type.
+	//
+	// [application/vnd.github.ant-man-preview+json]: https://docs.github.com/rest/overview/api-previews#enhanced-deployments
 	TransientEnvironment OptBool `json:"transient_environment"`
 	// Specifies if the given environment is one that end-users directly interact with. Default: `true`
-	// when `environment` is `production` and `false` otherwise.
-	// **Note:** This parameter requires you to use the [`application/vnd.github.
-	// ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments)
-	// custom media type.
+	// when `environment` is `production` and `false` otherwise. Note: This parameter requires you to use
+	// the [application/vnd.github.ant-man-preview+json] custom media type.
+	//
+	// [application/vnd.github.ant-man-preview+json]: https://docs.github.com/rest/overview/api-previews#enhanced-deployments
 	ProductionEnvironment OptBool `json:"production_environment"`
 }
 
@@ -80621,7 +82348,8 @@ func (s *ReposCreateDeploymentReq) SetProductionEnvironment(val OptBool) {
 
 // ReposCreateDeploymentReqPayload represents sum type.
 type ReposCreateDeploymentReqPayload struct {
-	Type                             ReposCreateDeploymentReqPayloadType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                             ReposCreateDeploymentReqPayloadType
 	ReposCreateDeploymentReqPayload0 ReposCreateDeploymentReqPayload0
 	String                           string
 }
@@ -80700,46 +82428,48 @@ func (s *ReposCreateDeploymentReqPayload0) init() ReposCreateDeploymentReqPayloa
 
 type ReposCreateDeploymentStatusReq struct {
 	// The state of the status. Can be one of `error`, `failure`, `inactive`, `in_progress`, `queued`
-	// `pending`, or `success`. **Note:** To use the `inactive` state, you must provide the
-	// [`application/vnd.github.ant-man-preview+json`](https://docs.github.
-	// com/rest/overview/api-previews#enhanced-deployments) custom media type. To use the `in_progress`
-	// and `queued` states, you must provide the [`application/vnd.github.
-	// flash-preview+json`](https://docs.github.com/rest/overview/api-previews#deployment-statuses)
-	// custom media type. When you set a transient deployment to `inactive`, the deployment will be shown
-	// as `destroyed` in GitHub.
+	// `pending`, or `success`. Note: To use the `inactive` state, you must provide the
+	// [application/vnd.github.ant-man-preview+json] custom media type. To use the `in_progress` and
+	// `queued` states, you must provide the [application/vnd.github.flash-preview+json] custom media type.
+	// When you set a transient deployment to `inactive`, the deployment will be shown as `destroyed` in
+	// GitHub.
+	//
+	// [application/vnd.github.ant-man-preview+json]: https://docs.github.com/rest/overview/api-previews#enhanced-deployments
+	// [application/vnd.github.flash-preview+json]: https://docs.github.com/rest/overview/api-previews#deployment-statuses
 	State ReposCreateDeploymentStatusReqState `json:"state"`
 	// The target URL to associate with this status. This URL should contain output to keep the user
 	// updated while the task is running or serve as historical information for what happened in the
-	// deployment. **Note:** It's recommended to use the `log_url` parameter, which replaces `target_url`.
+	// deployment. Note: It's recommended to use the `log_url` parameter, which replaces `target_url`.
 	TargetURL OptString `json:"target_url"`
 	// The full URL of the deployment's output. This parameter replaces `target_url`. We will continue to
 	// accept `target_url` to support legacy uses, but we recommend replacing `target_url` with `log_url`.
-	//  Setting `log_url` will automatically set `target_url` to the same value. Default: `""`
-	// **Note:** This parameter requires you to use the [`application/vnd.github.
-	// ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments)
-	// custom media type.
+	// Setting `log_url` will automatically set `target_url` to the same value. Default: `""` Note: This
+	// parameter requires you to use the [application/vnd.github.ant-man-preview+json] custom media type.
+	//
+	// [application/vnd.github.ant-man-preview+json]: https://docs.github.com/rest/overview/api-previews#enhanced-deployments
 	LogURL OptString `json:"log_url"`
 	// A short description of the status. The maximum description length is 140 characters.
 	Description OptString `json:"description"`
 	// Name for the target deployment environment, which can be changed when setting a deploy status. For
-	// example, `production`, `staging`, or `qa`. **Note:** This parameter requires you to use the
-	// [`application/vnd.github.flash-preview+json`](https://docs.github.
-	// com/rest/overview/api-previews#deployment-statuses) custom media type.
+	// example, `production`, `staging`, or `qa`. Note: This parameter requires you to use the
+	// [application/vnd.github.flash-preview+json] custom media type.
+	//
+	// [application/vnd.github.flash-preview+json]: https://docs.github.com/rest/overview/api-previews#deployment-statuses
 	Environment OptReposCreateDeploymentStatusReqEnvironment `json:"environment"`
-	// Sets the URL for accessing your environment. Default: `""`
-	// **Note:** This parameter requires you to use the [`application/vnd.github.
-	// ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments)
-	// custom media type.
+	// Sets the URL for accessing your environment. Default: `""` Note: This parameter requires you to use
+	// the [application/vnd.github.ant-man-preview+json] custom media type.
+	//
+	// [application/vnd.github.ant-man-preview+json]: https://docs.github.com/rest/overview/api-previews#enhanced-deployments
 	EnvironmentURL OptString `json:"environment_url"`
-	// Adds a new `inactive` status to all prior non-transient, non-production environment deployments
-	// with the same repository and `environment` name as the created status's deployment. An `inactive`
-	// status is only added to deployments that had a `success` state. Default: `true`
-	// **Note:** To add an `inactive` status to `production` environments, you must use the
-	// [`application/vnd.github.flash-preview+json`](https://docs.github.
-	// com/rest/overview/api-previews#deployment-statuses) custom media type.
-	// **Note:** This parameter requires you to use the [`application/vnd.github.
-	// ant-man-preview+json`](https://docs.github.com/rest/overview/api-previews#enhanced-deployments)
-	// custom media type.
+	// Adds a new `inactive` status to all prior non-transient, non-production environment deployments with
+	// the same repository and `environment` name as the created status's deployment. An `inactive` status
+	// is only added to deployments that had a `success` state. Default: `true` Note: To add an `inactive`
+	// status to `production` environments, you must use the [application/vnd.github.flash-preview+json]
+	// custom media type. Note: This parameter requires you to use the
+	// [application/vnd.github.ant-man-preview+json] custom media type.
+	//
+	// [application/vnd.github.flash-preview+json]: https://docs.github.com/rest/overview/api-previews#deployment-statuses
+	// [application/vnd.github.ant-man-preview+json]: https://docs.github.com/rest/overview/api-previews#enhanced-deployments
 	AutoInactive OptBool `json:"auto_inactive"`
 }
 
@@ -80814,9 +82544,10 @@ func (s *ReposCreateDeploymentStatusReq) SetAutoInactive(val OptBool) {
 }
 
 // Name for the target deployment environment, which can be changed when setting a deploy status. For
-// example, `production`, `staging`, or `qa`. **Note:** This parameter requires you to use the
-// [`application/vnd.github.flash-preview+json`](https://docs.github.
-// com/rest/overview/api-previews#deployment-statuses) custom media type.
+// example, `production`, `staging`, or `qa`. Note: This parameter requires you to use the
+// [application/vnd.github.flash-preview+json] custom media type.
+//
+// [application/vnd.github.flash-preview+json]: https://docs.github.com/rest/overview/api-previews#deployment-statuses
 type ReposCreateDeploymentStatusReqEnvironment string
 
 const (
@@ -80866,13 +82597,14 @@ func (s *ReposCreateDeploymentStatusReqEnvironment) UnmarshalText(data []byte) e
 }
 
 // The state of the status. Can be one of `error`, `failure`, `inactive`, `in_progress`, `queued`
-// `pending`, or `success`. **Note:** To use the `inactive` state, you must provide the
-// [`application/vnd.github.ant-man-preview+json`](https://docs.github.
-// com/rest/overview/api-previews#enhanced-deployments) custom media type. To use the `in_progress`
-// and `queued` states, you must provide the [`application/vnd.github.
-// flash-preview+json`](https://docs.github.com/rest/overview/api-previews#deployment-statuses)
-// custom media type. When you set a transient deployment to `inactive`, the deployment will be shown
-// as `destroyed` in GitHub.
+// `pending`, or `success`. Note: To use the `inactive` state, you must provide the
+// [application/vnd.github.ant-man-preview+json] custom media type. To use the `in_progress` and
+// `queued` states, you must provide the [application/vnd.github.flash-preview+json] custom media type.
+// When you set a transient deployment to `inactive`, the deployment will be shown as `destroyed` in
+// GitHub.
+//
+// [application/vnd.github.ant-man-preview+json]: https://docs.github.com/rest/overview/api-previews#enhanced-deployments
+// [application/vnd.github.flash-preview+json]: https://docs.github.com/rest/overview/api-previews#deployment-statuses
 type ReposCreateDeploymentStatusReqState string
 
 const (
@@ -80993,9 +82725,10 @@ func (s *ReposCreateDispatchEventReqClientPayload) init() ReposCreateDispatchEve
 	return m
 }
 
-type ReposCreateForAuthenticatedUserBadRequest BasicError
+type ReposCreateForAuthenticatedUserApplicationJSONBadRequest BasicError
 
-func (*ReposCreateForAuthenticatedUserBadRequest) reposCreateForAuthenticatedUserRes() {}
+func (*ReposCreateForAuthenticatedUserApplicationJSONBadRequest) reposCreateForAuthenticatedUserRes() {
+}
 
 type ReposCreateForAuthenticatedUserForbidden BasicError
 
@@ -81020,8 +82753,8 @@ type ReposCreateForAuthenticatedUserReq struct {
 	HasProjects OptBool `json:"has_projects"`
 	// Whether the wiki is enabled.
 	HasWiki OptBool `json:"has_wiki"`
-	// The id of the team that will be granted access to this repository. This is only valid when
-	// creating a repository in an organization.
+	// The id of the team that will be granted access to this repository. This is only valid when creating
+	// a repository in an organization.
 	TeamID OptInt `json:"team_id"`
 	// Whether the repository is initialized with a minimal README.
 	AutoInit OptBool `json:"auto_init"`
@@ -81229,9 +82962,9 @@ type ReposCreateForAuthenticatedUserUnauthorized BasicError
 
 func (*ReposCreateForAuthenticatedUserUnauthorized) reposCreateForAuthenticatedUserRes() {}
 
-type ReposCreateForkBadRequest BasicError
+type ReposCreateForkApplicationJSONBadRequest BasicError
 
-func (*ReposCreateForkBadRequest) reposCreateForkRes() {}
+func (*ReposCreateForkApplicationJSONBadRequest) reposCreateForkRes() {}
 
 type ReposCreateForkForbidden BasicError
 
@@ -81268,39 +83001,43 @@ type ReposCreateInOrgReq struct {
 	// Can be `public` or `private`. If your organization is associated with an enterprise account using
 	// GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `visibility` can also be `internal`.
 	// Note: For GitHub Enterprise Server and GitHub AE, this endpoint will only list repositories
-	// available to all users on the enterprise. For more information, see "[Creating an internal
-	// repository](https://help.github.
-	// com/en/github/creating-cloning-and-archiving-repositories/about-repository-visibility#about-internal-repositories)" in the GitHub Help documentation.
-	// The `visibility` parameter overrides the `private` parameter when you use both parameters with the
-	// `nebula-preview` preview header.
+	// available to all users on the enterprise. For more information, see
+	// "[Creating an internal repository]" in the GitHub Help documentation. The `visibility` parameter
+	// overrides the `private` parameter when you use both parameters with the `nebula-preview` preview
+	// header.
+	//
+	// [Creating an internal repository]: https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-repository-visibility#about-internal-repositories
 	Visibility OptReposCreateInOrgReqVisibility `json:"visibility"`
 	// Either `true` to enable issues for this repository or `false` to disable them.
 	HasIssues OptBool `json:"has_issues"`
-	// Either `true` to enable projects for this repository or `false` to disable them. **Note:** If
-	// you're creating a repository in an organization that has disabled repository projects, the default
-	// is `false`, and if you pass `true`, the API returns an error.
+	// Either `true` to enable projects for this repository or `false` to disable them. Note: If you're
+	// creating a repository in an organization that has disabled repository projects, the default is
+	// `false`, and if you pass `true`, the API returns an error.
 	HasProjects OptBool `json:"has_projects"`
 	// Either `true` to enable the wiki for this repository or `false` to disable it.
 	HasWiki OptBool `json:"has_wiki"`
 	// Either `true` to make this repo available as a template repository or `false` to prevent it.
 	IsTemplate OptBool `json:"is_template"`
-	// The id of the team that will be granted access to this repository. This is only valid when
-	// creating a repository in an organization.
+	// The id of the team that will be granted access to this repository. This is only valid when creating
+	// a repository in an organization.
 	TeamID OptInt `json:"team_id"`
 	// Pass `true` to create an initial commit with empty README.
 	AutoInit OptBool `json:"auto_init"`
-	// Desired language or platform [.gitignore template](https://github.com/github/gitignore) to apply.
-	// Use the name of the template without the extension. For example, "Haskell".
+	// Desired language or platform [.gitignore template] to apply. Use the name of the template without
+	// the extension. For example, "Haskell".
+	//
+	// [.gitignore template]: https://github.com/github/gitignore
 	GitignoreTemplate OptString `json:"gitignore_template"`
-	// Choose an [open source license template](https://choosealicense.com/) that best suits your needs,
-	// and then use the [license keyword](https://help.github.
-	// com/articles/licensing-a-repository/#searching-github-by-license-type) as the `license_template`
-	// string. For example, "mit" or "mpl-2.0".
+	// Choose an [open source license template] that best suits your needs, and then use the
+	// [license keyword] as the `license_template` string. For example, "mit" or "mpl-2.0".
+	//
+	// [open source license template]: https://choosealicense.com/
+	// [license keyword]: https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type
 	LicenseTemplate OptString `json:"license_template"`
 	// Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.
 	AllowSquashMerge OptBool `json:"allow_squash_merge"`
-	// Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging
-	// pull requests with merge commits.
+	// Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull
+	// requests with merge commits.
 	AllowMergeCommit OptBool `json:"allow_merge_commit"`
 	// Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.
 	AllowRebaseMerge OptBool `json:"allow_rebase_merge"`
@@ -81494,11 +83231,12 @@ func (s *ReposCreateInOrgReq) SetDeleteBranchOnMerge(val OptBool) {
 // Can be `public` or `private`. If your organization is associated with an enterprise account using
 // GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `visibility` can also be `internal`.
 // Note: For GitHub Enterprise Server and GitHub AE, this endpoint will only list repositories
-// available to all users on the enterprise. For more information, see "[Creating an internal
-// repository](https://help.github.
-// com/en/github/creating-cloning-and-archiving-repositories/about-repository-visibility#about-internal-repositories)" in the GitHub Help documentation.
-// The `visibility` parameter overrides the `private` parameter when you use both parameters with the
-// `nebula-preview` preview header.
+// available to all users on the enterprise. For more information, see
+// "[Creating an internal repository]" in the GitHub Help documentation. The `visibility` parameter
+// overrides the `private` parameter when you use both parameters with the `nebula-preview` preview
+// header.
+//
+// [Creating an internal repository]: https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-repository-visibility#about-internal-repositories
 type ReposCreateInOrgReqVisibility string
 
 const (
@@ -81575,7 +83313,7 @@ type ReposCreateOrUpdateFileContentsReq struct {
 	Message string `json:"message"`
 	// The new file content, using Base64 encoding.
 	Content string `json:"content"`
-	// **Required if you are updating a file**. The blob SHA of the file being replaced.
+	// Required if you are updating a file. The blob SHA of the file being replaced.
 	Sha OptString `json:"sha"`
 	// The branch name. Default: the repository’s default branch (usually `master`).
 	Branch OptString `json:"branch"`
@@ -81650,8 +83388,8 @@ type ReposCreateOrUpdateFileContentsReqAuthor struct {
 	// The name of the author or committer of the commit. You'll receive a `422` status code if `name` is
 	// omitted.
 	Name string `json:"name"`
-	// The email of the author or committer of the commit. You'll receive a `422` status code if `email`
-	// is omitted.
+	// The email of the author or committer of the commit. You'll receive a `422` status code if `email` is
+	// omitted.
 	Email string    `json:"email"`
 	Date  OptString `json:"date"`
 }
@@ -81691,8 +83429,8 @@ type ReposCreateOrUpdateFileContentsReqCommitter struct {
 	// The name of the author or committer of the commit. You'll receive a `422` status code if `name` is
 	// omitted.
 	Name string `json:"name"`
-	// The email of the author or committer of the commit. You'll receive a `422` status code if `email`
-	// is omitted.
+	// The email of the author or committer of the commit. You'll receive a `422` status code if `email` is
+	// omitted.
 	Email string    `json:"email"`
 	Date  OptString `json:"date"`
 }
@@ -81747,8 +83485,8 @@ func (s *ReposCreatePagesSiteReq) SetSource(val ReposCreatePagesSiteReqSource) {
 type ReposCreatePagesSiteReqSource struct {
 	// The repository branch used to publish your site's source files.
 	Branch string `json:"branch"`
-	// The repository directory that includes the source files for the Pages site. Allowed paths are `/`
-	// or `/docs`. Default: `/`.
+	// The repository directory that includes the source files for the Pages site. Allowed paths are `/` or
+	// `/docs`. Default: `/`.
 	Path OptReposCreatePagesSiteReqSourcePath `json:"path"`
 }
 
@@ -81772,8 +83510,8 @@ func (s *ReposCreatePagesSiteReqSource) SetPath(val OptReposCreatePagesSiteReqSo
 	s.Path = val
 }
 
-// The repository directory that includes the source files for the Pages site. Allowed paths are `/`
-// or `/docs`. Default: `/`.
+// The repository directory that includes the source files for the Pages site. Allowed paths are `/` or
+// `/docs`. Default: `/`.
 type ReposCreatePagesSiteReqSourcePath string
 
 const (
@@ -81830,10 +83568,11 @@ type ReposCreateReleaseReq struct {
 	Draft OptBool `json:"draft"`
 	// `true` to identify the release as a prerelease. `false` to identify the release as a full release.
 	Prerelease OptBool `json:"prerelease"`
-	// If specified, a discussion of the specified category is created and linked to the release. The
-	// value must be a category that already exists in the repository. For more information, see
-	// "[Managing categories for discussions in your repository](https://docs.github.
-	// com/discussions/managing-discussions-for-your-community/managing-categories-for-discussions-in-your-repository).".
+	// If specified, a discussion of the specified category is created and linked to the release. The value
+	// must be a category that already exists in the repository. For more information, see
+	// "[Managing categories for discussions in your repository].".
+	//
+	// [Managing categories for discussions in your repository]: https://docs.github.com/discussions/managing-discussions-for-your-community/managing-categories-for-discussions-in-your-repository
 	DiscussionCategoryName OptString `json:"discussion_category_name"`
 }
 
@@ -81983,11 +83722,13 @@ func (*ReposCreateWebhookNotFound) reposCreateWebhookRes() {}
 type ReposCreateWebhookReq struct {
 	// Use `web` to create a webhook. Default: `web`. This parameter only accepts the value `web`.
 	Name OptString `json:"name"`
-	// Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.
-	// github.com/rest/reference/repos#create-hook-config-params).
+	// Key/value pairs to provide settings for this webhook. [These are defined below].
+	//
+	// [These are defined below]: https://docs.github.com/rest/reference/repos#create-hook-config-params
 	Config OptReposCreateWebhookReqConfig `json:"config"`
-	// Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered
-	// for.
+	// Determines what [events] the hook is triggered for.
+	//
+	// [events]: https://docs.github.com/webhooks/event-payloads
 	Events []string `json:"events"`
 	// Determines if notifications are sent when the webhook is triggered. Set to `true` to send
 	// notifications.
@@ -82034,8 +83775,9 @@ func (s *ReposCreateWebhookReq) SetActive(val OptBool) {
 	s.Active = val
 }
 
-// Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.
-// github.com/rest/reference/repos#create-hook-config-params).
+// Key/value pairs to provide settings for this webhook. [These are defined below].
+//
+// [These are defined below]: https://docs.github.com/rest/reference/repos#create-hook-config-params
 type ReposCreateWebhookReqConfig struct {
 	URL         OptWebhookConfigURL         `json:"url"`
 	ContentType OptWebhookConfigContentType `json:"content_type"`
@@ -82671,9 +84413,9 @@ func (s *ReposListCommitStatusesForRefOKHeaders) SetResponse(val []Status) {
 
 func (*ReposListCommitStatusesForRefOKHeaders) reposListCommitStatusesForRefRes() {}
 
-type ReposListCommitsBadRequest BasicError
+type ReposListCommitsApplicationJSONBadRequest BasicError
 
-func (*ReposListCommitsBadRequest) reposListCommitsRes() {}
+func (*ReposListCommitsApplicationJSONBadRequest) reposListCommitsRes() {}
 
 type ReposListCommitsConflict BasicError
 
@@ -83883,7 +85625,8 @@ func (*ReposRemoveAppAccessRestrictionsOKApplicationJSON) reposRemoveAppAccessRe
 
 // ReposRemoveAppAccessRestrictionsReq represents sum type.
 type ReposRemoveAppAccessRestrictionsReq struct {
-	Type                                 ReposRemoveAppAccessRestrictionsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                                 ReposRemoveAppAccessRestrictionsReqType
 	ReposRemoveAppAccessRestrictionsReq0 ReposRemoveAppAccessRestrictionsReq0
 	StringArray                          []string
 }
@@ -83973,7 +85716,8 @@ func (*ReposRemoveStatusCheckContextsOKApplicationJSON) reposRemoveStatusCheckCo
 
 // ReposRemoveStatusCheckContextsReq represents sum type.
 type ReposRemoveStatusCheckContextsReq struct {
-	Type                               ReposRemoveStatusCheckContextsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                               ReposRemoveStatusCheckContextsReqType
 	ReposRemoveStatusCheckContextsReq0 ReposRemoveStatusCheckContextsReq0
 	StringArray                        []string
 }
@@ -84063,7 +85807,8 @@ func (*ReposRemoveTeamAccessRestrictionsOKApplicationJSON) reposRemoveTeamAccess
 
 // ReposRemoveTeamAccessRestrictionsReq represents sum type.
 type ReposRemoveTeamAccessRestrictionsReq struct {
-	Type                                  ReposRemoveTeamAccessRestrictionsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                                  ReposRemoveTeamAccessRestrictionsReqType
 	ReposRemoveTeamAccessRestrictionsReq0 ReposRemoveTeamAccessRestrictionsReq0
 	StringArray                           []string
 }
@@ -84150,7 +85895,8 @@ func (*ReposRemoveUserAccessRestrictionsOKApplicationJSON) reposRemoveUserAccess
 
 // ReposRemoveUserAccessRestrictionsReq represents sum type.
 type ReposRemoveUserAccessRestrictionsReq struct {
-	Type                                  ReposRemoveUserAccessRestrictionsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                                  ReposRemoveUserAccessRestrictionsReqType
 	ReposRemoveUserAccessRestrictionsReq0 ReposRemoveUserAccessRestrictionsReq0
 	StringArray                           []string
 }
@@ -84255,9 +86001,9 @@ func (s *ReposRenameBranchReq) SetNewName(val string) {
 }
 
 type ReposReplaceAllTopicsReq struct {
-	// An array of topics to add to the repository. Pass one or more topics to _replace_ the set of
-	// existing topics. Send an empty array (`[]`) to clear all topics from the repository. **Note:**
-	// Topic `names` cannot contain uppercase letters.
+	// An array of topics to add to the repository. Pass one or more topics to replace the set of existing
+	// topics. Send an empty array (`[]`) to clear all topics from the repository. Note: Topic `names`
+	// cannot contain uppercase letters.
 	Names []string `json:"names"`
 }
 
@@ -84277,7 +86023,8 @@ func (*ReposSetAppAccessRestrictionsOKApplicationJSON) reposSetAppAccessRestrict
 
 // ReposSetAppAccessRestrictionsReq represents sum type.
 type ReposSetAppAccessRestrictionsReq struct {
-	Type                              ReposSetAppAccessRestrictionsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                              ReposSetAppAccessRestrictionsReqType
 	ReposSetAppAccessRestrictionsReq0 ReposSetAppAccessRestrictionsReq0
 	StringArray                       []string
 }
@@ -84364,7 +86111,8 @@ func (*ReposSetStatusCheckContextsOKApplicationJSON) reposSetStatusCheckContexts
 
 // ReposSetStatusCheckContextsReq represents sum type.
 type ReposSetStatusCheckContextsReq struct {
-	Type                            ReposSetStatusCheckContextsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                            ReposSetStatusCheckContextsReqType
 	ReposSetStatusCheckContextsReq0 ReposSetStatusCheckContextsReq0
 	StringArray                     []string
 }
@@ -84451,7 +86199,8 @@ func (*ReposSetTeamAccessRestrictionsOKApplicationJSON) reposSetTeamAccessRestri
 
 // ReposSetTeamAccessRestrictionsReq represents sum type.
 type ReposSetTeamAccessRestrictionsReq struct {
-	Type                               ReposSetTeamAccessRestrictionsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                               ReposSetTeamAccessRestrictionsReqType
 	ReposSetTeamAccessRestrictionsReq0 ReposSetTeamAccessRestrictionsReq0
 	StringArray                        []string
 }
@@ -84538,7 +86287,8 @@ func (*ReposSetUserAccessRestrictionsOKApplicationJSON) reposSetUserAccessRestri
 
 // ReposSetUserAccessRestrictionsReq represents sum type.
 type ReposSetUserAccessRestrictionsReq struct {
-	Type                               ReposSetUserAccessRestrictionsReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                               ReposSetUserAccessRestrictionsReqType
 	ReposSetUserAccessRestrictionsReq0 ReposSetUserAccessRestrictionsReq0
 	StringArray                        []string
 }
@@ -84668,31 +86418,32 @@ type ReposUpdateBranchProtectionReq struct {
 	EnforceAdmins NilBool `json:"enforce_admins"`
 	// Require at least one approving review on a pull request, before merging. Set to `null` to disable.
 	RequiredPullRequestReviews NilReposUpdateBranchProtectionReqRequiredPullRequestReviews `json:"required_pull_request_reviews"`
-	// Restrict who can push to the protected branch. User, app, and team `restrictions` are only
-	// available for organization-owned repositories. Set to `null` to disable.
+	// Restrict who can push to the protected branch. User, app, and team `restrictions` are only available
+	// for organization-owned repositories. Set to `null` to disable.
 	Restrictions NilReposUpdateBranchProtectionReqRestrictions `json:"restrictions"`
 	// Enforces a linear commit Git history, which prevents anyone from pushing merge commits to a branch.
-	//  Set to `true` to enforce a linear commit history. Set to `false` to disable a linear commit Git
-	// history. Your repository must allow squash merging or rebase merging before you can enable a
-	// linear commit history. Default: `false`. For more information, see "[Requiring a linear commit
-	// history](https://help.github.
-	// com/github/administering-a-repository/requiring-a-linear-commit-history)" in the GitHub Help
-	// documentation.
+	// Set to `true` to enforce a linear commit history. Set to `false` to disable a linear commit Git
+	// history. Your repository must allow squash merging or rebase merging before you can enable a linear
+	// commit history. Default: `false`. For more information, see "[Requiring a linear commit history]" in
+	// the GitHub Help documentation.
+	//
+	// [Requiring a linear commit history]: https://help.github.com/github/administering-a-repository/requiring-a-linear-commit-history
 	RequiredLinearHistory OptBool `json:"required_linear_history"`
 	// Permits force pushes to the protected branch by anyone with write access to the repository. Set to
-	// `true` to allow force pushes. Set to `false` or `null` to block force pushes. Default: `false`.
-	// For more information, see "[Enabling force pushes to a protected branch](https://help.github.
-	// com/en/github/administering-a-repository/enabling-force-pushes-to-a-protected-branch)" in the
-	// GitHub Help documentation.".
+	// `true` to allow force pushes. Set to `false` or `null` to block force pushes. Default: `false`. For
+	// more information, see "[Enabling force pushes to a protected branch]" in the GitHub Help
+	// documentation.".
+	//
+	// [Enabling force pushes to a protected branch]: https://help.github.com/en/github/administering-a-repository/enabling-force-pushes-to-a-protected-branch
 	AllowForcePushes OptNilBool `json:"allow_force_pushes"`
 	// Allows deletion of the protected branch by anyone with write access to the repository. Set to
 	// `false` to prevent deletion of the protected branch. Default: `false`. For more information, see
-	// "[Enabling force pushes to a protected branch](https://help.github.
-	// com/en/github/administering-a-repository/enabling-force-pushes-to-a-protected-branch)" in the
-	// GitHub Help documentation.
+	// "[Enabling force pushes to a protected branch]" in the GitHub Help documentation.
+	//
+	// [Enabling force pushes to a protected branch]: https://help.github.com/en/github/administering-a-repository/enabling-force-pushes-to-a-protected-branch
 	AllowDeletions OptBool `json:"allow_deletions"`
-	// Requires all conversations on code to be resolved before a pull request can be merged into a
-	// branch that matches this rule. Set to `false` to disable. Default: `false`.
+	// Requires all conversations on code to be resolved before a pull request can be merged into a branch
+	// that matches this rule. Set to `false` to disable. Default: `false`.
 	RequiredConversationResolution OptBool `json:"required_conversation_resolution"`
 }
 
@@ -84785,8 +86536,9 @@ type ReposUpdateBranchProtectionReqRequiredPullRequestReviews struct {
 	// Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new
 	// commit.
 	DismissStaleReviews OptBool `json:"dismiss_stale_reviews"`
-	// Blocks merging pull requests until [code owners](https://help.github.
-	// com/articles/about-code-owners/) review them.
+	// Blocks merging pull requests until [code owners] review them.
+	//
+	// [code owners]: https://help.github.com/articles/about-code-owners/
 	RequireCodeOwnerReviews OptBool `json:"require_code_owner_reviews"`
 	// Specify the number of reviewers required to approve pull requests. Use a number between 1 and 6.
 	RequiredApprovingReviewCount OptInt `json:"required_approving_review_count"`
@@ -84890,8 +86642,8 @@ func (s *ReposUpdateBranchProtectionReqRequiredStatusChecks) SetContexts(val []s
 	s.Contexts = val
 }
 
-// Restrict who can push to the protected branch. User, app, and team `restrictions` are only
-// available for organization-owned repositories. Set to `null` to disable.
+// Restrict who can push to the protected branch. User, app, and team `restrictions` are only available
+// for organization-owned repositories. Set to `null` to disable.
 type ReposUpdateBranchProtectionReqRestrictions struct {
 	// The list of user `login`s with push access.
 	Users []string `json:"users"`
@@ -85042,8 +86794,9 @@ type ReposUpdatePullRequestReviewProtectionReq struct {
 	// Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new
 	// commit.
 	DismissStaleReviews OptBool `json:"dismiss_stale_reviews"`
-	// Blocks merging pull requests until [code owners](https://help.github.
-	// com/articles/about-code-owners/) have reviewed.
+	// Blocks merging pull requests until [code owners] have reviewed.
+	//
+	// [code owners]: https://help.github.com/articles/about-code-owners/
 	RequireCodeOwnerReviews OptBool `json:"require_code_owner_reviews"`
 	// Specifies the number of reviewers required to approve pull requests. Use a number between 1 and 6.
 	RequiredApprovingReviewCount OptInt `json:"required_approving_review_count"`
@@ -85172,11 +86925,12 @@ type ReposUpdateReleaseReq struct {
 	Draft OptBool `json:"draft"`
 	// `true` to identify the release as a prerelease, `false` to identify the release as a full release.
 	Prerelease OptBool `json:"prerelease"`
-	// If specified, a discussion of the specified category is created and linked to the release. The
-	// value must be a category that already exists in the repository. If there is already a discussion
-	// linked to the release, this parameter is ignored. For more information, see "[Managing categories
-	// for discussions in your repository](https://docs.github.
-	// com/discussions/managing-discussions-for-your-community/managing-categories-for-discussions-in-your-repository).".
+	// If specified, a discussion of the specified category is created and linked to the release. The value
+	// must be a category that already exists in the repository. If there is already a discussion linked to
+	// the release, this parameter is ignored. For more information, see
+	// "[Managing categories for discussions in your repository].".
+	//
+	// [Managing categories for discussions in your repository]: https://docs.github.com/discussions/managing-discussions-for-your-community/managing-categories-for-discussions-in-your-repository
 	DiscussionCategoryName OptString `json:"discussion_category_name"`
 }
 
@@ -85257,27 +87011,30 @@ type ReposUpdateReq struct {
 	Description OptString `json:"description"`
 	// A URL with more information about the repository.
 	Homepage OptString `json:"homepage"`
-	// Either `true` to make the repository private or `false` to make it public. Default: `false`.
-	// **Note**: You will get a `422` error if the organization restricts [changing repository
-	// visibility](https://help.github.
-	// com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private. **Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private.
+	// Either `true` to make the repository private or `false` to make it public. Default: `false`. Note:
+	// You will get a `422` error if the organization restricts [changing repository visibility] to
+	// organization owners and a non-owner tries to change the value of private. Note: You will get a `422`
+	// error if the organization restricts [changing repository visibility] to organization owners and a
+	// non-owner tries to change the value of private.
+	//
+	// [changing repository visibility]: https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories
 	Private OptBool `json:"private"`
 	// Can be `public` or `private`. If your organization is associated with an enterprise account using
-	// GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `visibility` can also be `internal`.
-	// The `visibility` parameter overrides the `private` parameter when you use both along with the
+	// GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `visibility` can also be `internal`. The
+	// `visibility` parameter overrides the `private` parameter when you use both along with the
 	// `nebula-preview` preview header.
 	Visibility OptReposUpdateReqVisibility `json:"visibility"`
 	// Specify which security and analysis features to enable or disable. For example, to enable GitHub
-	// Advanced Security, use this data in the body of the PATCH request: `{"security_and_analysis":
-	// {"advanced_security": {"status": "enabled"}}}`. If you have admin permissions for a private
-	// repository covered by an Advanced Security license, you can check which security and analysis
-	// features are currently enabled by using a `GET /repos/{owner}/{repo}` request.
+	// Advanced Security, use this data in the body of the PATCH request:
+	// `{"security_and_analysis": {"advanced_security": {"status": "enabled"}}}`. If you have admin
+	// permissions for a private repository covered by an Advanced Security license, you can check which
+	// security and analysis features are currently enabled by using a `GET /repos/{owner}/{repo}` request.
 	SecurityAndAnalysis OptNilReposUpdateReqSecurityAndAnalysis `json:"security_and_analysis"`
 	// Either `true` to enable issues for this repository or `false` to disable them.
 	HasIssues OptBool `json:"has_issues"`
-	// Either `true` to enable projects for this repository or `false` to disable them. **Note:** If
-	// you're creating a repository in an organization that has disabled repository projects, the default
-	// is `false`, and if you pass `true`, the API returns an error.
+	// Either `true` to enable projects for this repository or `false` to disable them. Note: If you're
+	// creating a repository in an organization that has disabled repository projects, the default is
+	// `false`, and if you pass `true`, the API returns an error.
 	HasProjects OptBool `json:"has_projects"`
 	// Either `true` to enable the wiki for this repository or `false` to disable it.
 	HasWiki OptBool `json:"has_wiki"`
@@ -85287,8 +87044,8 @@ type ReposUpdateReq struct {
 	DefaultBranch OptString `json:"default_branch"`
 	// Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.
 	AllowSquashMerge OptBool `json:"allow_squash_merge"`
-	// Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging
-	// pull requests with merge commits.
+	// Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull
+	// requests with merge commits.
 	AllowMergeCommit OptBool `json:"allow_merge_commit"`
 	// Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.
 	AllowRebaseMerge OptBool `json:"allow_rebase_merge"`
@@ -85297,7 +87054,7 @@ type ReposUpdateReq struct {
 	// Either `true` to allow automatically deleting head branches when pull requests are merged, or
 	// `false` to prevent automatic deletion.
 	DeleteBranchOnMerge OptBool `json:"delete_branch_on_merge"`
-	// `true` to archive this repository. **Note**: You cannot unarchive repositories through the API.
+	// `true` to archive this repository. Note: You cannot unarchive repositories through the API.
 	Archived OptBool `json:"archived"`
 	// Either `true` to allow private forks, or `false` to prevent private forks.
 	AllowForking OptBool `json:"allow_forking"`
@@ -85484,17 +87241,20 @@ func (s *ReposUpdateReq) SetAllowForking(val OptBool) {
 }
 
 // Specify which security and analysis features to enable or disable. For example, to enable GitHub
-// Advanced Security, use this data in the body of the PATCH request: `{"security_and_analysis":
-// {"advanced_security": {"status": "enabled"}}}`. If you have admin permissions for a private
-// repository covered by an Advanced Security license, you can check which security and analysis
-// features are currently enabled by using a `GET /repos/{owner}/{repo}` request.
+// Advanced Security, use this data in the body of the PATCH request:
+// `{"security_and_analysis": {"advanced_security": {"status": "enabled"}}}`. If you have admin
+// permissions for a private repository covered by an Advanced Security license, you can check which
+// security and analysis features are currently enabled by using a `GET /repos/{owner}/{repo}` request.
 type ReposUpdateReqSecurityAndAnalysis struct {
 	// Use the `status` property to enable or disable GitHub Advanced Security for this repository. For
-	// more information, see "[About GitHub Advanced
-	// Security](/github/getting-started-with-github/learning-about-github/about-github-advanced-security).".
+	// more information, see "[About GitHub Advanced Security].".
+	//
+	// [About GitHub Advanced Security]: /github/getting-started-with-github/learning-about-github/about-github-advanced-security
 	AdvancedSecurity OptReposUpdateReqSecurityAndAnalysisAdvancedSecurity `json:"advanced_security"`
 	// Use the `status` property to enable or disable secret scanning for this repository. For more
-	// information, see "[About secret scanning](/code-security/secret-security/about-secret-scanning).".
+	// information, see "[About secret scanning].".
+	//
+	// [About secret scanning]: /code-security/secret-security/about-secret-scanning
 	SecretScanning OptReposUpdateReqSecurityAndAnalysisSecretScanning `json:"secret_scanning"`
 }
 
@@ -85519,8 +87279,9 @@ func (s *ReposUpdateReqSecurityAndAnalysis) SetSecretScanning(val OptReposUpdate
 }
 
 // Use the `status` property to enable or disable GitHub Advanced Security for this repository. For
-// more information, see "[About GitHub Advanced
-// Security](/github/getting-started-with-github/learning-about-github/about-github-advanced-security).".
+// more information, see "[About GitHub Advanced Security].".
+//
+// [About GitHub Advanced Security]: /github/getting-started-with-github/learning-about-github/about-github-advanced-security
 type ReposUpdateReqSecurityAndAnalysisAdvancedSecurity struct {
 	// Can be `enabled` or `disabled`.
 	Status OptString `json:"status"`
@@ -85537,7 +87298,9 @@ func (s *ReposUpdateReqSecurityAndAnalysisAdvancedSecurity) SetStatus(val OptStr
 }
 
 // Use the `status` property to enable or disable secret scanning for this repository. For more
-// information, see "[About secret scanning](/code-security/secret-security/about-secret-scanning).".
+// information, see "[About secret scanning].".
+//
+// [About secret scanning]: /code-security/secret-security/about-secret-scanning
 type ReposUpdateReqSecurityAndAnalysisSecretScanning struct {
 	// Can be `enabled` or `disabled`.
 	Status OptString `json:"status"`
@@ -85554,8 +87317,8 @@ func (s *ReposUpdateReqSecurityAndAnalysisSecretScanning) SetStatus(val OptStrin
 }
 
 // Can be `public` or `private`. If your organization is associated with an enterprise account using
-// GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `visibility` can also be `internal`.
-// The `visibility` parameter overrides the `private` parameter when you use both along with the
+// GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `visibility` can also be `internal`. The
+// `visibility` parameter overrides the `private` parameter when you use both along with the
 // `nebula-preview` preview header.
 type ReposUpdateReqVisibility string
 
@@ -85691,11 +87454,13 @@ func (s *ReposUpdateWebhookConfigForRepoReq) SetInsecureSsl(val OptWebhookConfig
 }
 
 type ReposUpdateWebhookReq struct {
-	// Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.
-	// github.com/rest/reference/repos#create-hook-config-params).
+	// Key/value pairs to provide settings for this webhook. [These are defined below].
+	//
+	// [These are defined below]: https://docs.github.com/rest/reference/repos#create-hook-config-params
 	Config OptReposUpdateWebhookReqConfig `json:"config"`
-	// Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered
-	// for. This replaces the entire array of events.
+	// Determines what [events] the hook is triggered for. This replaces the entire array of events.
+	//
+	// [events]: https://docs.github.com/webhooks/event-payloads
 	Events []string `json:"events"`
 	// Determines a list of events to be added to the list of events that the Hook triggers for.
 	AddEvents []string `json:"add_events"`
@@ -85756,8 +87521,9 @@ func (s *ReposUpdateWebhookReq) SetActive(val OptBool) {
 	s.Active = val
 }
 
-// Key/value pairs to provide settings for this webhook. [These are defined below](https://docs.
-// github.com/rest/reference/repos#create-hook-config-params).
+// Key/value pairs to provide settings for this webhook. [These are defined below].
+//
+// [These are defined below]: https://docs.github.com/rest/reference/repos#create-hook-config-params
 type ReposUpdateWebhookReqConfig struct {
 	URL         WebhookConfigURL            `json:"url"`
 	ContentType OptWebhookConfigContentType `json:"content_type"`
@@ -89085,8 +90851,8 @@ type RunnerGroupsOrg struct {
 	Name       string  `json:"name"`
 	Visibility string  `json:"visibility"`
 	Default    bool    `json:"default"`
-	// Link to the selected repositories resource for this runner group. Not present unless visibility
-	// was set to `selected`.
+	// Link to the selected repositories resource for this runner group. Not present unless visibility was
+	// set to `selected`.
 	SelectedRepositoriesURL           OptString `json:"selected_repositories_url"`
 	RunnersURL                        string    `json:"runners_url"`
 	Inherited                         bool      `json:"inherited"`
@@ -89265,18 +91031,26 @@ func (s *RunnerLabelsItemType) UnmarshalText(data []byte) error {
 	}
 }
 
-type ScimDeleteUserFromOrgForbidden ScimError
+type ScimDeleteUserFromOrgApplicationJSONForbidden ScimError
 
-func (*ScimDeleteUserFromOrgForbidden) scimDeleteUserFromOrgRes() {}
+func (*ScimDeleteUserFromOrgApplicationJSONForbidden) scimDeleteUserFromOrgRes() {}
+
+type ScimDeleteUserFromOrgApplicationJSONNotFound ScimError
+
+func (*ScimDeleteUserFromOrgApplicationJSONNotFound) scimDeleteUserFromOrgRes() {}
+
+type ScimDeleteUserFromOrgApplicationScimJSONForbidden ScimError
+
+func (*ScimDeleteUserFromOrgApplicationScimJSONForbidden) scimDeleteUserFromOrgRes() {}
+
+type ScimDeleteUserFromOrgApplicationScimJSONNotFound ScimError
+
+func (*ScimDeleteUserFromOrgApplicationScimJSONNotFound) scimDeleteUserFromOrgRes() {}
 
 // ScimDeleteUserFromOrgNoContent is response for ScimDeleteUserFromOrg operation.
 type ScimDeleteUserFromOrgNoContent struct{}
 
 func (*ScimDeleteUserFromOrgNoContent) scimDeleteUserFromOrgRes() {}
-
-type ScimDeleteUserFromOrgNotFound ScimError
-
-func (*ScimDeleteUserFromOrgNotFound) scimDeleteUserFromOrgRes() {}
 
 // Ref: #/components/schemas/scim-enterprise-group
 type ScimEnterpriseGroup struct {
@@ -89727,6 +91501,41 @@ func (s *ScimError) SetSchemas(val []string) {
 	s.Schemas = val
 }
 
+func (*ScimError) appsGetWebhookDeliveryRes()          {}
+func (*ScimError) appsListWebhookDeliveriesRes()       {}
+func (*ScimError) appsRedeliverWebhookDeliveryRes()    {}
+func (*ScimError) codeScanningDeleteAnalysisRes()      {}
+func (*ScimError) orgsGetWebhookDeliveryRes()          {}
+func (*ScimError) orgsListWebhookDeliveriesRes()       {}
+func (*ScimError) orgsRedeliverWebhookDeliveryRes()    {}
+func (*ScimError) reposCreateForAuthenticatedUserRes() {}
+func (*ScimError) reposCreateForkRes()                 {}
+func (*ScimError) reposGetWebhookDeliveryRes()         {}
+func (*ScimError) reposListCommitsRes()                {}
+func (*ScimError) reposListForksRes()                  {}
+func (*ScimError) reposListWebhookDeliveriesRes()      {}
+func (*ScimError) reposRedeliverWebhookDeliveryRes()   {}
+
+type ScimGetProvisioningInformationForUserApplicationJSONForbidden ScimError
+
+func (*ScimGetProvisioningInformationForUserApplicationJSONForbidden) scimGetProvisioningInformationForUserRes() {
+}
+
+type ScimGetProvisioningInformationForUserApplicationJSONNotFound ScimError
+
+func (*ScimGetProvisioningInformationForUserApplicationJSONNotFound) scimGetProvisioningInformationForUserRes() {
+}
+
+type ScimGetProvisioningInformationForUserApplicationScimJSONForbidden ScimError
+
+func (*ScimGetProvisioningInformationForUserApplicationScimJSONForbidden) scimGetProvisioningInformationForUserRes() {
+}
+
+type ScimGetProvisioningInformationForUserApplicationScimJSONNotFound ScimError
+
+func (*ScimGetProvisioningInformationForUserApplicationScimJSONNotFound) scimGetProvisioningInformationForUserRes() {
+}
+
 // Ref: #/components/schemas/scim-group-list-enterprise
 type ScimGroupListEnterprise struct {
 	Schemas      []string                               `json:"schemas"`
@@ -89937,6 +91746,1005 @@ func (s *ScimGroupListEnterpriseResourcesItemMeta) SetLastModified(val OptString
 func (s *ScimGroupListEnterpriseResourcesItemMeta) SetLocation(val OptString) {
 	s.Location = val
 }
+
+type ScimListProvisionedIdentitiesApplicationJSONBadRequest ScimError
+
+func (*ScimListProvisionedIdentitiesApplicationJSONBadRequest) scimListProvisionedIdentitiesRes() {}
+
+type ScimListProvisionedIdentitiesApplicationJSONForbidden ScimError
+
+func (*ScimListProvisionedIdentitiesApplicationJSONForbidden) scimListProvisionedIdentitiesRes() {}
+
+type ScimListProvisionedIdentitiesApplicationJSONNotFound ScimError
+
+func (*ScimListProvisionedIdentitiesApplicationJSONNotFound) scimListProvisionedIdentitiesRes() {}
+
+type ScimListProvisionedIdentitiesApplicationScimJSONBadRequest ScimError
+
+func (*ScimListProvisionedIdentitiesApplicationScimJSONBadRequest) scimListProvisionedIdentitiesRes() {
+}
+
+type ScimListProvisionedIdentitiesApplicationScimJSONForbidden ScimError
+
+func (*ScimListProvisionedIdentitiesApplicationScimJSONForbidden) scimListProvisionedIdentitiesRes() {
+}
+
+type ScimListProvisionedIdentitiesApplicationScimJSONNotFound ScimError
+
+func (*ScimListProvisionedIdentitiesApplicationScimJSONNotFound) scimListProvisionedIdentitiesRes() {}
+
+type ScimProvisionAndInviteUserApplicationJSONBadRequest ScimError
+
+func (*ScimProvisionAndInviteUserApplicationJSONBadRequest) scimProvisionAndInviteUserRes() {}
+
+type ScimProvisionAndInviteUserApplicationJSONConflict ScimError
+
+func (*ScimProvisionAndInviteUserApplicationJSONConflict) scimProvisionAndInviteUserRes() {}
+
+type ScimProvisionAndInviteUserApplicationJSONForbidden ScimError
+
+func (*ScimProvisionAndInviteUserApplicationJSONForbidden) scimProvisionAndInviteUserRes() {}
+
+type ScimProvisionAndInviteUserApplicationJSONInternalServerError ScimError
+
+func (*ScimProvisionAndInviteUserApplicationJSONInternalServerError) scimProvisionAndInviteUserRes() {
+}
+
+type ScimProvisionAndInviteUserApplicationJSONNotFound ScimError
+
+func (*ScimProvisionAndInviteUserApplicationJSONNotFound) scimProvisionAndInviteUserRes() {}
+
+type ScimProvisionAndInviteUserApplicationScimJSONBadRequest ScimError
+
+func (*ScimProvisionAndInviteUserApplicationScimJSONBadRequest) scimProvisionAndInviteUserRes() {}
+
+type ScimProvisionAndInviteUserApplicationScimJSONConflict ScimError
+
+func (*ScimProvisionAndInviteUserApplicationScimJSONConflict) scimProvisionAndInviteUserRes() {}
+
+type ScimProvisionAndInviteUserApplicationScimJSONForbidden ScimError
+
+func (*ScimProvisionAndInviteUserApplicationScimJSONForbidden) scimProvisionAndInviteUserRes() {}
+
+type ScimProvisionAndInviteUserApplicationScimJSONInternalServerError ScimError
+
+func (*ScimProvisionAndInviteUserApplicationScimJSONInternalServerError) scimProvisionAndInviteUserRes() {
+}
+
+type ScimProvisionAndInviteUserApplicationScimJSONNotFound ScimError
+
+func (*ScimProvisionAndInviteUserApplicationScimJSONNotFound) scimProvisionAndInviteUserRes() {}
+
+type ScimProvisionAndInviteUserReq struct {
+	// Configured by the admin. Could be an email, login, or username.
+	UserName string `json:"userName"`
+	// The name of the user, suitable for display to end-users.
+	DisplayName OptString                         `json:"displayName"`
+	Name        ScimProvisionAndInviteUserReqName `json:"name"`
+	// User emails.
+	Emails     []ScimProvisionAndInviteUserReqEmailsItem `json:"emails"`
+	Schemas    []string                                  `json:"schemas"`
+	ExternalId OptString                                 `json:"externalId"`
+	Groups     []string                                  `json:"groups"`
+	Active     OptBool                                   `json:"active"`
+}
+
+// GetUserName returns the value of UserName.
+func (s *ScimProvisionAndInviteUserReq) GetUserName() string {
+	return s.UserName
+}
+
+// GetDisplayName returns the value of DisplayName.
+func (s *ScimProvisionAndInviteUserReq) GetDisplayName() OptString {
+	return s.DisplayName
+}
+
+// GetName returns the value of Name.
+func (s *ScimProvisionAndInviteUserReq) GetName() ScimProvisionAndInviteUserReqName {
+	return s.Name
+}
+
+// GetEmails returns the value of Emails.
+func (s *ScimProvisionAndInviteUserReq) GetEmails() []ScimProvisionAndInviteUserReqEmailsItem {
+	return s.Emails
+}
+
+// GetSchemas returns the value of Schemas.
+func (s *ScimProvisionAndInviteUserReq) GetSchemas() []string {
+	return s.Schemas
+}
+
+// GetExternalId returns the value of ExternalId.
+func (s *ScimProvisionAndInviteUserReq) GetExternalId() OptString {
+	return s.ExternalId
+}
+
+// GetGroups returns the value of Groups.
+func (s *ScimProvisionAndInviteUserReq) GetGroups() []string {
+	return s.Groups
+}
+
+// GetActive returns the value of Active.
+func (s *ScimProvisionAndInviteUserReq) GetActive() OptBool {
+	return s.Active
+}
+
+// SetUserName sets the value of UserName.
+func (s *ScimProvisionAndInviteUserReq) SetUserName(val string) {
+	s.UserName = val
+}
+
+// SetDisplayName sets the value of DisplayName.
+func (s *ScimProvisionAndInviteUserReq) SetDisplayName(val OptString) {
+	s.DisplayName = val
+}
+
+// SetName sets the value of Name.
+func (s *ScimProvisionAndInviteUserReq) SetName(val ScimProvisionAndInviteUserReqName) {
+	s.Name = val
+}
+
+// SetEmails sets the value of Emails.
+func (s *ScimProvisionAndInviteUserReq) SetEmails(val []ScimProvisionAndInviteUserReqEmailsItem) {
+	s.Emails = val
+}
+
+// SetSchemas sets the value of Schemas.
+func (s *ScimProvisionAndInviteUserReq) SetSchemas(val []string) {
+	s.Schemas = val
+}
+
+// SetExternalId sets the value of ExternalId.
+func (s *ScimProvisionAndInviteUserReq) SetExternalId(val OptString) {
+	s.ExternalId = val
+}
+
+// SetGroups sets the value of Groups.
+func (s *ScimProvisionAndInviteUserReq) SetGroups(val []string) {
+	s.Groups = val
+}
+
+// SetActive sets the value of Active.
+func (s *ScimProvisionAndInviteUserReq) SetActive(val OptBool) {
+	s.Active = val
+}
+
+type ScimProvisionAndInviteUserReqEmailsItem struct {
+	Value   string    `json:"value"`
+	Primary OptBool   `json:"primary"`
+	Type    OptString `json:"type"`
+}
+
+// GetValue returns the value of Value.
+func (s *ScimProvisionAndInviteUserReqEmailsItem) GetValue() string {
+	return s.Value
+}
+
+// GetPrimary returns the value of Primary.
+func (s *ScimProvisionAndInviteUserReqEmailsItem) GetPrimary() OptBool {
+	return s.Primary
+}
+
+// GetType returns the value of Type.
+func (s *ScimProvisionAndInviteUserReqEmailsItem) GetType() OptString {
+	return s.Type
+}
+
+// SetValue sets the value of Value.
+func (s *ScimProvisionAndInviteUserReqEmailsItem) SetValue(val string) {
+	s.Value = val
+}
+
+// SetPrimary sets the value of Primary.
+func (s *ScimProvisionAndInviteUserReqEmailsItem) SetPrimary(val OptBool) {
+	s.Primary = val
+}
+
+// SetType sets the value of Type.
+func (s *ScimProvisionAndInviteUserReqEmailsItem) SetType(val OptString) {
+	s.Type = val
+}
+
+type ScimProvisionAndInviteUserReqName struct {
+	GivenName  string    `json:"givenName"`
+	FamilyName string    `json:"familyName"`
+	Formatted  OptString `json:"formatted"`
+}
+
+// GetGivenName returns the value of GivenName.
+func (s *ScimProvisionAndInviteUserReqName) GetGivenName() string {
+	return s.GivenName
+}
+
+// GetFamilyName returns the value of FamilyName.
+func (s *ScimProvisionAndInviteUserReqName) GetFamilyName() string {
+	return s.FamilyName
+}
+
+// GetFormatted returns the value of Formatted.
+func (s *ScimProvisionAndInviteUserReqName) GetFormatted() OptString {
+	return s.Formatted
+}
+
+// SetGivenName sets the value of GivenName.
+func (s *ScimProvisionAndInviteUserReqName) SetGivenName(val string) {
+	s.GivenName = val
+}
+
+// SetFamilyName sets the value of FamilyName.
+func (s *ScimProvisionAndInviteUserReqName) SetFamilyName(val string) {
+	s.FamilyName = val
+}
+
+// SetFormatted sets the value of Formatted.
+func (s *ScimProvisionAndInviteUserReqName) SetFormatted(val OptString) {
+	s.Formatted = val
+}
+
+type ScimSetInformationForProvisionedUserApplicationJSONForbidden ScimError
+
+func (*ScimSetInformationForProvisionedUserApplicationJSONForbidden) scimSetInformationForProvisionedUserRes() {
+}
+
+type ScimSetInformationForProvisionedUserApplicationJSONNotFound ScimError
+
+func (*ScimSetInformationForProvisionedUserApplicationJSONNotFound) scimSetInformationForProvisionedUserRes() {
+}
+
+type ScimSetInformationForProvisionedUserApplicationScimJSONForbidden ScimError
+
+func (*ScimSetInformationForProvisionedUserApplicationScimJSONForbidden) scimSetInformationForProvisionedUserRes() {
+}
+
+type ScimSetInformationForProvisionedUserApplicationScimJSONNotFound ScimError
+
+func (*ScimSetInformationForProvisionedUserApplicationScimJSONNotFound) scimSetInformationForProvisionedUserRes() {
+}
+
+type ScimSetInformationForProvisionedUserReq struct {
+	Schemas []string `json:"schemas"`
+	// The name of the user, suitable for display to end-users.
+	DisplayName OptString `json:"displayName"`
+	ExternalId  OptString `json:"externalId"`
+	Groups      []string  `json:"groups"`
+	Active      OptBool   `json:"active"`
+	// Configured by the admin. Could be an email, login, or username.
+	UserName string                                      `json:"userName"`
+	Name     ScimSetInformationForProvisionedUserReqName `json:"name"`
+	// User emails.
+	Emails []ScimSetInformationForProvisionedUserReqEmailsItem `json:"emails"`
+}
+
+// GetSchemas returns the value of Schemas.
+func (s *ScimSetInformationForProvisionedUserReq) GetSchemas() []string {
+	return s.Schemas
+}
+
+// GetDisplayName returns the value of DisplayName.
+func (s *ScimSetInformationForProvisionedUserReq) GetDisplayName() OptString {
+	return s.DisplayName
+}
+
+// GetExternalId returns the value of ExternalId.
+func (s *ScimSetInformationForProvisionedUserReq) GetExternalId() OptString {
+	return s.ExternalId
+}
+
+// GetGroups returns the value of Groups.
+func (s *ScimSetInformationForProvisionedUserReq) GetGroups() []string {
+	return s.Groups
+}
+
+// GetActive returns the value of Active.
+func (s *ScimSetInformationForProvisionedUserReq) GetActive() OptBool {
+	return s.Active
+}
+
+// GetUserName returns the value of UserName.
+func (s *ScimSetInformationForProvisionedUserReq) GetUserName() string {
+	return s.UserName
+}
+
+// GetName returns the value of Name.
+func (s *ScimSetInformationForProvisionedUserReq) GetName() ScimSetInformationForProvisionedUserReqName {
+	return s.Name
+}
+
+// GetEmails returns the value of Emails.
+func (s *ScimSetInformationForProvisionedUserReq) GetEmails() []ScimSetInformationForProvisionedUserReqEmailsItem {
+	return s.Emails
+}
+
+// SetSchemas sets the value of Schemas.
+func (s *ScimSetInformationForProvisionedUserReq) SetSchemas(val []string) {
+	s.Schemas = val
+}
+
+// SetDisplayName sets the value of DisplayName.
+func (s *ScimSetInformationForProvisionedUserReq) SetDisplayName(val OptString) {
+	s.DisplayName = val
+}
+
+// SetExternalId sets the value of ExternalId.
+func (s *ScimSetInformationForProvisionedUserReq) SetExternalId(val OptString) {
+	s.ExternalId = val
+}
+
+// SetGroups sets the value of Groups.
+func (s *ScimSetInformationForProvisionedUserReq) SetGroups(val []string) {
+	s.Groups = val
+}
+
+// SetActive sets the value of Active.
+func (s *ScimSetInformationForProvisionedUserReq) SetActive(val OptBool) {
+	s.Active = val
+}
+
+// SetUserName sets the value of UserName.
+func (s *ScimSetInformationForProvisionedUserReq) SetUserName(val string) {
+	s.UserName = val
+}
+
+// SetName sets the value of Name.
+func (s *ScimSetInformationForProvisionedUserReq) SetName(val ScimSetInformationForProvisionedUserReqName) {
+	s.Name = val
+}
+
+// SetEmails sets the value of Emails.
+func (s *ScimSetInformationForProvisionedUserReq) SetEmails(val []ScimSetInformationForProvisionedUserReqEmailsItem) {
+	s.Emails = val
+}
+
+type ScimSetInformationForProvisionedUserReqEmailsItem struct {
+	Type    OptString `json:"type"`
+	Value   string    `json:"value"`
+	Primary OptBool   `json:"primary"`
+}
+
+// GetType returns the value of Type.
+func (s *ScimSetInformationForProvisionedUserReqEmailsItem) GetType() OptString {
+	return s.Type
+}
+
+// GetValue returns the value of Value.
+func (s *ScimSetInformationForProvisionedUserReqEmailsItem) GetValue() string {
+	return s.Value
+}
+
+// GetPrimary returns the value of Primary.
+func (s *ScimSetInformationForProvisionedUserReqEmailsItem) GetPrimary() OptBool {
+	return s.Primary
+}
+
+// SetType sets the value of Type.
+func (s *ScimSetInformationForProvisionedUserReqEmailsItem) SetType(val OptString) {
+	s.Type = val
+}
+
+// SetValue sets the value of Value.
+func (s *ScimSetInformationForProvisionedUserReqEmailsItem) SetValue(val string) {
+	s.Value = val
+}
+
+// SetPrimary sets the value of Primary.
+func (s *ScimSetInformationForProvisionedUserReqEmailsItem) SetPrimary(val OptBool) {
+	s.Primary = val
+}
+
+type ScimSetInformationForProvisionedUserReqName struct {
+	GivenName  string    `json:"givenName"`
+	FamilyName string    `json:"familyName"`
+	Formatted  OptString `json:"formatted"`
+}
+
+// GetGivenName returns the value of GivenName.
+func (s *ScimSetInformationForProvisionedUserReqName) GetGivenName() string {
+	return s.GivenName
+}
+
+// GetFamilyName returns the value of FamilyName.
+func (s *ScimSetInformationForProvisionedUserReqName) GetFamilyName() string {
+	return s.FamilyName
+}
+
+// GetFormatted returns the value of Formatted.
+func (s *ScimSetInformationForProvisionedUserReqName) GetFormatted() OptString {
+	return s.Formatted
+}
+
+// SetGivenName sets the value of GivenName.
+func (s *ScimSetInformationForProvisionedUserReqName) SetGivenName(val string) {
+	s.GivenName = val
+}
+
+// SetFamilyName sets the value of FamilyName.
+func (s *ScimSetInformationForProvisionedUserReqName) SetFamilyName(val string) {
+	s.FamilyName = val
+}
+
+// SetFormatted sets the value of Formatted.
+func (s *ScimSetInformationForProvisionedUserReqName) SetFormatted(val OptString) {
+	s.Formatted = val
+}
+
+type ScimUpdateAttributeForUserApplicationJSONBadRequest ScimError
+
+func (*ScimUpdateAttributeForUserApplicationJSONBadRequest) scimUpdateAttributeForUserRes() {}
+
+type ScimUpdateAttributeForUserApplicationJSONForbidden ScimError
+
+func (*ScimUpdateAttributeForUserApplicationJSONForbidden) scimUpdateAttributeForUserRes() {}
+
+type ScimUpdateAttributeForUserApplicationJSONNotFound ScimError
+
+func (*ScimUpdateAttributeForUserApplicationJSONNotFound) scimUpdateAttributeForUserRes() {}
+
+type ScimUpdateAttributeForUserApplicationScimJSONBadRequest ScimError
+
+func (*ScimUpdateAttributeForUserApplicationScimJSONBadRequest) scimUpdateAttributeForUserRes() {}
+
+type ScimUpdateAttributeForUserApplicationScimJSONForbidden ScimError
+
+func (*ScimUpdateAttributeForUserApplicationScimJSONForbidden) scimUpdateAttributeForUserRes() {}
+
+type ScimUpdateAttributeForUserApplicationScimJSONNotFound ScimError
+
+func (*ScimUpdateAttributeForUserApplicationScimJSONNotFound) scimUpdateAttributeForUserRes() {}
+
+type ScimUpdateAttributeForUserReq struct {
+	Schemas []string `json:"schemas"`
+	// Set of operations to be performed.
+	Operations []ScimUpdateAttributeForUserReqOperationsItem `json:"Operations"`
+}
+
+// GetSchemas returns the value of Schemas.
+func (s *ScimUpdateAttributeForUserReq) GetSchemas() []string {
+	return s.Schemas
+}
+
+// GetOperations returns the value of Operations.
+func (s *ScimUpdateAttributeForUserReq) GetOperations() []ScimUpdateAttributeForUserReqOperationsItem {
+	return s.Operations
+}
+
+// SetSchemas sets the value of Schemas.
+func (s *ScimUpdateAttributeForUserReq) SetSchemas(val []string) {
+	s.Schemas = val
+}
+
+// SetOperations sets the value of Operations.
+func (s *ScimUpdateAttributeForUserReq) SetOperations(val []ScimUpdateAttributeForUserReqOperationsItem) {
+	s.Operations = val
+}
+
+type ScimUpdateAttributeForUserReqOperationsItem struct {
+	Op    ScimUpdateAttributeForUserReqOperationsItemOp       `json:"op"`
+	Path  OptString                                           `json:"path"`
+	Value OptScimUpdateAttributeForUserReqOperationsItemValue `json:"value"`
+}
+
+// GetOp returns the value of Op.
+func (s *ScimUpdateAttributeForUserReqOperationsItem) GetOp() ScimUpdateAttributeForUserReqOperationsItemOp {
+	return s.Op
+}
+
+// GetPath returns the value of Path.
+func (s *ScimUpdateAttributeForUserReqOperationsItem) GetPath() OptString {
+	return s.Path
+}
+
+// GetValue returns the value of Value.
+func (s *ScimUpdateAttributeForUserReqOperationsItem) GetValue() OptScimUpdateAttributeForUserReqOperationsItemValue {
+	return s.Value
+}
+
+// SetOp sets the value of Op.
+func (s *ScimUpdateAttributeForUserReqOperationsItem) SetOp(val ScimUpdateAttributeForUserReqOperationsItemOp) {
+	s.Op = val
+}
+
+// SetPath sets the value of Path.
+func (s *ScimUpdateAttributeForUserReqOperationsItem) SetPath(val OptString) {
+	s.Path = val
+}
+
+// SetValue sets the value of Value.
+func (s *ScimUpdateAttributeForUserReqOperationsItem) SetValue(val OptScimUpdateAttributeForUserReqOperationsItemValue) {
+	s.Value = val
+}
+
+type ScimUpdateAttributeForUserReqOperationsItemOp string
+
+const (
+	ScimUpdateAttributeForUserReqOperationsItemOpAdd     ScimUpdateAttributeForUserReqOperationsItemOp = "add"
+	ScimUpdateAttributeForUserReqOperationsItemOpRemove  ScimUpdateAttributeForUserReqOperationsItemOp = "remove"
+	ScimUpdateAttributeForUserReqOperationsItemOpReplace ScimUpdateAttributeForUserReqOperationsItemOp = "replace"
+)
+
+// AllValues returns all ScimUpdateAttributeForUserReqOperationsItemOp values.
+func (ScimUpdateAttributeForUserReqOperationsItemOp) AllValues() []ScimUpdateAttributeForUserReqOperationsItemOp {
+	return []ScimUpdateAttributeForUserReqOperationsItemOp{
+		ScimUpdateAttributeForUserReqOperationsItemOpAdd,
+		ScimUpdateAttributeForUserReqOperationsItemOpRemove,
+		ScimUpdateAttributeForUserReqOperationsItemOpReplace,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ScimUpdateAttributeForUserReqOperationsItemOp) MarshalText() ([]byte, error) {
+	switch s {
+	case ScimUpdateAttributeForUserReqOperationsItemOpAdd:
+		return []byte(s), nil
+	case ScimUpdateAttributeForUserReqOperationsItemOpRemove:
+		return []byte(s), nil
+	case ScimUpdateAttributeForUserReqOperationsItemOpReplace:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ScimUpdateAttributeForUserReqOperationsItemOp) UnmarshalText(data []byte) error {
+	switch ScimUpdateAttributeForUserReqOperationsItemOp(data) {
+	case ScimUpdateAttributeForUserReqOperationsItemOpAdd:
+		*s = ScimUpdateAttributeForUserReqOperationsItemOpAdd
+		return nil
+	case ScimUpdateAttributeForUserReqOperationsItemOpRemove:
+		*s = ScimUpdateAttributeForUserReqOperationsItemOpRemove
+		return nil
+	case ScimUpdateAttributeForUserReqOperationsItemOpReplace:
+		*s = ScimUpdateAttributeForUserReqOperationsItemOpReplace
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ScimUpdateAttributeForUserReqOperationsItemValue represents sum type.
+type ScimUpdateAttributeForUserReqOperationsItemValue struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                                                       ScimUpdateAttributeForUserReqOperationsItemValueType
+	ScimUpdateAttributeForUserReqOperationsItemValue0          ScimUpdateAttributeForUserReqOperationsItemValue0
+	ScimUpdateAttributeForUserReqOperationsItemValue1ItemArray []ScimUpdateAttributeForUserReqOperationsItemValue1Item
+	String                                                     string
+}
+
+// ScimUpdateAttributeForUserReqOperationsItemValueType is oneOf type of ScimUpdateAttributeForUserReqOperationsItemValue.
+type ScimUpdateAttributeForUserReqOperationsItemValueType string
+
+// Possible values for ScimUpdateAttributeForUserReqOperationsItemValueType.
+const (
+	ScimUpdateAttributeForUserReqOperationsItemValue0ScimUpdateAttributeForUserReqOperationsItemValue          ScimUpdateAttributeForUserReqOperationsItemValueType = "ScimUpdateAttributeForUserReqOperationsItemValue0"
+	ScimUpdateAttributeForUserReqOperationsItemValue1ItemArrayScimUpdateAttributeForUserReqOperationsItemValue ScimUpdateAttributeForUserReqOperationsItemValueType = "[]ScimUpdateAttributeForUserReqOperationsItemValue1Item"
+	StringScimUpdateAttributeForUserReqOperationsItemValue                                                     ScimUpdateAttributeForUserReqOperationsItemValueType = "string"
+)
+
+// IsScimUpdateAttributeForUserReqOperationsItemValue0 reports whether ScimUpdateAttributeForUserReqOperationsItemValue is ScimUpdateAttributeForUserReqOperationsItemValue0.
+func (s ScimUpdateAttributeForUserReqOperationsItemValue) IsScimUpdateAttributeForUserReqOperationsItemValue0() bool {
+	return s.Type == ScimUpdateAttributeForUserReqOperationsItemValue0ScimUpdateAttributeForUserReqOperationsItemValue
+}
+
+// IsScimUpdateAttributeForUserReqOperationsItemValue1ItemArray reports whether ScimUpdateAttributeForUserReqOperationsItemValue is []ScimUpdateAttributeForUserReqOperationsItemValue1Item.
+func (s ScimUpdateAttributeForUserReqOperationsItemValue) IsScimUpdateAttributeForUserReqOperationsItemValue1ItemArray() bool {
+	return s.Type == ScimUpdateAttributeForUserReqOperationsItemValue1ItemArrayScimUpdateAttributeForUserReqOperationsItemValue
+}
+
+// IsString reports whether ScimUpdateAttributeForUserReqOperationsItemValue is string.
+func (s ScimUpdateAttributeForUserReqOperationsItemValue) IsString() bool {
+	return s.Type == StringScimUpdateAttributeForUserReqOperationsItemValue
+}
+
+// SetScimUpdateAttributeForUserReqOperationsItemValue0 sets ScimUpdateAttributeForUserReqOperationsItemValue to ScimUpdateAttributeForUserReqOperationsItemValue0.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue) SetScimUpdateAttributeForUserReqOperationsItemValue0(v ScimUpdateAttributeForUserReqOperationsItemValue0) {
+	s.Type = ScimUpdateAttributeForUserReqOperationsItemValue0ScimUpdateAttributeForUserReqOperationsItemValue
+	s.ScimUpdateAttributeForUserReqOperationsItemValue0 = v
+}
+
+// GetScimUpdateAttributeForUserReqOperationsItemValue0 returns ScimUpdateAttributeForUserReqOperationsItemValue0 and true boolean if ScimUpdateAttributeForUserReqOperationsItemValue is ScimUpdateAttributeForUserReqOperationsItemValue0.
+func (s ScimUpdateAttributeForUserReqOperationsItemValue) GetScimUpdateAttributeForUserReqOperationsItemValue0() (v ScimUpdateAttributeForUserReqOperationsItemValue0, ok bool) {
+	if !s.IsScimUpdateAttributeForUserReqOperationsItemValue0() {
+		return v, false
+	}
+	return s.ScimUpdateAttributeForUserReqOperationsItemValue0, true
+}
+
+// NewScimUpdateAttributeForUserReqOperationsItemValue0ScimUpdateAttributeForUserReqOperationsItemValue returns new ScimUpdateAttributeForUserReqOperationsItemValue from ScimUpdateAttributeForUserReqOperationsItemValue0.
+func NewScimUpdateAttributeForUserReqOperationsItemValue0ScimUpdateAttributeForUserReqOperationsItemValue(v ScimUpdateAttributeForUserReqOperationsItemValue0) ScimUpdateAttributeForUserReqOperationsItemValue {
+	var s ScimUpdateAttributeForUserReqOperationsItemValue
+	s.SetScimUpdateAttributeForUserReqOperationsItemValue0(v)
+	return s
+}
+
+// SetScimUpdateAttributeForUserReqOperationsItemValue1ItemArray sets ScimUpdateAttributeForUserReqOperationsItemValue to []ScimUpdateAttributeForUserReqOperationsItemValue1Item.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue) SetScimUpdateAttributeForUserReqOperationsItemValue1ItemArray(v []ScimUpdateAttributeForUserReqOperationsItemValue1Item) {
+	s.Type = ScimUpdateAttributeForUserReqOperationsItemValue1ItemArrayScimUpdateAttributeForUserReqOperationsItemValue
+	s.ScimUpdateAttributeForUserReqOperationsItemValue1ItemArray = v
+}
+
+// GetScimUpdateAttributeForUserReqOperationsItemValue1ItemArray returns []ScimUpdateAttributeForUserReqOperationsItemValue1Item and true boolean if ScimUpdateAttributeForUserReqOperationsItemValue is []ScimUpdateAttributeForUserReqOperationsItemValue1Item.
+func (s ScimUpdateAttributeForUserReqOperationsItemValue) GetScimUpdateAttributeForUserReqOperationsItemValue1ItemArray() (v []ScimUpdateAttributeForUserReqOperationsItemValue1Item, ok bool) {
+	if !s.IsScimUpdateAttributeForUserReqOperationsItemValue1ItemArray() {
+		return v, false
+	}
+	return s.ScimUpdateAttributeForUserReqOperationsItemValue1ItemArray, true
+}
+
+// NewScimUpdateAttributeForUserReqOperationsItemValue1ItemArrayScimUpdateAttributeForUserReqOperationsItemValue returns new ScimUpdateAttributeForUserReqOperationsItemValue from []ScimUpdateAttributeForUserReqOperationsItemValue1Item.
+func NewScimUpdateAttributeForUserReqOperationsItemValue1ItemArrayScimUpdateAttributeForUserReqOperationsItemValue(v []ScimUpdateAttributeForUserReqOperationsItemValue1Item) ScimUpdateAttributeForUserReqOperationsItemValue {
+	var s ScimUpdateAttributeForUserReqOperationsItemValue
+	s.SetScimUpdateAttributeForUserReqOperationsItemValue1ItemArray(v)
+	return s
+}
+
+// SetString sets ScimUpdateAttributeForUserReqOperationsItemValue to string.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue) SetString(v string) {
+	s.Type = StringScimUpdateAttributeForUserReqOperationsItemValue
+	s.String = v
+}
+
+// GetString returns string and true boolean if ScimUpdateAttributeForUserReqOperationsItemValue is string.
+func (s ScimUpdateAttributeForUserReqOperationsItemValue) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringScimUpdateAttributeForUserReqOperationsItemValue returns new ScimUpdateAttributeForUserReqOperationsItemValue from string.
+func NewStringScimUpdateAttributeForUserReqOperationsItemValue(v string) ScimUpdateAttributeForUserReqOperationsItemValue {
+	var s ScimUpdateAttributeForUserReqOperationsItemValue
+	s.SetString(v)
+	return s
+}
+
+type ScimUpdateAttributeForUserReqOperationsItemValue0 struct {
+	Active     OptNilBool   `json:"active"`
+	UserName   OptNilString `json:"userName"`
+	ExternalId OptNilString `json:"externalId"`
+	GivenName  OptNilString `json:"givenName"`
+	FamilyName OptNilString `json:"familyName"`
+}
+
+// GetActive returns the value of Active.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue0) GetActive() OptNilBool {
+	return s.Active
+}
+
+// GetUserName returns the value of UserName.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue0) GetUserName() OptNilString {
+	return s.UserName
+}
+
+// GetExternalId returns the value of ExternalId.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue0) GetExternalId() OptNilString {
+	return s.ExternalId
+}
+
+// GetGivenName returns the value of GivenName.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue0) GetGivenName() OptNilString {
+	return s.GivenName
+}
+
+// GetFamilyName returns the value of FamilyName.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue0) GetFamilyName() OptNilString {
+	return s.FamilyName
+}
+
+// SetActive sets the value of Active.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue0) SetActive(val OptNilBool) {
+	s.Active = val
+}
+
+// SetUserName sets the value of UserName.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue0) SetUserName(val OptNilString) {
+	s.UserName = val
+}
+
+// SetExternalId sets the value of ExternalId.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue0) SetExternalId(val OptNilString) {
+	s.ExternalId = val
+}
+
+// SetGivenName sets the value of GivenName.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue0) SetGivenName(val OptNilString) {
+	s.GivenName = val
+}
+
+// SetFamilyName sets the value of FamilyName.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue0) SetFamilyName(val OptNilString) {
+	s.FamilyName = val
+}
+
+type ScimUpdateAttributeForUserReqOperationsItemValue1Item struct {
+	Value   OptString `json:"value"`
+	Primary OptBool   `json:"primary"`
+}
+
+// GetValue returns the value of Value.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue1Item) GetValue() OptString {
+	return s.Value
+}
+
+// GetPrimary returns the value of Primary.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue1Item) GetPrimary() OptBool {
+	return s.Primary
+}
+
+// SetValue sets the value of Value.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue1Item) SetValue(val OptString) {
+	s.Value = val
+}
+
+// SetPrimary sets the value of Primary.
+func (s *ScimUpdateAttributeForUserReqOperationsItemValue1Item) SetPrimary(val OptBool) {
+	s.Primary = val
+}
+
+// SCIM /Users provisioning endpoints.
+// Ref: #/components/schemas/scim-user
+type ScimUser struct {
+	// SCIM schema used.
+	Schemas []string `json:"schemas"`
+	// Unique identifier of an external identity.
+	ID string `json:"id"`
+	// The ID of the User.
+	ExternalId NilString `json:"externalId"`
+	// Configured by the admin. Could be an email, login, or username.
+	UserName NilString `json:"userName"`
+	// The name of the user, suitable for display to end-users.
+	DisplayName OptNilString `json:"displayName"`
+	Name        ScimUserName `json:"name"`
+	// User emails.
+	Emails []ScimUserEmailsItem `json:"emails"`
+	// The active status of the User.
+	Active bool         `json:"active"`
+	Meta   ScimUserMeta `json:"meta"`
+	// The ID of the organization.
+	OrganizationID OptInt `json:"organization_id"`
+	// Set of operations to be performed.
+	Operations []ScimUserOperationsItem `json:"operations"`
+	// Associated groups.
+	Groups []ScimUserGroupsItem `json:"groups"`
+}
+
+// GetSchemas returns the value of Schemas.
+func (s *ScimUser) GetSchemas() []string {
+	return s.Schemas
+}
+
+// GetID returns the value of ID.
+func (s *ScimUser) GetID() string {
+	return s.ID
+}
+
+// GetExternalId returns the value of ExternalId.
+func (s *ScimUser) GetExternalId() NilString {
+	return s.ExternalId
+}
+
+// GetUserName returns the value of UserName.
+func (s *ScimUser) GetUserName() NilString {
+	return s.UserName
+}
+
+// GetDisplayName returns the value of DisplayName.
+func (s *ScimUser) GetDisplayName() OptNilString {
+	return s.DisplayName
+}
+
+// GetName returns the value of Name.
+func (s *ScimUser) GetName() ScimUserName {
+	return s.Name
+}
+
+// GetEmails returns the value of Emails.
+func (s *ScimUser) GetEmails() []ScimUserEmailsItem {
+	return s.Emails
+}
+
+// GetActive returns the value of Active.
+func (s *ScimUser) GetActive() bool {
+	return s.Active
+}
+
+// GetMeta returns the value of Meta.
+func (s *ScimUser) GetMeta() ScimUserMeta {
+	return s.Meta
+}
+
+// GetOrganizationID returns the value of OrganizationID.
+func (s *ScimUser) GetOrganizationID() OptInt {
+	return s.OrganizationID
+}
+
+// GetOperations returns the value of Operations.
+func (s *ScimUser) GetOperations() []ScimUserOperationsItem {
+	return s.Operations
+}
+
+// GetGroups returns the value of Groups.
+func (s *ScimUser) GetGroups() []ScimUserGroupsItem {
+	return s.Groups
+}
+
+// SetSchemas sets the value of Schemas.
+func (s *ScimUser) SetSchemas(val []string) {
+	s.Schemas = val
+}
+
+// SetID sets the value of ID.
+func (s *ScimUser) SetID(val string) {
+	s.ID = val
+}
+
+// SetExternalId sets the value of ExternalId.
+func (s *ScimUser) SetExternalId(val NilString) {
+	s.ExternalId = val
+}
+
+// SetUserName sets the value of UserName.
+func (s *ScimUser) SetUserName(val NilString) {
+	s.UserName = val
+}
+
+// SetDisplayName sets the value of DisplayName.
+func (s *ScimUser) SetDisplayName(val OptNilString) {
+	s.DisplayName = val
+}
+
+// SetName sets the value of Name.
+func (s *ScimUser) SetName(val ScimUserName) {
+	s.Name = val
+}
+
+// SetEmails sets the value of Emails.
+func (s *ScimUser) SetEmails(val []ScimUserEmailsItem) {
+	s.Emails = val
+}
+
+// SetActive sets the value of Active.
+func (s *ScimUser) SetActive(val bool) {
+	s.Active = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ScimUser) SetMeta(val ScimUserMeta) {
+	s.Meta = val
+}
+
+// SetOrganizationID sets the value of OrganizationID.
+func (s *ScimUser) SetOrganizationID(val OptInt) {
+	s.OrganizationID = val
+}
+
+// SetOperations sets the value of Operations.
+func (s *ScimUser) SetOperations(val []ScimUserOperationsItem) {
+	s.Operations = val
+}
+
+// SetGroups sets the value of Groups.
+func (s *ScimUser) SetGroups(val []ScimUserGroupsItem) {
+	s.Groups = val
+}
+
+func (*ScimUser) scimGetProvisioningInformationForUserRes() {}
+func (*ScimUser) scimProvisionAndInviteUserRes()            {}
+func (*ScimUser) scimSetInformationForProvisionedUserRes()  {}
+func (*ScimUser) scimUpdateAttributeForUserRes()            {}
+
+type ScimUserEmailsItem struct {
+	Value   string  `json:"value"`
+	Primary OptBool `json:"primary"`
+}
+
+// GetValue returns the value of Value.
+func (s *ScimUserEmailsItem) GetValue() string {
+	return s.Value
+}
+
+// GetPrimary returns the value of Primary.
+func (s *ScimUserEmailsItem) GetPrimary() OptBool {
+	return s.Primary
+}
+
+// SetValue sets the value of Value.
+func (s *ScimUserEmailsItem) SetValue(val string) {
+	s.Value = val
+}
+
+// SetPrimary sets the value of Primary.
+func (s *ScimUserEmailsItem) SetPrimary(val OptBool) {
+	s.Primary = val
+}
+
+type ScimUserGroupsItem struct {
+	Value   OptString `json:"value"`
+	Display OptString `json:"display"`
+}
+
+// GetValue returns the value of Value.
+func (s *ScimUserGroupsItem) GetValue() OptString {
+	return s.Value
+}
+
+// GetDisplay returns the value of Display.
+func (s *ScimUserGroupsItem) GetDisplay() OptString {
+	return s.Display
+}
+
+// SetValue sets the value of Value.
+func (s *ScimUserGroupsItem) SetValue(val OptString) {
+	s.Value = val
+}
+
+// SetDisplay sets the value of Display.
+func (s *ScimUserGroupsItem) SetDisplay(val OptString) {
+	s.Display = val
+}
+
+// SCIM User List.
+// Ref: #/components/schemas/scim-user-list
+type ScimUserList struct {
+	// SCIM schema used.
+	Schemas      []string   `json:"schemas"`
+	TotalResults int        `json:"totalResults"`
+	ItemsPerPage int        `json:"itemsPerPage"`
+	StartIndex   int        `json:"startIndex"`
+	Resources    []ScimUser `json:"Resources"`
+}
+
+// GetSchemas returns the value of Schemas.
+func (s *ScimUserList) GetSchemas() []string {
+	return s.Schemas
+}
+
+// GetTotalResults returns the value of TotalResults.
+func (s *ScimUserList) GetTotalResults() int {
+	return s.TotalResults
+}
+
+// GetItemsPerPage returns the value of ItemsPerPage.
+func (s *ScimUserList) GetItemsPerPage() int {
+	return s.ItemsPerPage
+}
+
+// GetStartIndex returns the value of StartIndex.
+func (s *ScimUserList) GetStartIndex() int {
+	return s.StartIndex
+}
+
+// GetResources returns the value of Resources.
+func (s *ScimUserList) GetResources() []ScimUser {
+	return s.Resources
+}
+
+// SetSchemas sets the value of Schemas.
+func (s *ScimUserList) SetSchemas(val []string) {
+	s.Schemas = val
+}
+
+// SetTotalResults sets the value of TotalResults.
+func (s *ScimUserList) SetTotalResults(val int) {
+	s.TotalResults = val
+}
+
+// SetItemsPerPage sets the value of ItemsPerPage.
+func (s *ScimUserList) SetItemsPerPage(val int) {
+	s.ItemsPerPage = val
+}
+
+// SetStartIndex sets the value of StartIndex.
+func (s *ScimUserList) SetStartIndex(val int) {
+	s.StartIndex = val
+}
+
+// SetResources sets the value of Resources.
+func (s *ScimUserList) SetResources(val []ScimUser) {
+	s.Resources = val
+}
+
+func (*ScimUserList) scimListProvisionedIdentitiesRes() {}
 
 // Ref: #/components/schemas/scim-user-list-enterprise
 type ScimUserListEnterprise struct {
@@ -90220,6 +93028,272 @@ func (s *ScimUserListEnterpriseResourcesItemName) SetGivenName(val OptString) {
 func (s *ScimUserListEnterpriseResourcesItemName) SetFamilyName(val OptString) {
 	s.FamilyName = val
 }
+
+type ScimUserMeta struct {
+	ResourceType OptString   `json:"resourceType"`
+	Created      OptDateTime `json:"created"`
+	LastModified OptDateTime `json:"lastModified"`
+	Location     OptURI      `json:"location"`
+}
+
+// GetResourceType returns the value of ResourceType.
+func (s *ScimUserMeta) GetResourceType() OptString {
+	return s.ResourceType
+}
+
+// GetCreated returns the value of Created.
+func (s *ScimUserMeta) GetCreated() OptDateTime {
+	return s.Created
+}
+
+// GetLastModified returns the value of LastModified.
+func (s *ScimUserMeta) GetLastModified() OptDateTime {
+	return s.LastModified
+}
+
+// GetLocation returns the value of Location.
+func (s *ScimUserMeta) GetLocation() OptURI {
+	return s.Location
+}
+
+// SetResourceType sets the value of ResourceType.
+func (s *ScimUserMeta) SetResourceType(val OptString) {
+	s.ResourceType = val
+}
+
+// SetCreated sets the value of Created.
+func (s *ScimUserMeta) SetCreated(val OptDateTime) {
+	s.Created = val
+}
+
+// SetLastModified sets the value of LastModified.
+func (s *ScimUserMeta) SetLastModified(val OptDateTime) {
+	s.LastModified = val
+}
+
+// SetLocation sets the value of Location.
+func (s *ScimUserMeta) SetLocation(val OptURI) {
+	s.Location = val
+}
+
+type ScimUserName struct {
+	GivenName  NilString    `json:"givenName"`
+	FamilyName NilString    `json:"familyName"`
+	Formatted  OptNilString `json:"formatted"`
+}
+
+// GetGivenName returns the value of GivenName.
+func (s *ScimUserName) GetGivenName() NilString {
+	return s.GivenName
+}
+
+// GetFamilyName returns the value of FamilyName.
+func (s *ScimUserName) GetFamilyName() NilString {
+	return s.FamilyName
+}
+
+// GetFormatted returns the value of Formatted.
+func (s *ScimUserName) GetFormatted() OptNilString {
+	return s.Formatted
+}
+
+// SetGivenName sets the value of GivenName.
+func (s *ScimUserName) SetGivenName(val NilString) {
+	s.GivenName = val
+}
+
+// SetFamilyName sets the value of FamilyName.
+func (s *ScimUserName) SetFamilyName(val NilString) {
+	s.FamilyName = val
+}
+
+// SetFormatted sets the value of Formatted.
+func (s *ScimUserName) SetFormatted(val OptNilString) {
+	s.Formatted = val
+}
+
+type ScimUserOperationsItem struct {
+	Op    ScimUserOperationsItemOp       `json:"op"`
+	Path  OptString                      `json:"path"`
+	Value OptScimUserOperationsItemValue `json:"value"`
+}
+
+// GetOp returns the value of Op.
+func (s *ScimUserOperationsItem) GetOp() ScimUserOperationsItemOp {
+	return s.Op
+}
+
+// GetPath returns the value of Path.
+func (s *ScimUserOperationsItem) GetPath() OptString {
+	return s.Path
+}
+
+// GetValue returns the value of Value.
+func (s *ScimUserOperationsItem) GetValue() OptScimUserOperationsItemValue {
+	return s.Value
+}
+
+// SetOp sets the value of Op.
+func (s *ScimUserOperationsItem) SetOp(val ScimUserOperationsItemOp) {
+	s.Op = val
+}
+
+// SetPath sets the value of Path.
+func (s *ScimUserOperationsItem) SetPath(val OptString) {
+	s.Path = val
+}
+
+// SetValue sets the value of Value.
+func (s *ScimUserOperationsItem) SetValue(val OptScimUserOperationsItemValue) {
+	s.Value = val
+}
+
+type ScimUserOperationsItemOp string
+
+const (
+	ScimUserOperationsItemOpAdd     ScimUserOperationsItemOp = "add"
+	ScimUserOperationsItemOpRemove  ScimUserOperationsItemOp = "remove"
+	ScimUserOperationsItemOpReplace ScimUserOperationsItemOp = "replace"
+)
+
+// AllValues returns all ScimUserOperationsItemOp values.
+func (ScimUserOperationsItemOp) AllValues() []ScimUserOperationsItemOp {
+	return []ScimUserOperationsItemOp{
+		ScimUserOperationsItemOpAdd,
+		ScimUserOperationsItemOpRemove,
+		ScimUserOperationsItemOpReplace,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ScimUserOperationsItemOp) MarshalText() ([]byte, error) {
+	switch s {
+	case ScimUserOperationsItemOpAdd:
+		return []byte(s), nil
+	case ScimUserOperationsItemOpRemove:
+		return []byte(s), nil
+	case ScimUserOperationsItemOpReplace:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ScimUserOperationsItemOp) UnmarshalText(data []byte) error {
+	switch ScimUserOperationsItemOp(data) {
+	case ScimUserOperationsItemOpAdd:
+		*s = ScimUserOperationsItemOpAdd
+		return nil
+	case ScimUserOperationsItemOpRemove:
+		*s = ScimUserOperationsItemOpRemove
+		return nil
+	case ScimUserOperationsItemOpReplace:
+		*s = ScimUserOperationsItemOpReplace
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ScimUserOperationsItemValue represents sum type.
+type ScimUserOperationsItemValue struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                         ScimUserOperationsItemValueType
+	String                       string
+	ScimUserOperationsItemValue1 ScimUserOperationsItemValue1
+	AnyArray                     []jx.Raw
+}
+
+// ScimUserOperationsItemValueType is oneOf type of ScimUserOperationsItemValue.
+type ScimUserOperationsItemValueType string
+
+// Possible values for ScimUserOperationsItemValueType.
+const (
+	StringScimUserOperationsItemValue                       ScimUserOperationsItemValueType = "string"
+	ScimUserOperationsItemValue1ScimUserOperationsItemValue ScimUserOperationsItemValueType = "ScimUserOperationsItemValue1"
+	AnyArrayScimUserOperationsItemValue                     ScimUserOperationsItemValueType = "[]jx.Raw"
+)
+
+// IsString reports whether ScimUserOperationsItemValue is string.
+func (s ScimUserOperationsItemValue) IsString() bool {
+	return s.Type == StringScimUserOperationsItemValue
+}
+
+// IsScimUserOperationsItemValue1 reports whether ScimUserOperationsItemValue is ScimUserOperationsItemValue1.
+func (s ScimUserOperationsItemValue) IsScimUserOperationsItemValue1() bool {
+	return s.Type == ScimUserOperationsItemValue1ScimUserOperationsItemValue
+}
+
+// IsAnyArray reports whether ScimUserOperationsItemValue is []jx.Raw.
+func (s ScimUserOperationsItemValue) IsAnyArray() bool {
+	return s.Type == AnyArrayScimUserOperationsItemValue
+}
+
+// SetString sets ScimUserOperationsItemValue to string.
+func (s *ScimUserOperationsItemValue) SetString(v string) {
+	s.Type = StringScimUserOperationsItemValue
+	s.String = v
+}
+
+// GetString returns string and true boolean if ScimUserOperationsItemValue is string.
+func (s ScimUserOperationsItemValue) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringScimUserOperationsItemValue returns new ScimUserOperationsItemValue from string.
+func NewStringScimUserOperationsItemValue(v string) ScimUserOperationsItemValue {
+	var s ScimUserOperationsItemValue
+	s.SetString(v)
+	return s
+}
+
+// SetScimUserOperationsItemValue1 sets ScimUserOperationsItemValue to ScimUserOperationsItemValue1.
+func (s *ScimUserOperationsItemValue) SetScimUserOperationsItemValue1(v ScimUserOperationsItemValue1) {
+	s.Type = ScimUserOperationsItemValue1ScimUserOperationsItemValue
+	s.ScimUserOperationsItemValue1 = v
+}
+
+// GetScimUserOperationsItemValue1 returns ScimUserOperationsItemValue1 and true boolean if ScimUserOperationsItemValue is ScimUserOperationsItemValue1.
+func (s ScimUserOperationsItemValue) GetScimUserOperationsItemValue1() (v ScimUserOperationsItemValue1, ok bool) {
+	if !s.IsScimUserOperationsItemValue1() {
+		return v, false
+	}
+	return s.ScimUserOperationsItemValue1, true
+}
+
+// NewScimUserOperationsItemValue1ScimUserOperationsItemValue returns new ScimUserOperationsItemValue from ScimUserOperationsItemValue1.
+func NewScimUserOperationsItemValue1ScimUserOperationsItemValue(v ScimUserOperationsItemValue1) ScimUserOperationsItemValue {
+	var s ScimUserOperationsItemValue
+	s.SetScimUserOperationsItemValue1(v)
+	return s
+}
+
+// SetAnyArray sets ScimUserOperationsItemValue to []jx.Raw.
+func (s *ScimUserOperationsItemValue) SetAnyArray(v []jx.Raw) {
+	s.Type = AnyArrayScimUserOperationsItemValue
+	s.AnyArray = v
+}
+
+// GetAnyArray returns []jx.Raw and true boolean if ScimUserOperationsItemValue is []jx.Raw.
+func (s ScimUserOperationsItemValue) GetAnyArray() (v []jx.Raw, ok bool) {
+	if !s.IsAnyArray() {
+		return v, false
+	}
+	return s.AnyArray, true
+}
+
+// NewAnyArrayScimUserOperationsItemValue returns new ScimUserOperationsItemValue from []jx.Raw.
+func NewAnyArrayScimUserOperationsItemValue(v []jx.Raw) ScimUserOperationsItemValue {
+	var s ScimUserOperationsItemValue
+	s.SetAnyArray(v)
+	return s
+}
+
+type ScimUserOperationsItemValue1 struct{}
 
 type SearchCodeOK struct {
 	TotalCount        int                    `json:"total_count"`
@@ -91035,7 +94109,7 @@ func (s *SecretScanningAlert) SetSecret(val OptString) {
 func (*SecretScanningAlert) secretScanningGetAlertRes()    {}
 func (*SecretScanningAlert) secretScanningUpdateAlertRes() {}
 
-// **Required when the `state` is `resolved`.** The reason for resolving the alert. Can be one of
+// Required when the `state` is `resolved`. The reason for resolving the alert. Can be one of
 // `false_positive`, `wont_fix`, `revoked`, or `used_in_tests`.
 // Ref: #/components/schemas/secret-scanning-alert-resolution
 type SecretScanningAlertResolution string
@@ -91301,11 +94375,11 @@ type SelectedActions struct {
 	// Whether GitHub-owned actions are allowed. For example, this includes the actions in the `actions`
 	// organization.
 	GithubOwnedAllowed OptBool `json:"github_owned_allowed"`
-	// Whether actions in GitHub Marketplace from verified creators are allowed. Set to `true` to allow
-	// all GitHub Marketplace actions by verified creators.
+	// Whether actions in GitHub Marketplace from verified creators are allowed. Set to `true` to allow all
+	// GitHub Marketplace actions by verified creators.
 	VerifiedAllowed OptBool `json:"verified_allowed"`
-	// Specifies a list of string-matching patterns to allow specific action(s). Wildcards, tags, and
-	// SHAs are allowed. For example, `monalisa/octocat@*`, `monalisa/octocat@v2`, `monalisa/*`.".
+	// Specifies a list of string-matching patterns to allow specific action(s). Wildcards, tags, and SHAs
+	// are allowed. For example, `monalisa/octocat@*`, `monalisa/octocat@v2`, `monalisa/*`.".
 	PatternsAllowed []string `json:"patterns_allowed"`
 }
 
@@ -92062,6 +95136,33 @@ func (s *Sort) UnmarshalText(data []byte) error {
 	}
 }
 
+// Starred Repository.
+// Ref: #/components/schemas/starred-repository
+type StarredRepository struct {
+	StarredAt time.Time  `json:"starred_at"`
+	Repo      Repository `json:"repo"`
+}
+
+// GetStarredAt returns the value of StarredAt.
+func (s *StarredRepository) GetStarredAt() time.Time {
+	return s.StarredAt
+}
+
+// GetRepo returns the value of Repo.
+func (s *StarredRepository) GetRepo() Repository {
+	return s.Repo
+}
+
+// SetStarredAt sets the value of StarredAt.
+func (s *StarredRepository) SetStarredAt(val time.Time) {
+	s.StarredAt = val
+}
+
+// SetRepo sets the value of Repo.
+func (s *StarredRepository) SetRepo(val Repository) {
+	s.Repo = val
+}
+
 // The status of a commit.
 // Ref: #/components/schemas/status
 type Status struct {
@@ -92554,8 +95655,8 @@ type TeamDiscussion struct {
 	// The main text of the discussion.
 	Body     string `json:"body"`
 	BodyHTML string `json:"body_html"`
-	// The current version of the body content. If provided, this update operation will be rejected if
-	// the given version does not match the latest version on the server.
+	// The current version of the body content. If provided, this update operation will be rejected if the
+	// given version does not match the latest version on the server.
 	BodyVersion   string      `json:"body_version"`
 	CommentsCount int         `json:"comments_count"`
 	CommentsURL   url.URL     `json:"comments_url"`
@@ -92567,8 +95668,7 @@ type TeamDiscussion struct {
 	Number int `json:"number"`
 	// Whether or not this discussion should be pinned for easy retrieval.
 	Pinned bool `json:"pinned"`
-	// Whether or not this discussion should be restricted to team members and organization
-	// administrators.
+	// Whether or not this discussion should be restricted to team members and organization administrators.
 	Private bool    `json:"private"`
 	TeamURL url.URL `json:"team_url"`
 	// The title of the discussion.
@@ -92765,8 +95865,8 @@ type TeamDiscussionComment struct {
 	// The main text of the comment.
 	Body     string `json:"body"`
 	BodyHTML string `json:"body_html"`
-	// The current version of the body content. If provided, this update operation will be rejected if
-	// the given version does not match the latest version on the server.
+	// The current version of the body content. If provided, this update operation will be rejected if the
+	// given version does not match the latest version on the server.
 	BodyVersion   string      `json:"body_version"`
 	CreatedAt     time.Time   `json:"created_at"`
 	LastEditedAt  NilDateTime `json:"last_edited_at"`
@@ -94791,9 +97891,8 @@ type TeamsAddOrUpdateMembershipForUserInOrgForbidden struct{}
 func (*TeamsAddOrUpdateMembershipForUserInOrgForbidden) teamsAddOrUpdateMembershipForUserInOrgRes() {}
 
 type TeamsAddOrUpdateMembershipForUserInOrgReq struct {
-	// The role that this user should have in the team. Can be one of:
-	// \* `member` - a normal member of the team.
-	// \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team
+	// The role that this user should have in the team. Can be one of: \* `member` - a normal member of the
+	// team. \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team
 	// members to team maintainer, and edit the team's name and description.
 	Role OptTeamsAddOrUpdateMembershipForUserInOrgReqRole `json:"role"`
 }
@@ -94808,9 +97907,8 @@ func (s *TeamsAddOrUpdateMembershipForUserInOrgReq) SetRole(val OptTeamsAddOrUpd
 	s.Role = val
 }
 
-// The role that this user should have in the team. Can be one of:
-// \* `member` - a normal member of the team.
-// \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team
+// The role that this user should have in the team. Can be one of: \* `member` - a normal member of the
+// team. \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team
 // members to team maintainer, and edit the team's name and description.
 type TeamsAddOrUpdateMembershipForUserInOrgReqRole string
 
@@ -94866,9 +97964,8 @@ func (*TeamsAddOrUpdateMembershipForUserLegacyForbidden) teamsAddOrUpdateMembers
 }
 
 type TeamsAddOrUpdateMembershipForUserLegacyReq struct {
-	// The role that this user should have in the team. Can be one of:
-	// \* `member` - a normal member of the team.
-	// \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team
+	// The role that this user should have in the team. Can be one of: \* `member` - a normal member of the
+	// team. \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team
 	// members to team maintainer, and edit the team's name and description.
 	Role OptTeamsAddOrUpdateMembershipForUserLegacyReqRole `json:"role"`
 }
@@ -94883,9 +97980,8 @@ func (s *TeamsAddOrUpdateMembershipForUserLegacyReq) SetRole(val OptTeamsAddOrUp
 	s.Role = val
 }
 
-// The role that this user should have in the team. Can be one of:
-// \* `member` - a normal member of the team.
-// \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team
+// The role that this user should have in the team. Can be one of: \* `member` - a normal member of the
+// team. \* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team
 // members to team maintainer, and edit the team's name and description.
 type TeamsAddOrUpdateMembershipForUserLegacyReqRole string
 
@@ -94969,14 +98065,15 @@ func (*TeamsAddOrUpdateProjectPermissionsInOrgNoContent) teamsAddOrUpdateProject
 }
 
 type TeamsAddOrUpdateProjectPermissionsInOrgReq struct {
-	// The permission to grant to the team for this project. Can be one of:
-	// \* `read` - team members can read, but not write to or administer this project.
-	// \* `write` - team members can read and write, but not administer this project.
-	// \* `admin` - team members can read, write and administer this project.
+	// The permission to grant to the team for this project. Can be one of: \* `read` - team members can
+	// read, but not write to or administer this project. \* `write` - team members can read and write, but
+	// not administer this project. \* `admin` - team members can read, write and administer this project.
 	// Default: the team's `permission` attribute will be used to determine what permission to grant the
 	// team on this project. Note that, if you choose not to pass any parameters, you'll need to set
-	// `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP
-	// verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs).".
+	// `Content-Length` to zero when calling out to this endpoint. For more information, see
+	// "[HTTP verbs].".
+	//
+	// [HTTP verbs]: https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs
 	Permission OptTeamsAddOrUpdateProjectPermissionsInOrgReqPermission `json:"permission"`
 }
 
@@ -94990,14 +98087,15 @@ func (s *TeamsAddOrUpdateProjectPermissionsInOrgReq) SetPermission(val OptTeamsA
 	s.Permission = val
 }
 
-// The permission to grant to the team for this project. Can be one of:
-// \* `read` - team members can read, but not write to or administer this project.
-// \* `write` - team members can read and write, but not administer this project.
-// \* `admin` - team members can read, write and administer this project.
+// The permission to grant to the team for this project. Can be one of: \* `read` - team members can
+// read, but not write to or administer this project. \* `write` - team members can read and write, but
+// not administer this project. \* `admin` - team members can read, write and administer this project.
 // Default: the team's `permission` attribute will be used to determine what permission to grant the
 // team on this project. Note that, if you choose not to pass any parameters, you'll need to set
-// `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP
-// verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs).".
+// `Content-Length` to zero when calling out to this endpoint. For more information, see
+// "[HTTP verbs].".
+//
+// [HTTP verbs]: https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs
 type TeamsAddOrUpdateProjectPermissionsInOrgReqPermission string
 
 const (
@@ -95081,14 +98179,15 @@ func (*TeamsAddOrUpdateProjectPermissionsLegacyNoContent) teamsAddOrUpdateProjec
 }
 
 type TeamsAddOrUpdateProjectPermissionsLegacyReq struct {
-	// The permission to grant to the team for this project. Can be one of:
-	// \* `read` - team members can read, but not write to or administer this project.
-	// \* `write` - team members can read and write, but not administer this project.
-	// \* `admin` - team members can read, write and administer this project.
+	// The permission to grant to the team for this project. Can be one of: \* `read` - team members can
+	// read, but not write to or administer this project. \* `write` - team members can read and write, but
+	// not administer this project. \* `admin` - team members can read, write and administer this project.
 	// Default: the team's `permission` attribute will be used to determine what permission to grant the
 	// team on this project. Note that, if you choose not to pass any parameters, you'll need to set
-	// `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP
-	// verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs).".
+	// `Content-Length` to zero when calling out to this endpoint. For more information, see
+	// "[HTTP verbs].".
+	//
+	// [HTTP verbs]: https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs
 	Permission OptTeamsAddOrUpdateProjectPermissionsLegacyReqPermission `json:"permission"`
 }
 
@@ -95102,14 +98201,15 @@ func (s *TeamsAddOrUpdateProjectPermissionsLegacyReq) SetPermission(val OptTeams
 	s.Permission = val
 }
 
-// The permission to grant to the team for this project. Can be one of:
-// \* `read` - team members can read, but not write to or administer this project.
-// \* `write` - team members can read and write, but not administer this project.
-// \* `admin` - team members can read, write and administer this project.
+// The permission to grant to the team for this project. Can be one of: \* `read` - team members can
+// read, but not write to or administer this project. \* `write` - team members can read and write, but
+// not administer this project. \* `admin` - team members can read, write and administer this project.
 // Default: the team's `permission` attribute will be used to determine what permission to grant the
 // team on this project. Note that, if you choose not to pass any parameters, you'll need to set
-// `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP
-// verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs).".
+// `Content-Length` to zero when calling out to this endpoint. For more information, see
+// "[HTTP verbs].".
+//
+// [HTTP verbs]: https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs
 type TeamsAddOrUpdateProjectPermissionsLegacyReqPermission string
 
 const (
@@ -95162,15 +98262,15 @@ func (s *TeamsAddOrUpdateProjectPermissionsLegacyReqPermission) UnmarshalText(da
 type TeamsAddOrUpdateRepoPermissionsInOrgNoContent struct{}
 
 type TeamsAddOrUpdateRepoPermissionsInOrgReq struct {
-	// The permission to grant the team on this repository. Can be one of:
-	// \* `pull` - team members can pull, but not push to or administer this repository.
-	// \* `push` - team members can pull and push, but not administer this repository.
-	// \* `admin` - team members can pull, push and administer this repository.
-	// \* `maintain` - team members can manage the repository without access to sensitive or destructive
-	// actions. Recommended for project managers. Only applies to repositories owned by organizations.
-	// \* `triage` - team members can proactively manage issues and pull requests without write access.
-	// Recommended for contributors who triage a repository. Only applies to repositories owned by
-	// organizations.
+	// The permission to grant the team on this repository. Can be one of: \* `pull` - team members can
+	// pull, but not push to or administer this repository. \* `push` - team members can pull and push, but
+	// not administer this repository. \* `admin` - team members can pull, push and administer this
+	// repository. \* `maintain` - team members can manage the repository without access to sensitive or
+	// destructive actions. Recommended for project managers. Only applies to repositories owned by
+	// organizations. \* `triage` - team members can proactively manage issues and pull requests without
+	// write access. Recommended for contributors who triage a repository. Only applies to repositories
+	// owned by organizations.
+	//
 	// If no permission is specified, the team's `permission` attribute will be used to determine what
 	// permission to grant the team on this repository.
 	Permission OptTeamsAddOrUpdateRepoPermissionsInOrgReqPermission `json:"permission"`
@@ -95186,15 +98286,15 @@ func (s *TeamsAddOrUpdateRepoPermissionsInOrgReq) SetPermission(val OptTeamsAddO
 	s.Permission = val
 }
 
-// The permission to grant the team on this repository. Can be one of:
-// \* `pull` - team members can pull, but not push to or administer this repository.
-// \* `push` - team members can pull and push, but not administer this repository.
-// \* `admin` - team members can pull, push and administer this repository.
-// \* `maintain` - team members can manage the repository without access to sensitive or destructive
-// actions. Recommended for project managers. Only applies to repositories owned by organizations.
-// \* `triage` - team members can proactively manage issues and pull requests without write access.
-// Recommended for contributors who triage a repository. Only applies to repositories owned by
-// organizations.
+// The permission to grant the team on this repository. Can be one of: \* `pull` - team members can
+// pull, but not push to or administer this repository. \* `push` - team members can pull and push, but
+// not administer this repository. \* `admin` - team members can pull, push and administer this
+// repository. \* `maintain` - team members can manage the repository without access to sensitive or
+// destructive actions. Recommended for project managers. Only applies to repositories owned by
+// organizations. \* `triage` - team members can proactively manage issues and pull requests without
+// write access. Recommended for contributors who triage a repository. Only applies to repositories
+// owned by organizations.
+//
 // If no permission is specified, the team's `permission` attribute will be used to determine what
 // permission to grant the team on this repository.
 type TeamsAddOrUpdateRepoPermissionsInOrgReqPermission string
@@ -95265,10 +98365,11 @@ type TeamsAddOrUpdateRepoPermissionsLegacyNoContent struct{}
 func (*TeamsAddOrUpdateRepoPermissionsLegacyNoContent) teamsAddOrUpdateRepoPermissionsLegacyRes() {}
 
 type TeamsAddOrUpdateRepoPermissionsLegacyReq struct {
-	// The permission to grant the team on this repository. Can be one of:
-	// \* `pull` - team members can pull, but not push to or administer this repository.
-	// \* `push` - team members can pull and push, but not administer this repository.
-	// \* `admin` - team members can pull, push and administer this repository.
+	// The permission to grant the team on this repository. Can be one of: \* `pull` - team members can
+	// pull, but not push to or administer this repository. \* `push` - team members can pull and push, but
+	// not administer this repository. \* `admin` - team members can pull, push and administer this
+	// repository.
+	//
 	// If no permission is specified, the team's `permission` attribute will be used to determine what
 	// permission to grant the team on this repository.
 	Permission OptTeamsAddOrUpdateRepoPermissionsLegacyReqPermission `json:"permission"`
@@ -95284,10 +98385,11 @@ func (s *TeamsAddOrUpdateRepoPermissionsLegacyReq) SetPermission(val OptTeamsAdd
 	s.Permission = val
 }
 
-// The permission to grant the team on this repository. Can be one of:
-// \* `pull` - team members can pull, but not push to or administer this repository.
-// \* `push` - team members can pull and push, but not administer this repository.
-// \* `admin` - team members can pull, push and administer this repository.
+// The permission to grant the team on this repository. Can be one of: \* `pull` - team members can
+// pull, but not push to or administer this repository. \* `push` - team members can pull and push, but
+// not administer this repository. \* `admin` - team members can pull, push and administer this
+// repository.
+//
 // If no permission is specified, the team's `permission` attribute will be used to determine what
 // permission to grant the team on this repository.
 type TeamsAddOrUpdateRepoPermissionsLegacyReqPermission string
@@ -95641,20 +98743,15 @@ type TeamsCreateReq struct {
 	Maintainers []string `json:"maintainers"`
 	// The full name (e.g., "organization-name/repository-name") of repositories to add the team to.
 	RepoNames []string `json:"repo_names"`
-	// The level of privacy this team should have. The options are:
-	// **For a non-nested team:**
-	// \* `secret` - only visible to organization owners and members of this team.
-	// \* `closed` - visible to all members of this organization.
-	// Default: `secret`
-	// **For a parent or child team:**
-	// \* `closed` - visible to all members of this organization.
-	// Default for child team: `closed`.
+	// The level of privacy this team should have. The options are: For a non-nested team: \* `secret` -
+	// only visible to organization owners and members of this team. \* `closed` - visible to all members
+	// of this organization. Default: `secret` For a parent or child team: \* `closed` - visible to all
+	// members of this organization. Default for child team: `closed`.
 	Privacy OptTeamsCreateReqPrivacy `json:"privacy"`
-	// **Deprecated**. The permission that new repositories will be added to the team with when none is
-	// specified. Can be one of:
-	// \* `pull` - team members can pull, but not push to or administer newly-added repositories.
-	// \* `push` - team members can pull and push, but not administer newly-added repositories.
-	// \* `admin` - team members can pull, push and administer newly-added repositories.
+	// Deprecated. The permission that new repositories will be added to the team with when none is
+	// specified. Can be one of: \* `pull` - team members can pull, but not push to or administer
+	// newly-added repositories. \* `push` - team members can pull and push, but not administer newly-added
+	// repositories. \* `admin` - team members can pull, push and administer newly-added repositories.
 	Permission OptTeamsCreateReqPermission `json:"permission"`
 	// The ID of a team to set as the parent team.
 	ParentTeamID OptInt `json:"parent_team_id"`
@@ -95730,11 +98827,10 @@ func (s *TeamsCreateReq) SetParentTeamID(val OptInt) {
 	s.ParentTeamID = val
 }
 
-// **Deprecated**. The permission that new repositories will be added to the team with when none is
-// specified. Can be one of:
-// \* `pull` - team members can pull, but not push to or administer newly-added repositories.
-// \* `push` - team members can pull and push, but not administer newly-added repositories.
-// \* `admin` - team members can pull, push and administer newly-added repositories.
+// Deprecated. The permission that new repositories will be added to the team with when none is
+// specified. Can be one of: \* `pull` - team members can pull, but not push to or administer
+// newly-added repositories. \* `push` - team members can pull and push, but not administer newly-added
+// repositories. \* `admin` - team members can pull, push and administer newly-added repositories.
 type TeamsCreateReqPermission string
 
 const (
@@ -95783,14 +98879,10 @@ func (s *TeamsCreateReqPermission) UnmarshalText(data []byte) error {
 	}
 }
 
-// The level of privacy this team should have. The options are:
-// **For a non-nested team:**
-// \* `secret` - only visible to organization owners and members of this team.
-// \* `closed` - visible to all members of this organization.
-// Default: `secret`
-// **For a parent or child team:**
-// \* `closed` - visible to all members of this organization.
-// Default for child team: `closed`.
+// The level of privacy this team should have. The options are: For a non-nested team: \* `secret` -
+// only visible to organization owners and members of this team. \* `closed` - visible to all members
+// of this organization. Default: `secret` For a parent or child team: \* `closed` - visible to all
+// members of this organization. Default for child team: `closed`.
 type TeamsCreateReqPrivacy string
 
 const (
@@ -96550,18 +99642,14 @@ type TeamsUpdateInOrgReq struct {
 	Description OptString `json:"description"`
 	// The level of privacy this team should have. Editing teams without specifying this parameter leaves
 	// `privacy` intact. When a team is nested, the `privacy` for parent teams cannot be `secret`. The
-	// options are:
-	// **For a non-nested team:**
-	// \* `secret` - only visible to organization owners and members of this team.
-	// \* `closed` - visible to all members of this organization.
-	// **For a parent or child team:**
-	// \* `closed` - visible to all members of this organization.
+	// options are: For a non-nested team: \* `secret` - only visible to organization owners and members of
+	// this team. \* `closed` - visible to all members of this organization. For a parent or child team: \*
+	// `closed` - visible to all members of this organization.
 	Privacy OptTeamsUpdateInOrgReqPrivacy `json:"privacy"`
-	// **Deprecated**. The permission that new repositories will be added to the team with when none is
-	// specified. Can be one of:
-	// \* `pull` - team members can pull, but not push to or administer newly-added repositories.
-	// \* `push` - team members can pull and push, but not administer newly-added repositories.
-	// \* `admin` - team members can pull, push and administer newly-added repositories.
+	// Deprecated. The permission that new repositories will be added to the team with when none is
+	// specified. Can be one of: \* `pull` - team members can pull, but not push to or administer
+	// newly-added repositories. \* `push` - team members can pull and push, but not administer newly-added
+	// repositories. \* `admin` - team members can pull, push and administer newly-added repositories.
 	Permission OptTeamsUpdateInOrgReqPermission `json:"permission"`
 	// The ID of a team to set as the parent team.
 	ParentTeamID OptNilInt `json:"parent_team_id"`
@@ -96617,11 +99705,10 @@ func (s *TeamsUpdateInOrgReq) SetParentTeamID(val OptNilInt) {
 	s.ParentTeamID = val
 }
 
-// **Deprecated**. The permission that new repositories will be added to the team with when none is
-// specified. Can be one of:
-// \* `pull` - team members can pull, but not push to or administer newly-added repositories.
-// \* `push` - team members can pull and push, but not administer newly-added repositories.
-// \* `admin` - team members can pull, push and administer newly-added repositories.
+// Deprecated. The permission that new repositories will be added to the team with when none is
+// specified. Can be one of: \* `pull` - team members can pull, but not push to or administer
+// newly-added repositories. \* `push` - team members can pull and push, but not administer newly-added
+// repositories. \* `admin` - team members can pull, push and administer newly-added repositories.
 type TeamsUpdateInOrgReqPermission string
 
 const (
@@ -96672,12 +99759,9 @@ func (s *TeamsUpdateInOrgReqPermission) UnmarshalText(data []byte) error {
 
 // The level of privacy this team should have. Editing teams without specifying this parameter leaves
 // `privacy` intact. When a team is nested, the `privacy` for parent teams cannot be `secret`. The
-// options are:
-// **For a non-nested team:**
-// \* `secret` - only visible to organization owners and members of this team.
-// \* `closed` - visible to all members of this organization.
-// **For a parent or child team:**
-// \* `closed` - visible to all members of this organization.
+// options are: For a non-nested team: \* `secret` - only visible to organization owners and members of
+// this team. \* `closed` - visible to all members of this organization. For a parent or child team: \*
+// `closed` - visible to all members of this organization.
 type TeamsUpdateInOrgReqPrivacy string
 
 const (
@@ -96741,18 +99825,14 @@ type TeamsUpdateLegacyReq struct {
 	// The description of the team.
 	Description OptString `json:"description"`
 	// The level of privacy this team should have. Editing teams without specifying this parameter leaves
-	// `privacy` intact. The options are:
-	// **For a non-nested team:**
-	// \* `secret` - only visible to organization owners and members of this team.
-	// \* `closed` - visible to all members of this organization.
-	// **For a parent or child team:**
-	// \* `closed` - visible to all members of this organization.
+	// `privacy` intact. The options are: For a non-nested team: \* `secret` - only visible to organization
+	// owners and members of this team. \* `closed` - visible to all members of this organization. For a
+	// parent or child team: \* `closed` - visible to all members of this organization.
 	Privacy OptTeamsUpdateLegacyReqPrivacy `json:"privacy"`
-	// **Deprecated**. The permission that new repositories will be added to the team with when none is
-	// specified. Can be one of:
-	// \* `pull` - team members can pull, but not push to or administer newly-added repositories.
-	// \* `push` - team members can pull and push, but not administer newly-added repositories.
-	// \* `admin` - team members can pull, push and administer newly-added repositories.
+	// Deprecated. The permission that new repositories will be added to the team with when none is
+	// specified. Can be one of: \* `pull` - team members can pull, but not push to or administer
+	// newly-added repositories. \* `push` - team members can pull and push, but not administer newly-added
+	// repositories. \* `admin` - team members can pull, push and administer newly-added repositories.
 	Permission OptTeamsUpdateLegacyReqPermission `json:"permission"`
 	// The ID of a team to set as the parent team.
 	ParentTeamID OptNilInt `json:"parent_team_id"`
@@ -96808,11 +99888,10 @@ func (s *TeamsUpdateLegacyReq) SetParentTeamID(val OptNilInt) {
 	s.ParentTeamID = val
 }
 
-// **Deprecated**. The permission that new repositories will be added to the team with when none is
-// specified. Can be one of:
-// \* `pull` - team members can pull, but not push to or administer newly-added repositories.
-// \* `push` - team members can pull and push, but not administer newly-added repositories.
-// \* `admin` - team members can pull, push and administer newly-added repositories.
+// Deprecated. The permission that new repositories will be added to the team with when none is
+// specified. Can be one of: \* `pull` - team members can pull, but not push to or administer
+// newly-added repositories. \* `push` - team members can pull and push, but not administer newly-added
+// repositories. \* `admin` - team members can pull, push and administer newly-added repositories.
 type TeamsUpdateLegacyReqPermission string
 
 const (
@@ -96862,12 +99941,9 @@ func (s *TeamsUpdateLegacyReqPermission) UnmarshalText(data []byte) error {
 }
 
 // The level of privacy this team should have. Editing teams without specifying this parameter leaves
-// `privacy` intact. The options are:
-// **For a non-nested team:**
-// \* `secret` - only visible to organization owners and members of this team.
-// \* `closed` - visible to all members of this organization.
-// **For a parent or child team:**
-// \* `closed` - visible to all members of this organization.
+// `privacy` intact. The options are: For a non-nested team: \* `secret` - only visible to organization
+// owners and members of this team. \* `closed` - visible to all members of this organization. For a
+// parent or child team: \* `closed` - visible to all members of this organization.
 type TeamsUpdateLegacyReqPrivacy string
 
 const (
@@ -97992,7 +101068,8 @@ func (*UsersAddEmailForAuthenticatedNotFound) usersAddEmailForAuthenticatedRes()
 
 // UsersAddEmailForAuthenticatedReq represents sum type.
 type UsersAddEmailForAuthenticatedReq struct {
-	Type                              UsersAddEmailForAuthenticatedReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                              UsersAddEmailForAuthenticatedReqType
 	UsersAddEmailForAuthenticatedReq0 UsersAddEmailForAuthenticatedReq0
 	StringArray                       []string
 	String                            string
@@ -98088,8 +101165,8 @@ func NewStringUsersAddEmailForAuthenticatedReq(v string) UsersAddEmailForAuthent
 
 type UsersAddEmailForAuthenticatedReq0 struct {
 	// Adds one or more email addresses to your GitHub account. Must contain at least one email address.
-	// **Note:** Alternatively, you can pass a single email address or an `array` of emails addresses
-	// directly, but we recommend that you pass an object using the `emails` key.
+	// Note: Alternatively, you can pass a single email address or an `array` of emails addresses directly,
+	// but we recommend that you pass an object using the `emails` key.
 	Emails []string `json:"emails"`
 }
 
@@ -98256,7 +101333,8 @@ func (*UsersDeleteEmailForAuthenticatedNotFound) usersDeleteEmailForAuthenticate
 
 // UsersDeleteEmailForAuthenticatedReq represents sum type.
 type UsersDeleteEmailForAuthenticatedReq struct {
-	Type                                 UsersDeleteEmailForAuthenticatedReqType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                                 UsersDeleteEmailForAuthenticatedReqType
 	UsersDeleteEmailForAuthenticatedReq0 UsersDeleteEmailForAuthenticatedReq0
 	StringArray                          []string
 	String                               string
@@ -98351,8 +101429,8 @@ func NewStringUsersDeleteEmailForAuthenticatedReq(v string) UsersDeleteEmailForA
 }
 
 // Deletes one or more email addresses from your GitHub account. Must contain at least one email
-// address. **Note:** Alternatively, you can pass a single email address or an `array` of emails
-// addresses directly, but we recommend that you pass an object using the `emails` key.
+// address. Note: Alternatively, you can pass a single email address or an `array` of emails addresses
+// directly, but we recommend that you pass an object using the `emails` key.
 type UsersDeleteEmailForAuthenticatedReq0 struct {
 	// Email addresses associated with the GitHub user account.
 	Emails []string `json:"emails"`
@@ -98433,7 +101511,8 @@ func (*UsersGetAuthenticatedForbidden) usersGetAuthenticatedRes() {}
 
 // UsersGetAuthenticatedOK represents sum type.
 type UsersGetAuthenticatedOK struct {
-	Type        UsersGetAuthenticatedOKType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type        UsersGetAuthenticatedOKType
 	PrivateUser PrivateUser
 	PublicUser  PublicUser
 }
@@ -98507,7 +101586,8 @@ func (*UsersGetAuthenticatedUnauthorized) usersGetAuthenticatedRes() {}
 
 // UsersGetByUsernameOK represents sum type.
 type UsersGetByUsernameOK struct {
-	Type        UsersGetByUsernameOKType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type        UsersGetByUsernameOKType
 	PrivateUser PrivateUser
 	PublicUser  PublicUser
 }
@@ -99509,7 +102589,8 @@ func (s *ValidationErrorErrorsItem) SetValue(val OptValidationErrorErrorsItemVal
 
 // ValidationErrorErrorsItemValue represents sum type.
 type ValidationErrorErrorsItemValue struct {
-	Type        ValidationErrorErrorsItemValueType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type        ValidationErrorErrorsItemValueType
 	Null        struct{}
 	String      string
 	Int         int
@@ -99830,7 +102911,8 @@ type WebhookConfigContentType string
 // Ref: #/components/schemas/webhook-config-insecure-ssl
 // WebhookConfigInsecureSsl represents sum type.
 type WebhookConfigInsecureSsl struct {
-	Type    WebhookConfigInsecureSslType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type    WebhookConfigInsecureSslType
 	String  string
 	Float64 float64
 }
@@ -100020,6 +103102,71 @@ func (s *Workflow) SetBadgeURL(val string) {
 // SetDeletedAt sets the value of DeletedAt.
 func (s *Workflow) SetDeletedAt(val OptDateTime) {
 	s.DeletedAt = val
+}
+
+// WorkflowID represents sum type.
+type WorkflowID struct {
+	// Type selects the active sum variant, switch on this field.
+	Type   WorkflowIDType
+	Int    int
+	String string
+}
+
+// WorkflowIDType is oneOf type of WorkflowID.
+type WorkflowIDType string
+
+// Possible values for WorkflowIDType.
+const (
+	IntWorkflowID    WorkflowIDType = "int"
+	StringWorkflowID WorkflowIDType = "string"
+)
+
+// IsInt reports whether WorkflowID is int.
+func (s WorkflowID) IsInt() bool { return s.Type == IntWorkflowID }
+
+// IsString reports whether WorkflowID is string.
+func (s WorkflowID) IsString() bool { return s.Type == StringWorkflowID }
+
+// SetInt sets WorkflowID to int.
+func (s *WorkflowID) SetInt(v int) {
+	s.Type = IntWorkflowID
+	s.Int = v
+}
+
+// GetInt returns int and true boolean if WorkflowID is int.
+func (s WorkflowID) GetInt() (v int, ok bool) {
+	if !s.IsInt() {
+		return v, false
+	}
+	return s.Int, true
+}
+
+// NewIntWorkflowID returns new WorkflowID from int.
+func NewIntWorkflowID(v int) WorkflowID {
+	var s WorkflowID
+	s.SetInt(v)
+	return s
+}
+
+// SetString sets WorkflowID to string.
+func (s *WorkflowID) SetString(v string) {
+	s.Type = StringWorkflowID
+	s.String = v
+}
+
+// GetString returns string and true boolean if WorkflowID is string.
+func (s WorkflowID) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringWorkflowID returns new WorkflowID from string.
+func NewStringWorkflowID(v string) WorkflowID {
+	var s WorkflowID
+	s.SetString(v)
+	return s
 }
 
 // An invocation of a workflow.
@@ -100690,4 +103837,98 @@ func (s *WorkflowState) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+// Workflow Usage.
+// Ref: #/components/schemas/workflow-usage
+type WorkflowUsage struct {
+	Billable WorkflowUsageBillable `json:"billable"`
+}
+
+// GetBillable returns the value of Billable.
+func (s *WorkflowUsage) GetBillable() WorkflowUsageBillable {
+	return s.Billable
+}
+
+// SetBillable sets the value of Billable.
+func (s *WorkflowUsage) SetBillable(val WorkflowUsageBillable) {
+	s.Billable = val
+}
+
+type WorkflowUsageBillable struct {
+	UBUNTU  OptWorkflowUsageBillableUBUNTU  `json:"UBUNTU"`
+	MACOS   OptWorkflowUsageBillableMACOS   `json:"MACOS"`
+	WINDOWS OptWorkflowUsageBillableWINDOWS `json:"WINDOWS"`
+}
+
+// GetUBUNTU returns the value of UBUNTU.
+func (s *WorkflowUsageBillable) GetUBUNTU() OptWorkflowUsageBillableUBUNTU {
+	return s.UBUNTU
+}
+
+// GetMACOS returns the value of MACOS.
+func (s *WorkflowUsageBillable) GetMACOS() OptWorkflowUsageBillableMACOS {
+	return s.MACOS
+}
+
+// GetWINDOWS returns the value of WINDOWS.
+func (s *WorkflowUsageBillable) GetWINDOWS() OptWorkflowUsageBillableWINDOWS {
+	return s.WINDOWS
+}
+
+// SetUBUNTU sets the value of UBUNTU.
+func (s *WorkflowUsageBillable) SetUBUNTU(val OptWorkflowUsageBillableUBUNTU) {
+	s.UBUNTU = val
+}
+
+// SetMACOS sets the value of MACOS.
+func (s *WorkflowUsageBillable) SetMACOS(val OptWorkflowUsageBillableMACOS) {
+	s.MACOS = val
+}
+
+// SetWINDOWS sets the value of WINDOWS.
+func (s *WorkflowUsageBillable) SetWINDOWS(val OptWorkflowUsageBillableWINDOWS) {
+	s.WINDOWS = val
+}
+
+type WorkflowUsageBillableMACOS struct {
+	TotalMs OptInt `json:"total_ms"`
+}
+
+// GetTotalMs returns the value of TotalMs.
+func (s *WorkflowUsageBillableMACOS) GetTotalMs() OptInt {
+	return s.TotalMs
+}
+
+// SetTotalMs sets the value of TotalMs.
+func (s *WorkflowUsageBillableMACOS) SetTotalMs(val OptInt) {
+	s.TotalMs = val
+}
+
+type WorkflowUsageBillableUBUNTU struct {
+	TotalMs OptInt `json:"total_ms"`
+}
+
+// GetTotalMs returns the value of TotalMs.
+func (s *WorkflowUsageBillableUBUNTU) GetTotalMs() OptInt {
+	return s.TotalMs
+}
+
+// SetTotalMs sets the value of TotalMs.
+func (s *WorkflowUsageBillableUBUNTU) SetTotalMs(val OptInt) {
+	s.TotalMs = val
+}
+
+type WorkflowUsageBillableWINDOWS struct {
+	TotalMs OptInt `json:"total_ms"`
+}
+
+// GetTotalMs returns the value of TotalMs.
+func (s *WorkflowUsageBillableWINDOWS) GetTotalMs() OptInt {
+	return s.TotalMs
+}
+
+// SetTotalMs sets the value of TotalMs.
+func (s *WorkflowUsageBillableWINDOWS) SetTotalMs(val OptInt) {
+	s.TotalMs = val
 }

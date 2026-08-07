@@ -9,13 +9,12 @@ import (
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/uri"
-	"github.com/ogen-go/ogen/validate"
 )
 
 // UpdateWebhookParams is parameters of updateWebhook operation.
 type UpdateWebhookParams struct {
 	EventType     string
-	XWebhookToken OptString
+	XWebhookToken OptString `json:",omitempty,omitzero"`
 }
 
 func unpackUpdateWebhookParams(packed middleware.Parameters) (params UpdateWebhookParams) {
@@ -67,7 +66,7 @@ func decodeUpdateWebhookParams(args [0]string, argsEscaped bool, r *http.Request
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {

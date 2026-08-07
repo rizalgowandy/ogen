@@ -10,7 +10,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -63,7 +62,7 @@ func decodeConnectCoreV1DeleteNamespacedPodProxyResponse(resp *http.Response) (r
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -78,7 +77,7 @@ func decodeConnectCoreV1DeleteNamespacedPodProxyResponse(resp *http.Response) (r
 		// Code 401.
 		return &ConnectCoreV1DeleteNamespacedPodProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1DeleteNamespacedPodProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1DeleteNamespacedPodProxyWithPathRes, _ error) {
@@ -126,7 +125,7 @@ func decodeConnectCoreV1DeleteNamespacedPodProxyWithPathResponse(resp *http.Resp
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -141,7 +140,7 @@ func decodeConnectCoreV1DeleteNamespacedPodProxyWithPathResponse(resp *http.Resp
 		// Code 401.
 		return &ConnectCoreV1DeleteNamespacedPodProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1DeleteNamespacedServiceProxyResponse(resp *http.Response) (res ConnectCoreV1DeleteNamespacedServiceProxyRes, _ error) {
@@ -189,7 +188,7 @@ func decodeConnectCoreV1DeleteNamespacedServiceProxyResponse(resp *http.Response
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -204,7 +203,7 @@ func decodeConnectCoreV1DeleteNamespacedServiceProxyResponse(resp *http.Response
 		// Code 401.
 		return &ConnectCoreV1DeleteNamespacedServiceProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1DeleteNamespacedServiceProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1DeleteNamespacedServiceProxyWithPathRes, _ error) {
@@ -252,7 +251,7 @@ func decodeConnectCoreV1DeleteNamespacedServiceProxyWithPathResponse(resp *http.
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -267,7 +266,7 @@ func decodeConnectCoreV1DeleteNamespacedServiceProxyWithPathResponse(resp *http.
 		// Code 401.
 		return &ConnectCoreV1DeleteNamespacedServiceProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1DeleteNodeProxyResponse(resp *http.Response) (res ConnectCoreV1DeleteNodeProxyRes, _ error) {
@@ -315,7 +314,7 @@ func decodeConnectCoreV1DeleteNodeProxyResponse(resp *http.Response) (res Connec
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -330,7 +329,7 @@ func decodeConnectCoreV1DeleteNodeProxyResponse(resp *http.Response) (res Connec
 		// Code 401.
 		return &ConnectCoreV1DeleteNodeProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1DeleteNodeProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1DeleteNodeProxyWithPathRes, _ error) {
@@ -378,7 +377,7 @@ func decodeConnectCoreV1DeleteNodeProxyWithPathResponse(resp *http.Response) (re
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -393,7 +392,7 @@ func decodeConnectCoreV1DeleteNodeProxyWithPathResponse(resp *http.Response) (re
 		// Code 401.
 		return &ConnectCoreV1DeleteNodeProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1GetNamespacedPodAttachResponse(resp *http.Response) (res ConnectCoreV1GetNamespacedPodAttachRes, _ error) {
@@ -441,7 +440,7 @@ func decodeConnectCoreV1GetNamespacedPodAttachResponse(resp *http.Response) (res
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -456,7 +455,7 @@ func decodeConnectCoreV1GetNamespacedPodAttachResponse(resp *http.Response) (res
 		// Code 401.
 		return &ConnectCoreV1GetNamespacedPodAttachUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1GetNamespacedPodExecResponse(resp *http.Response) (res ConnectCoreV1GetNamespacedPodExecRes, _ error) {
@@ -504,7 +503,7 @@ func decodeConnectCoreV1GetNamespacedPodExecResponse(resp *http.Response) (res C
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -519,7 +518,7 @@ func decodeConnectCoreV1GetNamespacedPodExecResponse(resp *http.Response) (res C
 		// Code 401.
 		return &ConnectCoreV1GetNamespacedPodExecUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1GetNamespacedPodPortforwardResponse(resp *http.Response) (res ConnectCoreV1GetNamespacedPodPortforwardRes, _ error) {
@@ -567,7 +566,7 @@ func decodeConnectCoreV1GetNamespacedPodPortforwardResponse(resp *http.Response)
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -582,7 +581,7 @@ func decodeConnectCoreV1GetNamespacedPodPortforwardResponse(resp *http.Response)
 		// Code 401.
 		return &ConnectCoreV1GetNamespacedPodPortforwardUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1GetNamespacedPodProxyResponse(resp *http.Response) (res ConnectCoreV1GetNamespacedPodProxyRes, _ error) {
@@ -630,7 +629,7 @@ func decodeConnectCoreV1GetNamespacedPodProxyResponse(resp *http.Response) (res 
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -645,7 +644,7 @@ func decodeConnectCoreV1GetNamespacedPodProxyResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ConnectCoreV1GetNamespacedPodProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1GetNamespacedPodProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1GetNamespacedPodProxyWithPathRes, _ error) {
@@ -693,7 +692,7 @@ func decodeConnectCoreV1GetNamespacedPodProxyWithPathResponse(resp *http.Respons
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -708,7 +707,7 @@ func decodeConnectCoreV1GetNamespacedPodProxyWithPathResponse(resp *http.Respons
 		// Code 401.
 		return &ConnectCoreV1GetNamespacedPodProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1GetNamespacedServiceProxyResponse(resp *http.Response) (res ConnectCoreV1GetNamespacedServiceProxyRes, _ error) {
@@ -756,7 +755,7 @@ func decodeConnectCoreV1GetNamespacedServiceProxyResponse(resp *http.Response) (
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -771,7 +770,7 @@ func decodeConnectCoreV1GetNamespacedServiceProxyResponse(resp *http.Response) (
 		// Code 401.
 		return &ConnectCoreV1GetNamespacedServiceProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1GetNamespacedServiceProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1GetNamespacedServiceProxyWithPathRes, _ error) {
@@ -819,7 +818,7 @@ func decodeConnectCoreV1GetNamespacedServiceProxyWithPathResponse(resp *http.Res
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -834,7 +833,7 @@ func decodeConnectCoreV1GetNamespacedServiceProxyWithPathResponse(resp *http.Res
 		// Code 401.
 		return &ConnectCoreV1GetNamespacedServiceProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1GetNodeProxyResponse(resp *http.Response) (res ConnectCoreV1GetNodeProxyRes, _ error) {
@@ -882,7 +881,7 @@ func decodeConnectCoreV1GetNodeProxyResponse(resp *http.Response) (res ConnectCo
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -897,7 +896,7 @@ func decodeConnectCoreV1GetNodeProxyResponse(resp *http.Response) (res ConnectCo
 		// Code 401.
 		return &ConnectCoreV1GetNodeProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1GetNodeProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1GetNodeProxyWithPathRes, _ error) {
@@ -945,7 +944,7 @@ func decodeConnectCoreV1GetNodeProxyWithPathResponse(resp *http.Response) (res C
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -960,7 +959,7 @@ func decodeConnectCoreV1GetNodeProxyWithPathResponse(resp *http.Response) (res C
 		// Code 401.
 		return &ConnectCoreV1GetNodeProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1HeadNamespacedPodProxyResponse(resp *http.Response) (res ConnectCoreV1HeadNamespacedPodProxyRes, _ error) {
@@ -1008,7 +1007,7 @@ func decodeConnectCoreV1HeadNamespacedPodProxyResponse(resp *http.Response) (res
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1023,7 +1022,7 @@ func decodeConnectCoreV1HeadNamespacedPodProxyResponse(resp *http.Response) (res
 		// Code 401.
 		return &ConnectCoreV1HeadNamespacedPodProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1HeadNamespacedPodProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1HeadNamespacedPodProxyWithPathRes, _ error) {
@@ -1071,7 +1070,7 @@ func decodeConnectCoreV1HeadNamespacedPodProxyWithPathResponse(resp *http.Respon
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1086,7 +1085,7 @@ func decodeConnectCoreV1HeadNamespacedPodProxyWithPathResponse(resp *http.Respon
 		// Code 401.
 		return &ConnectCoreV1HeadNamespacedPodProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1HeadNamespacedServiceProxyResponse(resp *http.Response) (res ConnectCoreV1HeadNamespacedServiceProxyRes, _ error) {
@@ -1134,7 +1133,7 @@ func decodeConnectCoreV1HeadNamespacedServiceProxyResponse(resp *http.Response) 
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1149,7 +1148,7 @@ func decodeConnectCoreV1HeadNamespacedServiceProxyResponse(resp *http.Response) 
 		// Code 401.
 		return &ConnectCoreV1HeadNamespacedServiceProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1HeadNamespacedServiceProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1HeadNamespacedServiceProxyWithPathRes, _ error) {
@@ -1197,7 +1196,7 @@ func decodeConnectCoreV1HeadNamespacedServiceProxyWithPathResponse(resp *http.Re
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1212,7 +1211,7 @@ func decodeConnectCoreV1HeadNamespacedServiceProxyWithPathResponse(resp *http.Re
 		// Code 401.
 		return &ConnectCoreV1HeadNamespacedServiceProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1HeadNodeProxyResponse(resp *http.Response) (res ConnectCoreV1HeadNodeProxyRes, _ error) {
@@ -1260,7 +1259,7 @@ func decodeConnectCoreV1HeadNodeProxyResponse(resp *http.Response) (res ConnectC
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1275,7 +1274,7 @@ func decodeConnectCoreV1HeadNodeProxyResponse(resp *http.Response) (res ConnectC
 		// Code 401.
 		return &ConnectCoreV1HeadNodeProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1HeadNodeProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1HeadNodeProxyWithPathRes, _ error) {
@@ -1323,7 +1322,7 @@ func decodeConnectCoreV1HeadNodeProxyWithPathResponse(resp *http.Response) (res 
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1338,7 +1337,7 @@ func decodeConnectCoreV1HeadNodeProxyWithPathResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ConnectCoreV1HeadNodeProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1OptionsNamespacedPodProxyResponse(resp *http.Response) (res ConnectCoreV1OptionsNamespacedPodProxyRes, _ error) {
@@ -1386,7 +1385,7 @@ func decodeConnectCoreV1OptionsNamespacedPodProxyResponse(resp *http.Response) (
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1401,7 +1400,7 @@ func decodeConnectCoreV1OptionsNamespacedPodProxyResponse(resp *http.Response) (
 		// Code 401.
 		return &ConnectCoreV1OptionsNamespacedPodProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1OptionsNamespacedPodProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1OptionsNamespacedPodProxyWithPathRes, _ error) {
@@ -1449,7 +1448,7 @@ func decodeConnectCoreV1OptionsNamespacedPodProxyWithPathResponse(resp *http.Res
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1464,7 +1463,7 @@ func decodeConnectCoreV1OptionsNamespacedPodProxyWithPathResponse(resp *http.Res
 		// Code 401.
 		return &ConnectCoreV1OptionsNamespacedPodProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1OptionsNamespacedServiceProxyResponse(resp *http.Response) (res ConnectCoreV1OptionsNamespacedServiceProxyRes, _ error) {
@@ -1512,7 +1511,7 @@ func decodeConnectCoreV1OptionsNamespacedServiceProxyResponse(resp *http.Respons
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1527,7 +1526,7 @@ func decodeConnectCoreV1OptionsNamespacedServiceProxyResponse(resp *http.Respons
 		// Code 401.
 		return &ConnectCoreV1OptionsNamespacedServiceProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1OptionsNamespacedServiceProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1OptionsNamespacedServiceProxyWithPathRes, _ error) {
@@ -1575,7 +1574,7 @@ func decodeConnectCoreV1OptionsNamespacedServiceProxyWithPathResponse(resp *http
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1590,7 +1589,7 @@ func decodeConnectCoreV1OptionsNamespacedServiceProxyWithPathResponse(resp *http
 		// Code 401.
 		return &ConnectCoreV1OptionsNamespacedServiceProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1OptionsNodeProxyResponse(resp *http.Response) (res ConnectCoreV1OptionsNodeProxyRes, _ error) {
@@ -1638,7 +1637,7 @@ func decodeConnectCoreV1OptionsNodeProxyResponse(resp *http.Response) (res Conne
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1653,7 +1652,7 @@ func decodeConnectCoreV1OptionsNodeProxyResponse(resp *http.Response) (res Conne
 		// Code 401.
 		return &ConnectCoreV1OptionsNodeProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1OptionsNodeProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1OptionsNodeProxyWithPathRes, _ error) {
@@ -1701,7 +1700,7 @@ func decodeConnectCoreV1OptionsNodeProxyWithPathResponse(resp *http.Response) (r
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1716,7 +1715,7 @@ func decodeConnectCoreV1OptionsNodeProxyWithPathResponse(resp *http.Response) (r
 		// Code 401.
 		return &ConnectCoreV1OptionsNodeProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PatchNamespacedPodProxyResponse(resp *http.Response) (res ConnectCoreV1PatchNamespacedPodProxyRes, _ error) {
@@ -1764,7 +1763,7 @@ func decodeConnectCoreV1PatchNamespacedPodProxyResponse(resp *http.Response) (re
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1779,7 +1778,7 @@ func decodeConnectCoreV1PatchNamespacedPodProxyResponse(resp *http.Response) (re
 		// Code 401.
 		return &ConnectCoreV1PatchNamespacedPodProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PatchNamespacedPodProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1PatchNamespacedPodProxyWithPathRes, _ error) {
@@ -1827,7 +1826,7 @@ func decodeConnectCoreV1PatchNamespacedPodProxyWithPathResponse(resp *http.Respo
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1842,7 +1841,7 @@ func decodeConnectCoreV1PatchNamespacedPodProxyWithPathResponse(resp *http.Respo
 		// Code 401.
 		return &ConnectCoreV1PatchNamespacedPodProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PatchNamespacedServiceProxyResponse(resp *http.Response) (res ConnectCoreV1PatchNamespacedServiceProxyRes, _ error) {
@@ -1890,7 +1889,7 @@ func decodeConnectCoreV1PatchNamespacedServiceProxyResponse(resp *http.Response)
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1905,7 +1904,7 @@ func decodeConnectCoreV1PatchNamespacedServiceProxyResponse(resp *http.Response)
 		// Code 401.
 		return &ConnectCoreV1PatchNamespacedServiceProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PatchNamespacedServiceProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1PatchNamespacedServiceProxyWithPathRes, _ error) {
@@ -1953,7 +1952,7 @@ func decodeConnectCoreV1PatchNamespacedServiceProxyWithPathResponse(resp *http.R
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -1968,7 +1967,7 @@ func decodeConnectCoreV1PatchNamespacedServiceProxyWithPathResponse(resp *http.R
 		// Code 401.
 		return &ConnectCoreV1PatchNamespacedServiceProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PatchNodeProxyResponse(resp *http.Response) (res ConnectCoreV1PatchNodeProxyRes, _ error) {
@@ -2016,7 +2015,7 @@ func decodeConnectCoreV1PatchNodeProxyResponse(resp *http.Response) (res Connect
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2031,7 +2030,7 @@ func decodeConnectCoreV1PatchNodeProxyResponse(resp *http.Response) (res Connect
 		// Code 401.
 		return &ConnectCoreV1PatchNodeProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PatchNodeProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1PatchNodeProxyWithPathRes, _ error) {
@@ -2079,7 +2078,7 @@ func decodeConnectCoreV1PatchNodeProxyWithPathResponse(resp *http.Response) (res
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2094,7 +2093,7 @@ func decodeConnectCoreV1PatchNodeProxyWithPathResponse(resp *http.Response) (res
 		// Code 401.
 		return &ConnectCoreV1PatchNodeProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PostNamespacedPodAttachResponse(resp *http.Response) (res ConnectCoreV1PostNamespacedPodAttachRes, _ error) {
@@ -2142,7 +2141,7 @@ func decodeConnectCoreV1PostNamespacedPodAttachResponse(resp *http.Response) (re
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2157,7 +2156,7 @@ func decodeConnectCoreV1PostNamespacedPodAttachResponse(resp *http.Response) (re
 		// Code 401.
 		return &ConnectCoreV1PostNamespacedPodAttachUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PostNamespacedPodExecResponse(resp *http.Response) (res ConnectCoreV1PostNamespacedPodExecRes, _ error) {
@@ -2205,7 +2204,7 @@ func decodeConnectCoreV1PostNamespacedPodExecResponse(resp *http.Response) (res 
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2220,7 +2219,7 @@ func decodeConnectCoreV1PostNamespacedPodExecResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ConnectCoreV1PostNamespacedPodExecUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PostNamespacedPodPortforwardResponse(resp *http.Response) (res ConnectCoreV1PostNamespacedPodPortforwardRes, _ error) {
@@ -2268,7 +2267,7 @@ func decodeConnectCoreV1PostNamespacedPodPortforwardResponse(resp *http.Response
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2283,7 +2282,7 @@ func decodeConnectCoreV1PostNamespacedPodPortforwardResponse(resp *http.Response
 		// Code 401.
 		return &ConnectCoreV1PostNamespacedPodPortforwardUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PostNamespacedPodProxyResponse(resp *http.Response) (res ConnectCoreV1PostNamespacedPodProxyRes, _ error) {
@@ -2331,7 +2330,7 @@ func decodeConnectCoreV1PostNamespacedPodProxyResponse(resp *http.Response) (res
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2346,7 +2345,7 @@ func decodeConnectCoreV1PostNamespacedPodProxyResponse(resp *http.Response) (res
 		// Code 401.
 		return &ConnectCoreV1PostNamespacedPodProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PostNamespacedPodProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1PostNamespacedPodProxyWithPathRes, _ error) {
@@ -2394,7 +2393,7 @@ func decodeConnectCoreV1PostNamespacedPodProxyWithPathResponse(resp *http.Respon
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2409,7 +2408,7 @@ func decodeConnectCoreV1PostNamespacedPodProxyWithPathResponse(resp *http.Respon
 		// Code 401.
 		return &ConnectCoreV1PostNamespacedPodProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PostNamespacedServiceProxyResponse(resp *http.Response) (res ConnectCoreV1PostNamespacedServiceProxyRes, _ error) {
@@ -2457,7 +2456,7 @@ func decodeConnectCoreV1PostNamespacedServiceProxyResponse(resp *http.Response) 
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2472,7 +2471,7 @@ func decodeConnectCoreV1PostNamespacedServiceProxyResponse(resp *http.Response) 
 		// Code 401.
 		return &ConnectCoreV1PostNamespacedServiceProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PostNamespacedServiceProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1PostNamespacedServiceProxyWithPathRes, _ error) {
@@ -2520,7 +2519,7 @@ func decodeConnectCoreV1PostNamespacedServiceProxyWithPathResponse(resp *http.Re
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2535,7 +2534,7 @@ func decodeConnectCoreV1PostNamespacedServiceProxyWithPathResponse(resp *http.Re
 		// Code 401.
 		return &ConnectCoreV1PostNamespacedServiceProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PostNodeProxyResponse(resp *http.Response) (res ConnectCoreV1PostNodeProxyRes, _ error) {
@@ -2583,7 +2582,7 @@ func decodeConnectCoreV1PostNodeProxyResponse(resp *http.Response) (res ConnectC
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2598,7 +2597,7 @@ func decodeConnectCoreV1PostNodeProxyResponse(resp *http.Response) (res ConnectC
 		// Code 401.
 		return &ConnectCoreV1PostNodeProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PostNodeProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1PostNodeProxyWithPathRes, _ error) {
@@ -2646,7 +2645,7 @@ func decodeConnectCoreV1PostNodeProxyWithPathResponse(resp *http.Response) (res 
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2661,7 +2660,7 @@ func decodeConnectCoreV1PostNodeProxyWithPathResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ConnectCoreV1PostNodeProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PutNamespacedPodProxyResponse(resp *http.Response) (res ConnectCoreV1PutNamespacedPodProxyRes, _ error) {
@@ -2709,7 +2708,7 @@ func decodeConnectCoreV1PutNamespacedPodProxyResponse(resp *http.Response) (res 
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2724,7 +2723,7 @@ func decodeConnectCoreV1PutNamespacedPodProxyResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ConnectCoreV1PutNamespacedPodProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PutNamespacedPodProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1PutNamespacedPodProxyWithPathRes, _ error) {
@@ -2772,7 +2771,7 @@ func decodeConnectCoreV1PutNamespacedPodProxyWithPathResponse(resp *http.Respons
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2787,7 +2786,7 @@ func decodeConnectCoreV1PutNamespacedPodProxyWithPathResponse(resp *http.Respons
 		// Code 401.
 		return &ConnectCoreV1PutNamespacedPodProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PutNamespacedServiceProxyResponse(resp *http.Response) (res ConnectCoreV1PutNamespacedServiceProxyRes, _ error) {
@@ -2835,7 +2834,7 @@ func decodeConnectCoreV1PutNamespacedServiceProxyResponse(resp *http.Response) (
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2850,7 +2849,7 @@ func decodeConnectCoreV1PutNamespacedServiceProxyResponse(resp *http.Response) (
 		// Code 401.
 		return &ConnectCoreV1PutNamespacedServiceProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PutNamespacedServiceProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1PutNamespacedServiceProxyWithPathRes, _ error) {
@@ -2898,7 +2897,7 @@ func decodeConnectCoreV1PutNamespacedServiceProxyWithPathResponse(resp *http.Res
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2913,7 +2912,7 @@ func decodeConnectCoreV1PutNamespacedServiceProxyWithPathResponse(resp *http.Res
 		// Code 401.
 		return &ConnectCoreV1PutNamespacedServiceProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PutNodeProxyResponse(resp *http.Response) (res ConnectCoreV1PutNodeProxyRes, _ error) {
@@ -2961,7 +2960,7 @@ func decodeConnectCoreV1PutNodeProxyResponse(resp *http.Response) (res ConnectCo
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -2976,7 +2975,7 @@ func decodeConnectCoreV1PutNodeProxyResponse(resp *http.Response) (res ConnectCo
 		// Code 401.
 		return &ConnectCoreV1PutNodeProxyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeConnectCoreV1PutNodeProxyWithPathResponse(resp *http.Response) (res ConnectCoreV1PutNodeProxyWithPathRes, _ error) {
@@ -3024,7 +3023,7 @@ func decodeConnectCoreV1PutNodeProxyWithPathResponse(resp *http.Response) (res C
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -3039,7 +3038,7 @@ func decodeConnectCoreV1PutNodeProxyWithPathResponse(resp *http.Response) (res C
 		// Code 401.
 		return &ConnectCoreV1PutNodeProxyWithPathUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAPIVersionsResponse(resp *http.Response) (res GetAPIVersionsRes, _ error) {
@@ -3092,7 +3091,7 @@ func decodeGetAPIVersionsResponse(resp *http.Response) (res GetAPIVersionsRes, _
 		// Code 401.
 		return &GetAPIVersionsUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAdmissionregistrationAPIGroupResponse(resp *http.Response) (res GetAdmissionregistrationAPIGroupRes, _ error) {
@@ -3145,7 +3144,7 @@ func decodeGetAdmissionregistrationAPIGroupResponse(resp *http.Response) (res Ge
 		// Code 401.
 		return &GetAdmissionregistrationAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAdmissionregistrationV1APIResourcesResponse(resp *http.Response) (res GetAdmissionregistrationV1APIResourcesRes, _ error) {
@@ -3198,7 +3197,7 @@ func decodeGetAdmissionregistrationV1APIResourcesResponse(resp *http.Response) (
 		// Code 401.
 		return &GetAdmissionregistrationV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetApiextensionsAPIGroupResponse(resp *http.Response) (res GetApiextensionsAPIGroupRes, _ error) {
@@ -3251,7 +3250,7 @@ func decodeGetApiextensionsAPIGroupResponse(resp *http.Response) (res GetApiexte
 		// Code 401.
 		return &GetApiextensionsAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetApiextensionsV1APIResourcesResponse(resp *http.Response) (res GetApiextensionsV1APIResourcesRes, _ error) {
@@ -3304,7 +3303,7 @@ func decodeGetApiextensionsV1APIResourcesResponse(resp *http.Response) (res GetA
 		// Code 401.
 		return &GetApiextensionsV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetApiregistrationAPIGroupResponse(resp *http.Response) (res GetApiregistrationAPIGroupRes, _ error) {
@@ -3357,7 +3356,7 @@ func decodeGetApiregistrationAPIGroupResponse(resp *http.Response) (res GetApire
 		// Code 401.
 		return &GetApiregistrationAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetApiregistrationV1APIResourcesResponse(resp *http.Response) (res GetApiregistrationV1APIResourcesRes, _ error) {
@@ -3410,7 +3409,7 @@ func decodeGetApiregistrationV1APIResourcesResponse(resp *http.Response) (res Ge
 		// Code 401.
 		return &GetApiregistrationV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAppsAPIGroupResponse(resp *http.Response) (res GetAppsAPIGroupRes, _ error) {
@@ -3463,7 +3462,7 @@ func decodeGetAppsAPIGroupResponse(resp *http.Response) (res GetAppsAPIGroupRes,
 		// Code 401.
 		return &GetAppsAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAppsV1APIResourcesResponse(resp *http.Response) (res GetAppsV1APIResourcesRes, _ error) {
@@ -3516,7 +3515,7 @@ func decodeGetAppsV1APIResourcesResponse(resp *http.Response) (res GetAppsV1APIR
 		// Code 401.
 		return &GetAppsV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAuthenticationAPIGroupResponse(resp *http.Response) (res GetAuthenticationAPIGroupRes, _ error) {
@@ -3569,7 +3568,7 @@ func decodeGetAuthenticationAPIGroupResponse(resp *http.Response) (res GetAuthen
 		// Code 401.
 		return &GetAuthenticationAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAuthenticationV1APIResourcesResponse(resp *http.Response) (res GetAuthenticationV1APIResourcesRes, _ error) {
@@ -3622,7 +3621,7 @@ func decodeGetAuthenticationV1APIResourcesResponse(resp *http.Response) (res Get
 		// Code 401.
 		return &GetAuthenticationV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAuthorizationAPIGroupResponse(resp *http.Response) (res GetAuthorizationAPIGroupRes, _ error) {
@@ -3675,7 +3674,7 @@ func decodeGetAuthorizationAPIGroupResponse(resp *http.Response) (res GetAuthori
 		// Code 401.
 		return &GetAuthorizationAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAuthorizationV1APIResourcesResponse(resp *http.Response) (res GetAuthorizationV1APIResourcesRes, _ error) {
@@ -3728,7 +3727,7 @@ func decodeGetAuthorizationV1APIResourcesResponse(resp *http.Response) (res GetA
 		// Code 401.
 		return &GetAuthorizationV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAutoscalingAPIGroupResponse(resp *http.Response) (res GetAutoscalingAPIGroupRes, _ error) {
@@ -3781,7 +3780,7 @@ func decodeGetAutoscalingAPIGroupResponse(resp *http.Response) (res GetAutoscali
 		// Code 401.
 		return &GetAutoscalingAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAutoscalingV1APIResourcesResponse(resp *http.Response) (res GetAutoscalingV1APIResourcesRes, _ error) {
@@ -3834,7 +3833,7 @@ func decodeGetAutoscalingV1APIResourcesResponse(resp *http.Response) (res GetAut
 		// Code 401.
 		return &GetAutoscalingV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAutoscalingV2beta1APIResourcesResponse(resp *http.Response) (res GetAutoscalingV2beta1APIResourcesRes, _ error) {
@@ -3887,7 +3886,7 @@ func decodeGetAutoscalingV2beta1APIResourcesResponse(resp *http.Response) (res G
 		// Code 401.
 		return &GetAutoscalingV2beta1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetAutoscalingV2beta2APIResourcesResponse(resp *http.Response) (res GetAutoscalingV2beta2APIResourcesRes, _ error) {
@@ -3940,7 +3939,7 @@ func decodeGetAutoscalingV2beta2APIResourcesResponse(resp *http.Response) (res G
 		// Code 401.
 		return &GetAutoscalingV2beta2APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetBatchAPIGroupResponse(resp *http.Response) (res GetBatchAPIGroupRes, _ error) {
@@ -3993,7 +3992,7 @@ func decodeGetBatchAPIGroupResponse(resp *http.Response) (res GetBatchAPIGroupRe
 		// Code 401.
 		return &GetBatchAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetBatchV1APIResourcesResponse(resp *http.Response) (res GetBatchV1APIResourcesRes, _ error) {
@@ -4046,7 +4045,7 @@ func decodeGetBatchV1APIResourcesResponse(resp *http.Response) (res GetBatchV1AP
 		// Code 401.
 		return &GetBatchV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetBatchV1beta1APIResourcesResponse(resp *http.Response) (res GetBatchV1beta1APIResourcesRes, _ error) {
@@ -4099,7 +4098,7 @@ func decodeGetBatchV1beta1APIResourcesResponse(resp *http.Response) (res GetBatc
 		// Code 401.
 		return &GetBatchV1beta1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetCertificatesAPIGroupResponse(resp *http.Response) (res GetCertificatesAPIGroupRes, _ error) {
@@ -4152,7 +4151,7 @@ func decodeGetCertificatesAPIGroupResponse(resp *http.Response) (res GetCertific
 		// Code 401.
 		return &GetCertificatesAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetCertificatesV1APIResourcesResponse(resp *http.Response) (res GetCertificatesV1APIResourcesRes, _ error) {
@@ -4205,7 +4204,7 @@ func decodeGetCertificatesV1APIResourcesResponse(resp *http.Response) (res GetCe
 		// Code 401.
 		return &GetCertificatesV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetCodeVersionResponse(resp *http.Response) (res GetCodeVersionRes, _ error) {
@@ -4249,7 +4248,7 @@ func decodeGetCodeVersionResponse(resp *http.Response) (res GetCodeVersionRes, _
 		// Code 401.
 		return &GetCodeVersionUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetCoordinationAPIGroupResponse(resp *http.Response) (res GetCoordinationAPIGroupRes, _ error) {
@@ -4302,7 +4301,7 @@ func decodeGetCoordinationAPIGroupResponse(resp *http.Response) (res GetCoordina
 		// Code 401.
 		return &GetCoordinationAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetCoordinationV1APIResourcesResponse(resp *http.Response) (res GetCoordinationV1APIResourcesRes, _ error) {
@@ -4355,7 +4354,7 @@ func decodeGetCoordinationV1APIResourcesResponse(resp *http.Response) (res GetCo
 		// Code 401.
 		return &GetCoordinationV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetCoreAPIVersionsResponse(resp *http.Response) (res GetCoreAPIVersionsRes, _ error) {
@@ -4408,7 +4407,7 @@ func decodeGetCoreAPIVersionsResponse(resp *http.Response) (res GetCoreAPIVersio
 		// Code 401.
 		return &GetCoreAPIVersionsUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetCoreV1APIResourcesResponse(resp *http.Response) (res GetCoreV1APIResourcesRes, _ error) {
@@ -4461,7 +4460,7 @@ func decodeGetCoreV1APIResourcesResponse(resp *http.Response) (res GetCoreV1APIR
 		// Code 401.
 		return &GetCoreV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetDiscoveryAPIGroupResponse(resp *http.Response) (res GetDiscoveryAPIGroupRes, _ error) {
@@ -4514,7 +4513,7 @@ func decodeGetDiscoveryAPIGroupResponse(resp *http.Response) (res GetDiscoveryAP
 		// Code 401.
 		return &GetDiscoveryAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetDiscoveryV1APIResourcesResponse(resp *http.Response) (res GetDiscoveryV1APIResourcesRes, _ error) {
@@ -4567,7 +4566,7 @@ func decodeGetDiscoveryV1APIResourcesResponse(resp *http.Response) (res GetDisco
 		// Code 401.
 		return &GetDiscoveryV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetDiscoveryV1beta1APIResourcesResponse(resp *http.Response) (res GetDiscoveryV1beta1APIResourcesRes, _ error) {
@@ -4620,7 +4619,7 @@ func decodeGetDiscoveryV1beta1APIResourcesResponse(resp *http.Response) (res Get
 		// Code 401.
 		return &GetDiscoveryV1beta1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetEventsAPIGroupResponse(resp *http.Response) (res GetEventsAPIGroupRes, _ error) {
@@ -4673,7 +4672,7 @@ func decodeGetEventsAPIGroupResponse(resp *http.Response) (res GetEventsAPIGroup
 		// Code 401.
 		return &GetEventsAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetEventsV1APIResourcesResponse(resp *http.Response) (res GetEventsV1APIResourcesRes, _ error) {
@@ -4726,7 +4725,7 @@ func decodeGetEventsV1APIResourcesResponse(resp *http.Response) (res GetEventsV1
 		// Code 401.
 		return &GetEventsV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetEventsV1beta1APIResourcesResponse(resp *http.Response) (res GetEventsV1beta1APIResourcesRes, _ error) {
@@ -4779,7 +4778,7 @@ func decodeGetEventsV1beta1APIResourcesResponse(resp *http.Response) (res GetEve
 		// Code 401.
 		return &GetEventsV1beta1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetFlowcontrolApiserverAPIGroupResponse(resp *http.Response) (res GetFlowcontrolApiserverAPIGroupRes, _ error) {
@@ -4832,7 +4831,7 @@ func decodeGetFlowcontrolApiserverAPIGroupResponse(resp *http.Response) (res Get
 		// Code 401.
 		return &GetFlowcontrolApiserverAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetFlowcontrolApiserverV1beta1APIResourcesResponse(resp *http.Response) (res GetFlowcontrolApiserverV1beta1APIResourcesRes, _ error) {
@@ -4885,7 +4884,7 @@ func decodeGetFlowcontrolApiserverV1beta1APIResourcesResponse(resp *http.Respons
 		// Code 401.
 		return &GetFlowcontrolApiserverV1beta1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetFlowcontrolApiserverV1beta2APIResourcesResponse(resp *http.Response) (res GetFlowcontrolApiserverV1beta2APIResourcesRes, _ error) {
@@ -4938,7 +4937,7 @@ func decodeGetFlowcontrolApiserverV1beta2APIResourcesResponse(resp *http.Respons
 		// Code 401.
 		return &GetFlowcontrolApiserverV1beta2APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetInternalApiserverAPIGroupResponse(resp *http.Response) (res GetInternalApiserverAPIGroupRes, _ error) {
@@ -4991,7 +4990,7 @@ func decodeGetInternalApiserverAPIGroupResponse(resp *http.Response) (res GetInt
 		// Code 401.
 		return &GetInternalApiserverAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetInternalApiserverV1alpha1APIResourcesResponse(resp *http.Response) (res GetInternalApiserverV1alpha1APIResourcesRes, _ error) {
@@ -5044,7 +5043,7 @@ func decodeGetInternalApiserverV1alpha1APIResourcesResponse(resp *http.Response)
 		// Code 401.
 		return &GetInternalApiserverV1alpha1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetNetworkingAPIGroupResponse(resp *http.Response) (res GetNetworkingAPIGroupRes, _ error) {
@@ -5097,7 +5096,7 @@ func decodeGetNetworkingAPIGroupResponse(resp *http.Response) (res GetNetworking
 		// Code 401.
 		return &GetNetworkingAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetNetworkingV1APIResourcesResponse(resp *http.Response) (res GetNetworkingV1APIResourcesRes, _ error) {
@@ -5150,7 +5149,7 @@ func decodeGetNetworkingV1APIResourcesResponse(resp *http.Response) (res GetNetw
 		// Code 401.
 		return &GetNetworkingV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetNodeAPIGroupResponse(resp *http.Response) (res GetNodeAPIGroupRes, _ error) {
@@ -5203,7 +5202,7 @@ func decodeGetNodeAPIGroupResponse(resp *http.Response) (res GetNodeAPIGroupRes,
 		// Code 401.
 		return &GetNodeAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetNodeV1APIResourcesResponse(resp *http.Response) (res GetNodeV1APIResourcesRes, _ error) {
@@ -5256,7 +5255,7 @@ func decodeGetNodeV1APIResourcesResponse(resp *http.Response) (res GetNodeV1APIR
 		// Code 401.
 		return &GetNodeV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetNodeV1alpha1APIResourcesResponse(resp *http.Response) (res GetNodeV1alpha1APIResourcesRes, _ error) {
@@ -5309,7 +5308,7 @@ func decodeGetNodeV1alpha1APIResourcesResponse(resp *http.Response) (res GetNode
 		// Code 401.
 		return &GetNodeV1alpha1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetNodeV1beta1APIResourcesResponse(resp *http.Response) (res GetNodeV1beta1APIResourcesRes, _ error) {
@@ -5362,7 +5361,7 @@ func decodeGetNodeV1beta1APIResourcesResponse(resp *http.Response) (res GetNodeV
 		// Code 401.
 		return &GetNodeV1beta1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetPolicyAPIGroupResponse(resp *http.Response) (res GetPolicyAPIGroupRes, _ error) {
@@ -5415,7 +5414,7 @@ func decodeGetPolicyAPIGroupResponse(resp *http.Response) (res GetPolicyAPIGroup
 		// Code 401.
 		return &GetPolicyAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetPolicyV1APIResourcesResponse(resp *http.Response) (res GetPolicyV1APIResourcesRes, _ error) {
@@ -5468,7 +5467,7 @@ func decodeGetPolicyV1APIResourcesResponse(resp *http.Response) (res GetPolicyV1
 		// Code 401.
 		return &GetPolicyV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetPolicyV1beta1APIResourcesResponse(resp *http.Response) (res GetPolicyV1beta1APIResourcesRes, _ error) {
@@ -5521,7 +5520,7 @@ func decodeGetPolicyV1beta1APIResourcesResponse(resp *http.Response) (res GetPol
 		// Code 401.
 		return &GetPolicyV1beta1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetRbacAuthorizationAPIGroupResponse(resp *http.Response) (res GetRbacAuthorizationAPIGroupRes, _ error) {
@@ -5574,7 +5573,7 @@ func decodeGetRbacAuthorizationAPIGroupResponse(resp *http.Response) (res GetRba
 		// Code 401.
 		return &GetRbacAuthorizationAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetRbacAuthorizationV1APIResourcesResponse(resp *http.Response) (res GetRbacAuthorizationV1APIResourcesRes, _ error) {
@@ -5627,7 +5626,7 @@ func decodeGetRbacAuthorizationV1APIResourcesResponse(resp *http.Response) (res 
 		// Code 401.
 		return &GetRbacAuthorizationV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetSchedulingAPIGroupResponse(resp *http.Response) (res GetSchedulingAPIGroupRes, _ error) {
@@ -5680,7 +5679,7 @@ func decodeGetSchedulingAPIGroupResponse(resp *http.Response) (res GetScheduling
 		// Code 401.
 		return &GetSchedulingAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetSchedulingV1APIResourcesResponse(resp *http.Response) (res GetSchedulingV1APIResourcesRes, _ error) {
@@ -5733,7 +5732,7 @@ func decodeGetSchedulingV1APIResourcesResponse(resp *http.Response) (res GetSche
 		// Code 401.
 		return &GetSchedulingV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetServiceAccountIssuerOpenIDConfigurationResponse(resp *http.Response) (res GetServiceAccountIssuerOpenIDConfigurationRes, _ error) {
@@ -5777,7 +5776,7 @@ func decodeGetServiceAccountIssuerOpenIDConfigurationResponse(resp *http.Respons
 		// Code 401.
 		return &GetServiceAccountIssuerOpenIDConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetServiceAccountIssuerOpenIDKeysetResponse(resp *http.Response) (res GetServiceAccountIssuerOpenIDKeysetRes, _ error) {
@@ -5790,13 +5789,29 @@ func decodeGetServiceAccountIssuerOpenIDKeysetResponse(resp *http.Response) (res
 		}
 		switch {
 		case ct == "application/jwk-set+json":
-			reader := resp.Body
-			b, err := io.ReadAll(reader)
+			buf, err := io.ReadAll(resp.Body)
 			if err != nil {
 				return res, err
 			}
+			d := jx.DecodeBytes(buf)
 
-			response := GetServiceAccountIssuerOpenIDKeysetOK{Data: bytes.NewReader(b)}
+			var response GetServiceAccountIssuerOpenIDKeysetOKApplicationJwkSetJSON
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
 			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
@@ -5805,7 +5820,7 @@ func decodeGetServiceAccountIssuerOpenIDKeysetResponse(resp *http.Response) (res
 		// Code 401.
 		return &GetServiceAccountIssuerOpenIDKeysetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetStorageAPIGroupResponse(resp *http.Response) (res GetStorageAPIGroupRes, _ error) {
@@ -5858,7 +5873,7 @@ func decodeGetStorageAPIGroupResponse(resp *http.Response) (res GetStorageAPIGro
 		// Code 401.
 		return &GetStorageAPIGroupUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetStorageV1APIResourcesResponse(resp *http.Response) (res GetStorageV1APIResourcesRes, _ error) {
@@ -5911,7 +5926,7 @@ func decodeGetStorageV1APIResourcesResponse(resp *http.Response) (res GetStorage
 		// Code 401.
 		return &GetStorageV1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetStorageV1alpha1APIResourcesResponse(resp *http.Response) (res GetStorageV1alpha1APIResourcesRes, _ error) {
@@ -5964,7 +5979,7 @@ func decodeGetStorageV1alpha1APIResourcesResponse(resp *http.Response) (res GetS
 		// Code 401.
 		return &GetStorageV1alpha1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetStorageV1beta1APIResourcesResponse(resp *http.Response) (res GetStorageV1beta1APIResourcesRes, _ error) {
@@ -6017,7 +6032,7 @@ func decodeGetStorageV1beta1APIResourcesResponse(resp *http.Response) (res GetSt
 		// Code 401.
 		return &GetStorageV1beta1APIResourcesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAdmissionregistrationV1MutatingWebhookConfigurationResponse(resp *http.Response) (res ListAdmissionregistrationV1MutatingWebhookConfigurationRes, _ error) {
@@ -6070,7 +6085,7 @@ func decodeListAdmissionregistrationV1MutatingWebhookConfigurationResponse(resp 
 		// Code 401.
 		return &ListAdmissionregistrationV1MutatingWebhookConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAdmissionregistrationV1ValidatingWebhookConfigurationResponse(resp *http.Response) (res ListAdmissionregistrationV1ValidatingWebhookConfigurationRes, _ error) {
@@ -6123,7 +6138,7 @@ func decodeListAdmissionregistrationV1ValidatingWebhookConfigurationResponse(res
 		// Code 401.
 		return &ListAdmissionregistrationV1ValidatingWebhookConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListApiextensionsV1CustomResourceDefinitionResponse(resp *http.Response) (res ListApiextensionsV1CustomResourceDefinitionRes, _ error) {
@@ -6176,7 +6191,7 @@ func decodeListApiextensionsV1CustomResourceDefinitionResponse(resp *http.Respon
 		// Code 401.
 		return &ListApiextensionsV1CustomResourceDefinitionUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListApiregistrationV1APIServiceResponse(resp *http.Response) (res ListApiregistrationV1APIServiceRes, _ error) {
@@ -6229,7 +6244,7 @@ func decodeListApiregistrationV1APIServiceResponse(resp *http.Response) (res Lis
 		// Code 401.
 		return &ListApiregistrationV1APIServiceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAppsV1ControllerRevisionForAllNamespacesResponse(resp *http.Response) (res ListAppsV1ControllerRevisionForAllNamespacesRes, _ error) {
@@ -6282,7 +6297,7 @@ func decodeListAppsV1ControllerRevisionForAllNamespacesResponse(resp *http.Respo
 		// Code 401.
 		return &ListAppsV1ControllerRevisionForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAppsV1DaemonSetForAllNamespacesResponse(resp *http.Response) (res ListAppsV1DaemonSetForAllNamespacesRes, _ error) {
@@ -6335,7 +6350,7 @@ func decodeListAppsV1DaemonSetForAllNamespacesResponse(resp *http.Response) (res
 		// Code 401.
 		return &ListAppsV1DaemonSetForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAppsV1DeploymentForAllNamespacesResponse(resp *http.Response) (res ListAppsV1DeploymentForAllNamespacesRes, _ error) {
@@ -6388,7 +6403,7 @@ func decodeListAppsV1DeploymentForAllNamespacesResponse(resp *http.Response) (re
 		// Code 401.
 		return &ListAppsV1DeploymentForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAppsV1NamespacedControllerRevisionResponse(resp *http.Response) (res ListAppsV1NamespacedControllerRevisionRes, _ error) {
@@ -6441,7 +6456,7 @@ func decodeListAppsV1NamespacedControllerRevisionResponse(resp *http.Response) (
 		// Code 401.
 		return &ListAppsV1NamespacedControllerRevisionUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAppsV1NamespacedDaemonSetResponse(resp *http.Response) (res ListAppsV1NamespacedDaemonSetRes, _ error) {
@@ -6494,7 +6509,7 @@ func decodeListAppsV1NamespacedDaemonSetResponse(resp *http.Response) (res ListA
 		// Code 401.
 		return &ListAppsV1NamespacedDaemonSetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAppsV1NamespacedDeploymentResponse(resp *http.Response) (res ListAppsV1NamespacedDeploymentRes, _ error) {
@@ -6547,7 +6562,7 @@ func decodeListAppsV1NamespacedDeploymentResponse(resp *http.Response) (res List
 		// Code 401.
 		return &ListAppsV1NamespacedDeploymentUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAppsV1NamespacedReplicaSetResponse(resp *http.Response) (res ListAppsV1NamespacedReplicaSetRes, _ error) {
@@ -6600,7 +6615,7 @@ func decodeListAppsV1NamespacedReplicaSetResponse(resp *http.Response) (res List
 		// Code 401.
 		return &ListAppsV1NamespacedReplicaSetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAppsV1NamespacedStatefulSetResponse(resp *http.Response) (res ListAppsV1NamespacedStatefulSetRes, _ error) {
@@ -6653,7 +6668,7 @@ func decodeListAppsV1NamespacedStatefulSetResponse(resp *http.Response) (res Lis
 		// Code 401.
 		return &ListAppsV1NamespacedStatefulSetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAppsV1ReplicaSetForAllNamespacesResponse(resp *http.Response) (res ListAppsV1ReplicaSetForAllNamespacesRes, _ error) {
@@ -6706,7 +6721,7 @@ func decodeListAppsV1ReplicaSetForAllNamespacesResponse(resp *http.Response) (re
 		// Code 401.
 		return &ListAppsV1ReplicaSetForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAppsV1StatefulSetForAllNamespacesResponse(resp *http.Response) (res ListAppsV1StatefulSetForAllNamespacesRes, _ error) {
@@ -6759,7 +6774,7 @@ func decodeListAppsV1StatefulSetForAllNamespacesResponse(resp *http.Response) (r
 		// Code 401.
 		return &ListAppsV1StatefulSetForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAutoscalingV1HorizontalPodAutoscalerForAllNamespacesResponse(resp *http.Response) (res ListAutoscalingV1HorizontalPodAutoscalerForAllNamespacesRes, _ error) {
@@ -6812,7 +6827,7 @@ func decodeListAutoscalingV1HorizontalPodAutoscalerForAllNamespacesResponse(resp
 		// Code 401.
 		return &ListAutoscalingV1HorizontalPodAutoscalerForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res ListAutoscalingV1NamespacedHorizontalPodAutoscalerRes, _ error) {
@@ -6865,7 +6880,7 @@ func decodeListAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(resp *http
 		// Code 401.
 		return &ListAutoscalingV1NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAutoscalingV2beta1HorizontalPodAutoscalerForAllNamespacesResponse(resp *http.Response) (res ListAutoscalingV2beta1HorizontalPodAutoscalerForAllNamespacesRes, _ error) {
@@ -6918,7 +6933,7 @@ func decodeListAutoscalingV2beta1HorizontalPodAutoscalerForAllNamespacesResponse
 		// Code 401.
 		return &ListAutoscalingV2beta1HorizontalPodAutoscalerForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res ListAutoscalingV2beta1NamespacedHorizontalPodAutoscalerRes, _ error) {
@@ -6971,7 +6986,7 @@ func decodeListAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(resp 
 		// Code 401.
 		return &ListAutoscalingV2beta1NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAutoscalingV2beta2HorizontalPodAutoscalerForAllNamespacesResponse(resp *http.Response) (res ListAutoscalingV2beta2HorizontalPodAutoscalerForAllNamespacesRes, _ error) {
@@ -7024,7 +7039,7 @@ func decodeListAutoscalingV2beta2HorizontalPodAutoscalerForAllNamespacesResponse
 		// Code 401.
 		return &ListAutoscalingV2beta2HorizontalPodAutoscalerForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res ListAutoscalingV2beta2NamespacedHorizontalPodAutoscalerRes, _ error) {
@@ -7077,7 +7092,7 @@ func decodeListAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(resp 
 		// Code 401.
 		return &ListAutoscalingV2beta2NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListBatchV1CronJobForAllNamespacesResponse(resp *http.Response) (res ListBatchV1CronJobForAllNamespacesRes, _ error) {
@@ -7130,7 +7145,7 @@ func decodeListBatchV1CronJobForAllNamespacesResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ListBatchV1CronJobForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListBatchV1JobForAllNamespacesResponse(resp *http.Response) (res ListBatchV1JobForAllNamespacesRes, _ error) {
@@ -7183,7 +7198,7 @@ func decodeListBatchV1JobForAllNamespacesResponse(resp *http.Response) (res List
 		// Code 401.
 		return &ListBatchV1JobForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListBatchV1NamespacedCronJobResponse(resp *http.Response) (res ListBatchV1NamespacedCronJobRes, _ error) {
@@ -7236,7 +7251,7 @@ func decodeListBatchV1NamespacedCronJobResponse(resp *http.Response) (res ListBa
 		// Code 401.
 		return &ListBatchV1NamespacedCronJobUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListBatchV1NamespacedJobResponse(resp *http.Response) (res ListBatchV1NamespacedJobRes, _ error) {
@@ -7289,7 +7304,7 @@ func decodeListBatchV1NamespacedJobResponse(resp *http.Response) (res ListBatchV
 		// Code 401.
 		return &ListBatchV1NamespacedJobUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListBatchV1beta1CronJobForAllNamespacesResponse(resp *http.Response) (res ListBatchV1beta1CronJobForAllNamespacesRes, _ error) {
@@ -7342,7 +7357,7 @@ func decodeListBatchV1beta1CronJobForAllNamespacesResponse(resp *http.Response) 
 		// Code 401.
 		return &ListBatchV1beta1CronJobForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListBatchV1beta1NamespacedCronJobResponse(resp *http.Response) (res ListBatchV1beta1NamespacedCronJobRes, _ error) {
@@ -7395,7 +7410,7 @@ func decodeListBatchV1beta1NamespacedCronJobResponse(resp *http.Response) (res L
 		// Code 401.
 		return &ListBatchV1beta1NamespacedCronJobUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCertificatesV1CertificateSigningRequestResponse(resp *http.Response) (res ListCertificatesV1CertificateSigningRequestRes, _ error) {
@@ -7448,7 +7463,7 @@ func decodeListCertificatesV1CertificateSigningRequestResponse(resp *http.Respon
 		// Code 401.
 		return &ListCertificatesV1CertificateSigningRequestUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoordinationV1LeaseForAllNamespacesResponse(resp *http.Response) (res ListCoordinationV1LeaseForAllNamespacesRes, _ error) {
@@ -7501,7 +7516,7 @@ func decodeListCoordinationV1LeaseForAllNamespacesResponse(resp *http.Response) 
 		// Code 401.
 		return &ListCoordinationV1LeaseForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoordinationV1NamespacedLeaseResponse(resp *http.Response) (res ListCoordinationV1NamespacedLeaseRes, _ error) {
@@ -7554,7 +7569,7 @@ func decodeListCoordinationV1NamespacedLeaseResponse(resp *http.Response) (res L
 		// Code 401.
 		return &ListCoordinationV1NamespacedLeaseUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1ComponentStatusResponse(resp *http.Response) (res ListCoreV1ComponentStatusRes, _ error) {
@@ -7607,7 +7622,7 @@ func decodeListCoreV1ComponentStatusResponse(resp *http.Response) (res ListCoreV
 		// Code 401.
 		return &ListCoreV1ComponentStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1ConfigMapForAllNamespacesResponse(resp *http.Response) (res ListCoreV1ConfigMapForAllNamespacesRes, _ error) {
@@ -7660,7 +7675,7 @@ func decodeListCoreV1ConfigMapForAllNamespacesResponse(resp *http.Response) (res
 		// Code 401.
 		return &ListCoreV1ConfigMapForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1EndpointsForAllNamespacesResponse(resp *http.Response) (res ListCoreV1EndpointsForAllNamespacesRes, _ error) {
@@ -7713,7 +7728,7 @@ func decodeListCoreV1EndpointsForAllNamespacesResponse(resp *http.Response) (res
 		// Code 401.
 		return &ListCoreV1EndpointsForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1EventForAllNamespacesResponse(resp *http.Response) (res ListCoreV1EventForAllNamespacesRes, _ error) {
@@ -7766,7 +7781,7 @@ func decodeListCoreV1EventForAllNamespacesResponse(resp *http.Response) (res Lis
 		// Code 401.
 		return &ListCoreV1EventForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1LimitRangeForAllNamespacesResponse(resp *http.Response) (res ListCoreV1LimitRangeForAllNamespacesRes, _ error) {
@@ -7819,7 +7834,7 @@ func decodeListCoreV1LimitRangeForAllNamespacesResponse(resp *http.Response) (re
 		// Code 401.
 		return &ListCoreV1LimitRangeForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespaceResponse(resp *http.Response) (res ListCoreV1NamespaceRes, _ error) {
@@ -7872,7 +7887,7 @@ func decodeListCoreV1NamespaceResponse(resp *http.Response) (res ListCoreV1Names
 		// Code 401.
 		return &ListCoreV1NamespaceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedConfigMapResponse(resp *http.Response) (res ListCoreV1NamespacedConfigMapRes, _ error) {
@@ -7925,7 +7940,7 @@ func decodeListCoreV1NamespacedConfigMapResponse(resp *http.Response) (res ListC
 		// Code 401.
 		return &ListCoreV1NamespacedConfigMapUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedEndpointsResponse(resp *http.Response) (res ListCoreV1NamespacedEndpointsRes, _ error) {
@@ -7978,7 +7993,7 @@ func decodeListCoreV1NamespacedEndpointsResponse(resp *http.Response) (res ListC
 		// Code 401.
 		return &ListCoreV1NamespacedEndpointsUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedEventResponse(resp *http.Response) (res ListCoreV1NamespacedEventRes, _ error) {
@@ -8031,7 +8046,7 @@ func decodeListCoreV1NamespacedEventResponse(resp *http.Response) (res ListCoreV
 		// Code 401.
 		return &ListCoreV1NamespacedEventUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedLimitRangeResponse(resp *http.Response) (res ListCoreV1NamespacedLimitRangeRes, _ error) {
@@ -8084,7 +8099,7 @@ func decodeListCoreV1NamespacedLimitRangeResponse(resp *http.Response) (res List
 		// Code 401.
 		return &ListCoreV1NamespacedLimitRangeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedPersistentVolumeClaimResponse(resp *http.Response) (res ListCoreV1NamespacedPersistentVolumeClaimRes, _ error) {
@@ -8137,7 +8152,7 @@ func decodeListCoreV1NamespacedPersistentVolumeClaimResponse(resp *http.Response
 		// Code 401.
 		return &ListCoreV1NamespacedPersistentVolumeClaimUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedPodResponse(resp *http.Response) (res ListCoreV1NamespacedPodRes, _ error) {
@@ -8190,7 +8205,7 @@ func decodeListCoreV1NamespacedPodResponse(resp *http.Response) (res ListCoreV1N
 		// Code 401.
 		return &ListCoreV1NamespacedPodUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedPodTemplateResponse(resp *http.Response) (res ListCoreV1NamespacedPodTemplateRes, _ error) {
@@ -8243,7 +8258,7 @@ func decodeListCoreV1NamespacedPodTemplateResponse(resp *http.Response) (res Lis
 		// Code 401.
 		return &ListCoreV1NamespacedPodTemplateUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedReplicationControllerResponse(resp *http.Response) (res ListCoreV1NamespacedReplicationControllerRes, _ error) {
@@ -8296,7 +8311,7 @@ func decodeListCoreV1NamespacedReplicationControllerResponse(resp *http.Response
 		// Code 401.
 		return &ListCoreV1NamespacedReplicationControllerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedResourceQuotaResponse(resp *http.Response) (res ListCoreV1NamespacedResourceQuotaRes, _ error) {
@@ -8349,7 +8364,7 @@ func decodeListCoreV1NamespacedResourceQuotaResponse(resp *http.Response) (res L
 		// Code 401.
 		return &ListCoreV1NamespacedResourceQuotaUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedSecretResponse(resp *http.Response) (res ListCoreV1NamespacedSecretRes, _ error) {
@@ -8402,7 +8417,7 @@ func decodeListCoreV1NamespacedSecretResponse(resp *http.Response) (res ListCore
 		// Code 401.
 		return &ListCoreV1NamespacedSecretUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedServiceResponse(resp *http.Response) (res ListCoreV1NamespacedServiceRes, _ error) {
@@ -8455,7 +8470,7 @@ func decodeListCoreV1NamespacedServiceResponse(resp *http.Response) (res ListCor
 		// Code 401.
 		return &ListCoreV1NamespacedServiceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NamespacedServiceAccountResponse(resp *http.Response) (res ListCoreV1NamespacedServiceAccountRes, _ error) {
@@ -8508,7 +8523,7 @@ func decodeListCoreV1NamespacedServiceAccountResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ListCoreV1NamespacedServiceAccountUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1NodeResponse(resp *http.Response) (res ListCoreV1NodeRes, _ error) {
@@ -8561,7 +8576,7 @@ func decodeListCoreV1NodeResponse(resp *http.Response) (res ListCoreV1NodeRes, _
 		// Code 401.
 		return &ListCoreV1NodeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1PersistentVolumeResponse(resp *http.Response) (res ListCoreV1PersistentVolumeRes, _ error) {
@@ -8614,7 +8629,7 @@ func decodeListCoreV1PersistentVolumeResponse(resp *http.Response) (res ListCore
 		// Code 401.
 		return &ListCoreV1PersistentVolumeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1PersistentVolumeClaimForAllNamespacesResponse(resp *http.Response) (res ListCoreV1PersistentVolumeClaimForAllNamespacesRes, _ error) {
@@ -8667,7 +8682,7 @@ func decodeListCoreV1PersistentVolumeClaimForAllNamespacesResponse(resp *http.Re
 		// Code 401.
 		return &ListCoreV1PersistentVolumeClaimForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1PodForAllNamespacesResponse(resp *http.Response) (res ListCoreV1PodForAllNamespacesRes, _ error) {
@@ -8720,7 +8735,7 @@ func decodeListCoreV1PodForAllNamespacesResponse(resp *http.Response) (res ListC
 		// Code 401.
 		return &ListCoreV1PodForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1PodTemplateForAllNamespacesResponse(resp *http.Response) (res ListCoreV1PodTemplateForAllNamespacesRes, _ error) {
@@ -8773,7 +8788,7 @@ func decodeListCoreV1PodTemplateForAllNamespacesResponse(resp *http.Response) (r
 		// Code 401.
 		return &ListCoreV1PodTemplateForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1ReplicationControllerForAllNamespacesResponse(resp *http.Response) (res ListCoreV1ReplicationControllerForAllNamespacesRes, _ error) {
@@ -8826,7 +8841,7 @@ func decodeListCoreV1ReplicationControllerForAllNamespacesResponse(resp *http.Re
 		// Code 401.
 		return &ListCoreV1ReplicationControllerForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1ResourceQuotaForAllNamespacesResponse(resp *http.Response) (res ListCoreV1ResourceQuotaForAllNamespacesRes, _ error) {
@@ -8879,7 +8894,7 @@ func decodeListCoreV1ResourceQuotaForAllNamespacesResponse(resp *http.Response) 
 		// Code 401.
 		return &ListCoreV1ResourceQuotaForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1SecretForAllNamespacesResponse(resp *http.Response) (res ListCoreV1SecretForAllNamespacesRes, _ error) {
@@ -8932,7 +8947,7 @@ func decodeListCoreV1SecretForAllNamespacesResponse(resp *http.Response) (res Li
 		// Code 401.
 		return &ListCoreV1SecretForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1ServiceAccountForAllNamespacesResponse(resp *http.Response) (res ListCoreV1ServiceAccountForAllNamespacesRes, _ error) {
@@ -8985,7 +9000,7 @@ func decodeListCoreV1ServiceAccountForAllNamespacesResponse(resp *http.Response)
 		// Code 401.
 		return &ListCoreV1ServiceAccountForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListCoreV1ServiceForAllNamespacesResponse(resp *http.Response) (res ListCoreV1ServiceForAllNamespacesRes, _ error) {
@@ -9038,7 +9053,7 @@ func decodeListCoreV1ServiceForAllNamespacesResponse(resp *http.Response) (res L
 		// Code 401.
 		return &ListCoreV1ServiceForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListDiscoveryV1EndpointSliceForAllNamespacesResponse(resp *http.Response) (res ListDiscoveryV1EndpointSliceForAllNamespacesRes, _ error) {
@@ -9091,7 +9106,7 @@ func decodeListDiscoveryV1EndpointSliceForAllNamespacesResponse(resp *http.Respo
 		// Code 401.
 		return &ListDiscoveryV1EndpointSliceForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListDiscoveryV1NamespacedEndpointSliceResponse(resp *http.Response) (res ListDiscoveryV1NamespacedEndpointSliceRes, _ error) {
@@ -9144,7 +9159,7 @@ func decodeListDiscoveryV1NamespacedEndpointSliceResponse(resp *http.Response) (
 		// Code 401.
 		return &ListDiscoveryV1NamespacedEndpointSliceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListDiscoveryV1beta1EndpointSliceForAllNamespacesResponse(resp *http.Response) (res ListDiscoveryV1beta1EndpointSliceForAllNamespacesRes, _ error) {
@@ -9197,7 +9212,7 @@ func decodeListDiscoveryV1beta1EndpointSliceForAllNamespacesResponse(resp *http.
 		// Code 401.
 		return &ListDiscoveryV1beta1EndpointSliceForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListDiscoveryV1beta1NamespacedEndpointSliceResponse(resp *http.Response) (res ListDiscoveryV1beta1NamespacedEndpointSliceRes, _ error) {
@@ -9250,7 +9265,7 @@ func decodeListDiscoveryV1beta1NamespacedEndpointSliceResponse(resp *http.Respon
 		// Code 401.
 		return &ListDiscoveryV1beta1NamespacedEndpointSliceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListEventsV1EventForAllNamespacesResponse(resp *http.Response) (res ListEventsV1EventForAllNamespacesRes, _ error) {
@@ -9303,7 +9318,7 @@ func decodeListEventsV1EventForAllNamespacesResponse(resp *http.Response) (res L
 		// Code 401.
 		return &ListEventsV1EventForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListEventsV1NamespacedEventResponse(resp *http.Response) (res ListEventsV1NamespacedEventRes, _ error) {
@@ -9356,7 +9371,7 @@ func decodeListEventsV1NamespacedEventResponse(resp *http.Response) (res ListEve
 		// Code 401.
 		return &ListEventsV1NamespacedEventUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListEventsV1beta1EventForAllNamespacesResponse(resp *http.Response) (res ListEventsV1beta1EventForAllNamespacesRes, _ error) {
@@ -9409,7 +9424,7 @@ func decodeListEventsV1beta1EventForAllNamespacesResponse(resp *http.Response) (
 		// Code 401.
 		return &ListEventsV1beta1EventForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListEventsV1beta1NamespacedEventResponse(resp *http.Response) (res ListEventsV1beta1NamespacedEventRes, _ error) {
@@ -9462,7 +9477,7 @@ func decodeListEventsV1beta1NamespacedEventResponse(resp *http.Response) (res Li
 		// Code 401.
 		return &ListEventsV1beta1NamespacedEventUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListFlowcontrolApiserverV1beta1FlowSchemaResponse(resp *http.Response) (res ListFlowcontrolApiserverV1beta1FlowSchemaRes, _ error) {
@@ -9515,7 +9530,7 @@ func decodeListFlowcontrolApiserverV1beta1FlowSchemaResponse(resp *http.Response
 		// Code 401.
 		return &ListFlowcontrolApiserverV1beta1FlowSchemaUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(resp *http.Response) (res ListFlowcontrolApiserverV1beta1PriorityLevelConfigurationRes, _ error) {
@@ -9568,7 +9583,7 @@ func decodeListFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(res
 		// Code 401.
 		return &ListFlowcontrolApiserverV1beta1PriorityLevelConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListFlowcontrolApiserverV1beta2FlowSchemaResponse(resp *http.Response) (res ListFlowcontrolApiserverV1beta2FlowSchemaRes, _ error) {
@@ -9621,7 +9636,7 @@ func decodeListFlowcontrolApiserverV1beta2FlowSchemaResponse(resp *http.Response
 		// Code 401.
 		return &ListFlowcontrolApiserverV1beta2FlowSchemaUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(resp *http.Response) (res ListFlowcontrolApiserverV1beta2PriorityLevelConfigurationRes, _ error) {
@@ -9674,7 +9689,7 @@ func decodeListFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(res
 		// Code 401.
 		return &ListFlowcontrolApiserverV1beta2PriorityLevelConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListInternalApiserverV1alpha1StorageVersionResponse(resp *http.Response) (res ListInternalApiserverV1alpha1StorageVersionRes, _ error) {
@@ -9727,7 +9742,7 @@ func decodeListInternalApiserverV1alpha1StorageVersionResponse(resp *http.Respon
 		// Code 401.
 		return &ListInternalApiserverV1alpha1StorageVersionUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListNetworkingV1IngressClassResponse(resp *http.Response) (res ListNetworkingV1IngressClassRes, _ error) {
@@ -9780,7 +9795,7 @@ func decodeListNetworkingV1IngressClassResponse(resp *http.Response) (res ListNe
 		// Code 401.
 		return &ListNetworkingV1IngressClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListNetworkingV1IngressForAllNamespacesResponse(resp *http.Response) (res ListNetworkingV1IngressForAllNamespacesRes, _ error) {
@@ -9833,7 +9848,7 @@ func decodeListNetworkingV1IngressForAllNamespacesResponse(resp *http.Response) 
 		// Code 401.
 		return &ListNetworkingV1IngressForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListNetworkingV1NamespacedIngressResponse(resp *http.Response) (res ListNetworkingV1NamespacedIngressRes, _ error) {
@@ -9886,7 +9901,7 @@ func decodeListNetworkingV1NamespacedIngressResponse(resp *http.Response) (res L
 		// Code 401.
 		return &ListNetworkingV1NamespacedIngressUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListNetworkingV1NamespacedNetworkPolicyResponse(resp *http.Response) (res ListNetworkingV1NamespacedNetworkPolicyRes, _ error) {
@@ -9939,7 +9954,7 @@ func decodeListNetworkingV1NamespacedNetworkPolicyResponse(resp *http.Response) 
 		// Code 401.
 		return &ListNetworkingV1NamespacedNetworkPolicyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListNetworkingV1NetworkPolicyForAllNamespacesResponse(resp *http.Response) (res ListNetworkingV1NetworkPolicyForAllNamespacesRes, _ error) {
@@ -9992,7 +10007,7 @@ func decodeListNetworkingV1NetworkPolicyForAllNamespacesResponse(resp *http.Resp
 		// Code 401.
 		return &ListNetworkingV1NetworkPolicyForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListNodeV1RuntimeClassResponse(resp *http.Response) (res ListNodeV1RuntimeClassRes, _ error) {
@@ -10045,7 +10060,7 @@ func decodeListNodeV1RuntimeClassResponse(resp *http.Response) (res ListNodeV1Ru
 		// Code 401.
 		return &ListNodeV1RuntimeClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListNodeV1alpha1RuntimeClassResponse(resp *http.Response) (res ListNodeV1alpha1RuntimeClassRes, _ error) {
@@ -10098,7 +10113,7 @@ func decodeListNodeV1alpha1RuntimeClassResponse(resp *http.Response) (res ListNo
 		// Code 401.
 		return &ListNodeV1alpha1RuntimeClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListNodeV1beta1RuntimeClassResponse(resp *http.Response) (res ListNodeV1beta1RuntimeClassRes, _ error) {
@@ -10151,7 +10166,7 @@ func decodeListNodeV1beta1RuntimeClassResponse(resp *http.Response) (res ListNod
 		// Code 401.
 		return &ListNodeV1beta1RuntimeClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListPolicyV1NamespacedPodDisruptionBudgetResponse(resp *http.Response) (res ListPolicyV1NamespacedPodDisruptionBudgetRes, _ error) {
@@ -10204,7 +10219,7 @@ func decodeListPolicyV1NamespacedPodDisruptionBudgetResponse(resp *http.Response
 		// Code 401.
 		return &ListPolicyV1NamespacedPodDisruptionBudgetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListPolicyV1PodDisruptionBudgetForAllNamespacesResponse(resp *http.Response) (res ListPolicyV1PodDisruptionBudgetForAllNamespacesRes, _ error) {
@@ -10257,7 +10272,7 @@ func decodeListPolicyV1PodDisruptionBudgetForAllNamespacesResponse(resp *http.Re
 		// Code 401.
 		return &ListPolicyV1PodDisruptionBudgetForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListPolicyV1beta1NamespacedPodDisruptionBudgetResponse(resp *http.Response) (res ListPolicyV1beta1NamespacedPodDisruptionBudgetRes, _ error) {
@@ -10310,7 +10325,7 @@ func decodeListPolicyV1beta1NamespacedPodDisruptionBudgetResponse(resp *http.Res
 		// Code 401.
 		return &ListPolicyV1beta1NamespacedPodDisruptionBudgetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListPolicyV1beta1PodDisruptionBudgetForAllNamespacesResponse(resp *http.Response) (res ListPolicyV1beta1PodDisruptionBudgetForAllNamespacesRes, _ error) {
@@ -10363,7 +10378,7 @@ func decodeListPolicyV1beta1PodDisruptionBudgetForAllNamespacesResponse(resp *ht
 		// Code 401.
 		return &ListPolicyV1beta1PodDisruptionBudgetForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListPolicyV1beta1PodSecurityPolicyResponse(resp *http.Response) (res ListPolicyV1beta1PodSecurityPolicyRes, _ error) {
@@ -10416,7 +10431,7 @@ func decodeListPolicyV1beta1PodSecurityPolicyResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ListPolicyV1beta1PodSecurityPolicyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListRbacAuthorizationV1ClusterRoleResponse(resp *http.Response) (res ListRbacAuthorizationV1ClusterRoleRes, _ error) {
@@ -10469,7 +10484,7 @@ func decodeListRbacAuthorizationV1ClusterRoleResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ListRbacAuthorizationV1ClusterRoleUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListRbacAuthorizationV1ClusterRoleBindingResponse(resp *http.Response) (res ListRbacAuthorizationV1ClusterRoleBindingRes, _ error) {
@@ -10522,7 +10537,7 @@ func decodeListRbacAuthorizationV1ClusterRoleBindingResponse(resp *http.Response
 		// Code 401.
 		return &ListRbacAuthorizationV1ClusterRoleBindingUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListRbacAuthorizationV1NamespacedRoleResponse(resp *http.Response) (res ListRbacAuthorizationV1NamespacedRoleRes, _ error) {
@@ -10575,7 +10590,7 @@ func decodeListRbacAuthorizationV1NamespacedRoleResponse(resp *http.Response) (r
 		// Code 401.
 		return &ListRbacAuthorizationV1NamespacedRoleUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListRbacAuthorizationV1NamespacedRoleBindingResponse(resp *http.Response) (res ListRbacAuthorizationV1NamespacedRoleBindingRes, _ error) {
@@ -10628,7 +10643,7 @@ func decodeListRbacAuthorizationV1NamespacedRoleBindingResponse(resp *http.Respo
 		// Code 401.
 		return &ListRbacAuthorizationV1NamespacedRoleBindingUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListRbacAuthorizationV1RoleBindingForAllNamespacesResponse(resp *http.Response) (res ListRbacAuthorizationV1RoleBindingForAllNamespacesRes, _ error) {
@@ -10681,7 +10696,7 @@ func decodeListRbacAuthorizationV1RoleBindingForAllNamespacesResponse(resp *http
 		// Code 401.
 		return &ListRbacAuthorizationV1RoleBindingForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListRbacAuthorizationV1RoleForAllNamespacesResponse(resp *http.Response) (res ListRbacAuthorizationV1RoleForAllNamespacesRes, _ error) {
@@ -10734,7 +10749,7 @@ func decodeListRbacAuthorizationV1RoleForAllNamespacesResponse(resp *http.Respon
 		// Code 401.
 		return &ListRbacAuthorizationV1RoleForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListSchedulingV1PriorityClassResponse(resp *http.Response) (res ListSchedulingV1PriorityClassRes, _ error) {
@@ -10787,7 +10802,7 @@ func decodeListSchedulingV1PriorityClassResponse(resp *http.Response) (res ListS
 		// Code 401.
 		return &ListSchedulingV1PriorityClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListStorageV1CSIDriverResponse(resp *http.Response) (res ListStorageV1CSIDriverRes, _ error) {
@@ -10840,7 +10855,7 @@ func decodeListStorageV1CSIDriverResponse(resp *http.Response) (res ListStorageV
 		// Code 401.
 		return &ListStorageV1CSIDriverUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListStorageV1CSINodeResponse(resp *http.Response) (res ListStorageV1CSINodeRes, _ error) {
@@ -10893,7 +10908,7 @@ func decodeListStorageV1CSINodeResponse(resp *http.Response) (res ListStorageV1C
 		// Code 401.
 		return &ListStorageV1CSINodeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListStorageV1StorageClassResponse(resp *http.Response) (res ListStorageV1StorageClassRes, _ error) {
@@ -10946,7 +10961,7 @@ func decodeListStorageV1StorageClassResponse(resp *http.Response) (res ListStora
 		// Code 401.
 		return &ListStorageV1StorageClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListStorageV1VolumeAttachmentResponse(resp *http.Response) (res ListStorageV1VolumeAttachmentRes, _ error) {
@@ -10999,7 +11014,7 @@ func decodeListStorageV1VolumeAttachmentResponse(resp *http.Response) (res ListS
 		// Code 401.
 		return &ListStorageV1VolumeAttachmentUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListStorageV1alpha1CSIStorageCapacityForAllNamespacesResponse(resp *http.Response) (res ListStorageV1alpha1CSIStorageCapacityForAllNamespacesRes, _ error) {
@@ -11052,7 +11067,7 @@ func decodeListStorageV1alpha1CSIStorageCapacityForAllNamespacesResponse(resp *h
 		// Code 401.
 		return &ListStorageV1alpha1CSIStorageCapacityForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListStorageV1alpha1NamespacedCSIStorageCapacityResponse(resp *http.Response) (res ListStorageV1alpha1NamespacedCSIStorageCapacityRes, _ error) {
@@ -11105,7 +11120,7 @@ func decodeListStorageV1alpha1NamespacedCSIStorageCapacityResponse(resp *http.Re
 		// Code 401.
 		return &ListStorageV1alpha1NamespacedCSIStorageCapacityUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListStorageV1beta1CSIStorageCapacityForAllNamespacesResponse(resp *http.Response) (res ListStorageV1beta1CSIStorageCapacityForAllNamespacesRes, _ error) {
@@ -11158,7 +11173,7 @@ func decodeListStorageV1beta1CSIStorageCapacityForAllNamespacesResponse(resp *ht
 		// Code 401.
 		return &ListStorageV1beta1CSIStorageCapacityForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeListStorageV1beta1NamespacedCSIStorageCapacityResponse(resp *http.Response) (res ListStorageV1beta1NamespacedCSIStorageCapacityRes, _ error) {
@@ -11211,7 +11226,7 @@ func decodeListStorageV1beta1NamespacedCSIStorageCapacityResponse(resp *http.Res
 		// Code 401.
 		return &ListStorageV1beta1NamespacedCSIStorageCapacityUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogFileHandlerResponse(resp *http.Response) (res *LogFileHandlerUnauthorized, _ error) {
@@ -11220,7 +11235,7 @@ func decodeLogFileHandlerResponse(resp *http.Response) (res *LogFileHandlerUnaut
 		// Code 401.
 		return &LogFileHandlerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogFileListHandlerResponse(resp *http.Response) (res *LogFileListHandlerUnauthorized, _ error) {
@@ -11229,7 +11244,8624 @@ func decodeLogFileListHandlerResponse(resp *http.Response) (res *LogFileListHand
 		// Code 401.
 		return &LogFileListHandlerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAdmissionregistrationV1MutatingWebhookConfigurationResponse(resp *http.Response) (res PatchAdmissionregistrationV1MutatingWebhookConfigurationRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAdmissionregistrationV1MutatingWebhookConfigurationOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAdmissionregistrationV1MutatingWebhookConfigurationCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAdmissionregistrationV1MutatingWebhookConfigurationUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAdmissionregistrationV1ValidatingWebhookConfigurationResponse(resp *http.Response) (res PatchAdmissionregistrationV1ValidatingWebhookConfigurationRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAdmissionregistrationV1ValidatingWebhookConfigurationOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAdmissionregistrationV1ValidatingWebhookConfigurationCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAdmissionregistrationV1ValidatingWebhookConfigurationUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchApiextensionsV1CustomResourceDefinitionResponse(resp *http.Response) (res PatchApiextensionsV1CustomResourceDefinitionRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchApiextensionsV1CustomResourceDefinitionOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchApiextensionsV1CustomResourceDefinitionCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchApiextensionsV1CustomResourceDefinitionUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchApiextensionsV1CustomResourceDefinitionStatusResponse(resp *http.Response) (res PatchApiextensionsV1CustomResourceDefinitionStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchApiextensionsV1CustomResourceDefinitionStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchApiextensionsV1CustomResourceDefinitionStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchApiextensionsV1CustomResourceDefinitionStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchApiregistrationV1APIServiceResponse(resp *http.Response) (res PatchApiregistrationV1APIServiceRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchApiregistrationV1APIServiceOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchApiregistrationV1APIServiceCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchApiregistrationV1APIServiceUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchApiregistrationV1APIServiceStatusResponse(resp *http.Response) (res PatchApiregistrationV1APIServiceStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchApiregistrationV1APIServiceStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchApiregistrationV1APIServiceStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchApiregistrationV1APIServiceStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedControllerRevisionResponse(resp *http.Response) (res PatchAppsV1NamespacedControllerRevisionRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedControllerRevisionOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedControllerRevisionCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedControllerRevisionUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedDaemonSetResponse(resp *http.Response) (res PatchAppsV1NamespacedDaemonSetRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedDaemonSetOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedDaemonSetCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedDaemonSetUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedDaemonSetStatusResponse(resp *http.Response) (res PatchAppsV1NamespacedDaemonSetStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedDaemonSetStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedDaemonSetStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedDaemonSetStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedDeploymentResponse(resp *http.Response) (res PatchAppsV1NamespacedDeploymentRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedDeploymentOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedDeploymentCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedDeploymentUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedDeploymentScaleResponse(resp *http.Response) (res PatchAppsV1NamespacedDeploymentScaleRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedDeploymentScaleOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedDeploymentScaleCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedDeploymentScaleUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedDeploymentStatusResponse(resp *http.Response) (res PatchAppsV1NamespacedDeploymentStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedDeploymentStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedDeploymentStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedDeploymentStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedReplicaSetResponse(resp *http.Response) (res PatchAppsV1NamespacedReplicaSetRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedReplicaSetOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedReplicaSetCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedReplicaSetUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedReplicaSetScaleResponse(resp *http.Response) (res PatchAppsV1NamespacedReplicaSetScaleRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedReplicaSetScaleOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedReplicaSetScaleCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedReplicaSetScaleUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedReplicaSetStatusResponse(resp *http.Response) (res PatchAppsV1NamespacedReplicaSetStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedReplicaSetStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedReplicaSetStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedReplicaSetStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedStatefulSetResponse(resp *http.Response) (res PatchAppsV1NamespacedStatefulSetRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedStatefulSetOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedStatefulSetCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedStatefulSetUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedStatefulSetScaleResponse(resp *http.Response) (res PatchAppsV1NamespacedStatefulSetScaleRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedStatefulSetScaleOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedStatefulSetScaleCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedStatefulSetScaleUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAppsV1NamespacedStatefulSetStatusResponse(resp *http.Response) (res PatchAppsV1NamespacedStatefulSetStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedStatefulSetStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAppsV1NamespacedStatefulSetStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAppsV1NamespacedStatefulSetStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res PatchAutoscalingV1NamespacedHorizontalPodAutoscalerRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV1NamespacedHorizontalPodAutoscalerOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV1NamespacedHorizontalPodAutoscalerCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAutoscalingV1NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusResponse(resp *http.Response) (res PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusResponse(resp *http.Response) (res PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusResponse(resp *http.Response) (res PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchBatchV1NamespacedCronJobResponse(resp *http.Response) (res PatchBatchV1NamespacedCronJobRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1NamespacedCronJobOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1NamespacedCronJobCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchBatchV1NamespacedCronJobUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchBatchV1NamespacedCronJobStatusResponse(resp *http.Response) (res PatchBatchV1NamespacedCronJobStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1NamespacedCronJobStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1NamespacedCronJobStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchBatchV1NamespacedCronJobStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchBatchV1NamespacedJobResponse(resp *http.Response) (res PatchBatchV1NamespacedJobRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1NamespacedJobOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1NamespacedJobCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchBatchV1NamespacedJobUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchBatchV1NamespacedJobStatusResponse(resp *http.Response) (res PatchBatchV1NamespacedJobStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1NamespacedJobStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1NamespacedJobStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchBatchV1NamespacedJobStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchBatchV1beta1NamespacedCronJobResponse(resp *http.Response) (res PatchBatchV1beta1NamespacedCronJobRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1beta1NamespacedCronJobOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1beta1NamespacedCronJobCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchBatchV1beta1NamespacedCronJobUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchBatchV1beta1NamespacedCronJobStatusResponse(resp *http.Response) (res PatchBatchV1beta1NamespacedCronJobStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1beta1NamespacedCronJobStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchBatchV1beta1NamespacedCronJobStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchBatchV1beta1NamespacedCronJobStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCertificatesV1CertificateSigningRequestResponse(resp *http.Response) (res PatchCertificatesV1CertificateSigningRequestRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCertificatesV1CertificateSigningRequestOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCertificatesV1CertificateSigningRequestCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCertificatesV1CertificateSigningRequestUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCertificatesV1CertificateSigningRequestApprovalResponse(resp *http.Response) (res PatchCertificatesV1CertificateSigningRequestApprovalRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCertificatesV1CertificateSigningRequestApprovalOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCertificatesV1CertificateSigningRequestApprovalCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCertificatesV1CertificateSigningRequestApprovalUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCertificatesV1CertificateSigningRequestStatusResponse(resp *http.Response) (res PatchCertificatesV1CertificateSigningRequestStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCertificatesV1CertificateSigningRequestStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCertificatesV1CertificateSigningRequestStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCertificatesV1CertificateSigningRequestStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoordinationV1NamespacedLeaseResponse(resp *http.Response) (res PatchCoordinationV1NamespacedLeaseRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoordinationV1NamespacedLeaseOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoordinationV1NamespacedLeaseCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoordinationV1NamespacedLeaseUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespaceResponse(resp *http.Response) (res PatchCoreV1NamespaceRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespaceOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespaceCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespaceUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespaceStatusResponse(resp *http.Response) (res PatchCoreV1NamespaceStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespaceStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespaceStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespaceStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedConfigMapResponse(resp *http.Response) (res PatchCoreV1NamespacedConfigMapRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedConfigMapOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedConfigMapCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedConfigMapUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedEndpointsResponse(resp *http.Response) (res PatchCoreV1NamespacedEndpointsRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedEndpointsOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedEndpointsCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedEndpointsUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedEventResponse(resp *http.Response) (res PatchCoreV1NamespacedEventRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedEventOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedEventCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedEventUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedLimitRangeResponse(resp *http.Response) (res PatchCoreV1NamespacedLimitRangeRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedLimitRangeOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedLimitRangeCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedLimitRangeUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedPersistentVolumeClaimResponse(resp *http.Response) (res PatchCoreV1NamespacedPersistentVolumeClaimRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPersistentVolumeClaimOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPersistentVolumeClaimCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedPersistentVolumeClaimUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedPersistentVolumeClaimStatusResponse(resp *http.Response) (res PatchCoreV1NamespacedPersistentVolumeClaimStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPersistentVolumeClaimStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPersistentVolumeClaimStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedPersistentVolumeClaimStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedPodResponse(resp *http.Response) (res PatchCoreV1NamespacedPodRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPodOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPodCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedPodUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedPodEphemeralcontainersResponse(resp *http.Response) (res PatchCoreV1NamespacedPodEphemeralcontainersRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPodEphemeralcontainersOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPodEphemeralcontainersCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedPodEphemeralcontainersUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedPodStatusResponse(resp *http.Response) (res PatchCoreV1NamespacedPodStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPodStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPodStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedPodStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedPodTemplateResponse(resp *http.Response) (res PatchCoreV1NamespacedPodTemplateRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPodTemplateOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedPodTemplateCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedPodTemplateUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedReplicationControllerResponse(resp *http.Response) (res PatchCoreV1NamespacedReplicationControllerRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedReplicationControllerOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedReplicationControllerCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedReplicationControllerUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedReplicationControllerScaleResponse(resp *http.Response) (res PatchCoreV1NamespacedReplicationControllerScaleRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedReplicationControllerScaleOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedReplicationControllerScaleCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedReplicationControllerScaleUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedReplicationControllerStatusResponse(resp *http.Response) (res PatchCoreV1NamespacedReplicationControllerStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedReplicationControllerStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedReplicationControllerStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedReplicationControllerStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedResourceQuotaResponse(resp *http.Response) (res PatchCoreV1NamespacedResourceQuotaRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedResourceQuotaOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedResourceQuotaCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedResourceQuotaUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedResourceQuotaStatusResponse(resp *http.Response) (res PatchCoreV1NamespacedResourceQuotaStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedResourceQuotaStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedResourceQuotaStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedResourceQuotaStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedSecretResponse(resp *http.Response) (res PatchCoreV1NamespacedSecretRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedSecretOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedSecretCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedSecretUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedServiceResponse(resp *http.Response) (res PatchCoreV1NamespacedServiceRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedServiceOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedServiceCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedServiceUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedServiceAccountResponse(resp *http.Response) (res PatchCoreV1NamespacedServiceAccountRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedServiceAccountOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedServiceAccountCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedServiceAccountUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NamespacedServiceStatusResponse(resp *http.Response) (res PatchCoreV1NamespacedServiceStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedServiceStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NamespacedServiceStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NamespacedServiceStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NodeResponse(resp *http.Response) (res PatchCoreV1NodeRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NodeOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NodeCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NodeUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1NodeStatusResponse(resp *http.Response) (res PatchCoreV1NodeStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NodeStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1NodeStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1NodeStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1PersistentVolumeResponse(resp *http.Response) (res PatchCoreV1PersistentVolumeRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1PersistentVolumeOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1PersistentVolumeCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1PersistentVolumeUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchCoreV1PersistentVolumeStatusResponse(resp *http.Response) (res PatchCoreV1PersistentVolumeStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1PersistentVolumeStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchCoreV1PersistentVolumeStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchCoreV1PersistentVolumeStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchDiscoveryV1NamespacedEndpointSliceResponse(resp *http.Response) (res PatchDiscoveryV1NamespacedEndpointSliceRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchDiscoveryV1NamespacedEndpointSliceOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchDiscoveryV1NamespacedEndpointSliceCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchDiscoveryV1NamespacedEndpointSliceUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchDiscoveryV1beta1NamespacedEndpointSliceResponse(resp *http.Response) (res PatchDiscoveryV1beta1NamespacedEndpointSliceRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchDiscoveryV1beta1NamespacedEndpointSliceOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchDiscoveryV1beta1NamespacedEndpointSliceCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchDiscoveryV1beta1NamespacedEndpointSliceUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchEventsV1NamespacedEventResponse(resp *http.Response) (res PatchEventsV1NamespacedEventRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchEventsV1NamespacedEventOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchEventsV1NamespacedEventCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchEventsV1NamespacedEventUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchEventsV1beta1NamespacedEventResponse(resp *http.Response) (res PatchEventsV1beta1NamespacedEventRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchEventsV1beta1NamespacedEventOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchEventsV1beta1NamespacedEventCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchEventsV1beta1NamespacedEventUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchFlowcontrolApiserverV1beta1FlowSchemaResponse(resp *http.Response) (res PatchFlowcontrolApiserverV1beta1FlowSchemaRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta1FlowSchemaOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta1FlowSchemaCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchFlowcontrolApiserverV1beta1FlowSchemaUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchFlowcontrolApiserverV1beta1FlowSchemaStatusResponse(resp *http.Response) (res PatchFlowcontrolApiserverV1beta1FlowSchemaStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta1FlowSchemaStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta1FlowSchemaStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchFlowcontrolApiserverV1beta1FlowSchemaStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(resp *http.Response) (res PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusResponse(resp *http.Response) (res PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchFlowcontrolApiserverV1beta2FlowSchemaResponse(resp *http.Response) (res PatchFlowcontrolApiserverV1beta2FlowSchemaRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta2FlowSchemaOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta2FlowSchemaCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchFlowcontrolApiserverV1beta2FlowSchemaUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchFlowcontrolApiserverV1beta2FlowSchemaStatusResponse(resp *http.Response) (res PatchFlowcontrolApiserverV1beta2FlowSchemaStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta2FlowSchemaStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta2FlowSchemaStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchFlowcontrolApiserverV1beta2FlowSchemaStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(resp *http.Response) (res PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusResponse(resp *http.Response) (res PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchInternalApiserverV1alpha1StorageVersionResponse(resp *http.Response) (res PatchInternalApiserverV1alpha1StorageVersionRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchInternalApiserverV1alpha1StorageVersionOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchInternalApiserverV1alpha1StorageVersionCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchInternalApiserverV1alpha1StorageVersionUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchInternalApiserverV1alpha1StorageVersionStatusResponse(resp *http.Response) (res PatchInternalApiserverV1alpha1StorageVersionStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchInternalApiserverV1alpha1StorageVersionStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchInternalApiserverV1alpha1StorageVersionStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchInternalApiserverV1alpha1StorageVersionStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchNetworkingV1IngressClassResponse(resp *http.Response) (res PatchNetworkingV1IngressClassRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNetworkingV1IngressClassOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNetworkingV1IngressClassCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchNetworkingV1IngressClassUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchNetworkingV1NamespacedIngressResponse(resp *http.Response) (res PatchNetworkingV1NamespacedIngressRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNetworkingV1NamespacedIngressOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNetworkingV1NamespacedIngressCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchNetworkingV1NamespacedIngressUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchNetworkingV1NamespacedIngressStatusResponse(resp *http.Response) (res PatchNetworkingV1NamespacedIngressStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNetworkingV1NamespacedIngressStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNetworkingV1NamespacedIngressStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchNetworkingV1NamespacedIngressStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchNetworkingV1NamespacedNetworkPolicyResponse(resp *http.Response) (res PatchNetworkingV1NamespacedNetworkPolicyRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNetworkingV1NamespacedNetworkPolicyOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNetworkingV1NamespacedNetworkPolicyCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchNetworkingV1NamespacedNetworkPolicyUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchNodeV1RuntimeClassResponse(resp *http.Response) (res PatchNodeV1RuntimeClassRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNodeV1RuntimeClassOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNodeV1RuntimeClassCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchNodeV1RuntimeClassUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchNodeV1alpha1RuntimeClassResponse(resp *http.Response) (res PatchNodeV1alpha1RuntimeClassRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNodeV1alpha1RuntimeClassOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNodeV1alpha1RuntimeClassCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchNodeV1alpha1RuntimeClassUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchNodeV1beta1RuntimeClassResponse(resp *http.Response) (res PatchNodeV1beta1RuntimeClassRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNodeV1beta1RuntimeClassOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchNodeV1beta1RuntimeClassCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchNodeV1beta1RuntimeClassUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchPolicyV1NamespacedPodDisruptionBudgetResponse(resp *http.Response) (res PatchPolicyV1NamespacedPodDisruptionBudgetRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchPolicyV1NamespacedPodDisruptionBudgetOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchPolicyV1NamespacedPodDisruptionBudgetCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchPolicyV1NamespacedPodDisruptionBudgetUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchPolicyV1NamespacedPodDisruptionBudgetStatusResponse(resp *http.Response) (res PatchPolicyV1NamespacedPodDisruptionBudgetStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchPolicyV1NamespacedPodDisruptionBudgetStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchPolicyV1NamespacedPodDisruptionBudgetStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchPolicyV1NamespacedPodDisruptionBudgetStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchPolicyV1beta1NamespacedPodDisruptionBudgetResponse(resp *http.Response) (res PatchPolicyV1beta1NamespacedPodDisruptionBudgetRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchPolicyV1beta1NamespacedPodDisruptionBudgetOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchPolicyV1beta1NamespacedPodDisruptionBudgetCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchPolicyV1beta1NamespacedPodDisruptionBudgetUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusResponse(resp *http.Response) (res PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchPolicyV1beta1PodSecurityPolicyResponse(resp *http.Response) (res PatchPolicyV1beta1PodSecurityPolicyRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchPolicyV1beta1PodSecurityPolicyOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchPolicyV1beta1PodSecurityPolicyCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchPolicyV1beta1PodSecurityPolicyUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchRbacAuthorizationV1ClusterRoleResponse(resp *http.Response) (res PatchRbacAuthorizationV1ClusterRoleRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchRbacAuthorizationV1ClusterRoleOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchRbacAuthorizationV1ClusterRoleCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchRbacAuthorizationV1ClusterRoleUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchRbacAuthorizationV1ClusterRoleBindingResponse(resp *http.Response) (res PatchRbacAuthorizationV1ClusterRoleBindingRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchRbacAuthorizationV1ClusterRoleBindingOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchRbacAuthorizationV1ClusterRoleBindingCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchRbacAuthorizationV1ClusterRoleBindingUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchRbacAuthorizationV1NamespacedRoleResponse(resp *http.Response) (res PatchRbacAuthorizationV1NamespacedRoleRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchRbacAuthorizationV1NamespacedRoleOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchRbacAuthorizationV1NamespacedRoleCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchRbacAuthorizationV1NamespacedRoleUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchRbacAuthorizationV1NamespacedRoleBindingResponse(resp *http.Response) (res PatchRbacAuthorizationV1NamespacedRoleBindingRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchRbacAuthorizationV1NamespacedRoleBindingOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchRbacAuthorizationV1NamespacedRoleBindingCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchRbacAuthorizationV1NamespacedRoleBindingUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchSchedulingV1PriorityClassResponse(resp *http.Response) (res PatchSchedulingV1PriorityClassRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchSchedulingV1PriorityClassOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchSchedulingV1PriorityClassCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchSchedulingV1PriorityClassUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchStorageV1CSIDriverResponse(resp *http.Response) (res PatchStorageV1CSIDriverRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1CSIDriverOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1CSIDriverCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchStorageV1CSIDriverUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchStorageV1CSINodeResponse(resp *http.Response) (res PatchStorageV1CSINodeRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1CSINodeOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1CSINodeCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchStorageV1CSINodeUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchStorageV1StorageClassResponse(resp *http.Response) (res PatchStorageV1StorageClassRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1StorageClassOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1StorageClassCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchStorageV1StorageClassUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchStorageV1VolumeAttachmentResponse(resp *http.Response) (res PatchStorageV1VolumeAttachmentRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1VolumeAttachmentOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1VolumeAttachmentCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchStorageV1VolumeAttachmentUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchStorageV1VolumeAttachmentStatusResponse(resp *http.Response) (res PatchStorageV1VolumeAttachmentStatusRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1VolumeAttachmentStatusOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1VolumeAttachmentStatusCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchStorageV1VolumeAttachmentStatusUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchStorageV1alpha1NamespacedCSIStorageCapacityResponse(resp *http.Response) (res PatchStorageV1alpha1NamespacedCSIStorageCapacityRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1alpha1NamespacedCSIStorageCapacityOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1alpha1NamespacedCSIStorageCapacityCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchStorageV1alpha1NamespacedCSIStorageCapacityUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodePatchStorageV1beta1NamespacedCSIStorageCapacityResponse(resp *http.Response) (res PatchStorageV1beta1NamespacedCSIStorageCapacityRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1beta1NamespacedCSIStorageCapacityOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PatchStorageV1beta1NamespacedCSIStorageCapacityCreated
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 401:
+		// Code 401.
+		return &PatchStorageV1beta1NamespacedCSIStorageCapacityUnauthorized{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAdmissionregistrationV1MutatingWebhookConfigurationResponse(resp *http.Response) (res ReadAdmissionregistrationV1MutatingWebhookConfigurationRes, _ error) {
@@ -11282,7 +19914,7 @@ func decodeReadAdmissionregistrationV1MutatingWebhookConfigurationResponse(resp 
 		// Code 401.
 		return &ReadAdmissionregistrationV1MutatingWebhookConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAdmissionregistrationV1ValidatingWebhookConfigurationResponse(resp *http.Response) (res ReadAdmissionregistrationV1ValidatingWebhookConfigurationRes, _ error) {
@@ -11335,7 +19967,7 @@ func decodeReadAdmissionregistrationV1ValidatingWebhookConfigurationResponse(res
 		// Code 401.
 		return &ReadAdmissionregistrationV1ValidatingWebhookConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadApiextensionsV1CustomResourceDefinitionResponse(resp *http.Response) (res ReadApiextensionsV1CustomResourceDefinitionRes, _ error) {
@@ -11388,7 +20020,7 @@ func decodeReadApiextensionsV1CustomResourceDefinitionResponse(resp *http.Respon
 		// Code 401.
 		return &ReadApiextensionsV1CustomResourceDefinitionUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadApiextensionsV1CustomResourceDefinitionStatusResponse(resp *http.Response) (res ReadApiextensionsV1CustomResourceDefinitionStatusRes, _ error) {
@@ -11441,7 +20073,7 @@ func decodeReadApiextensionsV1CustomResourceDefinitionStatusResponse(resp *http.
 		// Code 401.
 		return &ReadApiextensionsV1CustomResourceDefinitionStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadApiregistrationV1APIServiceResponse(resp *http.Response) (res ReadApiregistrationV1APIServiceRes, _ error) {
@@ -11494,7 +20126,7 @@ func decodeReadApiregistrationV1APIServiceResponse(resp *http.Response) (res Rea
 		// Code 401.
 		return &ReadApiregistrationV1APIServiceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadApiregistrationV1APIServiceStatusResponse(resp *http.Response) (res ReadApiregistrationV1APIServiceStatusRes, _ error) {
@@ -11547,7 +20179,7 @@ func decodeReadApiregistrationV1APIServiceStatusResponse(resp *http.Response) (r
 		// Code 401.
 		return &ReadApiregistrationV1APIServiceStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedControllerRevisionResponse(resp *http.Response) (res ReadAppsV1NamespacedControllerRevisionRes, _ error) {
@@ -11591,7 +20223,7 @@ func decodeReadAppsV1NamespacedControllerRevisionResponse(resp *http.Response) (
 		// Code 401.
 		return &ReadAppsV1NamespacedControllerRevisionUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedDaemonSetResponse(resp *http.Response) (res ReadAppsV1NamespacedDaemonSetRes, _ error) {
@@ -11644,7 +20276,7 @@ func decodeReadAppsV1NamespacedDaemonSetResponse(resp *http.Response) (res ReadA
 		// Code 401.
 		return &ReadAppsV1NamespacedDaemonSetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedDaemonSetStatusResponse(resp *http.Response) (res ReadAppsV1NamespacedDaemonSetStatusRes, _ error) {
@@ -11697,7 +20329,7 @@ func decodeReadAppsV1NamespacedDaemonSetStatusResponse(resp *http.Response) (res
 		// Code 401.
 		return &ReadAppsV1NamespacedDaemonSetStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedDeploymentResponse(resp *http.Response) (res ReadAppsV1NamespacedDeploymentRes, _ error) {
@@ -11750,7 +20382,7 @@ func decodeReadAppsV1NamespacedDeploymentResponse(resp *http.Response) (res Read
 		// Code 401.
 		return &ReadAppsV1NamespacedDeploymentUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedDeploymentScaleResponse(resp *http.Response) (res ReadAppsV1NamespacedDeploymentScaleRes, _ error) {
@@ -11794,7 +20426,7 @@ func decodeReadAppsV1NamespacedDeploymentScaleResponse(resp *http.Response) (res
 		// Code 401.
 		return &ReadAppsV1NamespacedDeploymentScaleUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedDeploymentStatusResponse(resp *http.Response) (res ReadAppsV1NamespacedDeploymentStatusRes, _ error) {
@@ -11847,7 +20479,7 @@ func decodeReadAppsV1NamespacedDeploymentStatusResponse(resp *http.Response) (re
 		// Code 401.
 		return &ReadAppsV1NamespacedDeploymentStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedReplicaSetResponse(resp *http.Response) (res ReadAppsV1NamespacedReplicaSetRes, _ error) {
@@ -11900,7 +20532,7 @@ func decodeReadAppsV1NamespacedReplicaSetResponse(resp *http.Response) (res Read
 		// Code 401.
 		return &ReadAppsV1NamespacedReplicaSetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedReplicaSetScaleResponse(resp *http.Response) (res ReadAppsV1NamespacedReplicaSetScaleRes, _ error) {
@@ -11944,7 +20576,7 @@ func decodeReadAppsV1NamespacedReplicaSetScaleResponse(resp *http.Response) (res
 		// Code 401.
 		return &ReadAppsV1NamespacedReplicaSetScaleUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedReplicaSetStatusResponse(resp *http.Response) (res ReadAppsV1NamespacedReplicaSetStatusRes, _ error) {
@@ -11997,7 +20629,7 @@ func decodeReadAppsV1NamespacedReplicaSetStatusResponse(resp *http.Response) (re
 		// Code 401.
 		return &ReadAppsV1NamespacedReplicaSetStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedStatefulSetResponse(resp *http.Response) (res ReadAppsV1NamespacedStatefulSetRes, _ error) {
@@ -12050,7 +20682,7 @@ func decodeReadAppsV1NamespacedStatefulSetResponse(resp *http.Response) (res Rea
 		// Code 401.
 		return &ReadAppsV1NamespacedStatefulSetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedStatefulSetScaleResponse(resp *http.Response) (res ReadAppsV1NamespacedStatefulSetScaleRes, _ error) {
@@ -12094,7 +20726,7 @@ func decodeReadAppsV1NamespacedStatefulSetScaleResponse(resp *http.Response) (re
 		// Code 401.
 		return &ReadAppsV1NamespacedStatefulSetScaleUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAppsV1NamespacedStatefulSetStatusResponse(resp *http.Response) (res ReadAppsV1NamespacedStatefulSetStatusRes, _ error) {
@@ -12147,7 +20779,7 @@ func decodeReadAppsV1NamespacedStatefulSetStatusResponse(resp *http.Response) (r
 		// Code 401.
 		return &ReadAppsV1NamespacedStatefulSetStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res ReadAutoscalingV1NamespacedHorizontalPodAutoscalerRes, _ error) {
@@ -12191,7 +20823,7 @@ func decodeReadAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(resp *http
 		// Code 401.
 		return &ReadAutoscalingV1NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAutoscalingV1NamespacedHorizontalPodAutoscalerStatusResponse(resp *http.Response) (res ReadAutoscalingV1NamespacedHorizontalPodAutoscalerStatusRes, _ error) {
@@ -12235,7 +20867,7 @@ func decodeReadAutoscalingV1NamespacedHorizontalPodAutoscalerStatusResponse(resp
 		// Code 401.
 		return &ReadAutoscalingV1NamespacedHorizontalPodAutoscalerStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res ReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerRes, _ error) {
@@ -12288,7 +20920,7 @@ func decodeReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(resp 
 		// Code 401.
 		return &ReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusResponse(resp *http.Response) (res ReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusRes, _ error) {
@@ -12341,7 +20973,7 @@ func decodeReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusResponse
 		// Code 401.
 		return &ReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res ReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerRes, _ error) {
@@ -12394,7 +21026,7 @@ func decodeReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(resp 
 		// Code 401.
 		return &ReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusResponse(resp *http.Response) (res ReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusRes, _ error) {
@@ -12447,7 +21079,7 @@ func decodeReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusResponse
 		// Code 401.
 		return &ReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadBatchV1NamespacedCronJobResponse(resp *http.Response) (res ReadBatchV1NamespacedCronJobRes, _ error) {
@@ -12500,7 +21132,7 @@ func decodeReadBatchV1NamespacedCronJobResponse(resp *http.Response) (res ReadBa
 		// Code 401.
 		return &ReadBatchV1NamespacedCronJobUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadBatchV1NamespacedCronJobStatusResponse(resp *http.Response) (res ReadBatchV1NamespacedCronJobStatusRes, _ error) {
@@ -12553,7 +21185,7 @@ func decodeReadBatchV1NamespacedCronJobStatusResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ReadBatchV1NamespacedCronJobStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadBatchV1NamespacedJobResponse(resp *http.Response) (res ReadBatchV1NamespacedJobRes, _ error) {
@@ -12606,7 +21238,7 @@ func decodeReadBatchV1NamespacedJobResponse(resp *http.Response) (res ReadBatchV
 		// Code 401.
 		return &ReadBatchV1NamespacedJobUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadBatchV1NamespacedJobStatusResponse(resp *http.Response) (res ReadBatchV1NamespacedJobStatusRes, _ error) {
@@ -12659,7 +21291,7 @@ func decodeReadBatchV1NamespacedJobStatusResponse(resp *http.Response) (res Read
 		// Code 401.
 		return &ReadBatchV1NamespacedJobStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadBatchV1beta1NamespacedCronJobResponse(resp *http.Response) (res ReadBatchV1beta1NamespacedCronJobRes, _ error) {
@@ -12712,7 +21344,7 @@ func decodeReadBatchV1beta1NamespacedCronJobResponse(resp *http.Response) (res R
 		// Code 401.
 		return &ReadBatchV1beta1NamespacedCronJobUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadBatchV1beta1NamespacedCronJobStatusResponse(resp *http.Response) (res ReadBatchV1beta1NamespacedCronJobStatusRes, _ error) {
@@ -12765,7 +21397,7 @@ func decodeReadBatchV1beta1NamespacedCronJobStatusResponse(resp *http.Response) 
 		// Code 401.
 		return &ReadBatchV1beta1NamespacedCronJobStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCertificatesV1CertificateSigningRequestResponse(resp *http.Response) (res ReadCertificatesV1CertificateSigningRequestRes, _ error) {
@@ -12818,7 +21450,7 @@ func decodeReadCertificatesV1CertificateSigningRequestResponse(resp *http.Respon
 		// Code 401.
 		return &ReadCertificatesV1CertificateSigningRequestUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCertificatesV1CertificateSigningRequestApprovalResponse(resp *http.Response) (res ReadCertificatesV1CertificateSigningRequestApprovalRes, _ error) {
@@ -12871,7 +21503,7 @@ func decodeReadCertificatesV1CertificateSigningRequestApprovalResponse(resp *htt
 		// Code 401.
 		return &ReadCertificatesV1CertificateSigningRequestApprovalUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCertificatesV1CertificateSigningRequestStatusResponse(resp *http.Response) (res ReadCertificatesV1CertificateSigningRequestStatusRes, _ error) {
@@ -12924,7 +21556,7 @@ func decodeReadCertificatesV1CertificateSigningRequestStatusResponse(resp *http.
 		// Code 401.
 		return &ReadCertificatesV1CertificateSigningRequestStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoordinationV1NamespacedLeaseResponse(resp *http.Response) (res ReadCoordinationV1NamespacedLeaseRes, _ error) {
@@ -12968,7 +21600,7 @@ func decodeReadCoordinationV1NamespacedLeaseResponse(resp *http.Response) (res R
 		// Code 401.
 		return &ReadCoordinationV1NamespacedLeaseUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1ComponentStatusResponse(resp *http.Response) (res ReadCoreV1ComponentStatusRes, _ error) {
@@ -13012,7 +21644,7 @@ func decodeReadCoreV1ComponentStatusResponse(resp *http.Response) (res ReadCoreV
 		// Code 401.
 		return &ReadCoreV1ComponentStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespaceResponse(resp *http.Response) (res ReadCoreV1NamespaceRes, _ error) {
@@ -13056,7 +21688,7 @@ func decodeReadCoreV1NamespaceResponse(resp *http.Response) (res ReadCoreV1Names
 		// Code 401.
 		return &ReadCoreV1NamespaceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespaceStatusResponse(resp *http.Response) (res ReadCoreV1NamespaceStatusRes, _ error) {
@@ -13100,7 +21732,7 @@ func decodeReadCoreV1NamespaceStatusResponse(resp *http.Response) (res ReadCoreV
 		// Code 401.
 		return &ReadCoreV1NamespaceStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedConfigMapResponse(resp *http.Response) (res ReadCoreV1NamespacedConfigMapRes, _ error) {
@@ -13153,7 +21785,7 @@ func decodeReadCoreV1NamespacedConfigMapResponse(resp *http.Response) (res ReadC
 		// Code 401.
 		return &ReadCoreV1NamespacedConfigMapUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedEndpointsResponse(resp *http.Response) (res ReadCoreV1NamespacedEndpointsRes, _ error) {
@@ -13197,7 +21829,7 @@ func decodeReadCoreV1NamespacedEndpointsResponse(resp *http.Response) (res ReadC
 		// Code 401.
 		return &ReadCoreV1NamespacedEndpointsUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedEventResponse(resp *http.Response) (res ReadCoreV1NamespacedEventRes, _ error) {
@@ -13241,7 +21873,7 @@ func decodeReadCoreV1NamespacedEventResponse(resp *http.Response) (res ReadCoreV
 		// Code 401.
 		return &ReadCoreV1NamespacedEventUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedLimitRangeResponse(resp *http.Response) (res ReadCoreV1NamespacedLimitRangeRes, _ error) {
@@ -13294,7 +21926,7 @@ func decodeReadCoreV1NamespacedLimitRangeResponse(resp *http.Response) (res Read
 		// Code 401.
 		return &ReadCoreV1NamespacedLimitRangeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedPersistentVolumeClaimResponse(resp *http.Response) (res ReadCoreV1NamespacedPersistentVolumeClaimRes, _ error) {
@@ -13338,7 +21970,7 @@ func decodeReadCoreV1NamespacedPersistentVolumeClaimResponse(resp *http.Response
 		// Code 401.
 		return &ReadCoreV1NamespacedPersistentVolumeClaimUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedPersistentVolumeClaimStatusResponse(resp *http.Response) (res ReadCoreV1NamespacedPersistentVolumeClaimStatusRes, _ error) {
@@ -13382,7 +22014,7 @@ func decodeReadCoreV1NamespacedPersistentVolumeClaimStatusResponse(resp *http.Re
 		// Code 401.
 		return &ReadCoreV1NamespacedPersistentVolumeClaimStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedPodResponse(resp *http.Response) (res ReadCoreV1NamespacedPodRes, _ error) {
@@ -13435,7 +22067,7 @@ func decodeReadCoreV1NamespacedPodResponse(resp *http.Response) (res ReadCoreV1N
 		// Code 401.
 		return &ReadCoreV1NamespacedPodUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedPodEphemeralcontainersResponse(resp *http.Response) (res ReadCoreV1NamespacedPodEphemeralcontainersRes, _ error) {
@@ -13488,7 +22120,7 @@ func decodeReadCoreV1NamespacedPodEphemeralcontainersResponse(resp *http.Respons
 		// Code 401.
 		return &ReadCoreV1NamespacedPodEphemeralcontainersUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedPodLogResponse(resp *http.Response) (res ReadCoreV1NamespacedPodLogRes, _ error) {
@@ -13559,7 +22191,7 @@ func decodeReadCoreV1NamespacedPodLogResponse(resp *http.Response) (res ReadCore
 		// Code 401.
 		return &ReadCoreV1NamespacedPodLogUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedPodStatusResponse(resp *http.Response) (res ReadCoreV1NamespacedPodStatusRes, _ error) {
@@ -13612,7 +22244,7 @@ func decodeReadCoreV1NamespacedPodStatusResponse(resp *http.Response) (res ReadC
 		// Code 401.
 		return &ReadCoreV1NamespacedPodStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedPodTemplateResponse(resp *http.Response) (res ReadCoreV1NamespacedPodTemplateRes, _ error) {
@@ -13665,7 +22297,7 @@ func decodeReadCoreV1NamespacedPodTemplateResponse(resp *http.Response) (res Rea
 		// Code 401.
 		return &ReadCoreV1NamespacedPodTemplateUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedReplicationControllerResponse(resp *http.Response) (res ReadCoreV1NamespacedReplicationControllerRes, _ error) {
@@ -13718,7 +22350,7 @@ func decodeReadCoreV1NamespacedReplicationControllerResponse(resp *http.Response
 		// Code 401.
 		return &ReadCoreV1NamespacedReplicationControllerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedReplicationControllerScaleResponse(resp *http.Response) (res ReadCoreV1NamespacedReplicationControllerScaleRes, _ error) {
@@ -13762,7 +22394,7 @@ func decodeReadCoreV1NamespacedReplicationControllerScaleResponse(resp *http.Res
 		// Code 401.
 		return &ReadCoreV1NamespacedReplicationControllerScaleUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedReplicationControllerStatusResponse(resp *http.Response) (res ReadCoreV1NamespacedReplicationControllerStatusRes, _ error) {
@@ -13815,7 +22447,7 @@ func decodeReadCoreV1NamespacedReplicationControllerStatusResponse(resp *http.Re
 		// Code 401.
 		return &ReadCoreV1NamespacedReplicationControllerStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedResourceQuotaResponse(resp *http.Response) (res ReadCoreV1NamespacedResourceQuotaRes, _ error) {
@@ -13859,7 +22491,7 @@ func decodeReadCoreV1NamespacedResourceQuotaResponse(resp *http.Response) (res R
 		// Code 401.
 		return &ReadCoreV1NamespacedResourceQuotaUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedResourceQuotaStatusResponse(resp *http.Response) (res ReadCoreV1NamespacedResourceQuotaStatusRes, _ error) {
@@ -13903,7 +22535,7 @@ func decodeReadCoreV1NamespacedResourceQuotaStatusResponse(resp *http.Response) 
 		// Code 401.
 		return &ReadCoreV1NamespacedResourceQuotaStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedSecretResponse(resp *http.Response) (res ReadCoreV1NamespacedSecretRes, _ error) {
@@ -13956,7 +22588,7 @@ func decodeReadCoreV1NamespacedSecretResponse(resp *http.Response) (res ReadCore
 		// Code 401.
 		return &ReadCoreV1NamespacedSecretUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedServiceResponse(resp *http.Response) (res ReadCoreV1NamespacedServiceRes, _ error) {
@@ -14000,7 +22632,7 @@ func decodeReadCoreV1NamespacedServiceResponse(resp *http.Response) (res ReadCor
 		// Code 401.
 		return &ReadCoreV1NamespacedServiceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedServiceAccountResponse(resp *http.Response) (res ReadCoreV1NamespacedServiceAccountRes, _ error) {
@@ -14044,7 +22676,7 @@ func decodeReadCoreV1NamespacedServiceAccountResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ReadCoreV1NamespacedServiceAccountUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NamespacedServiceStatusResponse(resp *http.Response) (res ReadCoreV1NamespacedServiceStatusRes, _ error) {
@@ -14088,7 +22720,7 @@ func decodeReadCoreV1NamespacedServiceStatusResponse(resp *http.Response) (res R
 		// Code 401.
 		return &ReadCoreV1NamespacedServiceStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NodeResponse(resp *http.Response) (res ReadCoreV1NodeRes, _ error) {
@@ -14132,7 +22764,7 @@ func decodeReadCoreV1NodeResponse(resp *http.Response) (res ReadCoreV1NodeRes, _
 		// Code 401.
 		return &ReadCoreV1NodeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1NodeStatusResponse(resp *http.Response) (res ReadCoreV1NodeStatusRes, _ error) {
@@ -14176,7 +22808,7 @@ func decodeReadCoreV1NodeStatusResponse(resp *http.Response) (res ReadCoreV1Node
 		// Code 401.
 		return &ReadCoreV1NodeStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1PersistentVolumeResponse(resp *http.Response) (res ReadCoreV1PersistentVolumeRes, _ error) {
@@ -14229,7 +22861,7 @@ func decodeReadCoreV1PersistentVolumeResponse(resp *http.Response) (res ReadCore
 		// Code 401.
 		return &ReadCoreV1PersistentVolumeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadCoreV1PersistentVolumeStatusResponse(resp *http.Response) (res ReadCoreV1PersistentVolumeStatusRes, _ error) {
@@ -14282,7 +22914,7 @@ func decodeReadCoreV1PersistentVolumeStatusResponse(resp *http.Response) (res Re
 		// Code 401.
 		return &ReadCoreV1PersistentVolumeStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadDiscoveryV1NamespacedEndpointSliceResponse(resp *http.Response) (res ReadDiscoveryV1NamespacedEndpointSliceRes, _ error) {
@@ -14335,7 +22967,7 @@ func decodeReadDiscoveryV1NamespacedEndpointSliceResponse(resp *http.Response) (
 		// Code 401.
 		return &ReadDiscoveryV1NamespacedEndpointSliceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadDiscoveryV1beta1NamespacedEndpointSliceResponse(resp *http.Response) (res ReadDiscoveryV1beta1NamespacedEndpointSliceRes, _ error) {
@@ -14388,7 +23020,7 @@ func decodeReadDiscoveryV1beta1NamespacedEndpointSliceResponse(resp *http.Respon
 		// Code 401.
 		return &ReadDiscoveryV1beta1NamespacedEndpointSliceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadEventsV1NamespacedEventResponse(resp *http.Response) (res ReadEventsV1NamespacedEventRes, _ error) {
@@ -14432,7 +23064,7 @@ func decodeReadEventsV1NamespacedEventResponse(resp *http.Response) (res ReadEve
 		// Code 401.
 		return &ReadEventsV1NamespacedEventUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadEventsV1beta1NamespacedEventResponse(resp *http.Response) (res ReadEventsV1beta1NamespacedEventRes, _ error) {
@@ -14476,7 +23108,7 @@ func decodeReadEventsV1beta1NamespacedEventResponse(resp *http.Response) (res Re
 		// Code 401.
 		return &ReadEventsV1beta1NamespacedEventUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadFlowcontrolApiserverV1beta1FlowSchemaResponse(resp *http.Response) (res ReadFlowcontrolApiserverV1beta1FlowSchemaRes, _ error) {
@@ -14529,7 +23161,7 @@ func decodeReadFlowcontrolApiserverV1beta1FlowSchemaResponse(resp *http.Response
 		// Code 401.
 		return &ReadFlowcontrolApiserverV1beta1FlowSchemaUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadFlowcontrolApiserverV1beta1FlowSchemaStatusResponse(resp *http.Response) (res ReadFlowcontrolApiserverV1beta1FlowSchemaStatusRes, _ error) {
@@ -14582,7 +23214,7 @@ func decodeReadFlowcontrolApiserverV1beta1FlowSchemaStatusResponse(resp *http.Re
 		// Code 401.
 		return &ReadFlowcontrolApiserverV1beta1FlowSchemaStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(resp *http.Response) (res ReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationRes, _ error) {
@@ -14626,7 +23258,7 @@ func decodeReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(res
 		// Code 401.
 		return &ReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusResponse(resp *http.Response) (res ReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusRes, _ error) {
@@ -14670,7 +23302,7 @@ func decodeReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusRespon
 		// Code 401.
 		return &ReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadFlowcontrolApiserverV1beta2FlowSchemaResponse(resp *http.Response) (res ReadFlowcontrolApiserverV1beta2FlowSchemaRes, _ error) {
@@ -14723,7 +23355,7 @@ func decodeReadFlowcontrolApiserverV1beta2FlowSchemaResponse(resp *http.Response
 		// Code 401.
 		return &ReadFlowcontrolApiserverV1beta2FlowSchemaUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadFlowcontrolApiserverV1beta2FlowSchemaStatusResponse(resp *http.Response) (res ReadFlowcontrolApiserverV1beta2FlowSchemaStatusRes, _ error) {
@@ -14776,7 +23408,7 @@ func decodeReadFlowcontrolApiserverV1beta2FlowSchemaStatusResponse(resp *http.Re
 		// Code 401.
 		return &ReadFlowcontrolApiserverV1beta2FlowSchemaStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(resp *http.Response) (res ReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationRes, _ error) {
@@ -14820,7 +23452,7 @@ func decodeReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(res
 		// Code 401.
 		return &ReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusResponse(resp *http.Response) (res ReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusRes, _ error) {
@@ -14864,7 +23496,7 @@ func decodeReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusRespon
 		// Code 401.
 		return &ReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadInternalApiserverV1alpha1StorageVersionResponse(resp *http.Response) (res ReadInternalApiserverV1alpha1StorageVersionRes, _ error) {
@@ -14908,7 +23540,7 @@ func decodeReadInternalApiserverV1alpha1StorageVersionResponse(resp *http.Respon
 		// Code 401.
 		return &ReadInternalApiserverV1alpha1StorageVersionUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadInternalApiserverV1alpha1StorageVersionStatusResponse(resp *http.Response) (res ReadInternalApiserverV1alpha1StorageVersionStatusRes, _ error) {
@@ -14952,7 +23584,7 @@ func decodeReadInternalApiserverV1alpha1StorageVersionStatusResponse(resp *http.
 		// Code 401.
 		return &ReadInternalApiserverV1alpha1StorageVersionStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadNetworkingV1IngressClassResponse(resp *http.Response) (res ReadNetworkingV1IngressClassRes, _ error) {
@@ -14996,7 +23628,7 @@ func decodeReadNetworkingV1IngressClassResponse(resp *http.Response) (res ReadNe
 		// Code 401.
 		return &ReadNetworkingV1IngressClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadNetworkingV1NamespacedIngressResponse(resp *http.Response) (res ReadNetworkingV1NamespacedIngressRes, _ error) {
@@ -15049,7 +23681,7 @@ func decodeReadNetworkingV1NamespacedIngressResponse(resp *http.Response) (res R
 		// Code 401.
 		return &ReadNetworkingV1NamespacedIngressUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadNetworkingV1NamespacedIngressStatusResponse(resp *http.Response) (res ReadNetworkingV1NamespacedIngressStatusRes, _ error) {
@@ -15102,7 +23734,7 @@ func decodeReadNetworkingV1NamespacedIngressStatusResponse(resp *http.Response) 
 		// Code 401.
 		return &ReadNetworkingV1NamespacedIngressStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadNetworkingV1NamespacedNetworkPolicyResponse(resp *http.Response) (res ReadNetworkingV1NamespacedNetworkPolicyRes, _ error) {
@@ -15146,7 +23778,7 @@ func decodeReadNetworkingV1NamespacedNetworkPolicyResponse(resp *http.Response) 
 		// Code 401.
 		return &ReadNetworkingV1NamespacedNetworkPolicyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadNodeV1RuntimeClassResponse(resp *http.Response) (res ReadNodeV1RuntimeClassRes, _ error) {
@@ -15190,7 +23822,7 @@ func decodeReadNodeV1RuntimeClassResponse(resp *http.Response) (res ReadNodeV1Ru
 		// Code 401.
 		return &ReadNodeV1RuntimeClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadNodeV1alpha1RuntimeClassResponse(resp *http.Response) (res ReadNodeV1alpha1RuntimeClassRes, _ error) {
@@ -15234,7 +23866,7 @@ func decodeReadNodeV1alpha1RuntimeClassResponse(resp *http.Response) (res ReadNo
 		// Code 401.
 		return &ReadNodeV1alpha1RuntimeClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadNodeV1beta1RuntimeClassResponse(resp *http.Response) (res ReadNodeV1beta1RuntimeClassRes, _ error) {
@@ -15278,7 +23910,7 @@ func decodeReadNodeV1beta1RuntimeClassResponse(resp *http.Response) (res ReadNod
 		// Code 401.
 		return &ReadNodeV1beta1RuntimeClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadPolicyV1NamespacedPodDisruptionBudgetResponse(resp *http.Response) (res ReadPolicyV1NamespacedPodDisruptionBudgetRes, _ error) {
@@ -15322,7 +23954,7 @@ func decodeReadPolicyV1NamespacedPodDisruptionBudgetResponse(resp *http.Response
 		// Code 401.
 		return &ReadPolicyV1NamespacedPodDisruptionBudgetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadPolicyV1NamespacedPodDisruptionBudgetStatusResponse(resp *http.Response) (res ReadPolicyV1NamespacedPodDisruptionBudgetStatusRes, _ error) {
@@ -15366,7 +23998,7 @@ func decodeReadPolicyV1NamespacedPodDisruptionBudgetStatusResponse(resp *http.Re
 		// Code 401.
 		return &ReadPolicyV1NamespacedPodDisruptionBudgetStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadPolicyV1beta1NamespacedPodDisruptionBudgetResponse(resp *http.Response) (res ReadPolicyV1beta1NamespacedPodDisruptionBudgetRes, _ error) {
@@ -15410,7 +24042,7 @@ func decodeReadPolicyV1beta1NamespacedPodDisruptionBudgetResponse(resp *http.Res
 		// Code 401.
 		return &ReadPolicyV1beta1NamespacedPodDisruptionBudgetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadPolicyV1beta1NamespacedPodDisruptionBudgetStatusResponse(resp *http.Response) (res ReadPolicyV1beta1NamespacedPodDisruptionBudgetStatusRes, _ error) {
@@ -15454,7 +24086,7 @@ func decodeReadPolicyV1beta1NamespacedPodDisruptionBudgetStatusResponse(resp *ht
 		// Code 401.
 		return &ReadPolicyV1beta1NamespacedPodDisruptionBudgetStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadPolicyV1beta1PodSecurityPolicyResponse(resp *http.Response) (res ReadPolicyV1beta1PodSecurityPolicyRes, _ error) {
@@ -15507,7 +24139,7 @@ func decodeReadPolicyV1beta1PodSecurityPolicyResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ReadPolicyV1beta1PodSecurityPolicyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadRbacAuthorizationV1ClusterRoleResponse(resp *http.Response) (res ReadRbacAuthorizationV1ClusterRoleRes, _ error) {
@@ -15560,7 +24192,7 @@ func decodeReadRbacAuthorizationV1ClusterRoleResponse(resp *http.Response) (res 
 		// Code 401.
 		return &ReadRbacAuthorizationV1ClusterRoleUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadRbacAuthorizationV1ClusterRoleBindingResponse(resp *http.Response) (res ReadRbacAuthorizationV1ClusterRoleBindingRes, _ error) {
@@ -15604,7 +24236,7 @@ func decodeReadRbacAuthorizationV1ClusterRoleBindingResponse(resp *http.Response
 		// Code 401.
 		return &ReadRbacAuthorizationV1ClusterRoleBindingUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadRbacAuthorizationV1NamespacedRoleResponse(resp *http.Response) (res ReadRbacAuthorizationV1NamespacedRoleRes, _ error) {
@@ -15657,7 +24289,7 @@ func decodeReadRbacAuthorizationV1NamespacedRoleResponse(resp *http.Response) (r
 		// Code 401.
 		return &ReadRbacAuthorizationV1NamespacedRoleUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadRbacAuthorizationV1NamespacedRoleBindingResponse(resp *http.Response) (res ReadRbacAuthorizationV1NamespacedRoleBindingRes, _ error) {
@@ -15701,7 +24333,7 @@ func decodeReadRbacAuthorizationV1NamespacedRoleBindingResponse(resp *http.Respo
 		// Code 401.
 		return &ReadRbacAuthorizationV1NamespacedRoleBindingUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadSchedulingV1PriorityClassResponse(resp *http.Response) (res ReadSchedulingV1PriorityClassRes, _ error) {
@@ -15745,7 +24377,7 @@ func decodeReadSchedulingV1PriorityClassResponse(resp *http.Response) (res ReadS
 		// Code 401.
 		return &ReadSchedulingV1PriorityClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadStorageV1CSIDriverResponse(resp *http.Response) (res ReadStorageV1CSIDriverRes, _ error) {
@@ -15789,7 +24421,7 @@ func decodeReadStorageV1CSIDriverResponse(resp *http.Response) (res ReadStorageV
 		// Code 401.
 		return &ReadStorageV1CSIDriverUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadStorageV1CSINodeResponse(resp *http.Response) (res ReadStorageV1CSINodeRes, _ error) {
@@ -15842,7 +24474,7 @@ func decodeReadStorageV1CSINodeResponse(resp *http.Response) (res ReadStorageV1C
 		// Code 401.
 		return &ReadStorageV1CSINodeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadStorageV1StorageClassResponse(resp *http.Response) (res ReadStorageV1StorageClassRes, _ error) {
@@ -15895,7 +24527,7 @@ func decodeReadStorageV1StorageClassResponse(resp *http.Response) (res ReadStora
 		// Code 401.
 		return &ReadStorageV1StorageClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadStorageV1VolumeAttachmentResponse(resp *http.Response) (res ReadStorageV1VolumeAttachmentRes, _ error) {
@@ -15948,7 +24580,7 @@ func decodeReadStorageV1VolumeAttachmentResponse(resp *http.Response) (res ReadS
 		// Code 401.
 		return &ReadStorageV1VolumeAttachmentUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadStorageV1VolumeAttachmentStatusResponse(resp *http.Response) (res ReadStorageV1VolumeAttachmentStatusRes, _ error) {
@@ -16001,7 +24633,7 @@ func decodeReadStorageV1VolumeAttachmentStatusResponse(resp *http.Response) (res
 		// Code 401.
 		return &ReadStorageV1VolumeAttachmentStatusUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadStorageV1alpha1NamespacedCSIStorageCapacityResponse(resp *http.Response) (res ReadStorageV1alpha1NamespacedCSIStorageCapacityRes, _ error) {
@@ -16045,7 +24677,7 @@ func decodeReadStorageV1alpha1NamespacedCSIStorageCapacityResponse(resp *http.Re
 		// Code 401.
 		return &ReadStorageV1alpha1NamespacedCSIStorageCapacityUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReadStorageV1beta1NamespacedCSIStorageCapacityResponse(resp *http.Response) (res ReadStorageV1beta1NamespacedCSIStorageCapacityRes, _ error) {
@@ -16089,7 +24721,7 @@ func decodeReadStorageV1beta1NamespacedCSIStorageCapacityResponse(resp *http.Res
 		// Code 401.
 		return &ReadStorageV1beta1NamespacedCSIStorageCapacityUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAdmissionregistrationV1MutatingWebhookConfigurationResponse(resp *http.Response) (res WatchAdmissionregistrationV1MutatingWebhookConfigurationRes, _ error) {
@@ -16133,7 +24765,7 @@ func decodeWatchAdmissionregistrationV1MutatingWebhookConfigurationResponse(resp
 		// Code 401.
 		return &WatchAdmissionregistrationV1MutatingWebhookConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAdmissionregistrationV1MutatingWebhookConfigurationListResponse(resp *http.Response) (res WatchAdmissionregistrationV1MutatingWebhookConfigurationListRes, _ error) {
@@ -16177,7 +24809,7 @@ func decodeWatchAdmissionregistrationV1MutatingWebhookConfigurationListResponse(
 		// Code 401.
 		return &WatchAdmissionregistrationV1MutatingWebhookConfigurationListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAdmissionregistrationV1ValidatingWebhookConfigurationResponse(resp *http.Response) (res WatchAdmissionregistrationV1ValidatingWebhookConfigurationRes, _ error) {
@@ -16221,7 +24853,7 @@ func decodeWatchAdmissionregistrationV1ValidatingWebhookConfigurationResponse(re
 		// Code 401.
 		return &WatchAdmissionregistrationV1ValidatingWebhookConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAdmissionregistrationV1ValidatingWebhookConfigurationListResponse(resp *http.Response) (res WatchAdmissionregistrationV1ValidatingWebhookConfigurationListRes, _ error) {
@@ -16265,7 +24897,7 @@ func decodeWatchAdmissionregistrationV1ValidatingWebhookConfigurationListRespons
 		// Code 401.
 		return &WatchAdmissionregistrationV1ValidatingWebhookConfigurationListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchApiextensionsV1CustomResourceDefinitionResponse(resp *http.Response) (res WatchApiextensionsV1CustomResourceDefinitionRes, _ error) {
@@ -16309,7 +24941,7 @@ func decodeWatchApiextensionsV1CustomResourceDefinitionResponse(resp *http.Respo
 		// Code 401.
 		return &WatchApiextensionsV1CustomResourceDefinitionUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchApiextensionsV1CustomResourceDefinitionListResponse(resp *http.Response) (res WatchApiextensionsV1CustomResourceDefinitionListRes, _ error) {
@@ -16353,7 +24985,7 @@ func decodeWatchApiextensionsV1CustomResourceDefinitionListResponse(resp *http.R
 		// Code 401.
 		return &WatchApiextensionsV1CustomResourceDefinitionListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchApiregistrationV1APIServiceResponse(resp *http.Response) (res WatchApiregistrationV1APIServiceRes, _ error) {
@@ -16397,7 +25029,7 @@ func decodeWatchApiregistrationV1APIServiceResponse(resp *http.Response) (res Wa
 		// Code 401.
 		return &WatchApiregistrationV1APIServiceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchApiregistrationV1APIServiceListResponse(resp *http.Response) (res WatchApiregistrationV1APIServiceListRes, _ error) {
@@ -16441,7 +25073,7 @@ func decodeWatchApiregistrationV1APIServiceListResponse(resp *http.Response) (re
 		// Code 401.
 		return &WatchApiregistrationV1APIServiceListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1ControllerRevisionListForAllNamespacesResponse(resp *http.Response) (res WatchAppsV1ControllerRevisionListForAllNamespacesRes, _ error) {
@@ -16485,7 +25117,7 @@ func decodeWatchAppsV1ControllerRevisionListForAllNamespacesResponse(resp *http.
 		// Code 401.
 		return &WatchAppsV1ControllerRevisionListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1DaemonSetListForAllNamespacesResponse(resp *http.Response) (res WatchAppsV1DaemonSetListForAllNamespacesRes, _ error) {
@@ -16529,7 +25161,7 @@ func decodeWatchAppsV1DaemonSetListForAllNamespacesResponse(resp *http.Response)
 		// Code 401.
 		return &WatchAppsV1DaemonSetListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1DeploymentListForAllNamespacesResponse(resp *http.Response) (res WatchAppsV1DeploymentListForAllNamespacesRes, _ error) {
@@ -16573,7 +25205,7 @@ func decodeWatchAppsV1DeploymentListForAllNamespacesResponse(resp *http.Response
 		// Code 401.
 		return &WatchAppsV1DeploymentListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1NamespacedControllerRevisionResponse(resp *http.Response) (res WatchAppsV1NamespacedControllerRevisionRes, _ error) {
@@ -16617,7 +25249,7 @@ func decodeWatchAppsV1NamespacedControllerRevisionResponse(resp *http.Response) 
 		// Code 401.
 		return &WatchAppsV1NamespacedControllerRevisionUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1NamespacedControllerRevisionListResponse(resp *http.Response) (res WatchAppsV1NamespacedControllerRevisionListRes, _ error) {
@@ -16661,7 +25293,7 @@ func decodeWatchAppsV1NamespacedControllerRevisionListResponse(resp *http.Respon
 		// Code 401.
 		return &WatchAppsV1NamespacedControllerRevisionListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1NamespacedDaemonSetResponse(resp *http.Response) (res WatchAppsV1NamespacedDaemonSetRes, _ error) {
@@ -16705,7 +25337,7 @@ func decodeWatchAppsV1NamespacedDaemonSetResponse(resp *http.Response) (res Watc
 		// Code 401.
 		return &WatchAppsV1NamespacedDaemonSetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1NamespacedDaemonSetListResponse(resp *http.Response) (res WatchAppsV1NamespacedDaemonSetListRes, _ error) {
@@ -16749,7 +25381,7 @@ func decodeWatchAppsV1NamespacedDaemonSetListResponse(resp *http.Response) (res 
 		// Code 401.
 		return &WatchAppsV1NamespacedDaemonSetListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1NamespacedDeploymentResponse(resp *http.Response) (res WatchAppsV1NamespacedDeploymentRes, _ error) {
@@ -16793,7 +25425,7 @@ func decodeWatchAppsV1NamespacedDeploymentResponse(resp *http.Response) (res Wat
 		// Code 401.
 		return &WatchAppsV1NamespacedDeploymentUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1NamespacedDeploymentListResponse(resp *http.Response) (res WatchAppsV1NamespacedDeploymentListRes, _ error) {
@@ -16837,7 +25469,7 @@ func decodeWatchAppsV1NamespacedDeploymentListResponse(resp *http.Response) (res
 		// Code 401.
 		return &WatchAppsV1NamespacedDeploymentListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1NamespacedReplicaSetResponse(resp *http.Response) (res WatchAppsV1NamespacedReplicaSetRes, _ error) {
@@ -16881,7 +25513,7 @@ func decodeWatchAppsV1NamespacedReplicaSetResponse(resp *http.Response) (res Wat
 		// Code 401.
 		return &WatchAppsV1NamespacedReplicaSetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1NamespacedReplicaSetListResponse(resp *http.Response) (res WatchAppsV1NamespacedReplicaSetListRes, _ error) {
@@ -16925,7 +25557,7 @@ func decodeWatchAppsV1NamespacedReplicaSetListResponse(resp *http.Response) (res
 		// Code 401.
 		return &WatchAppsV1NamespacedReplicaSetListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1NamespacedStatefulSetResponse(resp *http.Response) (res WatchAppsV1NamespacedStatefulSetRes, _ error) {
@@ -16969,7 +25601,7 @@ func decodeWatchAppsV1NamespacedStatefulSetResponse(resp *http.Response) (res Wa
 		// Code 401.
 		return &WatchAppsV1NamespacedStatefulSetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1NamespacedStatefulSetListResponse(resp *http.Response) (res WatchAppsV1NamespacedStatefulSetListRes, _ error) {
@@ -17013,7 +25645,7 @@ func decodeWatchAppsV1NamespacedStatefulSetListResponse(resp *http.Response) (re
 		// Code 401.
 		return &WatchAppsV1NamespacedStatefulSetListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1ReplicaSetListForAllNamespacesResponse(resp *http.Response) (res WatchAppsV1ReplicaSetListForAllNamespacesRes, _ error) {
@@ -17057,7 +25689,7 @@ func decodeWatchAppsV1ReplicaSetListForAllNamespacesResponse(resp *http.Response
 		// Code 401.
 		return &WatchAppsV1ReplicaSetListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAppsV1StatefulSetListForAllNamespacesResponse(resp *http.Response) (res WatchAppsV1StatefulSetListForAllNamespacesRes, _ error) {
@@ -17101,7 +25733,7 @@ func decodeWatchAppsV1StatefulSetListForAllNamespacesResponse(resp *http.Respons
 		// Code 401.
 		return &WatchAppsV1StatefulSetListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespacesResponse(resp *http.Response) (res WatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespacesRes, _ error) {
@@ -17145,7 +25777,7 @@ func decodeWatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespacesResponse
 		// Code 401.
 		return &WatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res WatchAutoscalingV1NamespacedHorizontalPodAutoscalerRes, _ error) {
@@ -17189,7 +25821,7 @@ func decodeWatchAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(resp *htt
 		// Code 401.
 		return &WatchAutoscalingV1NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAutoscalingV1NamespacedHorizontalPodAutoscalerListResponse(resp *http.Response) (res WatchAutoscalingV1NamespacedHorizontalPodAutoscalerListRes, _ error) {
@@ -17233,7 +25865,7 @@ func decodeWatchAutoscalingV1NamespacedHorizontalPodAutoscalerListResponse(resp 
 		// Code 401.
 		return &WatchAutoscalingV1NamespacedHorizontalPodAutoscalerListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespacesResponse(resp *http.Response) (res WatchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespacesRes, _ error) {
@@ -17277,7 +25909,7 @@ func decodeWatchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespacesRes
 		// Code 401.
 		return &WatchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerRes, _ error) {
@@ -17321,7 +25953,7 @@ func decodeWatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(resp
 		// Code 401.
 		return &WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerListResponse(resp *http.Response) (res WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerListRes, _ error) {
@@ -17365,7 +25997,7 @@ func decodeWatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerListResponse(
 		// Code 401.
 		return &WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespacesResponse(resp *http.Response) (res WatchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespacesRes, _ error) {
@@ -17409,7 +26041,7 @@ func decodeWatchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespacesRes
 		// Code 401.
 		return &WatchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(resp *http.Response) (res WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerRes, _ error) {
@@ -17453,7 +26085,7 @@ func decodeWatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(resp
 		// Code 401.
 		return &WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerListResponse(resp *http.Response) (res WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerListRes, _ error) {
@@ -17497,7 +26129,7 @@ func decodeWatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerListResponse(
 		// Code 401.
 		return &WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchBatchV1CronJobListForAllNamespacesResponse(resp *http.Response) (res WatchBatchV1CronJobListForAllNamespacesRes, _ error) {
@@ -17541,7 +26173,7 @@ func decodeWatchBatchV1CronJobListForAllNamespacesResponse(resp *http.Response) 
 		// Code 401.
 		return &WatchBatchV1CronJobListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchBatchV1JobListForAllNamespacesResponse(resp *http.Response) (res WatchBatchV1JobListForAllNamespacesRes, _ error) {
@@ -17585,7 +26217,7 @@ func decodeWatchBatchV1JobListForAllNamespacesResponse(resp *http.Response) (res
 		// Code 401.
 		return &WatchBatchV1JobListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchBatchV1NamespacedCronJobResponse(resp *http.Response) (res WatchBatchV1NamespacedCronJobRes, _ error) {
@@ -17629,7 +26261,7 @@ func decodeWatchBatchV1NamespacedCronJobResponse(resp *http.Response) (res Watch
 		// Code 401.
 		return &WatchBatchV1NamespacedCronJobUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchBatchV1NamespacedCronJobListResponse(resp *http.Response) (res WatchBatchV1NamespacedCronJobListRes, _ error) {
@@ -17673,7 +26305,7 @@ func decodeWatchBatchV1NamespacedCronJobListResponse(resp *http.Response) (res W
 		// Code 401.
 		return &WatchBatchV1NamespacedCronJobListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchBatchV1NamespacedJobResponse(resp *http.Response) (res WatchBatchV1NamespacedJobRes, _ error) {
@@ -17717,7 +26349,7 @@ func decodeWatchBatchV1NamespacedJobResponse(resp *http.Response) (res WatchBatc
 		// Code 401.
 		return &WatchBatchV1NamespacedJobUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchBatchV1NamespacedJobListResponse(resp *http.Response) (res WatchBatchV1NamespacedJobListRes, _ error) {
@@ -17761,7 +26393,7 @@ func decodeWatchBatchV1NamespacedJobListResponse(resp *http.Response) (res Watch
 		// Code 401.
 		return &WatchBatchV1NamespacedJobListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchBatchV1beta1CronJobListForAllNamespacesResponse(resp *http.Response) (res WatchBatchV1beta1CronJobListForAllNamespacesRes, _ error) {
@@ -17805,7 +26437,7 @@ func decodeWatchBatchV1beta1CronJobListForAllNamespacesResponse(resp *http.Respo
 		// Code 401.
 		return &WatchBatchV1beta1CronJobListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchBatchV1beta1NamespacedCronJobResponse(resp *http.Response) (res WatchBatchV1beta1NamespacedCronJobRes, _ error) {
@@ -17849,7 +26481,7 @@ func decodeWatchBatchV1beta1NamespacedCronJobResponse(resp *http.Response) (res 
 		// Code 401.
 		return &WatchBatchV1beta1NamespacedCronJobUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchBatchV1beta1NamespacedCronJobListResponse(resp *http.Response) (res WatchBatchV1beta1NamespacedCronJobListRes, _ error) {
@@ -17893,7 +26525,7 @@ func decodeWatchBatchV1beta1NamespacedCronJobListResponse(resp *http.Response) (
 		// Code 401.
 		return &WatchBatchV1beta1NamespacedCronJobListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCertificatesV1CertificateSigningRequestResponse(resp *http.Response) (res WatchCertificatesV1CertificateSigningRequestRes, _ error) {
@@ -17937,7 +26569,7 @@ func decodeWatchCertificatesV1CertificateSigningRequestResponse(resp *http.Respo
 		// Code 401.
 		return &WatchCertificatesV1CertificateSigningRequestUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCertificatesV1CertificateSigningRequestListResponse(resp *http.Response) (res WatchCertificatesV1CertificateSigningRequestListRes, _ error) {
@@ -17981,7 +26613,7 @@ func decodeWatchCertificatesV1CertificateSigningRequestListResponse(resp *http.R
 		// Code 401.
 		return &WatchCertificatesV1CertificateSigningRequestListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoordinationV1LeaseListForAllNamespacesResponse(resp *http.Response) (res WatchCoordinationV1LeaseListForAllNamespacesRes, _ error) {
@@ -18025,7 +26657,7 @@ func decodeWatchCoordinationV1LeaseListForAllNamespacesResponse(resp *http.Respo
 		// Code 401.
 		return &WatchCoordinationV1LeaseListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoordinationV1NamespacedLeaseResponse(resp *http.Response) (res WatchCoordinationV1NamespacedLeaseRes, _ error) {
@@ -18069,7 +26701,7 @@ func decodeWatchCoordinationV1NamespacedLeaseResponse(resp *http.Response) (res 
 		// Code 401.
 		return &WatchCoordinationV1NamespacedLeaseUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoordinationV1NamespacedLeaseListResponse(resp *http.Response) (res WatchCoordinationV1NamespacedLeaseListRes, _ error) {
@@ -18113,7 +26745,7 @@ func decodeWatchCoordinationV1NamespacedLeaseListResponse(resp *http.Response) (
 		// Code 401.
 		return &WatchCoordinationV1NamespacedLeaseListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1ConfigMapListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1ConfigMapListForAllNamespacesRes, _ error) {
@@ -18157,7 +26789,7 @@ func decodeWatchCoreV1ConfigMapListForAllNamespacesResponse(resp *http.Response)
 		// Code 401.
 		return &WatchCoreV1ConfigMapListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1EndpointsListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1EndpointsListForAllNamespacesRes, _ error) {
@@ -18201,7 +26833,7 @@ func decodeWatchCoreV1EndpointsListForAllNamespacesResponse(resp *http.Response)
 		// Code 401.
 		return &WatchCoreV1EndpointsListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1EventListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1EventListForAllNamespacesRes, _ error) {
@@ -18245,7 +26877,7 @@ func decodeWatchCoreV1EventListForAllNamespacesResponse(resp *http.Response) (re
 		// Code 401.
 		return &WatchCoreV1EventListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1LimitRangeListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1LimitRangeListForAllNamespacesRes, _ error) {
@@ -18289,7 +26921,7 @@ func decodeWatchCoreV1LimitRangeListForAllNamespacesResponse(resp *http.Response
 		// Code 401.
 		return &WatchCoreV1LimitRangeListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespaceResponse(resp *http.Response) (res WatchCoreV1NamespaceRes, _ error) {
@@ -18333,7 +26965,7 @@ func decodeWatchCoreV1NamespaceResponse(resp *http.Response) (res WatchCoreV1Nam
 		// Code 401.
 		return &WatchCoreV1NamespaceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespaceListResponse(resp *http.Response) (res WatchCoreV1NamespaceListRes, _ error) {
@@ -18377,7 +27009,7 @@ func decodeWatchCoreV1NamespaceListResponse(resp *http.Response) (res WatchCoreV
 		// Code 401.
 		return &WatchCoreV1NamespaceListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedConfigMapResponse(resp *http.Response) (res WatchCoreV1NamespacedConfigMapRes, _ error) {
@@ -18421,7 +27053,7 @@ func decodeWatchCoreV1NamespacedConfigMapResponse(resp *http.Response) (res Watc
 		// Code 401.
 		return &WatchCoreV1NamespacedConfigMapUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedConfigMapListResponse(resp *http.Response) (res WatchCoreV1NamespacedConfigMapListRes, _ error) {
@@ -18465,7 +27097,7 @@ func decodeWatchCoreV1NamespacedConfigMapListResponse(resp *http.Response) (res 
 		// Code 401.
 		return &WatchCoreV1NamespacedConfigMapListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedEndpointsResponse(resp *http.Response) (res WatchCoreV1NamespacedEndpointsRes, _ error) {
@@ -18509,7 +27141,7 @@ func decodeWatchCoreV1NamespacedEndpointsResponse(resp *http.Response) (res Watc
 		// Code 401.
 		return &WatchCoreV1NamespacedEndpointsUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedEndpointsListResponse(resp *http.Response) (res WatchCoreV1NamespacedEndpointsListRes, _ error) {
@@ -18553,7 +27185,7 @@ func decodeWatchCoreV1NamespacedEndpointsListResponse(resp *http.Response) (res 
 		// Code 401.
 		return &WatchCoreV1NamespacedEndpointsListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedEventResponse(resp *http.Response) (res WatchCoreV1NamespacedEventRes, _ error) {
@@ -18597,7 +27229,7 @@ func decodeWatchCoreV1NamespacedEventResponse(resp *http.Response) (res WatchCor
 		// Code 401.
 		return &WatchCoreV1NamespacedEventUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedEventListResponse(resp *http.Response) (res WatchCoreV1NamespacedEventListRes, _ error) {
@@ -18641,7 +27273,7 @@ func decodeWatchCoreV1NamespacedEventListResponse(resp *http.Response) (res Watc
 		// Code 401.
 		return &WatchCoreV1NamespacedEventListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedLimitRangeResponse(resp *http.Response) (res WatchCoreV1NamespacedLimitRangeRes, _ error) {
@@ -18685,7 +27317,7 @@ func decodeWatchCoreV1NamespacedLimitRangeResponse(resp *http.Response) (res Wat
 		// Code 401.
 		return &WatchCoreV1NamespacedLimitRangeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedLimitRangeListResponse(resp *http.Response) (res WatchCoreV1NamespacedLimitRangeListRes, _ error) {
@@ -18729,7 +27361,7 @@ func decodeWatchCoreV1NamespacedLimitRangeListResponse(resp *http.Response) (res
 		// Code 401.
 		return &WatchCoreV1NamespacedLimitRangeListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedPersistentVolumeClaimResponse(resp *http.Response) (res WatchCoreV1NamespacedPersistentVolumeClaimRes, _ error) {
@@ -18773,7 +27405,7 @@ func decodeWatchCoreV1NamespacedPersistentVolumeClaimResponse(resp *http.Respons
 		// Code 401.
 		return &WatchCoreV1NamespacedPersistentVolumeClaimUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedPersistentVolumeClaimListResponse(resp *http.Response) (res WatchCoreV1NamespacedPersistentVolumeClaimListRes, _ error) {
@@ -18817,7 +27449,7 @@ func decodeWatchCoreV1NamespacedPersistentVolumeClaimListResponse(resp *http.Res
 		// Code 401.
 		return &WatchCoreV1NamespacedPersistentVolumeClaimListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedPodResponse(resp *http.Response) (res WatchCoreV1NamespacedPodRes, _ error) {
@@ -18861,7 +27493,7 @@ func decodeWatchCoreV1NamespacedPodResponse(resp *http.Response) (res WatchCoreV
 		// Code 401.
 		return &WatchCoreV1NamespacedPodUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedPodListResponse(resp *http.Response) (res WatchCoreV1NamespacedPodListRes, _ error) {
@@ -18905,7 +27537,7 @@ func decodeWatchCoreV1NamespacedPodListResponse(resp *http.Response) (res WatchC
 		// Code 401.
 		return &WatchCoreV1NamespacedPodListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedPodTemplateResponse(resp *http.Response) (res WatchCoreV1NamespacedPodTemplateRes, _ error) {
@@ -18949,7 +27581,7 @@ func decodeWatchCoreV1NamespacedPodTemplateResponse(resp *http.Response) (res Wa
 		// Code 401.
 		return &WatchCoreV1NamespacedPodTemplateUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedPodTemplateListResponse(resp *http.Response) (res WatchCoreV1NamespacedPodTemplateListRes, _ error) {
@@ -18993,7 +27625,7 @@ func decodeWatchCoreV1NamespacedPodTemplateListResponse(resp *http.Response) (re
 		// Code 401.
 		return &WatchCoreV1NamespacedPodTemplateListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedReplicationControllerResponse(resp *http.Response) (res WatchCoreV1NamespacedReplicationControllerRes, _ error) {
@@ -19037,7 +27669,7 @@ func decodeWatchCoreV1NamespacedReplicationControllerResponse(resp *http.Respons
 		// Code 401.
 		return &WatchCoreV1NamespacedReplicationControllerUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedReplicationControllerListResponse(resp *http.Response) (res WatchCoreV1NamespacedReplicationControllerListRes, _ error) {
@@ -19081,7 +27713,7 @@ func decodeWatchCoreV1NamespacedReplicationControllerListResponse(resp *http.Res
 		// Code 401.
 		return &WatchCoreV1NamespacedReplicationControllerListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedResourceQuotaResponse(resp *http.Response) (res WatchCoreV1NamespacedResourceQuotaRes, _ error) {
@@ -19125,7 +27757,7 @@ func decodeWatchCoreV1NamespacedResourceQuotaResponse(resp *http.Response) (res 
 		// Code 401.
 		return &WatchCoreV1NamespacedResourceQuotaUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedResourceQuotaListResponse(resp *http.Response) (res WatchCoreV1NamespacedResourceQuotaListRes, _ error) {
@@ -19169,7 +27801,7 @@ func decodeWatchCoreV1NamespacedResourceQuotaListResponse(resp *http.Response) (
 		// Code 401.
 		return &WatchCoreV1NamespacedResourceQuotaListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedSecretResponse(resp *http.Response) (res WatchCoreV1NamespacedSecretRes, _ error) {
@@ -19213,7 +27845,7 @@ func decodeWatchCoreV1NamespacedSecretResponse(resp *http.Response) (res WatchCo
 		// Code 401.
 		return &WatchCoreV1NamespacedSecretUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedSecretListResponse(resp *http.Response) (res WatchCoreV1NamespacedSecretListRes, _ error) {
@@ -19257,7 +27889,7 @@ func decodeWatchCoreV1NamespacedSecretListResponse(resp *http.Response) (res Wat
 		// Code 401.
 		return &WatchCoreV1NamespacedSecretListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedServiceResponse(resp *http.Response) (res WatchCoreV1NamespacedServiceRes, _ error) {
@@ -19301,7 +27933,7 @@ func decodeWatchCoreV1NamespacedServiceResponse(resp *http.Response) (res WatchC
 		// Code 401.
 		return &WatchCoreV1NamespacedServiceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedServiceAccountResponse(resp *http.Response) (res WatchCoreV1NamespacedServiceAccountRes, _ error) {
@@ -19345,7 +27977,7 @@ func decodeWatchCoreV1NamespacedServiceAccountResponse(resp *http.Response) (res
 		// Code 401.
 		return &WatchCoreV1NamespacedServiceAccountUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedServiceAccountListResponse(resp *http.Response) (res WatchCoreV1NamespacedServiceAccountListRes, _ error) {
@@ -19389,7 +28021,7 @@ func decodeWatchCoreV1NamespacedServiceAccountListResponse(resp *http.Response) 
 		// Code 401.
 		return &WatchCoreV1NamespacedServiceAccountListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NamespacedServiceListResponse(resp *http.Response) (res WatchCoreV1NamespacedServiceListRes, _ error) {
@@ -19433,7 +28065,7 @@ func decodeWatchCoreV1NamespacedServiceListResponse(resp *http.Response) (res Wa
 		// Code 401.
 		return &WatchCoreV1NamespacedServiceListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NodeResponse(resp *http.Response) (res WatchCoreV1NodeRes, _ error) {
@@ -19477,7 +28109,7 @@ func decodeWatchCoreV1NodeResponse(resp *http.Response) (res WatchCoreV1NodeRes,
 		// Code 401.
 		return &WatchCoreV1NodeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1NodeListResponse(resp *http.Response) (res WatchCoreV1NodeListRes, _ error) {
@@ -19521,7 +28153,7 @@ func decodeWatchCoreV1NodeListResponse(resp *http.Response) (res WatchCoreV1Node
 		// Code 401.
 		return &WatchCoreV1NodeListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1PersistentVolumeResponse(resp *http.Response) (res WatchCoreV1PersistentVolumeRes, _ error) {
@@ -19565,7 +28197,7 @@ func decodeWatchCoreV1PersistentVolumeResponse(resp *http.Response) (res WatchCo
 		// Code 401.
 		return &WatchCoreV1PersistentVolumeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1PersistentVolumeClaimListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1PersistentVolumeClaimListForAllNamespacesRes, _ error) {
@@ -19609,7 +28241,7 @@ func decodeWatchCoreV1PersistentVolumeClaimListForAllNamespacesResponse(resp *ht
 		// Code 401.
 		return &WatchCoreV1PersistentVolumeClaimListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1PersistentVolumeListResponse(resp *http.Response) (res WatchCoreV1PersistentVolumeListRes, _ error) {
@@ -19653,7 +28285,7 @@ func decodeWatchCoreV1PersistentVolumeListResponse(resp *http.Response) (res Wat
 		// Code 401.
 		return &WatchCoreV1PersistentVolumeListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1PodListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1PodListForAllNamespacesRes, _ error) {
@@ -19697,7 +28329,7 @@ func decodeWatchCoreV1PodListForAllNamespacesResponse(resp *http.Response) (res 
 		// Code 401.
 		return &WatchCoreV1PodListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1PodTemplateListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1PodTemplateListForAllNamespacesRes, _ error) {
@@ -19741,7 +28373,7 @@ func decodeWatchCoreV1PodTemplateListForAllNamespacesResponse(resp *http.Respons
 		// Code 401.
 		return &WatchCoreV1PodTemplateListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1ReplicationControllerListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1ReplicationControllerListForAllNamespacesRes, _ error) {
@@ -19785,7 +28417,7 @@ func decodeWatchCoreV1ReplicationControllerListForAllNamespacesResponse(resp *ht
 		// Code 401.
 		return &WatchCoreV1ReplicationControllerListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1ResourceQuotaListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1ResourceQuotaListForAllNamespacesRes, _ error) {
@@ -19829,7 +28461,7 @@ func decodeWatchCoreV1ResourceQuotaListForAllNamespacesResponse(resp *http.Respo
 		// Code 401.
 		return &WatchCoreV1ResourceQuotaListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1SecretListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1SecretListForAllNamespacesRes, _ error) {
@@ -19873,7 +28505,7 @@ func decodeWatchCoreV1SecretListForAllNamespacesResponse(resp *http.Response) (r
 		// Code 401.
 		return &WatchCoreV1SecretListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1ServiceAccountListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1ServiceAccountListForAllNamespacesRes, _ error) {
@@ -19917,7 +28549,7 @@ func decodeWatchCoreV1ServiceAccountListForAllNamespacesResponse(resp *http.Resp
 		// Code 401.
 		return &WatchCoreV1ServiceAccountListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchCoreV1ServiceListForAllNamespacesResponse(resp *http.Response) (res WatchCoreV1ServiceListForAllNamespacesRes, _ error) {
@@ -19961,7 +28593,7 @@ func decodeWatchCoreV1ServiceListForAllNamespacesResponse(resp *http.Response) (
 		// Code 401.
 		return &WatchCoreV1ServiceListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchDiscoveryV1EndpointSliceListForAllNamespacesResponse(resp *http.Response) (res WatchDiscoveryV1EndpointSliceListForAllNamespacesRes, _ error) {
@@ -20005,7 +28637,7 @@ func decodeWatchDiscoveryV1EndpointSliceListForAllNamespacesResponse(resp *http.
 		// Code 401.
 		return &WatchDiscoveryV1EndpointSliceListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchDiscoveryV1NamespacedEndpointSliceResponse(resp *http.Response) (res WatchDiscoveryV1NamespacedEndpointSliceRes, _ error) {
@@ -20049,7 +28681,7 @@ func decodeWatchDiscoveryV1NamespacedEndpointSliceResponse(resp *http.Response) 
 		// Code 401.
 		return &WatchDiscoveryV1NamespacedEndpointSliceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchDiscoveryV1NamespacedEndpointSliceListResponse(resp *http.Response) (res WatchDiscoveryV1NamespacedEndpointSliceListRes, _ error) {
@@ -20093,7 +28725,7 @@ func decodeWatchDiscoveryV1NamespacedEndpointSliceListResponse(resp *http.Respon
 		// Code 401.
 		return &WatchDiscoveryV1NamespacedEndpointSliceListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchDiscoveryV1beta1EndpointSliceListForAllNamespacesResponse(resp *http.Response) (res WatchDiscoveryV1beta1EndpointSliceListForAllNamespacesRes, _ error) {
@@ -20137,7 +28769,7 @@ func decodeWatchDiscoveryV1beta1EndpointSliceListForAllNamespacesResponse(resp *
 		// Code 401.
 		return &WatchDiscoveryV1beta1EndpointSliceListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchDiscoveryV1beta1NamespacedEndpointSliceResponse(resp *http.Response) (res WatchDiscoveryV1beta1NamespacedEndpointSliceRes, _ error) {
@@ -20181,7 +28813,7 @@ func decodeWatchDiscoveryV1beta1NamespacedEndpointSliceResponse(resp *http.Respo
 		// Code 401.
 		return &WatchDiscoveryV1beta1NamespacedEndpointSliceUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchDiscoveryV1beta1NamespacedEndpointSliceListResponse(resp *http.Response) (res WatchDiscoveryV1beta1NamespacedEndpointSliceListRes, _ error) {
@@ -20225,7 +28857,7 @@ func decodeWatchDiscoveryV1beta1NamespacedEndpointSliceListResponse(resp *http.R
 		// Code 401.
 		return &WatchDiscoveryV1beta1NamespacedEndpointSliceListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchEventsV1EventListForAllNamespacesResponse(resp *http.Response) (res WatchEventsV1EventListForAllNamespacesRes, _ error) {
@@ -20269,7 +28901,7 @@ func decodeWatchEventsV1EventListForAllNamespacesResponse(resp *http.Response) (
 		// Code 401.
 		return &WatchEventsV1EventListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchEventsV1NamespacedEventResponse(resp *http.Response) (res WatchEventsV1NamespacedEventRes, _ error) {
@@ -20313,7 +28945,7 @@ func decodeWatchEventsV1NamespacedEventResponse(resp *http.Response) (res WatchE
 		// Code 401.
 		return &WatchEventsV1NamespacedEventUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchEventsV1NamespacedEventListResponse(resp *http.Response) (res WatchEventsV1NamespacedEventListRes, _ error) {
@@ -20357,7 +28989,7 @@ func decodeWatchEventsV1NamespacedEventListResponse(resp *http.Response) (res Wa
 		// Code 401.
 		return &WatchEventsV1NamespacedEventListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchEventsV1beta1EventListForAllNamespacesResponse(resp *http.Response) (res WatchEventsV1beta1EventListForAllNamespacesRes, _ error) {
@@ -20401,7 +29033,7 @@ func decodeWatchEventsV1beta1EventListForAllNamespacesResponse(resp *http.Respon
 		// Code 401.
 		return &WatchEventsV1beta1EventListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchEventsV1beta1NamespacedEventResponse(resp *http.Response) (res WatchEventsV1beta1NamespacedEventRes, _ error) {
@@ -20445,7 +29077,7 @@ func decodeWatchEventsV1beta1NamespacedEventResponse(resp *http.Response) (res W
 		// Code 401.
 		return &WatchEventsV1beta1NamespacedEventUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchEventsV1beta1NamespacedEventListResponse(resp *http.Response) (res WatchEventsV1beta1NamespacedEventListRes, _ error) {
@@ -20489,7 +29121,7 @@ func decodeWatchEventsV1beta1NamespacedEventListResponse(resp *http.Response) (r
 		// Code 401.
 		return &WatchEventsV1beta1NamespacedEventListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchFlowcontrolApiserverV1beta1FlowSchemaResponse(resp *http.Response) (res WatchFlowcontrolApiserverV1beta1FlowSchemaRes, _ error) {
@@ -20533,7 +29165,7 @@ func decodeWatchFlowcontrolApiserverV1beta1FlowSchemaResponse(resp *http.Respons
 		// Code 401.
 		return &WatchFlowcontrolApiserverV1beta1FlowSchemaUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchFlowcontrolApiserverV1beta1FlowSchemaListResponse(resp *http.Response) (res WatchFlowcontrolApiserverV1beta1FlowSchemaListRes, _ error) {
@@ -20577,7 +29209,7 @@ func decodeWatchFlowcontrolApiserverV1beta1FlowSchemaListResponse(resp *http.Res
 		// Code 401.
 		return &WatchFlowcontrolApiserverV1beta1FlowSchemaListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(resp *http.Response) (res WatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationRes, _ error) {
@@ -20621,7 +29253,7 @@ func decodeWatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(re
 		// Code 401.
 		return &WatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationListResponse(resp *http.Response) (res WatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationListRes, _ error) {
@@ -20665,7 +29297,7 @@ func decodeWatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationListRespons
 		// Code 401.
 		return &WatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchFlowcontrolApiserverV1beta2FlowSchemaResponse(resp *http.Response) (res WatchFlowcontrolApiserverV1beta2FlowSchemaRes, _ error) {
@@ -20709,7 +29341,7 @@ func decodeWatchFlowcontrolApiserverV1beta2FlowSchemaResponse(resp *http.Respons
 		// Code 401.
 		return &WatchFlowcontrolApiserverV1beta2FlowSchemaUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchFlowcontrolApiserverV1beta2FlowSchemaListResponse(resp *http.Response) (res WatchFlowcontrolApiserverV1beta2FlowSchemaListRes, _ error) {
@@ -20753,7 +29385,7 @@ func decodeWatchFlowcontrolApiserverV1beta2FlowSchemaListResponse(resp *http.Res
 		// Code 401.
 		return &WatchFlowcontrolApiserverV1beta2FlowSchemaListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(resp *http.Response) (res WatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationRes, _ error) {
@@ -20797,7 +29429,7 @@ func decodeWatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(re
 		// Code 401.
 		return &WatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationListResponse(resp *http.Response) (res WatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationListRes, _ error) {
@@ -20841,7 +29473,7 @@ func decodeWatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationListRespons
 		// Code 401.
 		return &WatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchInternalApiserverV1alpha1StorageVersionResponse(resp *http.Response) (res WatchInternalApiserverV1alpha1StorageVersionRes, _ error) {
@@ -20885,7 +29517,7 @@ func decodeWatchInternalApiserverV1alpha1StorageVersionResponse(resp *http.Respo
 		// Code 401.
 		return &WatchInternalApiserverV1alpha1StorageVersionUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchInternalApiserverV1alpha1StorageVersionListResponse(resp *http.Response) (res WatchInternalApiserverV1alpha1StorageVersionListRes, _ error) {
@@ -20929,7 +29561,7 @@ func decodeWatchInternalApiserverV1alpha1StorageVersionListResponse(resp *http.R
 		// Code 401.
 		return &WatchInternalApiserverV1alpha1StorageVersionListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNetworkingV1IngressClassResponse(resp *http.Response) (res WatchNetworkingV1IngressClassRes, _ error) {
@@ -20973,7 +29605,7 @@ func decodeWatchNetworkingV1IngressClassResponse(resp *http.Response) (res Watch
 		// Code 401.
 		return &WatchNetworkingV1IngressClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNetworkingV1IngressClassListResponse(resp *http.Response) (res WatchNetworkingV1IngressClassListRes, _ error) {
@@ -21017,7 +29649,7 @@ func decodeWatchNetworkingV1IngressClassListResponse(resp *http.Response) (res W
 		// Code 401.
 		return &WatchNetworkingV1IngressClassListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNetworkingV1IngressListForAllNamespacesResponse(resp *http.Response) (res WatchNetworkingV1IngressListForAllNamespacesRes, _ error) {
@@ -21061,7 +29693,7 @@ func decodeWatchNetworkingV1IngressListForAllNamespacesResponse(resp *http.Respo
 		// Code 401.
 		return &WatchNetworkingV1IngressListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNetworkingV1NamespacedIngressResponse(resp *http.Response) (res WatchNetworkingV1NamespacedIngressRes, _ error) {
@@ -21105,7 +29737,7 @@ func decodeWatchNetworkingV1NamespacedIngressResponse(resp *http.Response) (res 
 		// Code 401.
 		return &WatchNetworkingV1NamespacedIngressUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNetworkingV1NamespacedIngressListResponse(resp *http.Response) (res WatchNetworkingV1NamespacedIngressListRes, _ error) {
@@ -21149,7 +29781,7 @@ func decodeWatchNetworkingV1NamespacedIngressListResponse(resp *http.Response) (
 		// Code 401.
 		return &WatchNetworkingV1NamespacedIngressListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNetworkingV1NamespacedNetworkPolicyResponse(resp *http.Response) (res WatchNetworkingV1NamespacedNetworkPolicyRes, _ error) {
@@ -21193,7 +29825,7 @@ func decodeWatchNetworkingV1NamespacedNetworkPolicyResponse(resp *http.Response)
 		// Code 401.
 		return &WatchNetworkingV1NamespacedNetworkPolicyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNetworkingV1NamespacedNetworkPolicyListResponse(resp *http.Response) (res WatchNetworkingV1NamespacedNetworkPolicyListRes, _ error) {
@@ -21237,7 +29869,7 @@ func decodeWatchNetworkingV1NamespacedNetworkPolicyListResponse(resp *http.Respo
 		// Code 401.
 		return &WatchNetworkingV1NamespacedNetworkPolicyListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNetworkingV1NetworkPolicyListForAllNamespacesResponse(resp *http.Response) (res WatchNetworkingV1NetworkPolicyListForAllNamespacesRes, _ error) {
@@ -21281,7 +29913,7 @@ func decodeWatchNetworkingV1NetworkPolicyListForAllNamespacesResponse(resp *http
 		// Code 401.
 		return &WatchNetworkingV1NetworkPolicyListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNodeV1RuntimeClassResponse(resp *http.Response) (res WatchNodeV1RuntimeClassRes, _ error) {
@@ -21325,7 +29957,7 @@ func decodeWatchNodeV1RuntimeClassResponse(resp *http.Response) (res WatchNodeV1
 		// Code 401.
 		return &WatchNodeV1RuntimeClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNodeV1RuntimeClassListResponse(resp *http.Response) (res WatchNodeV1RuntimeClassListRes, _ error) {
@@ -21369,7 +30001,7 @@ func decodeWatchNodeV1RuntimeClassListResponse(resp *http.Response) (res WatchNo
 		// Code 401.
 		return &WatchNodeV1RuntimeClassListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNodeV1alpha1RuntimeClassResponse(resp *http.Response) (res WatchNodeV1alpha1RuntimeClassRes, _ error) {
@@ -21413,7 +30045,7 @@ func decodeWatchNodeV1alpha1RuntimeClassResponse(resp *http.Response) (res Watch
 		// Code 401.
 		return &WatchNodeV1alpha1RuntimeClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNodeV1alpha1RuntimeClassListResponse(resp *http.Response) (res WatchNodeV1alpha1RuntimeClassListRes, _ error) {
@@ -21457,7 +30089,7 @@ func decodeWatchNodeV1alpha1RuntimeClassListResponse(resp *http.Response) (res W
 		// Code 401.
 		return &WatchNodeV1alpha1RuntimeClassListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNodeV1beta1RuntimeClassResponse(resp *http.Response) (res WatchNodeV1beta1RuntimeClassRes, _ error) {
@@ -21501,7 +30133,7 @@ func decodeWatchNodeV1beta1RuntimeClassResponse(resp *http.Response) (res WatchN
 		// Code 401.
 		return &WatchNodeV1beta1RuntimeClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchNodeV1beta1RuntimeClassListResponse(resp *http.Response) (res WatchNodeV1beta1RuntimeClassListRes, _ error) {
@@ -21545,7 +30177,7 @@ func decodeWatchNodeV1beta1RuntimeClassListResponse(resp *http.Response) (res Wa
 		// Code 401.
 		return &WatchNodeV1beta1RuntimeClassListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchPolicyV1NamespacedPodDisruptionBudgetResponse(resp *http.Response) (res WatchPolicyV1NamespacedPodDisruptionBudgetRes, _ error) {
@@ -21589,7 +30221,7 @@ func decodeWatchPolicyV1NamespacedPodDisruptionBudgetResponse(resp *http.Respons
 		// Code 401.
 		return &WatchPolicyV1NamespacedPodDisruptionBudgetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchPolicyV1NamespacedPodDisruptionBudgetListResponse(resp *http.Response) (res WatchPolicyV1NamespacedPodDisruptionBudgetListRes, _ error) {
@@ -21633,7 +30265,7 @@ func decodeWatchPolicyV1NamespacedPodDisruptionBudgetListResponse(resp *http.Res
 		// Code 401.
 		return &WatchPolicyV1NamespacedPodDisruptionBudgetListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchPolicyV1PodDisruptionBudgetListForAllNamespacesResponse(resp *http.Response) (res WatchPolicyV1PodDisruptionBudgetListForAllNamespacesRes, _ error) {
@@ -21677,7 +30309,7 @@ func decodeWatchPolicyV1PodDisruptionBudgetListForAllNamespacesResponse(resp *ht
 		// Code 401.
 		return &WatchPolicyV1PodDisruptionBudgetListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchPolicyV1beta1NamespacedPodDisruptionBudgetResponse(resp *http.Response) (res WatchPolicyV1beta1NamespacedPodDisruptionBudgetRes, _ error) {
@@ -21721,7 +30353,7 @@ func decodeWatchPolicyV1beta1NamespacedPodDisruptionBudgetResponse(resp *http.Re
 		// Code 401.
 		return &WatchPolicyV1beta1NamespacedPodDisruptionBudgetUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchPolicyV1beta1NamespacedPodDisruptionBudgetListResponse(resp *http.Response) (res WatchPolicyV1beta1NamespacedPodDisruptionBudgetListRes, _ error) {
@@ -21765,7 +30397,7 @@ func decodeWatchPolicyV1beta1NamespacedPodDisruptionBudgetListResponse(resp *htt
 		// Code 401.
 		return &WatchPolicyV1beta1NamespacedPodDisruptionBudgetListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchPolicyV1beta1PodDisruptionBudgetListForAllNamespacesResponse(resp *http.Response) (res WatchPolicyV1beta1PodDisruptionBudgetListForAllNamespacesRes, _ error) {
@@ -21809,7 +30441,7 @@ func decodeWatchPolicyV1beta1PodDisruptionBudgetListForAllNamespacesResponse(res
 		// Code 401.
 		return &WatchPolicyV1beta1PodDisruptionBudgetListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchPolicyV1beta1PodSecurityPolicyResponse(resp *http.Response) (res WatchPolicyV1beta1PodSecurityPolicyRes, _ error) {
@@ -21853,7 +30485,7 @@ func decodeWatchPolicyV1beta1PodSecurityPolicyResponse(resp *http.Response) (res
 		// Code 401.
 		return &WatchPolicyV1beta1PodSecurityPolicyUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchPolicyV1beta1PodSecurityPolicyListResponse(resp *http.Response) (res WatchPolicyV1beta1PodSecurityPolicyListRes, _ error) {
@@ -21897,7 +30529,7 @@ func decodeWatchPolicyV1beta1PodSecurityPolicyListResponse(resp *http.Response) 
 		// Code 401.
 		return &WatchPolicyV1beta1PodSecurityPolicyListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchRbacAuthorizationV1ClusterRoleResponse(resp *http.Response) (res WatchRbacAuthorizationV1ClusterRoleRes, _ error) {
@@ -21941,7 +30573,7 @@ func decodeWatchRbacAuthorizationV1ClusterRoleResponse(resp *http.Response) (res
 		// Code 401.
 		return &WatchRbacAuthorizationV1ClusterRoleUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchRbacAuthorizationV1ClusterRoleBindingResponse(resp *http.Response) (res WatchRbacAuthorizationV1ClusterRoleBindingRes, _ error) {
@@ -21985,7 +30617,7 @@ func decodeWatchRbacAuthorizationV1ClusterRoleBindingResponse(resp *http.Respons
 		// Code 401.
 		return &WatchRbacAuthorizationV1ClusterRoleBindingUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchRbacAuthorizationV1ClusterRoleBindingListResponse(resp *http.Response) (res WatchRbacAuthorizationV1ClusterRoleBindingListRes, _ error) {
@@ -22029,7 +30661,7 @@ func decodeWatchRbacAuthorizationV1ClusterRoleBindingListResponse(resp *http.Res
 		// Code 401.
 		return &WatchRbacAuthorizationV1ClusterRoleBindingListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchRbacAuthorizationV1ClusterRoleListResponse(resp *http.Response) (res WatchRbacAuthorizationV1ClusterRoleListRes, _ error) {
@@ -22073,7 +30705,7 @@ func decodeWatchRbacAuthorizationV1ClusterRoleListResponse(resp *http.Response) 
 		// Code 401.
 		return &WatchRbacAuthorizationV1ClusterRoleListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchRbacAuthorizationV1NamespacedRoleResponse(resp *http.Response) (res WatchRbacAuthorizationV1NamespacedRoleRes, _ error) {
@@ -22117,7 +30749,7 @@ func decodeWatchRbacAuthorizationV1NamespacedRoleResponse(resp *http.Response) (
 		// Code 401.
 		return &WatchRbacAuthorizationV1NamespacedRoleUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchRbacAuthorizationV1NamespacedRoleBindingResponse(resp *http.Response) (res WatchRbacAuthorizationV1NamespacedRoleBindingRes, _ error) {
@@ -22161,7 +30793,7 @@ func decodeWatchRbacAuthorizationV1NamespacedRoleBindingResponse(resp *http.Resp
 		// Code 401.
 		return &WatchRbacAuthorizationV1NamespacedRoleBindingUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchRbacAuthorizationV1NamespacedRoleBindingListResponse(resp *http.Response) (res WatchRbacAuthorizationV1NamespacedRoleBindingListRes, _ error) {
@@ -22205,7 +30837,7 @@ func decodeWatchRbacAuthorizationV1NamespacedRoleBindingListResponse(resp *http.
 		// Code 401.
 		return &WatchRbacAuthorizationV1NamespacedRoleBindingListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchRbacAuthorizationV1NamespacedRoleListResponse(resp *http.Response) (res WatchRbacAuthorizationV1NamespacedRoleListRes, _ error) {
@@ -22249,7 +30881,7 @@ func decodeWatchRbacAuthorizationV1NamespacedRoleListResponse(resp *http.Respons
 		// Code 401.
 		return &WatchRbacAuthorizationV1NamespacedRoleListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchRbacAuthorizationV1RoleBindingListForAllNamespacesResponse(resp *http.Response) (res WatchRbacAuthorizationV1RoleBindingListForAllNamespacesRes, _ error) {
@@ -22293,7 +30925,7 @@ func decodeWatchRbacAuthorizationV1RoleBindingListForAllNamespacesResponse(resp 
 		// Code 401.
 		return &WatchRbacAuthorizationV1RoleBindingListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchRbacAuthorizationV1RoleListForAllNamespacesResponse(resp *http.Response) (res WatchRbacAuthorizationV1RoleListForAllNamespacesRes, _ error) {
@@ -22337,7 +30969,7 @@ func decodeWatchRbacAuthorizationV1RoleListForAllNamespacesResponse(resp *http.R
 		// Code 401.
 		return &WatchRbacAuthorizationV1RoleListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchSchedulingV1PriorityClassResponse(resp *http.Response) (res WatchSchedulingV1PriorityClassRes, _ error) {
@@ -22381,7 +31013,7 @@ func decodeWatchSchedulingV1PriorityClassResponse(resp *http.Response) (res Watc
 		// Code 401.
 		return &WatchSchedulingV1PriorityClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchSchedulingV1PriorityClassListResponse(resp *http.Response) (res WatchSchedulingV1PriorityClassListRes, _ error) {
@@ -22425,7 +31057,7 @@ func decodeWatchSchedulingV1PriorityClassListResponse(resp *http.Response) (res 
 		// Code 401.
 		return &WatchSchedulingV1PriorityClassListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1CSIDriverResponse(resp *http.Response) (res WatchStorageV1CSIDriverRes, _ error) {
@@ -22469,7 +31101,7 @@ func decodeWatchStorageV1CSIDriverResponse(resp *http.Response) (res WatchStorag
 		// Code 401.
 		return &WatchStorageV1CSIDriverUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1CSIDriverListResponse(resp *http.Response) (res WatchStorageV1CSIDriverListRes, _ error) {
@@ -22513,7 +31145,7 @@ func decodeWatchStorageV1CSIDriverListResponse(resp *http.Response) (res WatchSt
 		// Code 401.
 		return &WatchStorageV1CSIDriverListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1CSINodeResponse(resp *http.Response) (res WatchStorageV1CSINodeRes, _ error) {
@@ -22557,7 +31189,7 @@ func decodeWatchStorageV1CSINodeResponse(resp *http.Response) (res WatchStorageV
 		// Code 401.
 		return &WatchStorageV1CSINodeUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1CSINodeListResponse(resp *http.Response) (res WatchStorageV1CSINodeListRes, _ error) {
@@ -22601,7 +31233,7 @@ func decodeWatchStorageV1CSINodeListResponse(resp *http.Response) (res WatchStor
 		// Code 401.
 		return &WatchStorageV1CSINodeListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1StorageClassResponse(resp *http.Response) (res WatchStorageV1StorageClassRes, _ error) {
@@ -22645,7 +31277,7 @@ func decodeWatchStorageV1StorageClassResponse(resp *http.Response) (res WatchSto
 		// Code 401.
 		return &WatchStorageV1StorageClassUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1StorageClassListResponse(resp *http.Response) (res WatchStorageV1StorageClassListRes, _ error) {
@@ -22689,7 +31321,7 @@ func decodeWatchStorageV1StorageClassListResponse(resp *http.Response) (res Watc
 		// Code 401.
 		return &WatchStorageV1StorageClassListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1VolumeAttachmentResponse(resp *http.Response) (res WatchStorageV1VolumeAttachmentRes, _ error) {
@@ -22733,7 +31365,7 @@ func decodeWatchStorageV1VolumeAttachmentResponse(resp *http.Response) (res Watc
 		// Code 401.
 		return &WatchStorageV1VolumeAttachmentUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1VolumeAttachmentListResponse(resp *http.Response) (res WatchStorageV1VolumeAttachmentListRes, _ error) {
@@ -22777,7 +31409,7 @@ func decodeWatchStorageV1VolumeAttachmentListResponse(resp *http.Response) (res 
 		// Code 401.
 		return &WatchStorageV1VolumeAttachmentListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1alpha1CSIStorageCapacityListForAllNamespacesResponse(resp *http.Response) (res WatchStorageV1alpha1CSIStorageCapacityListForAllNamespacesRes, _ error) {
@@ -22821,7 +31453,7 @@ func decodeWatchStorageV1alpha1CSIStorageCapacityListForAllNamespacesResponse(re
 		// Code 401.
 		return &WatchStorageV1alpha1CSIStorageCapacityListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1alpha1NamespacedCSIStorageCapacityResponse(resp *http.Response) (res WatchStorageV1alpha1NamespacedCSIStorageCapacityRes, _ error) {
@@ -22865,7 +31497,7 @@ func decodeWatchStorageV1alpha1NamespacedCSIStorageCapacityResponse(resp *http.R
 		// Code 401.
 		return &WatchStorageV1alpha1NamespacedCSIStorageCapacityUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1alpha1NamespacedCSIStorageCapacityListResponse(resp *http.Response) (res WatchStorageV1alpha1NamespacedCSIStorageCapacityListRes, _ error) {
@@ -22909,7 +31541,7 @@ func decodeWatchStorageV1alpha1NamespacedCSIStorageCapacityListResponse(resp *ht
 		// Code 401.
 		return &WatchStorageV1alpha1NamespacedCSIStorageCapacityListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1beta1CSIStorageCapacityListForAllNamespacesResponse(resp *http.Response) (res WatchStorageV1beta1CSIStorageCapacityListForAllNamespacesRes, _ error) {
@@ -22953,7 +31585,7 @@ func decodeWatchStorageV1beta1CSIStorageCapacityListForAllNamespacesResponse(res
 		// Code 401.
 		return &WatchStorageV1beta1CSIStorageCapacityListForAllNamespacesUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1beta1NamespacedCSIStorageCapacityResponse(resp *http.Response) (res WatchStorageV1beta1NamespacedCSIStorageCapacityRes, _ error) {
@@ -22997,7 +31629,7 @@ func decodeWatchStorageV1beta1NamespacedCSIStorageCapacityResponse(resp *http.Re
 		// Code 401.
 		return &WatchStorageV1beta1NamespacedCSIStorageCapacityUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeWatchStorageV1beta1NamespacedCSIStorageCapacityListResponse(resp *http.Response) (res WatchStorageV1beta1NamespacedCSIStorageCapacityListRes, _ error) {
@@ -23041,5 +31673,5 @@ func decodeWatchStorageV1beta1NamespacedCSIStorageCapacityListResponse(resp *htt
 		// Code 401.
 		return &WatchStorageV1beta1NamespacedCSIStorageCapacityListUnauthorized{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }

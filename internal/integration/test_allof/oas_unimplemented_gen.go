@@ -13,6 +13,51 @@ type UnimplementedHandler struct{}
 
 var _ Handler = UnimplementedHandler{}
 
+// AllOfWithSiblingExtensions implements allOfWithSiblingExtensions operation.
+//
+// AllOf combined with ogen-specific sibling keywords (must be applied, not dropped).
+//
+// POST /allOfWithSiblingExtensions
+func (UnimplementedHandler) AllOfWithSiblingExtensions(ctx context.Context, req *AllOfWithSiblingExtensionsReq) error {
+	return ht.ErrNotImplemented
+}
+
+// AllOfWithSiblingProperties implements allOfWithSiblingProperties operation.
+//
+// AllOf combined with sibling properties and required (logical AND).
+//
+// POST /allOfWithSiblingProperties
+func (UnimplementedHandler) AllOfWithSiblingProperties(ctx context.Context, req *AllOfWithSiblingPropertiesReq) error {
+	return ht.ErrNotImplemented
+}
+
+// GetAdminFoo implements getAdminFoo operation.
+//
+// Returns Foo + admin-only fields via allOf.
+//
+// GET /admin/foo
+func (UnimplementedHandler) GetAdminFoo(ctx context.Context) (r *GetAdminFooOK, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// GetFoo implements getFoo operation.
+//
+// Returns a Foo (base schema with $ref nested types).
+//
+// GET /foo
+func (UnimplementedHandler) GetFoo(ctx context.Context) (r *Foo, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// MultiAllOfWithSiblingProperties implements multiAllOfWithSiblingProperties operation.
+//
+// Multiple allOf subschemas combined with sibling properties.
+//
+// POST /multiAllOfWithSiblingProperties
+func (UnimplementedHandler) MultiAllOfWithSiblingProperties(ctx context.Context, req *MultiAllOfWithSiblingPropertiesReq) error {
+	return ht.ErrNotImplemented
+}
+
 // NullableStrings implements nullableStrings operation.
 //
 // Nullable strings.
@@ -37,6 +82,15 @@ func (UnimplementedHandler) ObjectsWithConflictingArrayProperty(ctx context.Cont
 //
 // POST /objectsWithConflictingProperties
 func (UnimplementedHandler) ObjectsWithConflictingProperties(ctx context.Context, req *ObjectsWithConflictingPropertiesReq) error {
+	return ht.ErrNotImplemented
+}
+
+// ReferencedAllOfNullable implements referencedAllOfNullable operation.
+//
+// Referenced allOf, but requestBody contains nullable refs.
+//
+// POST /referencedAllOfNullable
+func (UnimplementedHandler) ReferencedAllOfNullable(ctx context.Context, req ReferencedAllOfNullableReq) error {
 	return ht.ErrNotImplemented
 }
 

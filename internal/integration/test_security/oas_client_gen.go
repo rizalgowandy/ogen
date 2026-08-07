@@ -4,22 +4,27 @@ package api
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 	"time"
 
 	"github.com/go-faster/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
-	"go.opentelemetry.io/otel/trace"
-
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/otelogen"
 	"github.com/ogen-go/ogen/uri"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
+	"go.opentelemetry.io/otel/trace"
 )
+
+func trimTrailingSlashes(u *url.URL) {
+	u.Path = strings.TrimRight(u.Path, "/")
+	u.RawPath = strings.TrimRight(u.RawPath, "/")
+}
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
@@ -46,15 +51,6 @@ type Client struct {
 	serverURL *url.URL
 	sec       SecuritySource
 	baseClient
-}
-
-var _ Handler = struct {
-	*Client
-}{}
-
-func trimTrailingSlashes(u *url.URL) {
-	u.Path = strings.TrimRight(u.Path, "/")
-	u.RawPath = strings.TrimRight(u.RawPath, "/")
 }
 
 // NewClient initializes new Client defined by OAS.
@@ -103,22 +99,23 @@ func (c *Client) sendCustomSecurity(ctx context.Context) (res *CustomSecurityOK,
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("customSecurity"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/customSecurity"),
+		semconv.URLTemplateKey.String("/customSecurity"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "CustomSecurity",
+	ctx, span := c.cfg.Tracer.Start(ctx, CustomSecurityOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -150,7 +147,7 @@ func (c *Client) sendCustomSecurity(ctx context.Context) (res *CustomSecurityOK,
 		var satisfied bitset
 		{
 			stage = "Security:Custom"
-			switch err := c.securityCustom(ctx, "CustomSecurity", r); {
+			switch err := c.securityCustom(ctx, CustomSecurityOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -183,7 +180,14 @@ func (c *Client) sendCustomSecurity(ctx context.Context) (res *CustomSecurityOK,
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeCustomSecurityResponse(resp)
@@ -206,22 +210,23 @@ func (c *Client) sendDisjointSecurity(ctx context.Context) (res *DisjointSecurit
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("disjointSecurity"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/disjointSecurity"),
+		semconv.URLTemplateKey.String("/disjointSecurity"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "DisjointSecurity",
+	ctx, span := c.cfg.Tracer.Start(ctx, DisjointSecurityOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -253,7 +258,7 @@ func (c *Client) sendDisjointSecurity(ctx context.Context) (res *DisjointSecurit
 		var satisfied bitset
 		{
 			stage = "Security:BasicAuth"
-			switch err := c.securityBasicAuth(ctx, "DisjointSecurity", r); {
+			switch err := c.securityBasicAuth(ctx, DisjointSecurityOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -264,7 +269,7 @@ func (c *Client) sendDisjointSecurity(ctx context.Context) (res *DisjointSecurit
 		}
 		{
 			stage = "Security:QueryKey"
-			switch err := c.securityQueryKey(ctx, "DisjointSecurity", r); {
+			switch err := c.securityQueryKey(ctx, DisjointSecurityOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -275,7 +280,7 @@ func (c *Client) sendDisjointSecurity(ctx context.Context) (res *DisjointSecurit
 		}
 		{
 			stage = "Security:CookieKey"
-			switch err := c.securityCookieKey(ctx, "DisjointSecurity", r); {
+			switch err := c.securityCookieKey(ctx, DisjointSecurityOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 2
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -286,7 +291,7 @@ func (c *Client) sendDisjointSecurity(ctx context.Context) (res *DisjointSecurit
 		}
 		{
 			stage = "Security:HeaderKey"
-			switch err := c.securityHeaderKey(ctx, "DisjointSecurity", r); {
+			switch err := c.securityHeaderKey(ctx, DisjointSecurityOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 3
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -320,7 +325,14 @@ func (c *Client) sendDisjointSecurity(ctx context.Context) (res *DisjointSecurit
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeDisjointSecurityResponse(resp)
@@ -343,22 +355,23 @@ func (c *Client) sendIntersectSecurity(ctx context.Context) (res *IntersectSecur
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("intersectSecurity"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/intersectSecurity"),
+		semconv.URLTemplateKey.String("/intersectSecurity"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "IntersectSecurity",
+	ctx, span := c.cfg.Tracer.Start(ctx, IntersectSecurityOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -390,7 +403,7 @@ func (c *Client) sendIntersectSecurity(ctx context.Context) (res *IntersectSecur
 		var satisfied bitset
 		{
 			stage = "Security:BasicAuth"
-			switch err := c.securityBasicAuth(ctx, "IntersectSecurity", r); {
+			switch err := c.securityBasicAuth(ctx, IntersectSecurityOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -401,7 +414,7 @@ func (c *Client) sendIntersectSecurity(ctx context.Context) (res *IntersectSecur
 		}
 		{
 			stage = "Security:HeaderKey"
-			switch err := c.securityHeaderKey(ctx, "IntersectSecurity", r); {
+			switch err := c.securityHeaderKey(ctx, IntersectSecurityOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -412,7 +425,7 @@ func (c *Client) sendIntersectSecurity(ctx context.Context) (res *IntersectSecur
 		}
 		{
 			stage = "Security:BearerToken"
-			switch err := c.securityBearerToken(ctx, "IntersectSecurity", r); {
+			switch err := c.securityBearerToken(ctx, IntersectSecurityOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 2
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -446,7 +459,14 @@ func (c *Client) sendIntersectSecurity(ctx context.Context) (res *IntersectSecur
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeIntersectSecurityResponse(resp)
@@ -469,22 +489,23 @@ func (c *Client) sendOptionalSecurity(ctx context.Context) (res *OptionalSecurit
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("optionalSecurity"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/optionalSecurity"),
+		semconv.URLTemplateKey.String("/optionalSecurity"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "OptionalSecurity",
+	ctx, span := c.cfg.Tracer.Start(ctx, OptionalSecurityOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -516,7 +537,7 @@ func (c *Client) sendOptionalSecurity(ctx context.Context) (res *OptionalSecurit
 		var satisfied bitset
 		{
 			stage = "Security:QueryKey"
-			switch err := c.securityQueryKey(ctx, "OptionalSecurity", r); {
+			switch err := c.securityQueryKey(ctx, OptionalSecurityOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -550,7 +571,14 @@ func (c *Client) sendOptionalSecurity(ctx context.Context) (res *OptionalSecurit
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeOptionalSecurityResponse(resp)

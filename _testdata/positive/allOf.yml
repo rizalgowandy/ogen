@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.1.0
 info:
   title: title
   version: v0.1.0
@@ -137,6 +137,106 @@ paths:
       responses:
         '200':
           description: ok
+  "/foo":
+    get:
+      operationId: getFoo
+      description: Returns a Foo (base schema with $ref nested types)
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Foo"
+  "/admin/foo":
+    get:
+      operationId: getAdminFoo
+      description: Returns Foo + admin-only fields via allOf
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Foo"
+                  - type: object
+                    required:
+                    - bazStatus
+                    properties:
+                      bazStatus:
+                        $ref: "#/components/schemas/BazStatus"
+  "/allOfWithSiblingProperties":
+    post:
+      operationId: allOfWithSiblingProperties
+      description: allOf combined with sibling properties and required (logical AND)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              allOf:
+                - $ref: "#/components/schemas/Foo"
+              required:
+                - sibling
+              properties:
+                sibling:
+                  type: string
+                optionalSibling:
+                  type: integer
+      responses:
+        '200':
+          description: ok
+  "/multiAllOfWithSiblingProperties":
+    post:
+      operationId: multiAllOfWithSiblingProperties
+      description: multiple allOf subschemas combined with sibling properties
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              allOf:
+                - type: object
+                  required:
+                  - a
+                  properties:
+                    a:
+                      type: string
+                - type: object
+                  properties:
+                    b:
+                      type: boolean
+              properties:
+                sibling:
+                  type: string
+      responses:
+        '200':
+          description: ok
+  "/allOfWithSiblingExtensions":
+    post:
+      operationId: allOfWithSiblingExtensions
+      description: allOf combined with ogen-specific sibling keywords (must be applied, not dropped)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  x-ogen-validate:
+                    hasPrefix: "Mr. "
+                  allOf:
+                    - type: string
+      responses:
+        '200':
+          description: ok
   "/referencedAllof":
     post:
       operationId: referencedAllof
@@ -168,8 +268,66 @@ paths:
       responses:
         '200':
           description: ok
+  "/referencedAllOfNullable":
+    post:
+      operationId: referencedAllOfNullable
+      description: referenced allOf, but requestBody contains nullable refs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ReferencedAllOfNullable"
+          multipart/form-data:
+            schema:
+              "$ref": "#/components/schemas/ReferencedAllOfNullable"
+      responses:
+        '200':
+          description: ok
 components:
   schemas:
+    Foo:
+      type: object
+      required:
+      - id
+      - name
+      - config
+      - bar
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        config:
+          type: object
+          $ref: "#/components/schemas/FooConfig"
+        bar:
+          nullable: true
+          $ref: "#/components/schemas/Bar"
+    FooConfig:
+      type: object
+      properties:
+        interval:
+          type: integer
+    Bar:
+      nullable: true
+      type: object
+      allOf:
+        - type: object
+          required:
+            - uuid
+            - value
+          properties:
+            uuid:
+              type: string
+              format: uuid
+            value:
+              type: number
+    BazStatus:
+      type: string
+      enum:
+        - active
+        - inactive
+        - decommissioned
     Robot:
       allOf:
       - type: object
@@ -203,3 +361,17 @@ components:
           format: uuid
         location:
           "$ref": "#/components/schemas/Location"
+    ReferencedAllOfNullable:
+      type: object
+      properties:
+        location:
+          "$ref": "#/components/schemas/Location"
+        allOfLocation:
+          type: object
+          allOf:
+            - "$ref": "#/components/schemas/Location"
+        nullableAllOfLocation:
+          type: object
+          nullable: true
+          allOf:
+            - "$ref": "#/components/schemas/Location"

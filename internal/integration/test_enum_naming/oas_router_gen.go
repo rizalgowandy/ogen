@@ -49,7 +49,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/healthz"
-			origElem := elem
+
 			if l := len("/healthz"); len(elem) >= l && elem[0:l] == "/healthz" {
 				elem = elem[l:]
 			} else {
@@ -62,13 +62,17 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				case "GET":
 					s.handleProbeLivenessRequest([0]string{}, elemIsEscaped, w, r)
 				default:
-					s.notAllowed(w, r, "GET")
+					s.notAllowed(w, r, notAllowedParams{
+						allowedMethods: "GET",
+						allowedHeaders: nil,
+						acceptPost:     "",
+						acceptPatch:    "",
+					})
 				}
 
 				return
 			}
 
-			elem = origElem
 		}
 	}
 	s.notFound(w, r)
@@ -76,12 +80,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Route is route object.
 type Route struct {
-	name        string
-	summary     string
-	operationID string
-	pathPattern string
-	count       int
-	args        [0]string
+	name           string
+	summary        string
+	operationID    string
+	operationGroup string
+	pathPattern    string
+	count          int
+	args           [0]string
 }
 
 // Name returns ogen operation name.
@@ -99,6 +104,11 @@ func (r Route) Summary() string {
 // OperationID returns OpenAPI operationId.
 func (r Route) OperationID() string {
 	return r.operationID
+}
+
+// OperationGroup returns the x-ogen-operation-group value.
+func (r Route) OperationGroup() string {
+	return r.operationGroup
 }
 
 // PathPattern returns OpenAPI path.
@@ -150,7 +160,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/healthz"
-			origElem := elem
+
 			if l := len("/healthz"); len(elem) >= l && elem[0:l] == "/healthz" {
 				elem = elem[l:]
 			} else {
@@ -161,9 +171,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				// Leaf node.
 				switch method {
 				case "GET":
-					r.name = "ProbeLiveness"
+					r.name = ProbeLivenessOperation
 					r.summary = ""
 					r.operationID = "probeLiveness"
+					r.operationGroup = ""
 					r.pathPattern = "/healthz"
 					r.args = args
 					r.count = 0
@@ -173,7 +184,6 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 			}
 
-			elem = origElem
 		}
 	}
 	return r, false

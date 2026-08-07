@@ -2,6 +2,7 @@ package parser
 
 import (
 	"net/url"
+	"slices"
 	"strings"
 
 	"github.com/go-faster/errors"
@@ -49,23 +50,7 @@ func (p *parser) parseSecurityScheme(
 			}
 			return nil
 		case "http":
-			// FIXME(tdakkota): spec is not clear about this, it says
-			// 	`The values used SHOULD be registered in the IANA Authentication Scheme registry.`
-			// 	Probably such validation is too strict.
-
-			// Values from https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml.
-			switch strings.ToLower(scheme.Scheme) {
-			case "basic",
-				"bearer",
-				"digest",
-				"hoba",
-				"mutual",
-				"negotiate",
-				"oauth",
-				"scram-sha-1",
-				"scram-sha-256",
-				"vapid":
-			default:
+			if !slices.Contains(p.authenticationSchemes, strings.ToLower(scheme.Scheme)) {
 				err := errors.Errorf(`invalid "scheme": %q`, scheme.Scheme)
 				return p.wrapField("scheme", p.file(ctx), locator, err)
 			}
@@ -169,7 +154,7 @@ func cloneOAuthFlows(flows ogen.OAuthFlows, file location.File) (r openapi.OAuth
 			TokenURL:         flow.TokenURL,
 			RefreshURL:       flow.RefreshURL,
 			Scopes:           maps.Clone(flow.Scopes),
-			Pointer:          flow.Common.Locator.Pointer(file),
+			Pointer:          flow.Common.Pointer(file),
 		}
 	}
 
@@ -178,7 +163,7 @@ func cloneOAuthFlows(flows ogen.OAuthFlows, file location.File) (r openapi.OAuth
 		Password:          cloneFlow(flows.Password),
 		ClientCredentials: cloneFlow(flows.ClientCredentials),
 		AuthorizationCode: cloneFlow(flows.AuthorizationCode),
-		Pointer:           flows.Common.Locator.Pointer(file),
+		Pointer:           flows.Common.Pointer(file),
 	}
 }
 

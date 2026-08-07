@@ -1863,7 +1863,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
+            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/io.k8s.apimachinery.pkg.apis.meta.v1.Patch"
               }

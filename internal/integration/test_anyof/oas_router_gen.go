@@ -49,7 +49,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -61,7 +61,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 			switch elem[0] {
 			case 'i': // Prefix: "integerNumber"
-				origElem := elem
+
 				if l := len("integerNumber"); len(elem) >= l && elem[0:l] == "integerNumber" {
 					elem = elem[l:]
 				} else {
@@ -74,15 +74,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleIntegerNumberRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 'j': // Prefix: "jaegerAnyOf"
-				origElem := elem
+
 				if l := len("jaegerAnyOf"); len(elem) >= l && elem[0:l] == "jaegerAnyOf" {
 					elem = elem[l:]
 				} else {
@@ -95,15 +99,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleJaegerAnyOfRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "oneUUID"
-				origElem := elem
+
 				if l := len("oneUUID"); len(elem) >= l && elem[0:l] == "oneUUID" {
 					elem = elem[l:]
 				} else {
@@ -116,16 +124,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleOneUUIDRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	s.notFound(w, r)
@@ -133,12 +144,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Route is route object.
 type Route struct {
-	name        string
-	summary     string
-	operationID string
-	pathPattern string
-	count       int
-	args        [0]string
+	name           string
+	summary        string
+	operationID    string
+	operationGroup string
+	pathPattern    string
+	count          int
+	args           [0]string
 }
 
 // Name returns ogen operation name.
@@ -156,6 +168,11 @@ func (r Route) Summary() string {
 // OperationID returns OpenAPI operationId.
 func (r Route) OperationID() string {
 	return r.operationID
+}
+
+// OperationGroup returns the x-ogen-operation-group value.
+func (r Route) OperationGroup() string {
+	return r.operationGroup
 }
 
 // PathPattern returns OpenAPI path.
@@ -207,7 +224,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -219,7 +236,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			}
 			switch elem[0] {
 			case 'i': // Prefix: "integerNumber"
-				origElem := elem
+
 				if l := len("integerNumber"); len(elem) >= l && elem[0:l] == "integerNumber" {
 					elem = elem[l:]
 				} else {
@@ -230,9 +247,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "IntegerNumber"
+						r.name = IntegerNumberOperation
 						r.summary = ""
 						r.operationID = "integerNumber"
+						r.operationGroup = ""
 						r.pathPattern = "/integerNumber"
 						r.args = args
 						r.count = 0
@@ -242,9 +260,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 'j': // Prefix: "jaegerAnyOf"
-				origElem := elem
+
 				if l := len("jaegerAnyOf"); len(elem) >= l && elem[0:l] == "jaegerAnyOf" {
 					elem = elem[l:]
 				} else {
@@ -255,9 +272,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "JaegerAnyOf"
+						r.name = JaegerAnyOfOperation
 						r.summary = ""
 						r.operationID = "jaegerAnyOf"
+						r.operationGroup = ""
 						r.pathPattern = "/jaegerAnyOf"
 						r.args = args
 						r.count = 0
@@ -267,9 +285,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "oneUUID"
-				origElem := elem
+
 				if l := len("oneUUID"); len(elem) >= l && elem[0:l] == "oneUUID" {
 					elem = elem[l:]
 				} else {
@@ -280,9 +297,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "OneUUID"
+						r.name = OneUUIDOperation
 						r.summary = ""
 						r.operationID = "oneUUID"
+						r.operationGroup = ""
 						r.pathPattern = "/oneUUID"
 						r.args = args
 						r.count = 0
@@ -292,10 +310,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	return r, false

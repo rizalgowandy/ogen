@@ -10,6 +10,17 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
+var (
+	rn1AllowedHeaders = map[string]string{
+		"GET":  "Authorization",
+		"POST": "Authorization,Content-Type",
+	}
+	rn3AllowedHeaders = map[string]string{
+		"DELETE": "Authorization",
+		"GET":    "Authorization",
+	}
+)
+
 func (s *Server) cutPrefix(path string) (string, bool) {
 	prefix := s.cfg.Prefix
 	if prefix == "" {
@@ -50,7 +61,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/pets"
-			origElem := elem
+
 			if l := len("/pets"); len(elem) >= l && elem[0:l] == "/pets" {
 				elem = elem[l:]
 			} else {
@@ -64,14 +75,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				case "POST":
 					s.handleAddPetRequest([0]string{}, elemIsEscaped, w, r)
 				default:
-					s.notAllowed(w, r, "GET,POST")
+					s.notAllowed(w, r, notAllowedParams{
+						allowedMethods: "GET,POST",
+						allowedHeaders: rn1AllowedHeaders,
+						acceptPost:     "application/json",
+						acceptPatch:    "",
+					})
 				}
 
 				return
 			}
 			switch elem[0] {
 			case '/': // Prefix: "/"
-				origElem := elem
+
 				if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 					elem = elem[l:]
 				} else {
@@ -79,7 +95,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 
 				// Param: "id"
-				// Leaf parameter
+				// Leaf parameter, slashes are prohibited
+				idx := strings.IndexByte(elem, '/')
+				if idx >= 0 {
+					break
+				}
 				args[0] = elem
 				elem = ""
 
@@ -95,16 +115,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							args[0],
 						}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "DELETE,GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "DELETE,GET",
+							allowedHeaders: rn3AllowedHeaders,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	s.notFound(w, r)
@@ -112,12 +135,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Route is route object.
 type Route struct {
-	name        string
-	summary     string
-	operationID string
-	pathPattern string
-	count       int
-	args        [1]string
+	name           string
+	summary        string
+	operationID    string
+	operationGroup string
+	pathPattern    string
+	count          int
+	args           [1]string
 }
 
 // Name returns ogen operation name.
@@ -135,6 +159,11 @@ func (r Route) Summary() string {
 // OperationID returns OpenAPI operationId.
 func (r Route) OperationID() string {
 	return r.operationID
+}
+
+// OperationGroup returns the x-ogen-operation-group value.
+func (r Route) OperationGroup() string {
+	return r.operationGroup
 }
 
 // PathPattern returns OpenAPI path.
@@ -186,7 +215,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/pets"
-			origElem := elem
+
 			if l := len("/pets"); len(elem) >= l && elem[0:l] == "/pets" {
 				elem = elem[l:]
 			} else {
@@ -196,17 +225,19 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			if len(elem) == 0 {
 				switch method {
 				case "GET":
-					r.name = "FindPets"
+					r.name = FindPetsOperation
 					r.summary = ""
 					r.operationID = "findPets"
+					r.operationGroup = ""
 					r.pathPattern = "/pets"
 					r.args = args
 					r.count = 0
 					return r, true
 				case "POST":
-					r.name = "AddPet"
+					r.name = AddPetOperation
 					r.summary = ""
 					r.operationID = "addPet"
+					r.operationGroup = ""
 					r.pathPattern = "/pets"
 					r.args = args
 					r.count = 0
@@ -217,7 +248,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			}
 			switch elem[0] {
 			case '/': // Prefix: "/"
-				origElem := elem
+
 				if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 					elem = elem[l:]
 				} else {
@@ -225,7 +256,11 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 
 				// Param: "id"
-				// Leaf parameter
+				// Leaf parameter, slashes are prohibited
+				idx := strings.IndexByte(elem, '/')
+				if idx >= 0 {
+					break
+				}
 				args[0] = elem
 				elem = ""
 
@@ -233,17 +268,19 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "DELETE":
-						r.name = "DeletePet"
+						r.name = DeletePetOperation
 						r.summary = ""
 						r.operationID = "deletePet"
+						r.operationGroup = ""
 						r.pathPattern = "/pets/{id}"
 						r.args = args
 						r.count = 1
 						return r, true
 					case "GET":
-						r.name = "FindPetByID"
+						r.name = FindPetByIDOperation
 						r.summary = ""
 						r.operationID = "find pet by id"
+						r.operationGroup = ""
 						r.pathPattern = "/pets/{id}"
 						r.args = args
 						r.count = 1
@@ -253,10 +290,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	return r, false

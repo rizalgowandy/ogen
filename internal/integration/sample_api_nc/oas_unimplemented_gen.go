@@ -205,6 +205,13 @@ func (UnimplementedHandler) StringIntMapGet(ctx context.Context) (r *StringIntMa
 	return r, ht.ErrNotImplemented
 }
 
+// TestDecimalValidation implements testDecimalValidation operation.
+//
+// POST /testDecimalValidation
+func (UnimplementedHandler) TestDecimalValidation(ctx context.Context, req *TestDecimalValidation) error {
+	return ht.ErrNotImplemented
+}
+
 // TestFloatValidation implements testFloatValidation operation.
 //
 // POST /testFloatValidation
@@ -216,6 +223,20 @@ func (UnimplementedHandler) TestFloatValidation(ctx context.Context, req *TestFl
 //
 // GET /testInlineOneof
 func (UnimplementedHandler) TestInlineOneof(ctx context.Context) (r *TestInlineOneOf, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestIssue1310 implements testIssue1310 operation.
+//
+// GET /testIssue1310
+func (UnimplementedHandler) TestIssue1310(ctx context.Context) (r *Issue1310, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestIssue1461 implements testIssue1461 operation.
+//
+// GET /testIssue1461
+func (UnimplementedHandler) TestIssue1461(ctx context.Context) (r *Issue1461, _ error) {
 	return r, ht.ErrNotImplemented
 }
 

@@ -8,11 +8,9 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/trace"
-
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/uri"
+	"go.opentelemetry.io/otel/trace"
 )
 
 func encodeConnectCoreV1DeleteNamespacedPodProxyResponse(response ConnectCoreV1DeleteNamespacedPodProxyRes, w http.ResponseWriter, span trace.Span) error {
@@ -35,9 +33,11 @@ func encodeConnectCoreV1DeleteNamespacedPodProxyResponse(response ConnectCoreV1D
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -46,7 +46,6 @@ func encodeConnectCoreV1DeleteNamespacedPodProxyResponse(response ConnectCoreV1D
 
 	case *ConnectCoreV1DeleteNamespacedPodProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -75,9 +74,11 @@ func encodeConnectCoreV1DeleteNamespacedPodProxyWithPathResponse(response Connec
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -86,7 +87,6 @@ func encodeConnectCoreV1DeleteNamespacedPodProxyWithPathResponse(response Connec
 
 	case *ConnectCoreV1DeleteNamespacedPodProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -115,9 +115,11 @@ func encodeConnectCoreV1DeleteNamespacedServiceProxyResponse(response ConnectCor
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -126,7 +128,6 @@ func encodeConnectCoreV1DeleteNamespacedServiceProxyResponse(response ConnectCor
 
 	case *ConnectCoreV1DeleteNamespacedServiceProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -155,9 +156,11 @@ func encodeConnectCoreV1DeleteNamespacedServiceProxyWithPathResponse(response Co
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -166,7 +169,6 @@ func encodeConnectCoreV1DeleteNamespacedServiceProxyWithPathResponse(response Co
 
 	case *ConnectCoreV1DeleteNamespacedServiceProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -195,9 +197,11 @@ func encodeConnectCoreV1DeleteNodeProxyResponse(response ConnectCoreV1DeleteNode
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -206,7 +210,6 @@ func encodeConnectCoreV1DeleteNodeProxyResponse(response ConnectCoreV1DeleteNode
 
 	case *ConnectCoreV1DeleteNodeProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -235,9 +238,11 @@ func encodeConnectCoreV1DeleteNodeProxyWithPathResponse(response ConnectCoreV1De
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -246,7 +251,6 @@ func encodeConnectCoreV1DeleteNodeProxyWithPathResponse(response ConnectCoreV1De
 
 	case *ConnectCoreV1DeleteNodeProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -275,9 +279,11 @@ func encodeConnectCoreV1GetNamespacedPodAttachResponse(response ConnectCoreV1Get
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -286,7 +292,6 @@ func encodeConnectCoreV1GetNamespacedPodAttachResponse(response ConnectCoreV1Get
 
 	case *ConnectCoreV1GetNamespacedPodAttachUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -315,9 +320,11 @@ func encodeConnectCoreV1GetNamespacedPodExecResponse(response ConnectCoreV1GetNa
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -326,7 +333,6 @@ func encodeConnectCoreV1GetNamespacedPodExecResponse(response ConnectCoreV1GetNa
 
 	case *ConnectCoreV1GetNamespacedPodExecUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -355,9 +361,11 @@ func encodeConnectCoreV1GetNamespacedPodPortforwardResponse(response ConnectCore
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -366,7 +374,6 @@ func encodeConnectCoreV1GetNamespacedPodPortforwardResponse(response ConnectCore
 
 	case *ConnectCoreV1GetNamespacedPodPortforwardUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -395,9 +402,11 @@ func encodeConnectCoreV1GetNamespacedPodProxyResponse(response ConnectCoreV1GetN
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -406,7 +415,6 @@ func encodeConnectCoreV1GetNamespacedPodProxyResponse(response ConnectCoreV1GetN
 
 	case *ConnectCoreV1GetNamespacedPodProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -435,9 +443,11 @@ func encodeConnectCoreV1GetNamespacedPodProxyWithPathResponse(response ConnectCo
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -446,7 +456,6 @@ func encodeConnectCoreV1GetNamespacedPodProxyWithPathResponse(response ConnectCo
 
 	case *ConnectCoreV1GetNamespacedPodProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -475,9 +484,11 @@ func encodeConnectCoreV1GetNamespacedServiceProxyResponse(response ConnectCoreV1
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -486,7 +497,6 @@ func encodeConnectCoreV1GetNamespacedServiceProxyResponse(response ConnectCoreV1
 
 	case *ConnectCoreV1GetNamespacedServiceProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -515,9 +525,11 @@ func encodeConnectCoreV1GetNamespacedServiceProxyWithPathResponse(response Conne
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -526,7 +538,6 @@ func encodeConnectCoreV1GetNamespacedServiceProxyWithPathResponse(response Conne
 
 	case *ConnectCoreV1GetNamespacedServiceProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -555,9 +566,11 @@ func encodeConnectCoreV1GetNodeProxyResponse(response ConnectCoreV1GetNodeProxyR
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -566,7 +579,6 @@ func encodeConnectCoreV1GetNodeProxyResponse(response ConnectCoreV1GetNodeProxyR
 
 	case *ConnectCoreV1GetNodeProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -595,9 +607,11 @@ func encodeConnectCoreV1GetNodeProxyWithPathResponse(response ConnectCoreV1GetNo
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -606,7 +620,6 @@ func encodeConnectCoreV1GetNodeProxyWithPathResponse(response ConnectCoreV1GetNo
 
 	case *ConnectCoreV1GetNodeProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -635,9 +648,11 @@ func encodeConnectCoreV1HeadNamespacedPodProxyResponse(response ConnectCoreV1Hea
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -646,7 +661,6 @@ func encodeConnectCoreV1HeadNamespacedPodProxyResponse(response ConnectCoreV1Hea
 
 	case *ConnectCoreV1HeadNamespacedPodProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -675,9 +689,11 @@ func encodeConnectCoreV1HeadNamespacedPodProxyWithPathResponse(response ConnectC
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -686,7 +702,6 @@ func encodeConnectCoreV1HeadNamespacedPodProxyWithPathResponse(response ConnectC
 
 	case *ConnectCoreV1HeadNamespacedPodProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -715,9 +730,11 @@ func encodeConnectCoreV1HeadNamespacedServiceProxyResponse(response ConnectCoreV
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -726,7 +743,6 @@ func encodeConnectCoreV1HeadNamespacedServiceProxyResponse(response ConnectCoreV
 
 	case *ConnectCoreV1HeadNamespacedServiceProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -755,9 +771,11 @@ func encodeConnectCoreV1HeadNamespacedServiceProxyWithPathResponse(response Conn
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -766,7 +784,6 @@ func encodeConnectCoreV1HeadNamespacedServiceProxyWithPathResponse(response Conn
 
 	case *ConnectCoreV1HeadNamespacedServiceProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -795,9 +812,11 @@ func encodeConnectCoreV1HeadNodeProxyResponse(response ConnectCoreV1HeadNodeProx
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -806,7 +825,6 @@ func encodeConnectCoreV1HeadNodeProxyResponse(response ConnectCoreV1HeadNodeProx
 
 	case *ConnectCoreV1HeadNodeProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -835,9 +853,11 @@ func encodeConnectCoreV1HeadNodeProxyWithPathResponse(response ConnectCoreV1Head
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -846,7 +866,6 @@ func encodeConnectCoreV1HeadNodeProxyWithPathResponse(response ConnectCoreV1Head
 
 	case *ConnectCoreV1HeadNodeProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -875,9 +894,11 @@ func encodeConnectCoreV1OptionsNamespacedPodProxyResponse(response ConnectCoreV1
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -886,7 +907,6 @@ func encodeConnectCoreV1OptionsNamespacedPodProxyResponse(response ConnectCoreV1
 
 	case *ConnectCoreV1OptionsNamespacedPodProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -915,9 +935,11 @@ func encodeConnectCoreV1OptionsNamespacedPodProxyWithPathResponse(response Conne
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -926,7 +948,6 @@ func encodeConnectCoreV1OptionsNamespacedPodProxyWithPathResponse(response Conne
 
 	case *ConnectCoreV1OptionsNamespacedPodProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -955,9 +976,11 @@ func encodeConnectCoreV1OptionsNamespacedServiceProxyResponse(response ConnectCo
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -966,7 +989,6 @@ func encodeConnectCoreV1OptionsNamespacedServiceProxyResponse(response ConnectCo
 
 	case *ConnectCoreV1OptionsNamespacedServiceProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -995,9 +1017,11 @@ func encodeConnectCoreV1OptionsNamespacedServiceProxyWithPathResponse(response C
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1006,7 +1030,6 @@ func encodeConnectCoreV1OptionsNamespacedServiceProxyWithPathResponse(response C
 
 	case *ConnectCoreV1OptionsNamespacedServiceProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1035,9 +1058,11 @@ func encodeConnectCoreV1OptionsNodeProxyResponse(response ConnectCoreV1OptionsNo
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1046,7 +1071,6 @@ func encodeConnectCoreV1OptionsNodeProxyResponse(response ConnectCoreV1OptionsNo
 
 	case *ConnectCoreV1OptionsNodeProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1075,9 +1099,11 @@ func encodeConnectCoreV1OptionsNodeProxyWithPathResponse(response ConnectCoreV1O
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1086,7 +1112,6 @@ func encodeConnectCoreV1OptionsNodeProxyWithPathResponse(response ConnectCoreV1O
 
 	case *ConnectCoreV1OptionsNodeProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1115,9 +1140,11 @@ func encodeConnectCoreV1PatchNamespacedPodProxyResponse(response ConnectCoreV1Pa
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1126,7 +1153,6 @@ func encodeConnectCoreV1PatchNamespacedPodProxyResponse(response ConnectCoreV1Pa
 
 	case *ConnectCoreV1PatchNamespacedPodProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1155,9 +1181,11 @@ func encodeConnectCoreV1PatchNamespacedPodProxyWithPathResponse(response Connect
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1166,7 +1194,6 @@ func encodeConnectCoreV1PatchNamespacedPodProxyWithPathResponse(response Connect
 
 	case *ConnectCoreV1PatchNamespacedPodProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1195,9 +1222,11 @@ func encodeConnectCoreV1PatchNamespacedServiceProxyResponse(response ConnectCore
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1206,7 +1235,6 @@ func encodeConnectCoreV1PatchNamespacedServiceProxyResponse(response ConnectCore
 
 	case *ConnectCoreV1PatchNamespacedServiceProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1235,9 +1263,11 @@ func encodeConnectCoreV1PatchNamespacedServiceProxyWithPathResponse(response Con
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1246,7 +1276,6 @@ func encodeConnectCoreV1PatchNamespacedServiceProxyWithPathResponse(response Con
 
 	case *ConnectCoreV1PatchNamespacedServiceProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1275,9 +1304,11 @@ func encodeConnectCoreV1PatchNodeProxyResponse(response ConnectCoreV1PatchNodePr
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1286,7 +1317,6 @@ func encodeConnectCoreV1PatchNodeProxyResponse(response ConnectCoreV1PatchNodePr
 
 	case *ConnectCoreV1PatchNodeProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1315,9 +1345,11 @@ func encodeConnectCoreV1PatchNodeProxyWithPathResponse(response ConnectCoreV1Pat
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1326,7 +1358,6 @@ func encodeConnectCoreV1PatchNodeProxyWithPathResponse(response ConnectCoreV1Pat
 
 	case *ConnectCoreV1PatchNodeProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1355,9 +1386,11 @@ func encodeConnectCoreV1PostNamespacedPodAttachResponse(response ConnectCoreV1Po
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1366,7 +1399,6 @@ func encodeConnectCoreV1PostNamespacedPodAttachResponse(response ConnectCoreV1Po
 
 	case *ConnectCoreV1PostNamespacedPodAttachUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1395,9 +1427,11 @@ func encodeConnectCoreV1PostNamespacedPodExecResponse(response ConnectCoreV1Post
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1406,7 +1440,6 @@ func encodeConnectCoreV1PostNamespacedPodExecResponse(response ConnectCoreV1Post
 
 	case *ConnectCoreV1PostNamespacedPodExecUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1435,9 +1468,11 @@ func encodeConnectCoreV1PostNamespacedPodPortforwardResponse(response ConnectCor
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1446,7 +1481,6 @@ func encodeConnectCoreV1PostNamespacedPodPortforwardResponse(response ConnectCor
 
 	case *ConnectCoreV1PostNamespacedPodPortforwardUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1475,9 +1509,11 @@ func encodeConnectCoreV1PostNamespacedPodProxyResponse(response ConnectCoreV1Pos
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1486,7 +1522,6 @@ func encodeConnectCoreV1PostNamespacedPodProxyResponse(response ConnectCoreV1Pos
 
 	case *ConnectCoreV1PostNamespacedPodProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1515,9 +1550,11 @@ func encodeConnectCoreV1PostNamespacedPodProxyWithPathResponse(response ConnectC
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1526,7 +1563,6 @@ func encodeConnectCoreV1PostNamespacedPodProxyWithPathResponse(response ConnectC
 
 	case *ConnectCoreV1PostNamespacedPodProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1555,9 +1591,11 @@ func encodeConnectCoreV1PostNamespacedServiceProxyResponse(response ConnectCoreV
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1566,7 +1604,6 @@ func encodeConnectCoreV1PostNamespacedServiceProxyResponse(response ConnectCoreV
 
 	case *ConnectCoreV1PostNamespacedServiceProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1595,9 +1632,11 @@ func encodeConnectCoreV1PostNamespacedServiceProxyWithPathResponse(response Conn
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1606,7 +1645,6 @@ func encodeConnectCoreV1PostNamespacedServiceProxyWithPathResponse(response Conn
 
 	case *ConnectCoreV1PostNamespacedServiceProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1635,9 +1673,11 @@ func encodeConnectCoreV1PostNodeProxyResponse(response ConnectCoreV1PostNodeProx
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1646,7 +1686,6 @@ func encodeConnectCoreV1PostNodeProxyResponse(response ConnectCoreV1PostNodeProx
 
 	case *ConnectCoreV1PostNodeProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1675,9 +1714,11 @@ func encodeConnectCoreV1PostNodeProxyWithPathResponse(response ConnectCoreV1Post
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1686,7 +1727,6 @@ func encodeConnectCoreV1PostNodeProxyWithPathResponse(response ConnectCoreV1Post
 
 	case *ConnectCoreV1PostNodeProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1715,9 +1755,11 @@ func encodeConnectCoreV1PutNamespacedPodProxyResponse(response ConnectCoreV1PutN
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1726,7 +1768,6 @@ func encodeConnectCoreV1PutNamespacedPodProxyResponse(response ConnectCoreV1PutN
 
 	case *ConnectCoreV1PutNamespacedPodProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1755,9 +1796,11 @@ func encodeConnectCoreV1PutNamespacedPodProxyWithPathResponse(response ConnectCo
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1766,7 +1809,6 @@ func encodeConnectCoreV1PutNamespacedPodProxyWithPathResponse(response ConnectCo
 
 	case *ConnectCoreV1PutNamespacedPodProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1795,9 +1837,11 @@ func encodeConnectCoreV1PutNamespacedServiceProxyResponse(response ConnectCoreV1
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1806,7 +1850,6 @@ func encodeConnectCoreV1PutNamespacedServiceProxyResponse(response ConnectCoreV1
 
 	case *ConnectCoreV1PutNamespacedServiceProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1835,9 +1878,11 @@ func encodeConnectCoreV1PutNamespacedServiceProxyWithPathResponse(response Conne
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1846,7 +1891,6 @@ func encodeConnectCoreV1PutNamespacedServiceProxyWithPathResponse(response Conne
 
 	case *ConnectCoreV1PutNamespacedServiceProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1875,9 +1919,11 @@ func encodeConnectCoreV1PutNodeProxyResponse(response ConnectCoreV1PutNodeProxyR
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1886,7 +1932,6 @@ func encodeConnectCoreV1PutNodeProxyResponse(response ConnectCoreV1PutNodeProxyR
 
 	case *ConnectCoreV1PutNodeProxyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1915,9 +1960,11 @@ func encodeConnectCoreV1PutNodeProxyWithPathResponse(response ConnectCoreV1PutNo
 			}
 		}
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response.Response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -1926,7 +1973,6 @@ func encodeConnectCoreV1PutNodeProxyWithPathResponse(response ConnectCoreV1PutNo
 
 	case *ConnectCoreV1PutNodeProxyWithPathUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1940,7 +1986,6 @@ func encodeGetAPIVersionsResponse(response GetAPIVersionsRes, w http.ResponseWri
 	case *IoK8sApimachineryPkgApisMetaV1APIGroupList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -1952,7 +1997,6 @@ func encodeGetAPIVersionsResponse(response GetAPIVersionsRes, w http.ResponseWri
 
 	case *GetAPIVersionsUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1966,7 +2010,6 @@ func encodeGetAdmissionregistrationAPIGroupResponse(response GetAdmissionregistr
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -1978,7 +2021,6 @@ func encodeGetAdmissionregistrationAPIGroupResponse(response GetAdmissionregistr
 
 	case *GetAdmissionregistrationAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -1992,7 +2034,6 @@ func encodeGetAdmissionregistrationV1APIResourcesResponse(response GetAdmissionr
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2004,7 +2045,6 @@ func encodeGetAdmissionregistrationV1APIResourcesResponse(response GetAdmissionr
 
 	case *GetAdmissionregistrationV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2018,7 +2058,6 @@ func encodeGetApiextensionsAPIGroupResponse(response GetApiextensionsAPIGroupRes
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2030,7 +2069,6 @@ func encodeGetApiextensionsAPIGroupResponse(response GetApiextensionsAPIGroupRes
 
 	case *GetApiextensionsAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2044,7 +2082,6 @@ func encodeGetApiextensionsV1APIResourcesResponse(response GetApiextensionsV1API
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2056,7 +2093,6 @@ func encodeGetApiextensionsV1APIResourcesResponse(response GetApiextensionsV1API
 
 	case *GetApiextensionsV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2070,7 +2106,6 @@ func encodeGetApiregistrationAPIGroupResponse(response GetApiregistrationAPIGrou
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2082,7 +2117,6 @@ func encodeGetApiregistrationAPIGroupResponse(response GetApiregistrationAPIGrou
 
 	case *GetApiregistrationAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2096,7 +2130,6 @@ func encodeGetApiregistrationV1APIResourcesResponse(response GetApiregistrationV
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2108,7 +2141,6 @@ func encodeGetApiregistrationV1APIResourcesResponse(response GetApiregistrationV
 
 	case *GetApiregistrationV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2122,7 +2154,6 @@ func encodeGetAppsAPIGroupResponse(response GetAppsAPIGroupRes, w http.ResponseW
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2134,7 +2165,6 @@ func encodeGetAppsAPIGroupResponse(response GetAppsAPIGroupRes, w http.ResponseW
 
 	case *GetAppsAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2148,7 +2178,6 @@ func encodeGetAppsV1APIResourcesResponse(response GetAppsV1APIResourcesRes, w ht
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2160,7 +2189,6 @@ func encodeGetAppsV1APIResourcesResponse(response GetAppsV1APIResourcesRes, w ht
 
 	case *GetAppsV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2174,7 +2202,6 @@ func encodeGetAuthenticationAPIGroupResponse(response GetAuthenticationAPIGroupR
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2186,7 +2213,6 @@ func encodeGetAuthenticationAPIGroupResponse(response GetAuthenticationAPIGroupR
 
 	case *GetAuthenticationAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2200,7 +2226,6 @@ func encodeGetAuthenticationV1APIResourcesResponse(response GetAuthenticationV1A
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2212,7 +2237,6 @@ func encodeGetAuthenticationV1APIResourcesResponse(response GetAuthenticationV1A
 
 	case *GetAuthenticationV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2226,7 +2250,6 @@ func encodeGetAuthorizationAPIGroupResponse(response GetAuthorizationAPIGroupRes
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2238,7 +2261,6 @@ func encodeGetAuthorizationAPIGroupResponse(response GetAuthorizationAPIGroupRes
 
 	case *GetAuthorizationAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2252,7 +2274,6 @@ func encodeGetAuthorizationV1APIResourcesResponse(response GetAuthorizationV1API
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2264,7 +2285,6 @@ func encodeGetAuthorizationV1APIResourcesResponse(response GetAuthorizationV1API
 
 	case *GetAuthorizationV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2278,7 +2298,6 @@ func encodeGetAutoscalingAPIGroupResponse(response GetAutoscalingAPIGroupRes, w 
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2290,7 +2309,6 @@ func encodeGetAutoscalingAPIGroupResponse(response GetAutoscalingAPIGroupRes, w 
 
 	case *GetAutoscalingAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2304,7 +2322,6 @@ func encodeGetAutoscalingV1APIResourcesResponse(response GetAutoscalingV1APIReso
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2316,7 +2333,6 @@ func encodeGetAutoscalingV1APIResourcesResponse(response GetAutoscalingV1APIReso
 
 	case *GetAutoscalingV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2330,7 +2346,6 @@ func encodeGetAutoscalingV2beta1APIResourcesResponse(response GetAutoscalingV2be
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2342,7 +2357,6 @@ func encodeGetAutoscalingV2beta1APIResourcesResponse(response GetAutoscalingV2be
 
 	case *GetAutoscalingV2beta1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2356,7 +2370,6 @@ func encodeGetAutoscalingV2beta2APIResourcesResponse(response GetAutoscalingV2be
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2368,7 +2381,6 @@ func encodeGetAutoscalingV2beta2APIResourcesResponse(response GetAutoscalingV2be
 
 	case *GetAutoscalingV2beta2APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2382,7 +2394,6 @@ func encodeGetBatchAPIGroupResponse(response GetBatchAPIGroupRes, w http.Respons
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2394,7 +2405,6 @@ func encodeGetBatchAPIGroupResponse(response GetBatchAPIGroupRes, w http.Respons
 
 	case *GetBatchAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2408,7 +2418,6 @@ func encodeGetBatchV1APIResourcesResponse(response GetBatchV1APIResourcesRes, w 
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2420,7 +2429,6 @@ func encodeGetBatchV1APIResourcesResponse(response GetBatchV1APIResourcesRes, w 
 
 	case *GetBatchV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2434,7 +2442,6 @@ func encodeGetBatchV1beta1APIResourcesResponse(response GetBatchV1beta1APIResour
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2446,7 +2453,6 @@ func encodeGetBatchV1beta1APIResourcesResponse(response GetBatchV1beta1APIResour
 
 	case *GetBatchV1beta1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2460,7 +2466,6 @@ func encodeGetCertificatesAPIGroupResponse(response GetCertificatesAPIGroupRes, 
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2472,7 +2477,6 @@ func encodeGetCertificatesAPIGroupResponse(response GetCertificatesAPIGroupRes, 
 
 	case *GetCertificatesAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2486,7 +2490,6 @@ func encodeGetCertificatesV1APIResourcesResponse(response GetCertificatesV1APIRe
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2498,7 +2501,6 @@ func encodeGetCertificatesV1APIResourcesResponse(response GetCertificatesV1APIRe
 
 	case *GetCertificatesV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2512,7 +2514,6 @@ func encodeGetCodeVersionResponse(response GetCodeVersionRes, w http.ResponseWri
 	case *IoK8sApimachineryPkgVersionInfo:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2524,7 +2525,6 @@ func encodeGetCodeVersionResponse(response GetCodeVersionRes, w http.ResponseWri
 
 	case *GetCodeVersionUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2538,7 +2538,6 @@ func encodeGetCoordinationAPIGroupResponse(response GetCoordinationAPIGroupRes, 
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2550,7 +2549,6 @@ func encodeGetCoordinationAPIGroupResponse(response GetCoordinationAPIGroupRes, 
 
 	case *GetCoordinationAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2564,7 +2562,6 @@ func encodeGetCoordinationV1APIResourcesResponse(response GetCoordinationV1APIRe
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2576,7 +2573,6 @@ func encodeGetCoordinationV1APIResourcesResponse(response GetCoordinationV1APIRe
 
 	case *GetCoordinationV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2590,7 +2586,6 @@ func encodeGetCoreAPIVersionsResponse(response GetCoreAPIVersionsRes, w http.Res
 	case *IoK8sApimachineryPkgApisMetaV1APIVersions:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2602,7 +2597,6 @@ func encodeGetCoreAPIVersionsResponse(response GetCoreAPIVersionsRes, w http.Res
 
 	case *GetCoreAPIVersionsUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2616,7 +2610,6 @@ func encodeGetCoreV1APIResourcesResponse(response GetCoreV1APIResourcesRes, w ht
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2628,7 +2621,6 @@ func encodeGetCoreV1APIResourcesResponse(response GetCoreV1APIResourcesRes, w ht
 
 	case *GetCoreV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2642,7 +2634,6 @@ func encodeGetDiscoveryAPIGroupResponse(response GetDiscoveryAPIGroupRes, w http
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2654,7 +2645,6 @@ func encodeGetDiscoveryAPIGroupResponse(response GetDiscoveryAPIGroupRes, w http
 
 	case *GetDiscoveryAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2668,7 +2658,6 @@ func encodeGetDiscoveryV1APIResourcesResponse(response GetDiscoveryV1APIResource
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2680,7 +2669,6 @@ func encodeGetDiscoveryV1APIResourcesResponse(response GetDiscoveryV1APIResource
 
 	case *GetDiscoveryV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2694,7 +2682,6 @@ func encodeGetDiscoveryV1beta1APIResourcesResponse(response GetDiscoveryV1beta1A
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2706,7 +2693,6 @@ func encodeGetDiscoveryV1beta1APIResourcesResponse(response GetDiscoveryV1beta1A
 
 	case *GetDiscoveryV1beta1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2720,7 +2706,6 @@ func encodeGetEventsAPIGroupResponse(response GetEventsAPIGroupRes, w http.Respo
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2732,7 +2717,6 @@ func encodeGetEventsAPIGroupResponse(response GetEventsAPIGroupRes, w http.Respo
 
 	case *GetEventsAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2746,7 +2730,6 @@ func encodeGetEventsV1APIResourcesResponse(response GetEventsV1APIResourcesRes, 
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2758,7 +2741,6 @@ func encodeGetEventsV1APIResourcesResponse(response GetEventsV1APIResourcesRes, 
 
 	case *GetEventsV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2772,7 +2754,6 @@ func encodeGetEventsV1beta1APIResourcesResponse(response GetEventsV1beta1APIReso
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2784,7 +2765,6 @@ func encodeGetEventsV1beta1APIResourcesResponse(response GetEventsV1beta1APIReso
 
 	case *GetEventsV1beta1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2798,7 +2778,6 @@ func encodeGetFlowcontrolApiserverAPIGroupResponse(response GetFlowcontrolApiser
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2810,7 +2789,6 @@ func encodeGetFlowcontrolApiserverAPIGroupResponse(response GetFlowcontrolApiser
 
 	case *GetFlowcontrolApiserverAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2824,7 +2802,6 @@ func encodeGetFlowcontrolApiserverV1beta1APIResourcesResponse(response GetFlowco
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2836,7 +2813,6 @@ func encodeGetFlowcontrolApiserverV1beta1APIResourcesResponse(response GetFlowco
 
 	case *GetFlowcontrolApiserverV1beta1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2850,7 +2826,6 @@ func encodeGetFlowcontrolApiserverV1beta2APIResourcesResponse(response GetFlowco
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2862,7 +2837,6 @@ func encodeGetFlowcontrolApiserverV1beta2APIResourcesResponse(response GetFlowco
 
 	case *GetFlowcontrolApiserverV1beta2APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2876,7 +2850,6 @@ func encodeGetInternalApiserverAPIGroupResponse(response GetInternalApiserverAPI
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2888,7 +2861,6 @@ func encodeGetInternalApiserverAPIGroupResponse(response GetInternalApiserverAPI
 
 	case *GetInternalApiserverAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2902,7 +2874,6 @@ func encodeGetInternalApiserverV1alpha1APIResourcesResponse(response GetInternal
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2914,7 +2885,6 @@ func encodeGetInternalApiserverV1alpha1APIResourcesResponse(response GetInternal
 
 	case *GetInternalApiserverV1alpha1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2928,7 +2898,6 @@ func encodeGetNetworkingAPIGroupResponse(response GetNetworkingAPIGroupRes, w ht
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2940,7 +2909,6 @@ func encodeGetNetworkingAPIGroupResponse(response GetNetworkingAPIGroupRes, w ht
 
 	case *GetNetworkingAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2954,7 +2922,6 @@ func encodeGetNetworkingV1APIResourcesResponse(response GetNetworkingV1APIResour
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2966,7 +2933,6 @@ func encodeGetNetworkingV1APIResourcesResponse(response GetNetworkingV1APIResour
 
 	case *GetNetworkingV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -2980,7 +2946,6 @@ func encodeGetNodeAPIGroupResponse(response GetNodeAPIGroupRes, w http.ResponseW
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -2992,7 +2957,6 @@ func encodeGetNodeAPIGroupResponse(response GetNodeAPIGroupRes, w http.ResponseW
 
 	case *GetNodeAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3006,7 +2970,6 @@ func encodeGetNodeV1APIResourcesResponse(response GetNodeV1APIResourcesRes, w ht
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3018,7 +2981,6 @@ func encodeGetNodeV1APIResourcesResponse(response GetNodeV1APIResourcesRes, w ht
 
 	case *GetNodeV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3032,7 +2994,6 @@ func encodeGetNodeV1alpha1APIResourcesResponse(response GetNodeV1alpha1APIResour
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3044,7 +3005,6 @@ func encodeGetNodeV1alpha1APIResourcesResponse(response GetNodeV1alpha1APIResour
 
 	case *GetNodeV1alpha1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3058,7 +3018,6 @@ func encodeGetNodeV1beta1APIResourcesResponse(response GetNodeV1beta1APIResource
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3070,7 +3029,6 @@ func encodeGetNodeV1beta1APIResourcesResponse(response GetNodeV1beta1APIResource
 
 	case *GetNodeV1beta1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3084,7 +3042,6 @@ func encodeGetPolicyAPIGroupResponse(response GetPolicyAPIGroupRes, w http.Respo
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3096,7 +3053,6 @@ func encodeGetPolicyAPIGroupResponse(response GetPolicyAPIGroupRes, w http.Respo
 
 	case *GetPolicyAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3110,7 +3066,6 @@ func encodeGetPolicyV1APIResourcesResponse(response GetPolicyV1APIResourcesRes, 
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3122,7 +3077,6 @@ func encodeGetPolicyV1APIResourcesResponse(response GetPolicyV1APIResourcesRes, 
 
 	case *GetPolicyV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3136,7 +3090,6 @@ func encodeGetPolicyV1beta1APIResourcesResponse(response GetPolicyV1beta1APIReso
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3148,7 +3101,6 @@ func encodeGetPolicyV1beta1APIResourcesResponse(response GetPolicyV1beta1APIReso
 
 	case *GetPolicyV1beta1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3162,7 +3114,6 @@ func encodeGetRbacAuthorizationAPIGroupResponse(response GetRbacAuthorizationAPI
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3174,7 +3125,6 @@ func encodeGetRbacAuthorizationAPIGroupResponse(response GetRbacAuthorizationAPI
 
 	case *GetRbacAuthorizationAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3188,7 +3138,6 @@ func encodeGetRbacAuthorizationV1APIResourcesResponse(response GetRbacAuthorizat
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3200,7 +3149,6 @@ func encodeGetRbacAuthorizationV1APIResourcesResponse(response GetRbacAuthorizat
 
 	case *GetRbacAuthorizationV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3214,7 +3162,6 @@ func encodeGetSchedulingAPIGroupResponse(response GetSchedulingAPIGroupRes, w ht
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3226,7 +3173,6 @@ func encodeGetSchedulingAPIGroupResponse(response GetSchedulingAPIGroupRes, w ht
 
 	case *GetSchedulingAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3240,7 +3186,6 @@ func encodeGetSchedulingV1APIResourcesResponse(response GetSchedulingV1APIResour
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3252,7 +3197,6 @@ func encodeGetSchedulingV1APIResourcesResponse(response GetSchedulingV1APIResour
 
 	case *GetSchedulingV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3266,7 +3210,6 @@ func encodeGetServiceAccountIssuerOpenIDConfigurationResponse(response GetServic
 	case *GetServiceAccountIssuerOpenIDConfigurationOKApplicationJSON:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3278,7 +3221,6 @@ func encodeGetServiceAccountIssuerOpenIDConfigurationResponse(response GetServic
 
 	case *GetServiceAccountIssuerOpenIDConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3289,13 +3231,13 @@ func encodeGetServiceAccountIssuerOpenIDConfigurationResponse(response GetServic
 
 func encodeGetServiceAccountIssuerOpenIDKeysetResponse(response GetServiceAccountIssuerOpenIDKeysetRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
-	case *GetServiceAccountIssuerOpenIDKeysetOK:
+	case *GetServiceAccountIssuerOpenIDKeysetOKApplicationJwkSetJSON:
 		w.Header().Set("Content-Type", "application/jwk-set+json")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
-		writer := w
-		if _, err := io.Copy(writer, response); err != nil {
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
 			return errors.Wrap(err, "write")
 		}
 
@@ -3303,7 +3245,6 @@ func encodeGetServiceAccountIssuerOpenIDKeysetResponse(response GetServiceAccoun
 
 	case *GetServiceAccountIssuerOpenIDKeysetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3317,7 +3258,6 @@ func encodeGetStorageAPIGroupResponse(response GetStorageAPIGroupRes, w http.Res
 	case *IoK8sApimachineryPkgApisMetaV1APIGroup:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3329,7 +3269,6 @@ func encodeGetStorageAPIGroupResponse(response GetStorageAPIGroupRes, w http.Res
 
 	case *GetStorageAPIGroupUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3343,7 +3282,6 @@ func encodeGetStorageV1APIResourcesResponse(response GetStorageV1APIResourcesRes
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3355,7 +3293,6 @@ func encodeGetStorageV1APIResourcesResponse(response GetStorageV1APIResourcesRes
 
 	case *GetStorageV1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3369,7 +3306,6 @@ func encodeGetStorageV1alpha1APIResourcesResponse(response GetStorageV1alpha1API
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3381,7 +3317,6 @@ func encodeGetStorageV1alpha1APIResourcesResponse(response GetStorageV1alpha1API
 
 	case *GetStorageV1alpha1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3395,7 +3330,6 @@ func encodeGetStorageV1beta1APIResourcesResponse(response GetStorageV1beta1APIRe
 	case *IoK8sApimachineryPkgApisMetaV1APIResourceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3407,7 +3341,6 @@ func encodeGetStorageV1beta1APIResourcesResponse(response GetStorageV1beta1APIRe
 
 	case *GetStorageV1beta1APIResourcesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3421,7 +3354,6 @@ func encodeListAdmissionregistrationV1MutatingWebhookConfigurationResponse(respo
 	case *IoK8sAPIAdmissionregistrationV1MutatingWebhookConfigurationList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3433,7 +3365,6 @@ func encodeListAdmissionregistrationV1MutatingWebhookConfigurationResponse(respo
 
 	case *ListAdmissionregistrationV1MutatingWebhookConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3447,7 +3378,6 @@ func encodeListAdmissionregistrationV1ValidatingWebhookConfigurationResponse(res
 	case *IoK8sAPIAdmissionregistrationV1ValidatingWebhookConfigurationList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3459,7 +3389,6 @@ func encodeListAdmissionregistrationV1ValidatingWebhookConfigurationResponse(res
 
 	case *ListAdmissionregistrationV1ValidatingWebhookConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3473,7 +3402,6 @@ func encodeListApiextensionsV1CustomResourceDefinitionResponse(response ListApie
 	case *IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefinitionList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3485,7 +3413,6 @@ func encodeListApiextensionsV1CustomResourceDefinitionResponse(response ListApie
 
 	case *ListApiextensionsV1CustomResourceDefinitionUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3499,7 +3426,6 @@ func encodeListApiregistrationV1APIServiceResponse(response ListApiregistrationV
 	case *IoK8sKubeAggregatorPkgApisApiregistrationV1APIServiceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3511,7 +3437,6 @@ func encodeListApiregistrationV1APIServiceResponse(response ListApiregistrationV
 
 	case *ListApiregistrationV1APIServiceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3525,7 +3450,6 @@ func encodeListAppsV1ControllerRevisionForAllNamespacesResponse(response ListApp
 	case *IoK8sAPIAppsV1ControllerRevisionList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3537,7 +3461,6 @@ func encodeListAppsV1ControllerRevisionForAllNamespacesResponse(response ListApp
 
 	case *ListAppsV1ControllerRevisionForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3551,7 +3474,6 @@ func encodeListAppsV1DaemonSetForAllNamespacesResponse(response ListAppsV1Daemon
 	case *IoK8sAPIAppsV1DaemonSetList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3563,7 +3485,6 @@ func encodeListAppsV1DaemonSetForAllNamespacesResponse(response ListAppsV1Daemon
 
 	case *ListAppsV1DaemonSetForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3577,7 +3498,6 @@ func encodeListAppsV1DeploymentForAllNamespacesResponse(response ListAppsV1Deplo
 	case *IoK8sAPIAppsV1DeploymentList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3589,7 +3509,6 @@ func encodeListAppsV1DeploymentForAllNamespacesResponse(response ListAppsV1Deplo
 
 	case *ListAppsV1DeploymentForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3603,7 +3522,6 @@ func encodeListAppsV1NamespacedControllerRevisionResponse(response ListAppsV1Nam
 	case *IoK8sAPIAppsV1ControllerRevisionList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3615,7 +3533,6 @@ func encodeListAppsV1NamespacedControllerRevisionResponse(response ListAppsV1Nam
 
 	case *ListAppsV1NamespacedControllerRevisionUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3629,7 +3546,6 @@ func encodeListAppsV1NamespacedDaemonSetResponse(response ListAppsV1NamespacedDa
 	case *IoK8sAPIAppsV1DaemonSetList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3641,7 +3557,6 @@ func encodeListAppsV1NamespacedDaemonSetResponse(response ListAppsV1NamespacedDa
 
 	case *ListAppsV1NamespacedDaemonSetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3655,7 +3570,6 @@ func encodeListAppsV1NamespacedDeploymentResponse(response ListAppsV1NamespacedD
 	case *IoK8sAPIAppsV1DeploymentList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3667,7 +3581,6 @@ func encodeListAppsV1NamespacedDeploymentResponse(response ListAppsV1NamespacedD
 
 	case *ListAppsV1NamespacedDeploymentUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3681,7 +3594,6 @@ func encodeListAppsV1NamespacedReplicaSetResponse(response ListAppsV1NamespacedR
 	case *IoK8sAPIAppsV1ReplicaSetList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3693,7 +3605,6 @@ func encodeListAppsV1NamespacedReplicaSetResponse(response ListAppsV1NamespacedR
 
 	case *ListAppsV1NamespacedReplicaSetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3707,7 +3618,6 @@ func encodeListAppsV1NamespacedStatefulSetResponse(response ListAppsV1Namespaced
 	case *IoK8sAPIAppsV1StatefulSetList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3719,7 +3629,6 @@ func encodeListAppsV1NamespacedStatefulSetResponse(response ListAppsV1Namespaced
 
 	case *ListAppsV1NamespacedStatefulSetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3733,7 +3642,6 @@ func encodeListAppsV1ReplicaSetForAllNamespacesResponse(response ListAppsV1Repli
 	case *IoK8sAPIAppsV1ReplicaSetList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3745,7 +3653,6 @@ func encodeListAppsV1ReplicaSetForAllNamespacesResponse(response ListAppsV1Repli
 
 	case *ListAppsV1ReplicaSetForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3759,7 +3666,6 @@ func encodeListAppsV1StatefulSetForAllNamespacesResponse(response ListAppsV1Stat
 	case *IoK8sAPIAppsV1StatefulSetList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3771,7 +3677,6 @@ func encodeListAppsV1StatefulSetForAllNamespacesResponse(response ListAppsV1Stat
 
 	case *ListAppsV1StatefulSetForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3785,7 +3690,6 @@ func encodeListAutoscalingV1HorizontalPodAutoscalerForAllNamespacesResponse(resp
 	case *IoK8sAPIAutoscalingV1HorizontalPodAutoscalerList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3797,7 +3701,6 @@ func encodeListAutoscalingV1HorizontalPodAutoscalerForAllNamespacesResponse(resp
 
 	case *ListAutoscalingV1HorizontalPodAutoscalerForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3811,7 +3714,6 @@ func encodeListAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(response L
 	case *IoK8sAPIAutoscalingV1HorizontalPodAutoscalerList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3823,7 +3725,6 @@ func encodeListAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(response L
 
 	case *ListAutoscalingV1NamespacedHorizontalPodAutoscalerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3837,7 +3738,6 @@ func encodeListAutoscalingV2beta1HorizontalPodAutoscalerForAllNamespacesResponse
 	case *IoK8sAPIAutoscalingV2beta1HorizontalPodAutoscalerList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3849,7 +3749,6 @@ func encodeListAutoscalingV2beta1HorizontalPodAutoscalerForAllNamespacesResponse
 
 	case *ListAutoscalingV2beta1HorizontalPodAutoscalerForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3863,7 +3762,6 @@ func encodeListAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(respo
 	case *IoK8sAPIAutoscalingV2beta1HorizontalPodAutoscalerList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3875,7 +3773,6 @@ func encodeListAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(respo
 
 	case *ListAutoscalingV2beta1NamespacedHorizontalPodAutoscalerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3889,7 +3786,6 @@ func encodeListAutoscalingV2beta2HorizontalPodAutoscalerForAllNamespacesResponse
 	case *IoK8sAPIAutoscalingV2beta2HorizontalPodAutoscalerList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3901,7 +3797,6 @@ func encodeListAutoscalingV2beta2HorizontalPodAutoscalerForAllNamespacesResponse
 
 	case *ListAutoscalingV2beta2HorizontalPodAutoscalerForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3915,7 +3810,6 @@ func encodeListAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(respo
 	case *IoK8sAPIAutoscalingV2beta2HorizontalPodAutoscalerList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3927,7 +3821,6 @@ func encodeListAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(respo
 
 	case *ListAutoscalingV2beta2NamespacedHorizontalPodAutoscalerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3941,7 +3834,6 @@ func encodeListBatchV1CronJobForAllNamespacesResponse(response ListBatchV1CronJo
 	case *IoK8sAPIBatchV1CronJobList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3953,7 +3845,6 @@ func encodeListBatchV1CronJobForAllNamespacesResponse(response ListBatchV1CronJo
 
 	case *ListBatchV1CronJobForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3967,7 +3858,6 @@ func encodeListBatchV1JobForAllNamespacesResponse(response ListBatchV1JobForAllN
 	case *IoK8sAPIBatchV1JobList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -3979,7 +3869,6 @@ func encodeListBatchV1JobForAllNamespacesResponse(response ListBatchV1JobForAllN
 
 	case *ListBatchV1JobForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -3993,7 +3882,6 @@ func encodeListBatchV1NamespacedCronJobResponse(response ListBatchV1NamespacedCr
 	case *IoK8sAPIBatchV1CronJobList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4005,7 +3893,6 @@ func encodeListBatchV1NamespacedCronJobResponse(response ListBatchV1NamespacedCr
 
 	case *ListBatchV1NamespacedCronJobUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4019,7 +3906,6 @@ func encodeListBatchV1NamespacedJobResponse(response ListBatchV1NamespacedJobRes
 	case *IoK8sAPIBatchV1JobList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4031,7 +3917,6 @@ func encodeListBatchV1NamespacedJobResponse(response ListBatchV1NamespacedJobRes
 
 	case *ListBatchV1NamespacedJobUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4045,7 +3930,6 @@ func encodeListBatchV1beta1CronJobForAllNamespacesResponse(response ListBatchV1b
 	case *IoK8sAPIBatchV1beta1CronJobList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4057,7 +3941,6 @@ func encodeListBatchV1beta1CronJobForAllNamespacesResponse(response ListBatchV1b
 
 	case *ListBatchV1beta1CronJobForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4071,7 +3954,6 @@ func encodeListBatchV1beta1NamespacedCronJobResponse(response ListBatchV1beta1Na
 	case *IoK8sAPIBatchV1beta1CronJobList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4083,7 +3965,6 @@ func encodeListBatchV1beta1NamespacedCronJobResponse(response ListBatchV1beta1Na
 
 	case *ListBatchV1beta1NamespacedCronJobUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4097,7 +3978,6 @@ func encodeListCertificatesV1CertificateSigningRequestResponse(response ListCert
 	case *IoK8sAPICertificatesV1CertificateSigningRequestList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4109,7 +3989,6 @@ func encodeListCertificatesV1CertificateSigningRequestResponse(response ListCert
 
 	case *ListCertificatesV1CertificateSigningRequestUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4123,7 +4002,6 @@ func encodeListCoordinationV1LeaseForAllNamespacesResponse(response ListCoordina
 	case *IoK8sAPICoordinationV1LeaseList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4135,7 +4013,6 @@ func encodeListCoordinationV1LeaseForAllNamespacesResponse(response ListCoordina
 
 	case *ListCoordinationV1LeaseForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4149,7 +4026,6 @@ func encodeListCoordinationV1NamespacedLeaseResponse(response ListCoordinationV1
 	case *IoK8sAPICoordinationV1LeaseList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4161,7 +4037,6 @@ func encodeListCoordinationV1NamespacedLeaseResponse(response ListCoordinationV1
 
 	case *ListCoordinationV1NamespacedLeaseUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4175,7 +4050,6 @@ func encodeListCoreV1ComponentStatusResponse(response ListCoreV1ComponentStatusR
 	case *IoK8sAPICoreV1ComponentStatusList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4187,7 +4061,6 @@ func encodeListCoreV1ComponentStatusResponse(response ListCoreV1ComponentStatusR
 
 	case *ListCoreV1ComponentStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4201,7 +4074,6 @@ func encodeListCoreV1ConfigMapForAllNamespacesResponse(response ListCoreV1Config
 	case *IoK8sAPICoreV1ConfigMapList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4213,7 +4085,6 @@ func encodeListCoreV1ConfigMapForAllNamespacesResponse(response ListCoreV1Config
 
 	case *ListCoreV1ConfigMapForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4227,7 +4098,6 @@ func encodeListCoreV1EndpointsForAllNamespacesResponse(response ListCoreV1Endpoi
 	case *IoK8sAPICoreV1EndpointsList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4239,7 +4109,6 @@ func encodeListCoreV1EndpointsForAllNamespacesResponse(response ListCoreV1Endpoi
 
 	case *ListCoreV1EndpointsForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4253,7 +4122,6 @@ func encodeListCoreV1EventForAllNamespacesResponse(response ListCoreV1EventForAl
 	case *IoK8sAPICoreV1EventList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4265,7 +4133,6 @@ func encodeListCoreV1EventForAllNamespacesResponse(response ListCoreV1EventForAl
 
 	case *ListCoreV1EventForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4279,7 +4146,6 @@ func encodeListCoreV1LimitRangeForAllNamespacesResponse(response ListCoreV1Limit
 	case *IoK8sAPICoreV1LimitRangeList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4291,7 +4157,6 @@ func encodeListCoreV1LimitRangeForAllNamespacesResponse(response ListCoreV1Limit
 
 	case *ListCoreV1LimitRangeForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4305,7 +4170,6 @@ func encodeListCoreV1NamespaceResponse(response ListCoreV1NamespaceRes, w http.R
 	case *IoK8sAPICoreV1NamespaceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4317,7 +4181,6 @@ func encodeListCoreV1NamespaceResponse(response ListCoreV1NamespaceRes, w http.R
 
 	case *ListCoreV1NamespaceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4331,7 +4194,6 @@ func encodeListCoreV1NamespacedConfigMapResponse(response ListCoreV1NamespacedCo
 	case *IoK8sAPICoreV1ConfigMapList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4343,7 +4205,6 @@ func encodeListCoreV1NamespacedConfigMapResponse(response ListCoreV1NamespacedCo
 
 	case *ListCoreV1NamespacedConfigMapUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4357,7 +4218,6 @@ func encodeListCoreV1NamespacedEndpointsResponse(response ListCoreV1NamespacedEn
 	case *IoK8sAPICoreV1EndpointsList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4369,7 +4229,6 @@ func encodeListCoreV1NamespacedEndpointsResponse(response ListCoreV1NamespacedEn
 
 	case *ListCoreV1NamespacedEndpointsUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4383,7 +4242,6 @@ func encodeListCoreV1NamespacedEventResponse(response ListCoreV1NamespacedEventR
 	case *IoK8sAPICoreV1EventList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4395,7 +4253,6 @@ func encodeListCoreV1NamespacedEventResponse(response ListCoreV1NamespacedEventR
 
 	case *ListCoreV1NamespacedEventUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4409,7 +4266,6 @@ func encodeListCoreV1NamespacedLimitRangeResponse(response ListCoreV1NamespacedL
 	case *IoK8sAPICoreV1LimitRangeList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4421,7 +4277,6 @@ func encodeListCoreV1NamespacedLimitRangeResponse(response ListCoreV1NamespacedL
 
 	case *ListCoreV1NamespacedLimitRangeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4435,7 +4290,6 @@ func encodeListCoreV1NamespacedPersistentVolumeClaimResponse(response ListCoreV1
 	case *IoK8sAPICoreV1PersistentVolumeClaimList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4447,7 +4301,6 @@ func encodeListCoreV1NamespacedPersistentVolumeClaimResponse(response ListCoreV1
 
 	case *ListCoreV1NamespacedPersistentVolumeClaimUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4461,7 +4314,6 @@ func encodeListCoreV1NamespacedPodResponse(response ListCoreV1NamespacedPodRes, 
 	case *IoK8sAPICoreV1PodList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4473,7 +4325,6 @@ func encodeListCoreV1NamespacedPodResponse(response ListCoreV1NamespacedPodRes, 
 
 	case *ListCoreV1NamespacedPodUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4487,7 +4338,6 @@ func encodeListCoreV1NamespacedPodTemplateResponse(response ListCoreV1Namespaced
 	case *IoK8sAPICoreV1PodTemplateList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4499,7 +4349,6 @@ func encodeListCoreV1NamespacedPodTemplateResponse(response ListCoreV1Namespaced
 
 	case *ListCoreV1NamespacedPodTemplateUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4513,7 +4362,6 @@ func encodeListCoreV1NamespacedReplicationControllerResponse(response ListCoreV1
 	case *IoK8sAPICoreV1ReplicationControllerList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4525,7 +4373,6 @@ func encodeListCoreV1NamespacedReplicationControllerResponse(response ListCoreV1
 
 	case *ListCoreV1NamespacedReplicationControllerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4539,7 +4386,6 @@ func encodeListCoreV1NamespacedResourceQuotaResponse(response ListCoreV1Namespac
 	case *IoK8sAPICoreV1ResourceQuotaList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4551,7 +4397,6 @@ func encodeListCoreV1NamespacedResourceQuotaResponse(response ListCoreV1Namespac
 
 	case *ListCoreV1NamespacedResourceQuotaUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4565,7 +4410,6 @@ func encodeListCoreV1NamespacedSecretResponse(response ListCoreV1NamespacedSecre
 	case *IoK8sAPICoreV1SecretList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4577,7 +4421,6 @@ func encodeListCoreV1NamespacedSecretResponse(response ListCoreV1NamespacedSecre
 
 	case *ListCoreV1NamespacedSecretUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4591,7 +4434,6 @@ func encodeListCoreV1NamespacedServiceResponse(response ListCoreV1NamespacedServ
 	case *IoK8sAPICoreV1ServiceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4603,7 +4445,6 @@ func encodeListCoreV1NamespacedServiceResponse(response ListCoreV1NamespacedServ
 
 	case *ListCoreV1NamespacedServiceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4617,7 +4458,6 @@ func encodeListCoreV1NamespacedServiceAccountResponse(response ListCoreV1Namespa
 	case *IoK8sAPICoreV1ServiceAccountList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4629,7 +4469,6 @@ func encodeListCoreV1NamespacedServiceAccountResponse(response ListCoreV1Namespa
 
 	case *ListCoreV1NamespacedServiceAccountUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4643,7 +4482,6 @@ func encodeListCoreV1NodeResponse(response ListCoreV1NodeRes, w http.ResponseWri
 	case *IoK8sAPICoreV1NodeList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4655,7 +4493,6 @@ func encodeListCoreV1NodeResponse(response ListCoreV1NodeRes, w http.ResponseWri
 
 	case *ListCoreV1NodeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4669,7 +4506,6 @@ func encodeListCoreV1PersistentVolumeResponse(response ListCoreV1PersistentVolum
 	case *IoK8sAPICoreV1PersistentVolumeList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4681,7 +4517,6 @@ func encodeListCoreV1PersistentVolumeResponse(response ListCoreV1PersistentVolum
 
 	case *ListCoreV1PersistentVolumeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4695,7 +4530,6 @@ func encodeListCoreV1PersistentVolumeClaimForAllNamespacesResponse(response List
 	case *IoK8sAPICoreV1PersistentVolumeClaimList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4707,7 +4541,6 @@ func encodeListCoreV1PersistentVolumeClaimForAllNamespacesResponse(response List
 
 	case *ListCoreV1PersistentVolumeClaimForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4721,7 +4554,6 @@ func encodeListCoreV1PodForAllNamespacesResponse(response ListCoreV1PodForAllNam
 	case *IoK8sAPICoreV1PodList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4733,7 +4565,6 @@ func encodeListCoreV1PodForAllNamespacesResponse(response ListCoreV1PodForAllNam
 
 	case *ListCoreV1PodForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4747,7 +4578,6 @@ func encodeListCoreV1PodTemplateForAllNamespacesResponse(response ListCoreV1PodT
 	case *IoK8sAPICoreV1PodTemplateList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4759,7 +4589,6 @@ func encodeListCoreV1PodTemplateForAllNamespacesResponse(response ListCoreV1PodT
 
 	case *ListCoreV1PodTemplateForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4773,7 +4602,6 @@ func encodeListCoreV1ReplicationControllerForAllNamespacesResponse(response List
 	case *IoK8sAPICoreV1ReplicationControllerList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4785,7 +4613,6 @@ func encodeListCoreV1ReplicationControllerForAllNamespacesResponse(response List
 
 	case *ListCoreV1ReplicationControllerForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4799,7 +4626,6 @@ func encodeListCoreV1ResourceQuotaForAllNamespacesResponse(response ListCoreV1Re
 	case *IoK8sAPICoreV1ResourceQuotaList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4811,7 +4637,6 @@ func encodeListCoreV1ResourceQuotaForAllNamespacesResponse(response ListCoreV1Re
 
 	case *ListCoreV1ResourceQuotaForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4825,7 +4650,6 @@ func encodeListCoreV1SecretForAllNamespacesResponse(response ListCoreV1SecretFor
 	case *IoK8sAPICoreV1SecretList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4837,7 +4661,6 @@ func encodeListCoreV1SecretForAllNamespacesResponse(response ListCoreV1SecretFor
 
 	case *ListCoreV1SecretForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4851,7 +4674,6 @@ func encodeListCoreV1ServiceAccountForAllNamespacesResponse(response ListCoreV1S
 	case *IoK8sAPICoreV1ServiceAccountList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4863,7 +4685,6 @@ func encodeListCoreV1ServiceAccountForAllNamespacesResponse(response ListCoreV1S
 
 	case *ListCoreV1ServiceAccountForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4877,7 +4698,6 @@ func encodeListCoreV1ServiceForAllNamespacesResponse(response ListCoreV1ServiceF
 	case *IoK8sAPICoreV1ServiceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4889,7 +4709,6 @@ func encodeListCoreV1ServiceForAllNamespacesResponse(response ListCoreV1ServiceF
 
 	case *ListCoreV1ServiceForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4903,7 +4722,6 @@ func encodeListDiscoveryV1EndpointSliceForAllNamespacesResponse(response ListDis
 	case *IoK8sAPIDiscoveryV1EndpointSliceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4915,7 +4733,6 @@ func encodeListDiscoveryV1EndpointSliceForAllNamespacesResponse(response ListDis
 
 	case *ListDiscoveryV1EndpointSliceForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4929,7 +4746,6 @@ func encodeListDiscoveryV1NamespacedEndpointSliceResponse(response ListDiscovery
 	case *IoK8sAPIDiscoveryV1EndpointSliceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4941,7 +4757,6 @@ func encodeListDiscoveryV1NamespacedEndpointSliceResponse(response ListDiscovery
 
 	case *ListDiscoveryV1NamespacedEndpointSliceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4955,7 +4770,6 @@ func encodeListDiscoveryV1beta1EndpointSliceForAllNamespacesResponse(response Li
 	case *IoK8sAPIDiscoveryV1beta1EndpointSliceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4967,7 +4781,6 @@ func encodeListDiscoveryV1beta1EndpointSliceForAllNamespacesResponse(response Li
 
 	case *ListDiscoveryV1beta1EndpointSliceForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -4981,7 +4794,6 @@ func encodeListDiscoveryV1beta1NamespacedEndpointSliceResponse(response ListDisc
 	case *IoK8sAPIDiscoveryV1beta1EndpointSliceList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -4993,7 +4805,6 @@ func encodeListDiscoveryV1beta1NamespacedEndpointSliceResponse(response ListDisc
 
 	case *ListDiscoveryV1beta1NamespacedEndpointSliceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5007,7 +4818,6 @@ func encodeListEventsV1EventForAllNamespacesResponse(response ListEventsV1EventF
 	case *IoK8sAPIEventsV1EventList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5019,7 +4829,6 @@ func encodeListEventsV1EventForAllNamespacesResponse(response ListEventsV1EventF
 
 	case *ListEventsV1EventForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5033,7 +4842,6 @@ func encodeListEventsV1NamespacedEventResponse(response ListEventsV1NamespacedEv
 	case *IoK8sAPIEventsV1EventList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5045,7 +4853,6 @@ func encodeListEventsV1NamespacedEventResponse(response ListEventsV1NamespacedEv
 
 	case *ListEventsV1NamespacedEventUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5059,7 +4866,6 @@ func encodeListEventsV1beta1EventForAllNamespacesResponse(response ListEventsV1b
 	case *IoK8sAPIEventsV1beta1EventList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5071,7 +4877,6 @@ func encodeListEventsV1beta1EventForAllNamespacesResponse(response ListEventsV1b
 
 	case *ListEventsV1beta1EventForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5085,7 +4890,6 @@ func encodeListEventsV1beta1NamespacedEventResponse(response ListEventsV1beta1Na
 	case *IoK8sAPIEventsV1beta1EventList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5097,7 +4901,6 @@ func encodeListEventsV1beta1NamespacedEventResponse(response ListEventsV1beta1Na
 
 	case *ListEventsV1beta1NamespacedEventUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5111,7 +4914,6 @@ func encodeListFlowcontrolApiserverV1beta1FlowSchemaResponse(response ListFlowco
 	case *IoK8sAPIFlowcontrolV1beta1FlowSchemaList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5123,7 +4925,6 @@ func encodeListFlowcontrolApiserverV1beta1FlowSchemaResponse(response ListFlowco
 
 	case *ListFlowcontrolApiserverV1beta1FlowSchemaUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5137,7 +4938,6 @@ func encodeListFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(res
 	case *IoK8sAPIFlowcontrolV1beta1PriorityLevelConfigurationList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5149,7 +4949,6 @@ func encodeListFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(res
 
 	case *ListFlowcontrolApiserverV1beta1PriorityLevelConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5163,7 +4962,6 @@ func encodeListFlowcontrolApiserverV1beta2FlowSchemaResponse(response ListFlowco
 	case *IoK8sAPIFlowcontrolV1beta2FlowSchemaList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5175,7 +4973,6 @@ func encodeListFlowcontrolApiserverV1beta2FlowSchemaResponse(response ListFlowco
 
 	case *ListFlowcontrolApiserverV1beta2FlowSchemaUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5189,7 +4986,6 @@ func encodeListFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(res
 	case *IoK8sAPIFlowcontrolV1beta2PriorityLevelConfigurationList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5201,7 +4997,6 @@ func encodeListFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(res
 
 	case *ListFlowcontrolApiserverV1beta2PriorityLevelConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5215,7 +5010,6 @@ func encodeListInternalApiserverV1alpha1StorageVersionResponse(response ListInte
 	case *IoK8sAPIApiserverinternalV1alpha1StorageVersionList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5227,7 +5021,6 @@ func encodeListInternalApiserverV1alpha1StorageVersionResponse(response ListInte
 
 	case *ListInternalApiserverV1alpha1StorageVersionUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5241,7 +5034,6 @@ func encodeListNetworkingV1IngressClassResponse(response ListNetworkingV1Ingress
 	case *IoK8sAPINetworkingV1IngressClassList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5253,7 +5045,6 @@ func encodeListNetworkingV1IngressClassResponse(response ListNetworkingV1Ingress
 
 	case *ListNetworkingV1IngressClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5267,7 +5058,6 @@ func encodeListNetworkingV1IngressForAllNamespacesResponse(response ListNetworki
 	case *IoK8sAPINetworkingV1IngressList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5279,7 +5069,6 @@ func encodeListNetworkingV1IngressForAllNamespacesResponse(response ListNetworki
 
 	case *ListNetworkingV1IngressForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5293,7 +5082,6 @@ func encodeListNetworkingV1NamespacedIngressResponse(response ListNetworkingV1Na
 	case *IoK8sAPINetworkingV1IngressList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5305,7 +5093,6 @@ func encodeListNetworkingV1NamespacedIngressResponse(response ListNetworkingV1Na
 
 	case *ListNetworkingV1NamespacedIngressUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5319,7 +5106,6 @@ func encodeListNetworkingV1NamespacedNetworkPolicyResponse(response ListNetworki
 	case *IoK8sAPINetworkingV1NetworkPolicyList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5331,7 +5117,6 @@ func encodeListNetworkingV1NamespacedNetworkPolicyResponse(response ListNetworki
 
 	case *ListNetworkingV1NamespacedNetworkPolicyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5345,7 +5130,6 @@ func encodeListNetworkingV1NetworkPolicyForAllNamespacesResponse(response ListNe
 	case *IoK8sAPINetworkingV1NetworkPolicyList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5357,7 +5141,6 @@ func encodeListNetworkingV1NetworkPolicyForAllNamespacesResponse(response ListNe
 
 	case *ListNetworkingV1NetworkPolicyForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5371,7 +5154,6 @@ func encodeListNodeV1RuntimeClassResponse(response ListNodeV1RuntimeClassRes, w 
 	case *IoK8sAPINodeV1RuntimeClassList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5383,7 +5165,6 @@ func encodeListNodeV1RuntimeClassResponse(response ListNodeV1RuntimeClassRes, w 
 
 	case *ListNodeV1RuntimeClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5397,7 +5178,6 @@ func encodeListNodeV1alpha1RuntimeClassResponse(response ListNodeV1alpha1Runtime
 	case *IoK8sAPINodeV1alpha1RuntimeClassList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5409,7 +5189,6 @@ func encodeListNodeV1alpha1RuntimeClassResponse(response ListNodeV1alpha1Runtime
 
 	case *ListNodeV1alpha1RuntimeClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5423,7 +5202,6 @@ func encodeListNodeV1beta1RuntimeClassResponse(response ListNodeV1beta1RuntimeCl
 	case *IoK8sAPINodeV1beta1RuntimeClassList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5435,7 +5213,6 @@ func encodeListNodeV1beta1RuntimeClassResponse(response ListNodeV1beta1RuntimeCl
 
 	case *ListNodeV1beta1RuntimeClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5449,7 +5226,6 @@ func encodeListPolicyV1NamespacedPodDisruptionBudgetResponse(response ListPolicy
 	case *IoK8sAPIPolicyV1PodDisruptionBudgetList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5461,7 +5237,6 @@ func encodeListPolicyV1NamespacedPodDisruptionBudgetResponse(response ListPolicy
 
 	case *ListPolicyV1NamespacedPodDisruptionBudgetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5475,7 +5250,6 @@ func encodeListPolicyV1PodDisruptionBudgetForAllNamespacesResponse(response List
 	case *IoK8sAPIPolicyV1PodDisruptionBudgetList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5487,7 +5261,6 @@ func encodeListPolicyV1PodDisruptionBudgetForAllNamespacesResponse(response List
 
 	case *ListPolicyV1PodDisruptionBudgetForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5501,7 +5274,6 @@ func encodeListPolicyV1beta1NamespacedPodDisruptionBudgetResponse(response ListP
 	case *IoK8sAPIPolicyV1beta1PodDisruptionBudgetList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5513,7 +5285,6 @@ func encodeListPolicyV1beta1NamespacedPodDisruptionBudgetResponse(response ListP
 
 	case *ListPolicyV1beta1NamespacedPodDisruptionBudgetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5527,7 +5298,6 @@ func encodeListPolicyV1beta1PodDisruptionBudgetForAllNamespacesResponse(response
 	case *IoK8sAPIPolicyV1beta1PodDisruptionBudgetList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5539,7 +5309,6 @@ func encodeListPolicyV1beta1PodDisruptionBudgetForAllNamespacesResponse(response
 
 	case *ListPolicyV1beta1PodDisruptionBudgetForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5553,7 +5322,6 @@ func encodeListPolicyV1beta1PodSecurityPolicyResponse(response ListPolicyV1beta1
 	case *IoK8sAPIPolicyV1beta1PodSecurityPolicyList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5565,7 +5333,6 @@ func encodeListPolicyV1beta1PodSecurityPolicyResponse(response ListPolicyV1beta1
 
 	case *ListPolicyV1beta1PodSecurityPolicyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5579,7 +5346,6 @@ func encodeListRbacAuthorizationV1ClusterRoleResponse(response ListRbacAuthoriza
 	case *IoK8sAPIRbacV1ClusterRoleList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5591,7 +5357,6 @@ func encodeListRbacAuthorizationV1ClusterRoleResponse(response ListRbacAuthoriza
 
 	case *ListRbacAuthorizationV1ClusterRoleUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5605,7 +5370,6 @@ func encodeListRbacAuthorizationV1ClusterRoleBindingResponse(response ListRbacAu
 	case *IoK8sAPIRbacV1ClusterRoleBindingList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5617,7 +5381,6 @@ func encodeListRbacAuthorizationV1ClusterRoleBindingResponse(response ListRbacAu
 
 	case *ListRbacAuthorizationV1ClusterRoleBindingUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5631,7 +5394,6 @@ func encodeListRbacAuthorizationV1NamespacedRoleResponse(response ListRbacAuthor
 	case *IoK8sAPIRbacV1RoleList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5643,7 +5405,6 @@ func encodeListRbacAuthorizationV1NamespacedRoleResponse(response ListRbacAuthor
 
 	case *ListRbacAuthorizationV1NamespacedRoleUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5657,7 +5418,6 @@ func encodeListRbacAuthorizationV1NamespacedRoleBindingResponse(response ListRba
 	case *IoK8sAPIRbacV1RoleBindingList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5669,7 +5429,6 @@ func encodeListRbacAuthorizationV1NamespacedRoleBindingResponse(response ListRba
 
 	case *ListRbacAuthorizationV1NamespacedRoleBindingUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5683,7 +5442,6 @@ func encodeListRbacAuthorizationV1RoleBindingForAllNamespacesResponse(response L
 	case *IoK8sAPIRbacV1RoleBindingList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5695,7 +5453,6 @@ func encodeListRbacAuthorizationV1RoleBindingForAllNamespacesResponse(response L
 
 	case *ListRbacAuthorizationV1RoleBindingForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5709,7 +5466,6 @@ func encodeListRbacAuthorizationV1RoleForAllNamespacesResponse(response ListRbac
 	case *IoK8sAPIRbacV1RoleList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5721,7 +5477,6 @@ func encodeListRbacAuthorizationV1RoleForAllNamespacesResponse(response ListRbac
 
 	case *ListRbacAuthorizationV1RoleForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5735,7 +5490,6 @@ func encodeListSchedulingV1PriorityClassResponse(response ListSchedulingV1Priori
 	case *IoK8sAPISchedulingV1PriorityClassList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5747,7 +5501,6 @@ func encodeListSchedulingV1PriorityClassResponse(response ListSchedulingV1Priori
 
 	case *ListSchedulingV1PriorityClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5761,7 +5514,6 @@ func encodeListStorageV1CSIDriverResponse(response ListStorageV1CSIDriverRes, w 
 	case *IoK8sAPIStorageV1CSIDriverList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5773,7 +5525,6 @@ func encodeListStorageV1CSIDriverResponse(response ListStorageV1CSIDriverRes, w 
 
 	case *ListStorageV1CSIDriverUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5787,7 +5538,6 @@ func encodeListStorageV1CSINodeResponse(response ListStorageV1CSINodeRes, w http
 	case *IoK8sAPIStorageV1CSINodeList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5799,7 +5549,6 @@ func encodeListStorageV1CSINodeResponse(response ListStorageV1CSINodeRes, w http
 
 	case *ListStorageV1CSINodeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5813,7 +5562,6 @@ func encodeListStorageV1StorageClassResponse(response ListStorageV1StorageClassR
 	case *IoK8sAPIStorageV1StorageClassList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5825,7 +5573,6 @@ func encodeListStorageV1StorageClassResponse(response ListStorageV1StorageClassR
 
 	case *ListStorageV1StorageClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5839,7 +5586,6 @@ func encodeListStorageV1VolumeAttachmentResponse(response ListStorageV1VolumeAtt
 	case *IoK8sAPIStorageV1VolumeAttachmentList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5851,7 +5597,6 @@ func encodeListStorageV1VolumeAttachmentResponse(response ListStorageV1VolumeAtt
 
 	case *ListStorageV1VolumeAttachmentUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5865,7 +5610,6 @@ func encodeListStorageV1alpha1CSIStorageCapacityForAllNamespacesResponse(respons
 	case *IoK8sAPIStorageV1alpha1CSIStorageCapacityList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5877,7 +5621,6 @@ func encodeListStorageV1alpha1CSIStorageCapacityForAllNamespacesResponse(respons
 
 	case *ListStorageV1alpha1CSIStorageCapacityForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5891,7 +5634,6 @@ func encodeListStorageV1alpha1NamespacedCSIStorageCapacityResponse(response List
 	case *IoK8sAPIStorageV1alpha1CSIStorageCapacityList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5903,7 +5645,6 @@ func encodeListStorageV1alpha1NamespacedCSIStorageCapacityResponse(response List
 
 	case *ListStorageV1alpha1NamespacedCSIStorageCapacityUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5917,7 +5658,6 @@ func encodeListStorageV1beta1CSIStorageCapacityForAllNamespacesResponse(response
 	case *IoK8sAPIStorageV1beta1CSIStorageCapacityList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5929,7 +5669,6 @@ func encodeListStorageV1beta1CSIStorageCapacityForAllNamespacesResponse(response
 
 	case *ListStorageV1beta1CSIStorageCapacityForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5943,7 +5682,6 @@ func encodeListStorageV1beta1NamespacedCSIStorageCapacityResponse(response ListS
 	case *IoK8sAPIStorageV1beta1CSIStorageCapacityList:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5955,7 +5693,6 @@ func encodeListStorageV1beta1NamespacedCSIStorageCapacityResponse(response ListS
 
 	case *ListStorageV1beta1NamespacedCSIStorageCapacityUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -5966,16 +5703,3506 @@ func encodeListStorageV1beta1NamespacedCSIStorageCapacityResponse(response ListS
 
 func encodeLogFileHandlerResponse(response *LogFileHandlerUnauthorized, w http.ResponseWriter, span trace.Span) error {
 	w.WriteHeader(401)
-	span.SetStatus(codes.Error, http.StatusText(401))
 
 	return nil
 }
 
 func encodeLogFileListHandlerResponse(response *LogFileListHandlerUnauthorized, w http.ResponseWriter, span trace.Span) error {
 	w.WriteHeader(401)
-	span.SetStatus(codes.Error, http.StatusText(401))
 
 	return nil
+}
+
+func encodePatchAdmissionregistrationV1MutatingWebhookConfigurationResponse(response PatchAdmissionregistrationV1MutatingWebhookConfigurationRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAdmissionregistrationV1MutatingWebhookConfigurationOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAdmissionregistrationV1MutatingWebhookConfigurationCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAdmissionregistrationV1MutatingWebhookConfigurationUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAdmissionregistrationV1ValidatingWebhookConfigurationResponse(response PatchAdmissionregistrationV1ValidatingWebhookConfigurationRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAdmissionregistrationV1ValidatingWebhookConfigurationOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAdmissionregistrationV1ValidatingWebhookConfigurationCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAdmissionregistrationV1ValidatingWebhookConfigurationUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchApiextensionsV1CustomResourceDefinitionResponse(response PatchApiextensionsV1CustomResourceDefinitionRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchApiextensionsV1CustomResourceDefinitionOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchApiextensionsV1CustomResourceDefinitionCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchApiextensionsV1CustomResourceDefinitionUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchApiextensionsV1CustomResourceDefinitionStatusResponse(response PatchApiextensionsV1CustomResourceDefinitionStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchApiextensionsV1CustomResourceDefinitionStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchApiextensionsV1CustomResourceDefinitionStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchApiextensionsV1CustomResourceDefinitionStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchApiregistrationV1APIServiceResponse(response PatchApiregistrationV1APIServiceRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchApiregistrationV1APIServiceOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchApiregistrationV1APIServiceCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchApiregistrationV1APIServiceUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchApiregistrationV1APIServiceStatusResponse(response PatchApiregistrationV1APIServiceStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchApiregistrationV1APIServiceStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchApiregistrationV1APIServiceStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchApiregistrationV1APIServiceStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedControllerRevisionResponse(response PatchAppsV1NamespacedControllerRevisionRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedControllerRevisionOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedControllerRevisionCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedControllerRevisionUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedDaemonSetResponse(response PatchAppsV1NamespacedDaemonSetRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedDaemonSetOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedDaemonSetCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedDaemonSetUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedDaemonSetStatusResponse(response PatchAppsV1NamespacedDaemonSetStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedDaemonSetStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedDaemonSetStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedDaemonSetStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedDeploymentResponse(response PatchAppsV1NamespacedDeploymentRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedDeploymentOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedDeploymentCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedDeploymentUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedDeploymentScaleResponse(response PatchAppsV1NamespacedDeploymentScaleRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedDeploymentScaleOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedDeploymentScaleCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedDeploymentScaleUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedDeploymentStatusResponse(response PatchAppsV1NamespacedDeploymentStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedDeploymentStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedDeploymentStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedDeploymentStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedReplicaSetResponse(response PatchAppsV1NamespacedReplicaSetRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedReplicaSetOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedReplicaSetCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedReplicaSetUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedReplicaSetScaleResponse(response PatchAppsV1NamespacedReplicaSetScaleRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedReplicaSetScaleOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedReplicaSetScaleCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedReplicaSetScaleUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedReplicaSetStatusResponse(response PatchAppsV1NamespacedReplicaSetStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedReplicaSetStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedReplicaSetStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedReplicaSetStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedStatefulSetResponse(response PatchAppsV1NamespacedStatefulSetRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedStatefulSetOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedStatefulSetCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedStatefulSetUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedStatefulSetScaleResponse(response PatchAppsV1NamespacedStatefulSetScaleRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedStatefulSetScaleOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedStatefulSetScaleCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedStatefulSetScaleUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAppsV1NamespacedStatefulSetStatusResponse(response PatchAppsV1NamespacedStatefulSetStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAppsV1NamespacedStatefulSetStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedStatefulSetStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAppsV1NamespacedStatefulSetStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(response PatchAutoscalingV1NamespacedHorizontalPodAutoscalerRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAutoscalingV1NamespacedHorizontalPodAutoscalerOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV1NamespacedHorizontalPodAutoscalerCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV1NamespacedHorizontalPodAutoscalerUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusResponse(response PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(response PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusResponse(response PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(response PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusResponse(response PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchBatchV1NamespacedCronJobResponse(response PatchBatchV1NamespacedCronJobRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchBatchV1NamespacedCronJobOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1NamespacedCronJobCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1NamespacedCronJobUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchBatchV1NamespacedCronJobStatusResponse(response PatchBatchV1NamespacedCronJobStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchBatchV1NamespacedCronJobStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1NamespacedCronJobStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1NamespacedCronJobStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchBatchV1NamespacedJobResponse(response PatchBatchV1NamespacedJobRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchBatchV1NamespacedJobOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1NamespacedJobCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1NamespacedJobUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchBatchV1NamespacedJobStatusResponse(response PatchBatchV1NamespacedJobStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchBatchV1NamespacedJobStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1NamespacedJobStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1NamespacedJobStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchBatchV1beta1NamespacedCronJobResponse(response PatchBatchV1beta1NamespacedCronJobRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchBatchV1beta1NamespacedCronJobOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1beta1NamespacedCronJobCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1beta1NamespacedCronJobUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchBatchV1beta1NamespacedCronJobStatusResponse(response PatchBatchV1beta1NamespacedCronJobStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchBatchV1beta1NamespacedCronJobStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1beta1NamespacedCronJobStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchBatchV1beta1NamespacedCronJobStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCertificatesV1CertificateSigningRequestResponse(response PatchCertificatesV1CertificateSigningRequestRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCertificatesV1CertificateSigningRequestOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCertificatesV1CertificateSigningRequestCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCertificatesV1CertificateSigningRequestUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCertificatesV1CertificateSigningRequestApprovalResponse(response PatchCertificatesV1CertificateSigningRequestApprovalRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCertificatesV1CertificateSigningRequestApprovalOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCertificatesV1CertificateSigningRequestApprovalCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCertificatesV1CertificateSigningRequestApprovalUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCertificatesV1CertificateSigningRequestStatusResponse(response PatchCertificatesV1CertificateSigningRequestStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCertificatesV1CertificateSigningRequestStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCertificatesV1CertificateSigningRequestStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCertificatesV1CertificateSigningRequestStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoordinationV1NamespacedLeaseResponse(response PatchCoordinationV1NamespacedLeaseRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoordinationV1NamespacedLeaseOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoordinationV1NamespacedLeaseCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoordinationV1NamespacedLeaseUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespaceResponse(response PatchCoreV1NamespaceRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespaceOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespaceCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespaceUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespaceStatusResponse(response PatchCoreV1NamespaceStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespaceStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespaceStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespaceStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedConfigMapResponse(response PatchCoreV1NamespacedConfigMapRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedConfigMapOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedConfigMapCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedConfigMapUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedEndpointsResponse(response PatchCoreV1NamespacedEndpointsRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedEndpointsOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedEndpointsCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedEndpointsUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedEventResponse(response PatchCoreV1NamespacedEventRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedEventOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedEventCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedEventUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedLimitRangeResponse(response PatchCoreV1NamespacedLimitRangeRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedLimitRangeOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedLimitRangeCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedLimitRangeUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedPersistentVolumeClaimResponse(response PatchCoreV1NamespacedPersistentVolumeClaimRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedPersistentVolumeClaimOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPersistentVolumeClaimCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPersistentVolumeClaimUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedPersistentVolumeClaimStatusResponse(response PatchCoreV1NamespacedPersistentVolumeClaimStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedPersistentVolumeClaimStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPersistentVolumeClaimStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPersistentVolumeClaimStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedPodResponse(response PatchCoreV1NamespacedPodRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedPodOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPodCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPodUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedPodEphemeralcontainersResponse(response PatchCoreV1NamespacedPodEphemeralcontainersRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedPodEphemeralcontainersOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPodEphemeralcontainersCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPodEphemeralcontainersUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedPodStatusResponse(response PatchCoreV1NamespacedPodStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedPodStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPodStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPodStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedPodTemplateResponse(response PatchCoreV1NamespacedPodTemplateRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedPodTemplateOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPodTemplateCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedPodTemplateUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedReplicationControllerResponse(response PatchCoreV1NamespacedReplicationControllerRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedReplicationControllerOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedReplicationControllerCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedReplicationControllerUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedReplicationControllerScaleResponse(response PatchCoreV1NamespacedReplicationControllerScaleRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedReplicationControllerScaleOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedReplicationControllerScaleCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedReplicationControllerScaleUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedReplicationControllerStatusResponse(response PatchCoreV1NamespacedReplicationControllerStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedReplicationControllerStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedReplicationControllerStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedReplicationControllerStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedResourceQuotaResponse(response PatchCoreV1NamespacedResourceQuotaRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedResourceQuotaOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedResourceQuotaCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedResourceQuotaUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedResourceQuotaStatusResponse(response PatchCoreV1NamespacedResourceQuotaStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedResourceQuotaStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedResourceQuotaStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedResourceQuotaStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedSecretResponse(response PatchCoreV1NamespacedSecretRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedSecretOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedSecretCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedSecretUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedServiceResponse(response PatchCoreV1NamespacedServiceRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedServiceOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedServiceCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedServiceUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedServiceAccountResponse(response PatchCoreV1NamespacedServiceAccountRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedServiceAccountOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedServiceAccountCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedServiceAccountUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NamespacedServiceStatusResponse(response PatchCoreV1NamespacedServiceStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NamespacedServiceStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedServiceStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NamespacedServiceStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NodeResponse(response PatchCoreV1NodeRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NodeOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NodeCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NodeUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1NodeStatusResponse(response PatchCoreV1NodeStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1NodeStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NodeStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1NodeStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1PersistentVolumeResponse(response PatchCoreV1PersistentVolumeRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1PersistentVolumeOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1PersistentVolumeCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1PersistentVolumeUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchCoreV1PersistentVolumeStatusResponse(response PatchCoreV1PersistentVolumeStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchCoreV1PersistentVolumeStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1PersistentVolumeStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchCoreV1PersistentVolumeStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchDiscoveryV1NamespacedEndpointSliceResponse(response PatchDiscoveryV1NamespacedEndpointSliceRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchDiscoveryV1NamespacedEndpointSliceOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchDiscoveryV1NamespacedEndpointSliceCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchDiscoveryV1NamespacedEndpointSliceUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchDiscoveryV1beta1NamespacedEndpointSliceResponse(response PatchDiscoveryV1beta1NamespacedEndpointSliceRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchDiscoveryV1beta1NamespacedEndpointSliceOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchDiscoveryV1beta1NamespacedEndpointSliceCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchDiscoveryV1beta1NamespacedEndpointSliceUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchEventsV1NamespacedEventResponse(response PatchEventsV1NamespacedEventRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchEventsV1NamespacedEventOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchEventsV1NamespacedEventCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchEventsV1NamespacedEventUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchEventsV1beta1NamespacedEventResponse(response PatchEventsV1beta1NamespacedEventRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchEventsV1beta1NamespacedEventOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchEventsV1beta1NamespacedEventCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchEventsV1beta1NamespacedEventUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchFlowcontrolApiserverV1beta1FlowSchemaResponse(response PatchFlowcontrolApiserverV1beta1FlowSchemaRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchFlowcontrolApiserverV1beta1FlowSchemaOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta1FlowSchemaCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta1FlowSchemaUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchFlowcontrolApiserverV1beta1FlowSchemaStatusResponse(response PatchFlowcontrolApiserverV1beta1FlowSchemaStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchFlowcontrolApiserverV1beta1FlowSchemaStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta1FlowSchemaStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta1FlowSchemaStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(response PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusResponse(response PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchFlowcontrolApiserverV1beta2FlowSchemaResponse(response PatchFlowcontrolApiserverV1beta2FlowSchemaRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchFlowcontrolApiserverV1beta2FlowSchemaOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta2FlowSchemaCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta2FlowSchemaUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchFlowcontrolApiserverV1beta2FlowSchemaStatusResponse(response PatchFlowcontrolApiserverV1beta2FlowSchemaStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchFlowcontrolApiserverV1beta2FlowSchemaStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta2FlowSchemaStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta2FlowSchemaStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(response PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusResponse(response PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchInternalApiserverV1alpha1StorageVersionResponse(response PatchInternalApiserverV1alpha1StorageVersionRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchInternalApiserverV1alpha1StorageVersionOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchInternalApiserverV1alpha1StorageVersionCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchInternalApiserverV1alpha1StorageVersionUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchInternalApiserverV1alpha1StorageVersionStatusResponse(response PatchInternalApiserverV1alpha1StorageVersionStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchInternalApiserverV1alpha1StorageVersionStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchInternalApiserverV1alpha1StorageVersionStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchInternalApiserverV1alpha1StorageVersionStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchNetworkingV1IngressClassResponse(response PatchNetworkingV1IngressClassRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchNetworkingV1IngressClassOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNetworkingV1IngressClassCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNetworkingV1IngressClassUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchNetworkingV1NamespacedIngressResponse(response PatchNetworkingV1NamespacedIngressRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchNetworkingV1NamespacedIngressOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNetworkingV1NamespacedIngressCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNetworkingV1NamespacedIngressUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchNetworkingV1NamespacedIngressStatusResponse(response PatchNetworkingV1NamespacedIngressStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchNetworkingV1NamespacedIngressStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNetworkingV1NamespacedIngressStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNetworkingV1NamespacedIngressStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchNetworkingV1NamespacedNetworkPolicyResponse(response PatchNetworkingV1NamespacedNetworkPolicyRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchNetworkingV1NamespacedNetworkPolicyOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNetworkingV1NamespacedNetworkPolicyCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNetworkingV1NamespacedNetworkPolicyUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchNodeV1RuntimeClassResponse(response PatchNodeV1RuntimeClassRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchNodeV1RuntimeClassOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNodeV1RuntimeClassCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNodeV1RuntimeClassUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchNodeV1alpha1RuntimeClassResponse(response PatchNodeV1alpha1RuntimeClassRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchNodeV1alpha1RuntimeClassOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNodeV1alpha1RuntimeClassCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNodeV1alpha1RuntimeClassUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchNodeV1beta1RuntimeClassResponse(response PatchNodeV1beta1RuntimeClassRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchNodeV1beta1RuntimeClassOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNodeV1beta1RuntimeClassCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchNodeV1beta1RuntimeClassUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchPolicyV1NamespacedPodDisruptionBudgetResponse(response PatchPolicyV1NamespacedPodDisruptionBudgetRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchPolicyV1NamespacedPodDisruptionBudgetOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchPolicyV1NamespacedPodDisruptionBudgetCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchPolicyV1NamespacedPodDisruptionBudgetUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchPolicyV1NamespacedPodDisruptionBudgetStatusResponse(response PatchPolicyV1NamespacedPodDisruptionBudgetStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchPolicyV1NamespacedPodDisruptionBudgetStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchPolicyV1NamespacedPodDisruptionBudgetStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchPolicyV1NamespacedPodDisruptionBudgetStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchPolicyV1beta1NamespacedPodDisruptionBudgetResponse(response PatchPolicyV1beta1NamespacedPodDisruptionBudgetRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchPolicyV1beta1NamespacedPodDisruptionBudgetOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchPolicyV1beta1NamespacedPodDisruptionBudgetCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchPolicyV1beta1NamespacedPodDisruptionBudgetUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusResponse(response PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchPolicyV1beta1PodSecurityPolicyResponse(response PatchPolicyV1beta1PodSecurityPolicyRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchPolicyV1beta1PodSecurityPolicyOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchPolicyV1beta1PodSecurityPolicyCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchPolicyV1beta1PodSecurityPolicyUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchRbacAuthorizationV1ClusterRoleResponse(response PatchRbacAuthorizationV1ClusterRoleRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchRbacAuthorizationV1ClusterRoleOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchRbacAuthorizationV1ClusterRoleCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchRbacAuthorizationV1ClusterRoleUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchRbacAuthorizationV1ClusterRoleBindingResponse(response PatchRbacAuthorizationV1ClusterRoleBindingRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchRbacAuthorizationV1ClusterRoleBindingOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchRbacAuthorizationV1ClusterRoleBindingCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchRbacAuthorizationV1ClusterRoleBindingUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchRbacAuthorizationV1NamespacedRoleResponse(response PatchRbacAuthorizationV1NamespacedRoleRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchRbacAuthorizationV1NamespacedRoleOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchRbacAuthorizationV1NamespacedRoleCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchRbacAuthorizationV1NamespacedRoleUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchRbacAuthorizationV1NamespacedRoleBindingResponse(response PatchRbacAuthorizationV1NamespacedRoleBindingRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchRbacAuthorizationV1NamespacedRoleBindingOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchRbacAuthorizationV1NamespacedRoleBindingCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchRbacAuthorizationV1NamespacedRoleBindingUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchSchedulingV1PriorityClassResponse(response PatchSchedulingV1PriorityClassRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchSchedulingV1PriorityClassOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchSchedulingV1PriorityClassCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchSchedulingV1PriorityClassUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchStorageV1CSIDriverResponse(response PatchStorageV1CSIDriverRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchStorageV1CSIDriverOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1CSIDriverCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1CSIDriverUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchStorageV1CSINodeResponse(response PatchStorageV1CSINodeRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchStorageV1CSINodeOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1CSINodeCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1CSINodeUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchStorageV1StorageClassResponse(response PatchStorageV1StorageClassRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchStorageV1StorageClassOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1StorageClassCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1StorageClassUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchStorageV1VolumeAttachmentResponse(response PatchStorageV1VolumeAttachmentRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchStorageV1VolumeAttachmentOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1VolumeAttachmentCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1VolumeAttachmentUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchStorageV1VolumeAttachmentStatusResponse(response PatchStorageV1VolumeAttachmentStatusRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchStorageV1VolumeAttachmentStatusOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1VolumeAttachmentStatusCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1VolumeAttachmentStatusUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchStorageV1alpha1NamespacedCSIStorageCapacityResponse(response PatchStorageV1alpha1NamespacedCSIStorageCapacityRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchStorageV1alpha1NamespacedCSIStorageCapacityOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1alpha1NamespacedCSIStorageCapacityCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1alpha1NamespacedCSIStorageCapacityUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodePatchStorageV1beta1NamespacedCSIStorageCapacityResponse(response PatchStorageV1beta1NamespacedCSIStorageCapacityRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *PatchStorageV1beta1NamespacedCSIStorageCapacityOK:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1beta1NamespacedCSIStorageCapacityCreated:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(201)
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *PatchStorageV1beta1NamespacedCSIStorageCapacityUnauthorized:
+		w.WriteHeader(401)
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
 }
 
 func encodeReadAdmissionregistrationV1MutatingWebhookConfigurationResponse(response ReadAdmissionregistrationV1MutatingWebhookConfigurationRes, w http.ResponseWriter, span trace.Span) error {
@@ -5983,7 +9210,6 @@ func encodeReadAdmissionregistrationV1MutatingWebhookConfigurationResponse(respo
 	case *IoK8sAPIAdmissionregistrationV1MutatingWebhookConfiguration:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -5995,7 +9221,6 @@ func encodeReadAdmissionregistrationV1MutatingWebhookConfigurationResponse(respo
 
 	case *ReadAdmissionregistrationV1MutatingWebhookConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6009,7 +9234,6 @@ func encodeReadAdmissionregistrationV1ValidatingWebhookConfigurationResponse(res
 	case *IoK8sAPIAdmissionregistrationV1ValidatingWebhookConfiguration:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6021,7 +9245,6 @@ func encodeReadAdmissionregistrationV1ValidatingWebhookConfigurationResponse(res
 
 	case *ReadAdmissionregistrationV1ValidatingWebhookConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6035,7 +9258,6 @@ func encodeReadApiextensionsV1CustomResourceDefinitionResponse(response ReadApie
 	case *IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefinition:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6047,7 +9269,6 @@ func encodeReadApiextensionsV1CustomResourceDefinitionResponse(response ReadApie
 
 	case *ReadApiextensionsV1CustomResourceDefinitionUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6061,7 +9282,6 @@ func encodeReadApiextensionsV1CustomResourceDefinitionStatusResponse(response Re
 	case *IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefinition:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6073,7 +9293,6 @@ func encodeReadApiextensionsV1CustomResourceDefinitionStatusResponse(response Re
 
 	case *ReadApiextensionsV1CustomResourceDefinitionStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6087,7 +9306,6 @@ func encodeReadApiregistrationV1APIServiceResponse(response ReadApiregistrationV
 	case *IoK8sKubeAggregatorPkgApisApiregistrationV1APIService:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6099,7 +9317,6 @@ func encodeReadApiregistrationV1APIServiceResponse(response ReadApiregistrationV
 
 	case *ReadApiregistrationV1APIServiceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6113,7 +9330,6 @@ func encodeReadApiregistrationV1APIServiceStatusResponse(response ReadApiregistr
 	case *IoK8sKubeAggregatorPkgApisApiregistrationV1APIService:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6125,7 +9341,6 @@ func encodeReadApiregistrationV1APIServiceStatusResponse(response ReadApiregistr
 
 	case *ReadApiregistrationV1APIServiceStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6139,7 +9354,6 @@ func encodeReadAppsV1NamespacedControllerRevisionResponse(response ReadAppsV1Nam
 	case *IoK8sAPIAppsV1ControllerRevision:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6151,7 +9365,6 @@ func encodeReadAppsV1NamespacedControllerRevisionResponse(response ReadAppsV1Nam
 
 	case *ReadAppsV1NamespacedControllerRevisionUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6165,7 +9378,6 @@ func encodeReadAppsV1NamespacedDaemonSetResponse(response ReadAppsV1NamespacedDa
 	case *IoK8sAPIAppsV1DaemonSet:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6177,7 +9389,6 @@ func encodeReadAppsV1NamespacedDaemonSetResponse(response ReadAppsV1NamespacedDa
 
 	case *ReadAppsV1NamespacedDaemonSetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6191,7 +9402,6 @@ func encodeReadAppsV1NamespacedDaemonSetStatusResponse(response ReadAppsV1Namesp
 	case *IoK8sAPIAppsV1DaemonSet:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6203,7 +9413,6 @@ func encodeReadAppsV1NamespacedDaemonSetStatusResponse(response ReadAppsV1Namesp
 
 	case *ReadAppsV1NamespacedDaemonSetStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6217,7 +9426,6 @@ func encodeReadAppsV1NamespacedDeploymentResponse(response ReadAppsV1NamespacedD
 	case *IoK8sAPIAppsV1Deployment:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6229,7 +9437,6 @@ func encodeReadAppsV1NamespacedDeploymentResponse(response ReadAppsV1NamespacedD
 
 	case *ReadAppsV1NamespacedDeploymentUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6243,7 +9450,6 @@ func encodeReadAppsV1NamespacedDeploymentScaleResponse(response ReadAppsV1Namesp
 	case *IoK8sAPIAutoscalingV1Scale:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6255,7 +9461,6 @@ func encodeReadAppsV1NamespacedDeploymentScaleResponse(response ReadAppsV1Namesp
 
 	case *ReadAppsV1NamespacedDeploymentScaleUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6269,7 +9474,6 @@ func encodeReadAppsV1NamespacedDeploymentStatusResponse(response ReadAppsV1Names
 	case *IoK8sAPIAppsV1Deployment:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6281,7 +9485,6 @@ func encodeReadAppsV1NamespacedDeploymentStatusResponse(response ReadAppsV1Names
 
 	case *ReadAppsV1NamespacedDeploymentStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6295,7 +9498,6 @@ func encodeReadAppsV1NamespacedReplicaSetResponse(response ReadAppsV1NamespacedR
 	case *IoK8sAPIAppsV1ReplicaSet:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6307,7 +9509,6 @@ func encodeReadAppsV1NamespacedReplicaSetResponse(response ReadAppsV1NamespacedR
 
 	case *ReadAppsV1NamespacedReplicaSetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6321,7 +9522,6 @@ func encodeReadAppsV1NamespacedReplicaSetScaleResponse(response ReadAppsV1Namesp
 	case *IoK8sAPIAutoscalingV1Scale:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6333,7 +9533,6 @@ func encodeReadAppsV1NamespacedReplicaSetScaleResponse(response ReadAppsV1Namesp
 
 	case *ReadAppsV1NamespacedReplicaSetScaleUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6347,7 +9546,6 @@ func encodeReadAppsV1NamespacedReplicaSetStatusResponse(response ReadAppsV1Names
 	case *IoK8sAPIAppsV1ReplicaSet:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6359,7 +9557,6 @@ func encodeReadAppsV1NamespacedReplicaSetStatusResponse(response ReadAppsV1Names
 
 	case *ReadAppsV1NamespacedReplicaSetStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6373,7 +9570,6 @@ func encodeReadAppsV1NamespacedStatefulSetResponse(response ReadAppsV1Namespaced
 	case *IoK8sAPIAppsV1StatefulSet:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6385,7 +9581,6 @@ func encodeReadAppsV1NamespacedStatefulSetResponse(response ReadAppsV1Namespaced
 
 	case *ReadAppsV1NamespacedStatefulSetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6399,7 +9594,6 @@ func encodeReadAppsV1NamespacedStatefulSetScaleResponse(response ReadAppsV1Names
 	case *IoK8sAPIAutoscalingV1Scale:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6411,7 +9605,6 @@ func encodeReadAppsV1NamespacedStatefulSetScaleResponse(response ReadAppsV1Names
 
 	case *ReadAppsV1NamespacedStatefulSetScaleUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6425,7 +9618,6 @@ func encodeReadAppsV1NamespacedStatefulSetStatusResponse(response ReadAppsV1Name
 	case *IoK8sAPIAppsV1StatefulSet:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6437,7 +9629,6 @@ func encodeReadAppsV1NamespacedStatefulSetStatusResponse(response ReadAppsV1Name
 
 	case *ReadAppsV1NamespacedStatefulSetStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6451,7 +9642,6 @@ func encodeReadAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(response R
 	case *IoK8sAPIAutoscalingV1HorizontalPodAutoscaler:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6463,7 +9653,6 @@ func encodeReadAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(response R
 
 	case *ReadAutoscalingV1NamespacedHorizontalPodAutoscalerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6477,7 +9666,6 @@ func encodeReadAutoscalingV1NamespacedHorizontalPodAutoscalerStatusResponse(resp
 	case *IoK8sAPIAutoscalingV1HorizontalPodAutoscaler:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6489,7 +9677,6 @@ func encodeReadAutoscalingV1NamespacedHorizontalPodAutoscalerStatusResponse(resp
 
 	case *ReadAutoscalingV1NamespacedHorizontalPodAutoscalerStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6503,7 +9690,6 @@ func encodeReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(respo
 	case *IoK8sAPIAutoscalingV2beta1HorizontalPodAutoscaler:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6515,7 +9701,6 @@ func encodeReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(respo
 
 	case *ReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6529,7 +9714,6 @@ func encodeReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusResponse
 	case *IoK8sAPIAutoscalingV2beta1HorizontalPodAutoscaler:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6541,7 +9725,6 @@ func encodeReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusResponse
 
 	case *ReadAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6555,7 +9738,6 @@ func encodeReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(respo
 	case *IoK8sAPIAutoscalingV2beta2HorizontalPodAutoscaler:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6567,7 +9749,6 @@ func encodeReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(respo
 
 	case *ReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6581,7 +9762,6 @@ func encodeReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusResponse
 	case *IoK8sAPIAutoscalingV2beta2HorizontalPodAutoscaler:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6593,7 +9773,6 @@ func encodeReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusResponse
 
 	case *ReadAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6607,7 +9786,6 @@ func encodeReadBatchV1NamespacedCronJobResponse(response ReadBatchV1NamespacedCr
 	case *IoK8sAPIBatchV1CronJob:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6619,7 +9797,6 @@ func encodeReadBatchV1NamespacedCronJobResponse(response ReadBatchV1NamespacedCr
 
 	case *ReadBatchV1NamespacedCronJobUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6633,7 +9810,6 @@ func encodeReadBatchV1NamespacedCronJobStatusResponse(response ReadBatchV1Namesp
 	case *IoK8sAPIBatchV1CronJob:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6645,7 +9821,6 @@ func encodeReadBatchV1NamespacedCronJobStatusResponse(response ReadBatchV1Namesp
 
 	case *ReadBatchV1NamespacedCronJobStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6659,7 +9834,6 @@ func encodeReadBatchV1NamespacedJobResponse(response ReadBatchV1NamespacedJobRes
 	case *IoK8sAPIBatchV1Job:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6671,7 +9845,6 @@ func encodeReadBatchV1NamespacedJobResponse(response ReadBatchV1NamespacedJobRes
 
 	case *ReadBatchV1NamespacedJobUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6685,7 +9858,6 @@ func encodeReadBatchV1NamespacedJobStatusResponse(response ReadBatchV1Namespaced
 	case *IoK8sAPIBatchV1Job:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6697,7 +9869,6 @@ func encodeReadBatchV1NamespacedJobStatusResponse(response ReadBatchV1Namespaced
 
 	case *ReadBatchV1NamespacedJobStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6711,7 +9882,6 @@ func encodeReadBatchV1beta1NamespacedCronJobResponse(response ReadBatchV1beta1Na
 	case *IoK8sAPIBatchV1beta1CronJob:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6723,7 +9893,6 @@ func encodeReadBatchV1beta1NamespacedCronJobResponse(response ReadBatchV1beta1Na
 
 	case *ReadBatchV1beta1NamespacedCronJobUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6737,7 +9906,6 @@ func encodeReadBatchV1beta1NamespacedCronJobStatusResponse(response ReadBatchV1b
 	case *IoK8sAPIBatchV1beta1CronJob:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6749,7 +9917,6 @@ func encodeReadBatchV1beta1NamespacedCronJobStatusResponse(response ReadBatchV1b
 
 	case *ReadBatchV1beta1NamespacedCronJobStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6763,7 +9930,6 @@ func encodeReadCertificatesV1CertificateSigningRequestResponse(response ReadCert
 	case *IoK8sAPICertificatesV1CertificateSigningRequest:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6775,7 +9941,6 @@ func encodeReadCertificatesV1CertificateSigningRequestResponse(response ReadCert
 
 	case *ReadCertificatesV1CertificateSigningRequestUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6789,7 +9954,6 @@ func encodeReadCertificatesV1CertificateSigningRequestApprovalResponse(response 
 	case *IoK8sAPICertificatesV1CertificateSigningRequest:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6801,7 +9965,6 @@ func encodeReadCertificatesV1CertificateSigningRequestApprovalResponse(response 
 
 	case *ReadCertificatesV1CertificateSigningRequestApprovalUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6815,7 +9978,6 @@ func encodeReadCertificatesV1CertificateSigningRequestStatusResponse(response Re
 	case *IoK8sAPICertificatesV1CertificateSigningRequest:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6827,7 +9989,6 @@ func encodeReadCertificatesV1CertificateSigningRequestStatusResponse(response Re
 
 	case *ReadCertificatesV1CertificateSigningRequestStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6841,7 +10002,6 @@ func encodeReadCoordinationV1NamespacedLeaseResponse(response ReadCoordinationV1
 	case *IoK8sAPICoordinationV1Lease:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6853,7 +10013,6 @@ func encodeReadCoordinationV1NamespacedLeaseResponse(response ReadCoordinationV1
 
 	case *ReadCoordinationV1NamespacedLeaseUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6867,7 +10026,6 @@ func encodeReadCoreV1ComponentStatusResponse(response ReadCoreV1ComponentStatusR
 	case *IoK8sAPICoreV1ComponentStatus:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6879,7 +10037,6 @@ func encodeReadCoreV1ComponentStatusResponse(response ReadCoreV1ComponentStatusR
 
 	case *ReadCoreV1ComponentStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6893,7 +10050,6 @@ func encodeReadCoreV1NamespaceResponse(response ReadCoreV1NamespaceRes, w http.R
 	case *IoK8sAPICoreV1Namespace:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6905,7 +10061,6 @@ func encodeReadCoreV1NamespaceResponse(response ReadCoreV1NamespaceRes, w http.R
 
 	case *ReadCoreV1NamespaceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6919,7 +10074,6 @@ func encodeReadCoreV1NamespaceStatusResponse(response ReadCoreV1NamespaceStatusR
 	case *IoK8sAPICoreV1Namespace:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6931,7 +10085,6 @@ func encodeReadCoreV1NamespaceStatusResponse(response ReadCoreV1NamespaceStatusR
 
 	case *ReadCoreV1NamespaceStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6945,7 +10098,6 @@ func encodeReadCoreV1NamespacedConfigMapResponse(response ReadCoreV1NamespacedCo
 	case *IoK8sAPICoreV1ConfigMap:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6957,7 +10109,6 @@ func encodeReadCoreV1NamespacedConfigMapResponse(response ReadCoreV1NamespacedCo
 
 	case *ReadCoreV1NamespacedConfigMapUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6971,7 +10122,6 @@ func encodeReadCoreV1NamespacedEndpointsResponse(response ReadCoreV1NamespacedEn
 	case *IoK8sAPICoreV1Endpoints:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -6983,7 +10133,6 @@ func encodeReadCoreV1NamespacedEndpointsResponse(response ReadCoreV1NamespacedEn
 
 	case *ReadCoreV1NamespacedEndpointsUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -6997,7 +10146,6 @@ func encodeReadCoreV1NamespacedEventResponse(response ReadCoreV1NamespacedEventR
 	case *IoK8sAPICoreV1Event:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7009,7 +10157,6 @@ func encodeReadCoreV1NamespacedEventResponse(response ReadCoreV1NamespacedEventR
 
 	case *ReadCoreV1NamespacedEventUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7023,7 +10170,6 @@ func encodeReadCoreV1NamespacedLimitRangeResponse(response ReadCoreV1NamespacedL
 	case *IoK8sAPICoreV1LimitRange:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7035,7 +10181,6 @@ func encodeReadCoreV1NamespacedLimitRangeResponse(response ReadCoreV1NamespacedL
 
 	case *ReadCoreV1NamespacedLimitRangeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7049,7 +10194,6 @@ func encodeReadCoreV1NamespacedPersistentVolumeClaimResponse(response ReadCoreV1
 	case *IoK8sAPICoreV1PersistentVolumeClaim:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7061,7 +10205,6 @@ func encodeReadCoreV1NamespacedPersistentVolumeClaimResponse(response ReadCoreV1
 
 	case *ReadCoreV1NamespacedPersistentVolumeClaimUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7075,7 +10218,6 @@ func encodeReadCoreV1NamespacedPersistentVolumeClaimStatusResponse(response Read
 	case *IoK8sAPICoreV1PersistentVolumeClaim:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7087,7 +10229,6 @@ func encodeReadCoreV1NamespacedPersistentVolumeClaimStatusResponse(response Read
 
 	case *ReadCoreV1NamespacedPersistentVolumeClaimStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7101,7 +10242,6 @@ func encodeReadCoreV1NamespacedPodResponse(response ReadCoreV1NamespacedPodRes, 
 	case *IoK8sAPICoreV1Pod:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7113,7 +10253,6 @@ func encodeReadCoreV1NamespacedPodResponse(response ReadCoreV1NamespacedPodRes, 
 
 	case *ReadCoreV1NamespacedPodUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7127,7 +10266,6 @@ func encodeReadCoreV1NamespacedPodEphemeralcontainersResponse(response ReadCoreV
 	case *IoK8sAPICoreV1Pod:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7139,7 +10277,6 @@ func encodeReadCoreV1NamespacedPodEphemeralcontainersResponse(response ReadCoreV
 
 	case *ReadCoreV1NamespacedPodEphemeralcontainersUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7153,7 +10290,6 @@ func encodeReadCoreV1NamespacedPodLogResponse(response ReadCoreV1NamespacedPodLo
 	case *ReadCoreV1NamespacedPodLogOKApplicationJSON:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7166,9 +10302,11 @@ func encodeReadCoreV1NamespacedPodLogResponse(response ReadCoreV1NamespacedPodLo
 	case *ReadCoreV1NamespacedPodLogOKApplicationVndKubernetesProtobuf:
 		w.Header().Set("Content-Type", "application/vnd.kubernetes.protobuf")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -7178,9 +10316,11 @@ func encodeReadCoreV1NamespacedPodLogResponse(response ReadCoreV1NamespacedPodLo
 	case *ReadCoreV1NamespacedPodLogOKApplicationYaml:
 		w.Header().Set("Content-Type", "application/yaml")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -7190,9 +10330,11 @@ func encodeReadCoreV1NamespacedPodLogResponse(response ReadCoreV1NamespacedPodLo
 	case *ReadCoreV1NamespacedPodLogOKTextPlain:
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		writer := w
+		if closer, ok := response.Data.(io.Closer); ok {
+			defer closer.Close()
+		}
 		if _, err := io.Copy(writer, response); err != nil {
 			return errors.Wrap(err, "write")
 		}
@@ -7201,7 +10343,6 @@ func encodeReadCoreV1NamespacedPodLogResponse(response ReadCoreV1NamespacedPodLo
 
 	case *ReadCoreV1NamespacedPodLogUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7215,7 +10356,6 @@ func encodeReadCoreV1NamespacedPodStatusResponse(response ReadCoreV1NamespacedPo
 	case *IoK8sAPICoreV1Pod:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7227,7 +10367,6 @@ func encodeReadCoreV1NamespacedPodStatusResponse(response ReadCoreV1NamespacedPo
 
 	case *ReadCoreV1NamespacedPodStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7241,7 +10380,6 @@ func encodeReadCoreV1NamespacedPodTemplateResponse(response ReadCoreV1Namespaced
 	case *IoK8sAPICoreV1PodTemplate:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7253,7 +10391,6 @@ func encodeReadCoreV1NamespacedPodTemplateResponse(response ReadCoreV1Namespaced
 
 	case *ReadCoreV1NamespacedPodTemplateUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7267,7 +10404,6 @@ func encodeReadCoreV1NamespacedReplicationControllerResponse(response ReadCoreV1
 	case *IoK8sAPICoreV1ReplicationController:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7279,7 +10415,6 @@ func encodeReadCoreV1NamespacedReplicationControllerResponse(response ReadCoreV1
 
 	case *ReadCoreV1NamespacedReplicationControllerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7293,7 +10428,6 @@ func encodeReadCoreV1NamespacedReplicationControllerScaleResponse(response ReadC
 	case *IoK8sAPIAutoscalingV1Scale:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7305,7 +10439,6 @@ func encodeReadCoreV1NamespacedReplicationControllerScaleResponse(response ReadC
 
 	case *ReadCoreV1NamespacedReplicationControllerScaleUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7319,7 +10452,6 @@ func encodeReadCoreV1NamespacedReplicationControllerStatusResponse(response Read
 	case *IoK8sAPICoreV1ReplicationController:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7331,7 +10463,6 @@ func encodeReadCoreV1NamespacedReplicationControllerStatusResponse(response Read
 
 	case *ReadCoreV1NamespacedReplicationControllerStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7345,7 +10476,6 @@ func encodeReadCoreV1NamespacedResourceQuotaResponse(response ReadCoreV1Namespac
 	case *IoK8sAPICoreV1ResourceQuota:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7357,7 +10487,6 @@ func encodeReadCoreV1NamespacedResourceQuotaResponse(response ReadCoreV1Namespac
 
 	case *ReadCoreV1NamespacedResourceQuotaUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7371,7 +10500,6 @@ func encodeReadCoreV1NamespacedResourceQuotaStatusResponse(response ReadCoreV1Na
 	case *IoK8sAPICoreV1ResourceQuota:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7383,7 +10511,6 @@ func encodeReadCoreV1NamespacedResourceQuotaStatusResponse(response ReadCoreV1Na
 
 	case *ReadCoreV1NamespacedResourceQuotaStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7397,7 +10524,6 @@ func encodeReadCoreV1NamespacedSecretResponse(response ReadCoreV1NamespacedSecre
 	case *IoK8sAPICoreV1Secret:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7409,7 +10535,6 @@ func encodeReadCoreV1NamespacedSecretResponse(response ReadCoreV1NamespacedSecre
 
 	case *ReadCoreV1NamespacedSecretUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7423,7 +10548,6 @@ func encodeReadCoreV1NamespacedServiceResponse(response ReadCoreV1NamespacedServ
 	case *IoK8sAPICoreV1Service:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7435,7 +10559,6 @@ func encodeReadCoreV1NamespacedServiceResponse(response ReadCoreV1NamespacedServ
 
 	case *ReadCoreV1NamespacedServiceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7449,7 +10572,6 @@ func encodeReadCoreV1NamespacedServiceAccountResponse(response ReadCoreV1Namespa
 	case *IoK8sAPICoreV1ServiceAccount:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7461,7 +10583,6 @@ func encodeReadCoreV1NamespacedServiceAccountResponse(response ReadCoreV1Namespa
 
 	case *ReadCoreV1NamespacedServiceAccountUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7475,7 +10596,6 @@ func encodeReadCoreV1NamespacedServiceStatusResponse(response ReadCoreV1Namespac
 	case *IoK8sAPICoreV1Service:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7487,7 +10607,6 @@ func encodeReadCoreV1NamespacedServiceStatusResponse(response ReadCoreV1Namespac
 
 	case *ReadCoreV1NamespacedServiceStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7501,7 +10620,6 @@ func encodeReadCoreV1NodeResponse(response ReadCoreV1NodeRes, w http.ResponseWri
 	case *IoK8sAPICoreV1Node:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7513,7 +10631,6 @@ func encodeReadCoreV1NodeResponse(response ReadCoreV1NodeRes, w http.ResponseWri
 
 	case *ReadCoreV1NodeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7527,7 +10644,6 @@ func encodeReadCoreV1NodeStatusResponse(response ReadCoreV1NodeStatusRes, w http
 	case *IoK8sAPICoreV1Node:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7539,7 +10655,6 @@ func encodeReadCoreV1NodeStatusResponse(response ReadCoreV1NodeStatusRes, w http
 
 	case *ReadCoreV1NodeStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7553,7 +10668,6 @@ func encodeReadCoreV1PersistentVolumeResponse(response ReadCoreV1PersistentVolum
 	case *IoK8sAPICoreV1PersistentVolume:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7565,7 +10679,6 @@ func encodeReadCoreV1PersistentVolumeResponse(response ReadCoreV1PersistentVolum
 
 	case *ReadCoreV1PersistentVolumeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7579,7 +10692,6 @@ func encodeReadCoreV1PersistentVolumeStatusResponse(response ReadCoreV1Persisten
 	case *IoK8sAPICoreV1PersistentVolume:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7591,7 +10703,6 @@ func encodeReadCoreV1PersistentVolumeStatusResponse(response ReadCoreV1Persisten
 
 	case *ReadCoreV1PersistentVolumeStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7605,7 +10716,6 @@ func encodeReadDiscoveryV1NamespacedEndpointSliceResponse(response ReadDiscovery
 	case *IoK8sAPIDiscoveryV1EndpointSlice:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7617,7 +10727,6 @@ func encodeReadDiscoveryV1NamespacedEndpointSliceResponse(response ReadDiscovery
 
 	case *ReadDiscoveryV1NamespacedEndpointSliceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7631,7 +10740,6 @@ func encodeReadDiscoveryV1beta1NamespacedEndpointSliceResponse(response ReadDisc
 	case *IoK8sAPIDiscoveryV1beta1EndpointSlice:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7643,7 +10751,6 @@ func encodeReadDiscoveryV1beta1NamespacedEndpointSliceResponse(response ReadDisc
 
 	case *ReadDiscoveryV1beta1NamespacedEndpointSliceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7657,7 +10764,6 @@ func encodeReadEventsV1NamespacedEventResponse(response ReadEventsV1NamespacedEv
 	case *IoK8sAPIEventsV1Event:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7669,7 +10775,6 @@ func encodeReadEventsV1NamespacedEventResponse(response ReadEventsV1NamespacedEv
 
 	case *ReadEventsV1NamespacedEventUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7683,7 +10788,6 @@ func encodeReadEventsV1beta1NamespacedEventResponse(response ReadEventsV1beta1Na
 	case *IoK8sAPIEventsV1beta1Event:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7695,7 +10799,6 @@ func encodeReadEventsV1beta1NamespacedEventResponse(response ReadEventsV1beta1Na
 
 	case *ReadEventsV1beta1NamespacedEventUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7709,7 +10812,6 @@ func encodeReadFlowcontrolApiserverV1beta1FlowSchemaResponse(response ReadFlowco
 	case *IoK8sAPIFlowcontrolV1beta1FlowSchema:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7721,7 +10823,6 @@ func encodeReadFlowcontrolApiserverV1beta1FlowSchemaResponse(response ReadFlowco
 
 	case *ReadFlowcontrolApiserverV1beta1FlowSchemaUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7735,7 +10836,6 @@ func encodeReadFlowcontrolApiserverV1beta1FlowSchemaStatusResponse(response Read
 	case *IoK8sAPIFlowcontrolV1beta1FlowSchema:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7747,7 +10847,6 @@ func encodeReadFlowcontrolApiserverV1beta1FlowSchemaStatusResponse(response Read
 
 	case *ReadFlowcontrolApiserverV1beta1FlowSchemaStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7761,7 +10860,6 @@ func encodeReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(res
 	case *IoK8sAPIFlowcontrolV1beta1PriorityLevelConfiguration:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7773,7 +10871,6 @@ func encodeReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(res
 
 	case *ReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7787,7 +10884,6 @@ func encodeReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusRespon
 	case *IoK8sAPIFlowcontrolV1beta1PriorityLevelConfiguration:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7799,7 +10895,6 @@ func encodeReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusRespon
 
 	case *ReadFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7813,7 +10908,6 @@ func encodeReadFlowcontrolApiserverV1beta2FlowSchemaResponse(response ReadFlowco
 	case *IoK8sAPIFlowcontrolV1beta2FlowSchema:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7825,7 +10919,6 @@ func encodeReadFlowcontrolApiserverV1beta2FlowSchemaResponse(response ReadFlowco
 
 	case *ReadFlowcontrolApiserverV1beta2FlowSchemaUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7839,7 +10932,6 @@ func encodeReadFlowcontrolApiserverV1beta2FlowSchemaStatusResponse(response Read
 	case *IoK8sAPIFlowcontrolV1beta2FlowSchema:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7851,7 +10943,6 @@ func encodeReadFlowcontrolApiserverV1beta2FlowSchemaStatusResponse(response Read
 
 	case *ReadFlowcontrolApiserverV1beta2FlowSchemaStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7865,7 +10956,6 @@ func encodeReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(res
 	case *IoK8sAPIFlowcontrolV1beta2PriorityLevelConfiguration:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7877,7 +10967,6 @@ func encodeReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(res
 
 	case *ReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7891,7 +10980,6 @@ func encodeReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusRespon
 	case *IoK8sAPIFlowcontrolV1beta2PriorityLevelConfiguration:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7903,7 +10991,6 @@ func encodeReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusRespon
 
 	case *ReadFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7917,7 +11004,6 @@ func encodeReadInternalApiserverV1alpha1StorageVersionResponse(response ReadInte
 	case *IoK8sAPIApiserverinternalV1alpha1StorageVersion:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7929,7 +11015,6 @@ func encodeReadInternalApiserverV1alpha1StorageVersionResponse(response ReadInte
 
 	case *ReadInternalApiserverV1alpha1StorageVersionUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7943,7 +11028,6 @@ func encodeReadInternalApiserverV1alpha1StorageVersionStatusResponse(response Re
 	case *IoK8sAPIApiserverinternalV1alpha1StorageVersion:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7955,7 +11039,6 @@ func encodeReadInternalApiserverV1alpha1StorageVersionStatusResponse(response Re
 
 	case *ReadInternalApiserverV1alpha1StorageVersionStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7969,7 +11052,6 @@ func encodeReadNetworkingV1IngressClassResponse(response ReadNetworkingV1Ingress
 	case *IoK8sAPINetworkingV1IngressClass:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -7981,7 +11063,6 @@ func encodeReadNetworkingV1IngressClassResponse(response ReadNetworkingV1Ingress
 
 	case *ReadNetworkingV1IngressClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -7995,7 +11076,6 @@ func encodeReadNetworkingV1NamespacedIngressResponse(response ReadNetworkingV1Na
 	case *IoK8sAPINetworkingV1Ingress:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8007,7 +11087,6 @@ func encodeReadNetworkingV1NamespacedIngressResponse(response ReadNetworkingV1Na
 
 	case *ReadNetworkingV1NamespacedIngressUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8021,7 +11100,6 @@ func encodeReadNetworkingV1NamespacedIngressStatusResponse(response ReadNetworki
 	case *IoK8sAPINetworkingV1Ingress:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8033,7 +11111,6 @@ func encodeReadNetworkingV1NamespacedIngressStatusResponse(response ReadNetworki
 
 	case *ReadNetworkingV1NamespacedIngressStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8047,7 +11124,6 @@ func encodeReadNetworkingV1NamespacedNetworkPolicyResponse(response ReadNetworki
 	case *IoK8sAPINetworkingV1NetworkPolicy:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8059,7 +11135,6 @@ func encodeReadNetworkingV1NamespacedNetworkPolicyResponse(response ReadNetworki
 
 	case *ReadNetworkingV1NamespacedNetworkPolicyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8073,7 +11148,6 @@ func encodeReadNodeV1RuntimeClassResponse(response ReadNodeV1RuntimeClassRes, w 
 	case *IoK8sAPINodeV1RuntimeClass:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8085,7 +11159,6 @@ func encodeReadNodeV1RuntimeClassResponse(response ReadNodeV1RuntimeClassRes, w 
 
 	case *ReadNodeV1RuntimeClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8099,7 +11172,6 @@ func encodeReadNodeV1alpha1RuntimeClassResponse(response ReadNodeV1alpha1Runtime
 	case *IoK8sAPINodeV1alpha1RuntimeClass:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8111,7 +11183,6 @@ func encodeReadNodeV1alpha1RuntimeClassResponse(response ReadNodeV1alpha1Runtime
 
 	case *ReadNodeV1alpha1RuntimeClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8125,7 +11196,6 @@ func encodeReadNodeV1beta1RuntimeClassResponse(response ReadNodeV1beta1RuntimeCl
 	case *IoK8sAPINodeV1beta1RuntimeClass:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8137,7 +11207,6 @@ func encodeReadNodeV1beta1RuntimeClassResponse(response ReadNodeV1beta1RuntimeCl
 
 	case *ReadNodeV1beta1RuntimeClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8151,7 +11220,6 @@ func encodeReadPolicyV1NamespacedPodDisruptionBudgetResponse(response ReadPolicy
 	case *IoK8sAPIPolicyV1PodDisruptionBudget:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8163,7 +11231,6 @@ func encodeReadPolicyV1NamespacedPodDisruptionBudgetResponse(response ReadPolicy
 
 	case *ReadPolicyV1NamespacedPodDisruptionBudgetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8177,7 +11244,6 @@ func encodeReadPolicyV1NamespacedPodDisruptionBudgetStatusResponse(response Read
 	case *IoK8sAPIPolicyV1PodDisruptionBudget:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8189,7 +11255,6 @@ func encodeReadPolicyV1NamespacedPodDisruptionBudgetStatusResponse(response Read
 
 	case *ReadPolicyV1NamespacedPodDisruptionBudgetStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8203,7 +11268,6 @@ func encodeReadPolicyV1beta1NamespacedPodDisruptionBudgetResponse(response ReadP
 	case *IoK8sAPIPolicyV1beta1PodDisruptionBudget:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8215,7 +11279,6 @@ func encodeReadPolicyV1beta1NamespacedPodDisruptionBudgetResponse(response ReadP
 
 	case *ReadPolicyV1beta1NamespacedPodDisruptionBudgetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8229,7 +11292,6 @@ func encodeReadPolicyV1beta1NamespacedPodDisruptionBudgetStatusResponse(response
 	case *IoK8sAPIPolicyV1beta1PodDisruptionBudget:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8241,7 +11303,6 @@ func encodeReadPolicyV1beta1NamespacedPodDisruptionBudgetStatusResponse(response
 
 	case *ReadPolicyV1beta1NamespacedPodDisruptionBudgetStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8255,7 +11316,6 @@ func encodeReadPolicyV1beta1PodSecurityPolicyResponse(response ReadPolicyV1beta1
 	case *IoK8sAPIPolicyV1beta1PodSecurityPolicy:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8267,7 +11327,6 @@ func encodeReadPolicyV1beta1PodSecurityPolicyResponse(response ReadPolicyV1beta1
 
 	case *ReadPolicyV1beta1PodSecurityPolicyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8281,7 +11340,6 @@ func encodeReadRbacAuthorizationV1ClusterRoleResponse(response ReadRbacAuthoriza
 	case *IoK8sAPIRbacV1ClusterRole:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8293,7 +11351,6 @@ func encodeReadRbacAuthorizationV1ClusterRoleResponse(response ReadRbacAuthoriza
 
 	case *ReadRbacAuthorizationV1ClusterRoleUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8307,7 +11364,6 @@ func encodeReadRbacAuthorizationV1ClusterRoleBindingResponse(response ReadRbacAu
 	case *IoK8sAPIRbacV1ClusterRoleBinding:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8319,7 +11375,6 @@ func encodeReadRbacAuthorizationV1ClusterRoleBindingResponse(response ReadRbacAu
 
 	case *ReadRbacAuthorizationV1ClusterRoleBindingUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8333,7 +11388,6 @@ func encodeReadRbacAuthorizationV1NamespacedRoleResponse(response ReadRbacAuthor
 	case *IoK8sAPIRbacV1Role:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8345,7 +11399,6 @@ func encodeReadRbacAuthorizationV1NamespacedRoleResponse(response ReadRbacAuthor
 
 	case *ReadRbacAuthorizationV1NamespacedRoleUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8359,7 +11412,6 @@ func encodeReadRbacAuthorizationV1NamespacedRoleBindingResponse(response ReadRba
 	case *IoK8sAPIRbacV1RoleBinding:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8371,7 +11423,6 @@ func encodeReadRbacAuthorizationV1NamespacedRoleBindingResponse(response ReadRba
 
 	case *ReadRbacAuthorizationV1NamespacedRoleBindingUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8385,7 +11436,6 @@ func encodeReadSchedulingV1PriorityClassResponse(response ReadSchedulingV1Priori
 	case *IoK8sAPISchedulingV1PriorityClass:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8397,7 +11447,6 @@ func encodeReadSchedulingV1PriorityClassResponse(response ReadSchedulingV1Priori
 
 	case *ReadSchedulingV1PriorityClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8411,7 +11460,6 @@ func encodeReadStorageV1CSIDriverResponse(response ReadStorageV1CSIDriverRes, w 
 	case *IoK8sAPIStorageV1CSIDriver:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8423,7 +11471,6 @@ func encodeReadStorageV1CSIDriverResponse(response ReadStorageV1CSIDriverRes, w 
 
 	case *ReadStorageV1CSIDriverUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8437,7 +11484,6 @@ func encodeReadStorageV1CSINodeResponse(response ReadStorageV1CSINodeRes, w http
 	case *IoK8sAPIStorageV1CSINode:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8449,7 +11495,6 @@ func encodeReadStorageV1CSINodeResponse(response ReadStorageV1CSINodeRes, w http
 
 	case *ReadStorageV1CSINodeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8463,7 +11508,6 @@ func encodeReadStorageV1StorageClassResponse(response ReadStorageV1StorageClassR
 	case *IoK8sAPIStorageV1StorageClass:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8475,7 +11519,6 @@ func encodeReadStorageV1StorageClassResponse(response ReadStorageV1StorageClassR
 
 	case *ReadStorageV1StorageClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8489,7 +11532,6 @@ func encodeReadStorageV1VolumeAttachmentResponse(response ReadStorageV1VolumeAtt
 	case *IoK8sAPIStorageV1VolumeAttachment:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8501,7 +11543,6 @@ func encodeReadStorageV1VolumeAttachmentResponse(response ReadStorageV1VolumeAtt
 
 	case *ReadStorageV1VolumeAttachmentUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8515,7 +11556,6 @@ func encodeReadStorageV1VolumeAttachmentStatusResponse(response ReadStorageV1Vol
 	case *IoK8sAPIStorageV1VolumeAttachment:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8527,7 +11567,6 @@ func encodeReadStorageV1VolumeAttachmentStatusResponse(response ReadStorageV1Vol
 
 	case *ReadStorageV1VolumeAttachmentStatusUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8541,7 +11580,6 @@ func encodeReadStorageV1alpha1NamespacedCSIStorageCapacityResponse(response Read
 	case *IoK8sAPIStorageV1alpha1CSIStorageCapacity:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8553,7 +11591,6 @@ func encodeReadStorageV1alpha1NamespacedCSIStorageCapacityResponse(response Read
 
 	case *ReadStorageV1alpha1NamespacedCSIStorageCapacityUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8567,7 +11604,6 @@ func encodeReadStorageV1beta1NamespacedCSIStorageCapacityResponse(response ReadS
 	case *IoK8sAPIStorageV1beta1CSIStorageCapacity:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8579,7 +11615,6 @@ func encodeReadStorageV1beta1NamespacedCSIStorageCapacityResponse(response ReadS
 
 	case *ReadStorageV1beta1NamespacedCSIStorageCapacityUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8593,7 +11628,6 @@ func encodeWatchAdmissionregistrationV1MutatingWebhookConfigurationResponse(resp
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8605,7 +11639,6 @@ func encodeWatchAdmissionregistrationV1MutatingWebhookConfigurationResponse(resp
 
 	case *WatchAdmissionregistrationV1MutatingWebhookConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8619,7 +11652,6 @@ func encodeWatchAdmissionregistrationV1MutatingWebhookConfigurationListResponse(
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8631,7 +11663,6 @@ func encodeWatchAdmissionregistrationV1MutatingWebhookConfigurationListResponse(
 
 	case *WatchAdmissionregistrationV1MutatingWebhookConfigurationListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8645,7 +11676,6 @@ func encodeWatchAdmissionregistrationV1ValidatingWebhookConfigurationResponse(re
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8657,7 +11687,6 @@ func encodeWatchAdmissionregistrationV1ValidatingWebhookConfigurationResponse(re
 
 	case *WatchAdmissionregistrationV1ValidatingWebhookConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8671,7 +11700,6 @@ func encodeWatchAdmissionregistrationV1ValidatingWebhookConfigurationListRespons
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8683,7 +11711,6 @@ func encodeWatchAdmissionregistrationV1ValidatingWebhookConfigurationListRespons
 
 	case *WatchAdmissionregistrationV1ValidatingWebhookConfigurationListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8697,7 +11724,6 @@ func encodeWatchApiextensionsV1CustomResourceDefinitionResponse(response WatchAp
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8709,7 +11735,6 @@ func encodeWatchApiextensionsV1CustomResourceDefinitionResponse(response WatchAp
 
 	case *WatchApiextensionsV1CustomResourceDefinitionUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8723,7 +11748,6 @@ func encodeWatchApiextensionsV1CustomResourceDefinitionListResponse(response Wat
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8735,7 +11759,6 @@ func encodeWatchApiextensionsV1CustomResourceDefinitionListResponse(response Wat
 
 	case *WatchApiextensionsV1CustomResourceDefinitionListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8749,7 +11772,6 @@ func encodeWatchApiregistrationV1APIServiceResponse(response WatchApiregistratio
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8761,7 +11783,6 @@ func encodeWatchApiregistrationV1APIServiceResponse(response WatchApiregistratio
 
 	case *WatchApiregistrationV1APIServiceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8775,7 +11796,6 @@ func encodeWatchApiregistrationV1APIServiceListResponse(response WatchApiregistr
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8787,7 +11807,6 @@ func encodeWatchApiregistrationV1APIServiceListResponse(response WatchApiregistr
 
 	case *WatchApiregistrationV1APIServiceListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8801,7 +11820,6 @@ func encodeWatchAppsV1ControllerRevisionListForAllNamespacesResponse(response Wa
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8813,7 +11831,6 @@ func encodeWatchAppsV1ControllerRevisionListForAllNamespacesResponse(response Wa
 
 	case *WatchAppsV1ControllerRevisionListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8827,7 +11844,6 @@ func encodeWatchAppsV1DaemonSetListForAllNamespacesResponse(response WatchAppsV1
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8839,7 +11855,6 @@ func encodeWatchAppsV1DaemonSetListForAllNamespacesResponse(response WatchAppsV1
 
 	case *WatchAppsV1DaemonSetListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8853,7 +11868,6 @@ func encodeWatchAppsV1DeploymentListForAllNamespacesResponse(response WatchAppsV
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8865,7 +11879,6 @@ func encodeWatchAppsV1DeploymentListForAllNamespacesResponse(response WatchAppsV
 
 	case *WatchAppsV1DeploymentListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8879,7 +11892,6 @@ func encodeWatchAppsV1NamespacedControllerRevisionResponse(response WatchAppsV1N
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8891,7 +11903,6 @@ func encodeWatchAppsV1NamespacedControllerRevisionResponse(response WatchAppsV1N
 
 	case *WatchAppsV1NamespacedControllerRevisionUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8905,7 +11916,6 @@ func encodeWatchAppsV1NamespacedControllerRevisionListResponse(response WatchApp
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8917,7 +11927,6 @@ func encodeWatchAppsV1NamespacedControllerRevisionListResponse(response WatchApp
 
 	case *WatchAppsV1NamespacedControllerRevisionListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8931,7 +11940,6 @@ func encodeWatchAppsV1NamespacedDaemonSetResponse(response WatchAppsV1Namespaced
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8943,7 +11951,6 @@ func encodeWatchAppsV1NamespacedDaemonSetResponse(response WatchAppsV1Namespaced
 
 	case *WatchAppsV1NamespacedDaemonSetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8957,7 +11964,6 @@ func encodeWatchAppsV1NamespacedDaemonSetListResponse(response WatchAppsV1Namesp
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8969,7 +11975,6 @@ func encodeWatchAppsV1NamespacedDaemonSetListResponse(response WatchAppsV1Namesp
 
 	case *WatchAppsV1NamespacedDaemonSetListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -8983,7 +11988,6 @@ func encodeWatchAppsV1NamespacedDeploymentResponse(response WatchAppsV1Namespace
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -8995,7 +11999,6 @@ func encodeWatchAppsV1NamespacedDeploymentResponse(response WatchAppsV1Namespace
 
 	case *WatchAppsV1NamespacedDeploymentUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9009,7 +12012,6 @@ func encodeWatchAppsV1NamespacedDeploymentListResponse(response WatchAppsV1Names
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9021,7 +12023,6 @@ func encodeWatchAppsV1NamespacedDeploymentListResponse(response WatchAppsV1Names
 
 	case *WatchAppsV1NamespacedDeploymentListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9035,7 +12036,6 @@ func encodeWatchAppsV1NamespacedReplicaSetResponse(response WatchAppsV1Namespace
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9047,7 +12047,6 @@ func encodeWatchAppsV1NamespacedReplicaSetResponse(response WatchAppsV1Namespace
 
 	case *WatchAppsV1NamespacedReplicaSetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9061,7 +12060,6 @@ func encodeWatchAppsV1NamespacedReplicaSetListResponse(response WatchAppsV1Names
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9073,7 +12071,6 @@ func encodeWatchAppsV1NamespacedReplicaSetListResponse(response WatchAppsV1Names
 
 	case *WatchAppsV1NamespacedReplicaSetListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9087,7 +12084,6 @@ func encodeWatchAppsV1NamespacedStatefulSetResponse(response WatchAppsV1Namespac
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9099,7 +12095,6 @@ func encodeWatchAppsV1NamespacedStatefulSetResponse(response WatchAppsV1Namespac
 
 	case *WatchAppsV1NamespacedStatefulSetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9113,7 +12108,6 @@ func encodeWatchAppsV1NamespacedStatefulSetListResponse(response WatchAppsV1Name
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9125,7 +12119,6 @@ func encodeWatchAppsV1NamespacedStatefulSetListResponse(response WatchAppsV1Name
 
 	case *WatchAppsV1NamespacedStatefulSetListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9139,7 +12132,6 @@ func encodeWatchAppsV1ReplicaSetListForAllNamespacesResponse(response WatchAppsV
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9151,7 +12143,6 @@ func encodeWatchAppsV1ReplicaSetListForAllNamespacesResponse(response WatchAppsV
 
 	case *WatchAppsV1ReplicaSetListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9165,7 +12156,6 @@ func encodeWatchAppsV1StatefulSetListForAllNamespacesResponse(response WatchApps
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9177,7 +12167,6 @@ func encodeWatchAppsV1StatefulSetListForAllNamespacesResponse(response WatchApps
 
 	case *WatchAppsV1StatefulSetListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9191,7 +12180,6 @@ func encodeWatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespacesResponse
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9203,7 +12191,6 @@ func encodeWatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespacesResponse
 
 	case *WatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9217,7 +12204,6 @@ func encodeWatchAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(response 
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9229,7 +12215,6 @@ func encodeWatchAutoscalingV1NamespacedHorizontalPodAutoscalerResponse(response 
 
 	case *WatchAutoscalingV1NamespacedHorizontalPodAutoscalerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9243,7 +12228,6 @@ func encodeWatchAutoscalingV1NamespacedHorizontalPodAutoscalerListResponse(respo
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9255,7 +12239,6 @@ func encodeWatchAutoscalingV1NamespacedHorizontalPodAutoscalerListResponse(respo
 
 	case *WatchAutoscalingV1NamespacedHorizontalPodAutoscalerListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9269,7 +12252,6 @@ func encodeWatchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespacesRes
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9281,7 +12263,6 @@ func encodeWatchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespacesRes
 
 	case *WatchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9295,7 +12276,6 @@ func encodeWatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(resp
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9307,7 +12287,6 @@ func encodeWatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerResponse(resp
 
 	case *WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9321,7 +12300,6 @@ func encodeWatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerListResponse(
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9333,7 +12311,6 @@ func encodeWatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerListResponse(
 
 	case *WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9347,7 +12324,6 @@ func encodeWatchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespacesRes
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9359,7 +12335,6 @@ func encodeWatchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespacesRes
 
 	case *WatchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9373,7 +12348,6 @@ func encodeWatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(resp
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9385,7 +12359,6 @@ func encodeWatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerResponse(resp
 
 	case *WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9399,7 +12372,6 @@ func encodeWatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerListResponse(
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9411,7 +12383,6 @@ func encodeWatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerListResponse(
 
 	case *WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9425,7 +12396,6 @@ func encodeWatchBatchV1CronJobListForAllNamespacesResponse(response WatchBatchV1
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9437,7 +12407,6 @@ func encodeWatchBatchV1CronJobListForAllNamespacesResponse(response WatchBatchV1
 
 	case *WatchBatchV1CronJobListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9451,7 +12420,6 @@ func encodeWatchBatchV1JobListForAllNamespacesResponse(response WatchBatchV1JobL
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9463,7 +12431,6 @@ func encodeWatchBatchV1JobListForAllNamespacesResponse(response WatchBatchV1JobL
 
 	case *WatchBatchV1JobListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9477,7 +12444,6 @@ func encodeWatchBatchV1NamespacedCronJobResponse(response WatchBatchV1Namespaced
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9489,7 +12455,6 @@ func encodeWatchBatchV1NamespacedCronJobResponse(response WatchBatchV1Namespaced
 
 	case *WatchBatchV1NamespacedCronJobUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9503,7 +12468,6 @@ func encodeWatchBatchV1NamespacedCronJobListResponse(response WatchBatchV1Namesp
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9515,7 +12479,6 @@ func encodeWatchBatchV1NamespacedCronJobListResponse(response WatchBatchV1Namesp
 
 	case *WatchBatchV1NamespacedCronJobListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9529,7 +12492,6 @@ func encodeWatchBatchV1NamespacedJobResponse(response WatchBatchV1NamespacedJobR
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9541,7 +12503,6 @@ func encodeWatchBatchV1NamespacedJobResponse(response WatchBatchV1NamespacedJobR
 
 	case *WatchBatchV1NamespacedJobUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9555,7 +12516,6 @@ func encodeWatchBatchV1NamespacedJobListResponse(response WatchBatchV1Namespaced
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9567,7 +12527,6 @@ func encodeWatchBatchV1NamespacedJobListResponse(response WatchBatchV1Namespaced
 
 	case *WatchBatchV1NamespacedJobListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9581,7 +12540,6 @@ func encodeWatchBatchV1beta1CronJobListForAllNamespacesResponse(response WatchBa
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9593,7 +12551,6 @@ func encodeWatchBatchV1beta1CronJobListForAllNamespacesResponse(response WatchBa
 
 	case *WatchBatchV1beta1CronJobListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9607,7 +12564,6 @@ func encodeWatchBatchV1beta1NamespacedCronJobResponse(response WatchBatchV1beta1
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9619,7 +12575,6 @@ func encodeWatchBatchV1beta1NamespacedCronJobResponse(response WatchBatchV1beta1
 
 	case *WatchBatchV1beta1NamespacedCronJobUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9633,7 +12588,6 @@ func encodeWatchBatchV1beta1NamespacedCronJobListResponse(response WatchBatchV1b
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9645,7 +12599,6 @@ func encodeWatchBatchV1beta1NamespacedCronJobListResponse(response WatchBatchV1b
 
 	case *WatchBatchV1beta1NamespacedCronJobListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9659,7 +12612,6 @@ func encodeWatchCertificatesV1CertificateSigningRequestResponse(response WatchCe
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9671,7 +12623,6 @@ func encodeWatchCertificatesV1CertificateSigningRequestResponse(response WatchCe
 
 	case *WatchCertificatesV1CertificateSigningRequestUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9685,7 +12636,6 @@ func encodeWatchCertificatesV1CertificateSigningRequestListResponse(response Wat
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9697,7 +12647,6 @@ func encodeWatchCertificatesV1CertificateSigningRequestListResponse(response Wat
 
 	case *WatchCertificatesV1CertificateSigningRequestListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9711,7 +12660,6 @@ func encodeWatchCoordinationV1LeaseListForAllNamespacesResponse(response WatchCo
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9723,7 +12671,6 @@ func encodeWatchCoordinationV1LeaseListForAllNamespacesResponse(response WatchCo
 
 	case *WatchCoordinationV1LeaseListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9737,7 +12684,6 @@ func encodeWatchCoordinationV1NamespacedLeaseResponse(response WatchCoordination
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9749,7 +12695,6 @@ func encodeWatchCoordinationV1NamespacedLeaseResponse(response WatchCoordination
 
 	case *WatchCoordinationV1NamespacedLeaseUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9763,7 +12708,6 @@ func encodeWatchCoordinationV1NamespacedLeaseListResponse(response WatchCoordina
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9775,7 +12719,6 @@ func encodeWatchCoordinationV1NamespacedLeaseListResponse(response WatchCoordina
 
 	case *WatchCoordinationV1NamespacedLeaseListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9789,7 +12732,6 @@ func encodeWatchCoreV1ConfigMapListForAllNamespacesResponse(response WatchCoreV1
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9801,7 +12743,6 @@ func encodeWatchCoreV1ConfigMapListForAllNamespacesResponse(response WatchCoreV1
 
 	case *WatchCoreV1ConfigMapListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9815,7 +12756,6 @@ func encodeWatchCoreV1EndpointsListForAllNamespacesResponse(response WatchCoreV1
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9827,7 +12767,6 @@ func encodeWatchCoreV1EndpointsListForAllNamespacesResponse(response WatchCoreV1
 
 	case *WatchCoreV1EndpointsListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9841,7 +12780,6 @@ func encodeWatchCoreV1EventListForAllNamespacesResponse(response WatchCoreV1Even
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9853,7 +12791,6 @@ func encodeWatchCoreV1EventListForAllNamespacesResponse(response WatchCoreV1Even
 
 	case *WatchCoreV1EventListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9867,7 +12804,6 @@ func encodeWatchCoreV1LimitRangeListForAllNamespacesResponse(response WatchCoreV
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9879,7 +12815,6 @@ func encodeWatchCoreV1LimitRangeListForAllNamespacesResponse(response WatchCoreV
 
 	case *WatchCoreV1LimitRangeListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9893,7 +12828,6 @@ func encodeWatchCoreV1NamespaceResponse(response WatchCoreV1NamespaceRes, w http
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9905,7 +12839,6 @@ func encodeWatchCoreV1NamespaceResponse(response WatchCoreV1NamespaceRes, w http
 
 	case *WatchCoreV1NamespaceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9919,7 +12852,6 @@ func encodeWatchCoreV1NamespaceListResponse(response WatchCoreV1NamespaceListRes
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9931,7 +12863,6 @@ func encodeWatchCoreV1NamespaceListResponse(response WatchCoreV1NamespaceListRes
 
 	case *WatchCoreV1NamespaceListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9945,7 +12876,6 @@ func encodeWatchCoreV1NamespacedConfigMapResponse(response WatchCoreV1Namespaced
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9957,7 +12887,6 @@ func encodeWatchCoreV1NamespacedConfigMapResponse(response WatchCoreV1Namespaced
 
 	case *WatchCoreV1NamespacedConfigMapUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9971,7 +12900,6 @@ func encodeWatchCoreV1NamespacedConfigMapListResponse(response WatchCoreV1Namesp
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -9983,7 +12911,6 @@ func encodeWatchCoreV1NamespacedConfigMapListResponse(response WatchCoreV1Namesp
 
 	case *WatchCoreV1NamespacedConfigMapListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -9997,7 +12924,6 @@ func encodeWatchCoreV1NamespacedEndpointsResponse(response WatchCoreV1Namespaced
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10009,7 +12935,6 @@ func encodeWatchCoreV1NamespacedEndpointsResponse(response WatchCoreV1Namespaced
 
 	case *WatchCoreV1NamespacedEndpointsUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10023,7 +12948,6 @@ func encodeWatchCoreV1NamespacedEndpointsListResponse(response WatchCoreV1Namesp
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10035,7 +12959,6 @@ func encodeWatchCoreV1NamespacedEndpointsListResponse(response WatchCoreV1Namesp
 
 	case *WatchCoreV1NamespacedEndpointsListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10049,7 +12972,6 @@ func encodeWatchCoreV1NamespacedEventResponse(response WatchCoreV1NamespacedEven
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10061,7 +12983,6 @@ func encodeWatchCoreV1NamespacedEventResponse(response WatchCoreV1NamespacedEven
 
 	case *WatchCoreV1NamespacedEventUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10075,7 +12996,6 @@ func encodeWatchCoreV1NamespacedEventListResponse(response WatchCoreV1Namespaced
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10087,7 +13007,6 @@ func encodeWatchCoreV1NamespacedEventListResponse(response WatchCoreV1Namespaced
 
 	case *WatchCoreV1NamespacedEventListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10101,7 +13020,6 @@ func encodeWatchCoreV1NamespacedLimitRangeResponse(response WatchCoreV1Namespace
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10113,7 +13031,6 @@ func encodeWatchCoreV1NamespacedLimitRangeResponse(response WatchCoreV1Namespace
 
 	case *WatchCoreV1NamespacedLimitRangeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10127,7 +13044,6 @@ func encodeWatchCoreV1NamespacedLimitRangeListResponse(response WatchCoreV1Names
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10139,7 +13055,6 @@ func encodeWatchCoreV1NamespacedLimitRangeListResponse(response WatchCoreV1Names
 
 	case *WatchCoreV1NamespacedLimitRangeListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10153,7 +13068,6 @@ func encodeWatchCoreV1NamespacedPersistentVolumeClaimResponse(response WatchCore
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10165,7 +13079,6 @@ func encodeWatchCoreV1NamespacedPersistentVolumeClaimResponse(response WatchCore
 
 	case *WatchCoreV1NamespacedPersistentVolumeClaimUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10179,7 +13092,6 @@ func encodeWatchCoreV1NamespacedPersistentVolumeClaimListResponse(response Watch
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10191,7 +13103,6 @@ func encodeWatchCoreV1NamespacedPersistentVolumeClaimListResponse(response Watch
 
 	case *WatchCoreV1NamespacedPersistentVolumeClaimListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10205,7 +13116,6 @@ func encodeWatchCoreV1NamespacedPodResponse(response WatchCoreV1NamespacedPodRes
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10217,7 +13127,6 @@ func encodeWatchCoreV1NamespacedPodResponse(response WatchCoreV1NamespacedPodRes
 
 	case *WatchCoreV1NamespacedPodUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10231,7 +13140,6 @@ func encodeWatchCoreV1NamespacedPodListResponse(response WatchCoreV1NamespacedPo
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10243,7 +13151,6 @@ func encodeWatchCoreV1NamespacedPodListResponse(response WatchCoreV1NamespacedPo
 
 	case *WatchCoreV1NamespacedPodListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10257,7 +13164,6 @@ func encodeWatchCoreV1NamespacedPodTemplateResponse(response WatchCoreV1Namespac
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10269,7 +13175,6 @@ func encodeWatchCoreV1NamespacedPodTemplateResponse(response WatchCoreV1Namespac
 
 	case *WatchCoreV1NamespacedPodTemplateUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10283,7 +13188,6 @@ func encodeWatchCoreV1NamespacedPodTemplateListResponse(response WatchCoreV1Name
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10295,7 +13199,6 @@ func encodeWatchCoreV1NamespacedPodTemplateListResponse(response WatchCoreV1Name
 
 	case *WatchCoreV1NamespacedPodTemplateListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10309,7 +13212,6 @@ func encodeWatchCoreV1NamespacedReplicationControllerResponse(response WatchCore
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10321,7 +13223,6 @@ func encodeWatchCoreV1NamespacedReplicationControllerResponse(response WatchCore
 
 	case *WatchCoreV1NamespacedReplicationControllerUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10335,7 +13236,6 @@ func encodeWatchCoreV1NamespacedReplicationControllerListResponse(response Watch
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10347,7 +13247,6 @@ func encodeWatchCoreV1NamespacedReplicationControllerListResponse(response Watch
 
 	case *WatchCoreV1NamespacedReplicationControllerListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10361,7 +13260,6 @@ func encodeWatchCoreV1NamespacedResourceQuotaResponse(response WatchCoreV1Namesp
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10373,7 +13271,6 @@ func encodeWatchCoreV1NamespacedResourceQuotaResponse(response WatchCoreV1Namesp
 
 	case *WatchCoreV1NamespacedResourceQuotaUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10387,7 +13284,6 @@ func encodeWatchCoreV1NamespacedResourceQuotaListResponse(response WatchCoreV1Na
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10399,7 +13295,6 @@ func encodeWatchCoreV1NamespacedResourceQuotaListResponse(response WatchCoreV1Na
 
 	case *WatchCoreV1NamespacedResourceQuotaListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10413,7 +13308,6 @@ func encodeWatchCoreV1NamespacedSecretResponse(response WatchCoreV1NamespacedSec
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10425,7 +13319,6 @@ func encodeWatchCoreV1NamespacedSecretResponse(response WatchCoreV1NamespacedSec
 
 	case *WatchCoreV1NamespacedSecretUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10439,7 +13332,6 @@ func encodeWatchCoreV1NamespacedSecretListResponse(response WatchCoreV1Namespace
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10451,7 +13343,6 @@ func encodeWatchCoreV1NamespacedSecretListResponse(response WatchCoreV1Namespace
 
 	case *WatchCoreV1NamespacedSecretListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10465,7 +13356,6 @@ func encodeWatchCoreV1NamespacedServiceResponse(response WatchCoreV1NamespacedSe
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10477,7 +13367,6 @@ func encodeWatchCoreV1NamespacedServiceResponse(response WatchCoreV1NamespacedSe
 
 	case *WatchCoreV1NamespacedServiceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10491,7 +13380,6 @@ func encodeWatchCoreV1NamespacedServiceAccountResponse(response WatchCoreV1Names
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10503,7 +13391,6 @@ func encodeWatchCoreV1NamespacedServiceAccountResponse(response WatchCoreV1Names
 
 	case *WatchCoreV1NamespacedServiceAccountUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10517,7 +13404,6 @@ func encodeWatchCoreV1NamespacedServiceAccountListResponse(response WatchCoreV1N
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10529,7 +13415,6 @@ func encodeWatchCoreV1NamespacedServiceAccountListResponse(response WatchCoreV1N
 
 	case *WatchCoreV1NamespacedServiceAccountListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10543,7 +13428,6 @@ func encodeWatchCoreV1NamespacedServiceListResponse(response WatchCoreV1Namespac
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10555,7 +13439,6 @@ func encodeWatchCoreV1NamespacedServiceListResponse(response WatchCoreV1Namespac
 
 	case *WatchCoreV1NamespacedServiceListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10569,7 +13452,6 @@ func encodeWatchCoreV1NodeResponse(response WatchCoreV1NodeRes, w http.ResponseW
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10581,7 +13463,6 @@ func encodeWatchCoreV1NodeResponse(response WatchCoreV1NodeRes, w http.ResponseW
 
 	case *WatchCoreV1NodeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10595,7 +13476,6 @@ func encodeWatchCoreV1NodeListResponse(response WatchCoreV1NodeListRes, w http.R
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10607,7 +13487,6 @@ func encodeWatchCoreV1NodeListResponse(response WatchCoreV1NodeListRes, w http.R
 
 	case *WatchCoreV1NodeListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10621,7 +13500,6 @@ func encodeWatchCoreV1PersistentVolumeResponse(response WatchCoreV1PersistentVol
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10633,7 +13511,6 @@ func encodeWatchCoreV1PersistentVolumeResponse(response WatchCoreV1PersistentVol
 
 	case *WatchCoreV1PersistentVolumeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10647,7 +13524,6 @@ func encodeWatchCoreV1PersistentVolumeClaimListForAllNamespacesResponse(response
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10659,7 +13535,6 @@ func encodeWatchCoreV1PersistentVolumeClaimListForAllNamespacesResponse(response
 
 	case *WatchCoreV1PersistentVolumeClaimListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10673,7 +13548,6 @@ func encodeWatchCoreV1PersistentVolumeListResponse(response WatchCoreV1Persisten
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10685,7 +13559,6 @@ func encodeWatchCoreV1PersistentVolumeListResponse(response WatchCoreV1Persisten
 
 	case *WatchCoreV1PersistentVolumeListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10699,7 +13572,6 @@ func encodeWatchCoreV1PodListForAllNamespacesResponse(response WatchCoreV1PodLis
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10711,7 +13583,6 @@ func encodeWatchCoreV1PodListForAllNamespacesResponse(response WatchCoreV1PodLis
 
 	case *WatchCoreV1PodListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10725,7 +13596,6 @@ func encodeWatchCoreV1PodTemplateListForAllNamespacesResponse(response WatchCore
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10737,7 +13607,6 @@ func encodeWatchCoreV1PodTemplateListForAllNamespacesResponse(response WatchCore
 
 	case *WatchCoreV1PodTemplateListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10751,7 +13620,6 @@ func encodeWatchCoreV1ReplicationControllerListForAllNamespacesResponse(response
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10763,7 +13631,6 @@ func encodeWatchCoreV1ReplicationControllerListForAllNamespacesResponse(response
 
 	case *WatchCoreV1ReplicationControllerListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10777,7 +13644,6 @@ func encodeWatchCoreV1ResourceQuotaListForAllNamespacesResponse(response WatchCo
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10789,7 +13655,6 @@ func encodeWatchCoreV1ResourceQuotaListForAllNamespacesResponse(response WatchCo
 
 	case *WatchCoreV1ResourceQuotaListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10803,7 +13668,6 @@ func encodeWatchCoreV1SecretListForAllNamespacesResponse(response WatchCoreV1Sec
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10815,7 +13679,6 @@ func encodeWatchCoreV1SecretListForAllNamespacesResponse(response WatchCoreV1Sec
 
 	case *WatchCoreV1SecretListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10829,7 +13692,6 @@ func encodeWatchCoreV1ServiceAccountListForAllNamespacesResponse(response WatchC
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10841,7 +13703,6 @@ func encodeWatchCoreV1ServiceAccountListForAllNamespacesResponse(response WatchC
 
 	case *WatchCoreV1ServiceAccountListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10855,7 +13716,6 @@ func encodeWatchCoreV1ServiceListForAllNamespacesResponse(response WatchCoreV1Se
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10867,7 +13727,6 @@ func encodeWatchCoreV1ServiceListForAllNamespacesResponse(response WatchCoreV1Se
 
 	case *WatchCoreV1ServiceListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10881,7 +13740,6 @@ func encodeWatchDiscoveryV1EndpointSliceListForAllNamespacesResponse(response Wa
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10893,7 +13751,6 @@ func encodeWatchDiscoveryV1EndpointSliceListForAllNamespacesResponse(response Wa
 
 	case *WatchDiscoveryV1EndpointSliceListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10907,7 +13764,6 @@ func encodeWatchDiscoveryV1NamespacedEndpointSliceResponse(response WatchDiscove
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10919,7 +13775,6 @@ func encodeWatchDiscoveryV1NamespacedEndpointSliceResponse(response WatchDiscove
 
 	case *WatchDiscoveryV1NamespacedEndpointSliceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10933,7 +13788,6 @@ func encodeWatchDiscoveryV1NamespacedEndpointSliceListResponse(response WatchDis
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10945,7 +13799,6 @@ func encodeWatchDiscoveryV1NamespacedEndpointSliceListResponse(response WatchDis
 
 	case *WatchDiscoveryV1NamespacedEndpointSliceListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10959,7 +13812,6 @@ func encodeWatchDiscoveryV1beta1EndpointSliceListForAllNamespacesResponse(respon
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10971,7 +13823,6 @@ func encodeWatchDiscoveryV1beta1EndpointSliceListForAllNamespacesResponse(respon
 
 	case *WatchDiscoveryV1beta1EndpointSliceListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -10985,7 +13836,6 @@ func encodeWatchDiscoveryV1beta1NamespacedEndpointSliceResponse(response WatchDi
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -10997,7 +13847,6 @@ func encodeWatchDiscoveryV1beta1NamespacedEndpointSliceResponse(response WatchDi
 
 	case *WatchDiscoveryV1beta1NamespacedEndpointSliceUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11011,7 +13860,6 @@ func encodeWatchDiscoveryV1beta1NamespacedEndpointSliceListResponse(response Wat
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11023,7 +13871,6 @@ func encodeWatchDiscoveryV1beta1NamespacedEndpointSliceListResponse(response Wat
 
 	case *WatchDiscoveryV1beta1NamespacedEndpointSliceListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11037,7 +13884,6 @@ func encodeWatchEventsV1EventListForAllNamespacesResponse(response WatchEventsV1
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11049,7 +13895,6 @@ func encodeWatchEventsV1EventListForAllNamespacesResponse(response WatchEventsV1
 
 	case *WatchEventsV1EventListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11063,7 +13908,6 @@ func encodeWatchEventsV1NamespacedEventResponse(response WatchEventsV1Namespaced
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11075,7 +13919,6 @@ func encodeWatchEventsV1NamespacedEventResponse(response WatchEventsV1Namespaced
 
 	case *WatchEventsV1NamespacedEventUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11089,7 +13932,6 @@ func encodeWatchEventsV1NamespacedEventListResponse(response WatchEventsV1Namesp
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11101,7 +13943,6 @@ func encodeWatchEventsV1NamespacedEventListResponse(response WatchEventsV1Namesp
 
 	case *WatchEventsV1NamespacedEventListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11115,7 +13956,6 @@ func encodeWatchEventsV1beta1EventListForAllNamespacesResponse(response WatchEve
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11127,7 +13967,6 @@ func encodeWatchEventsV1beta1EventListForAllNamespacesResponse(response WatchEve
 
 	case *WatchEventsV1beta1EventListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11141,7 +13980,6 @@ func encodeWatchEventsV1beta1NamespacedEventResponse(response WatchEventsV1beta1
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11153,7 +13991,6 @@ func encodeWatchEventsV1beta1NamespacedEventResponse(response WatchEventsV1beta1
 
 	case *WatchEventsV1beta1NamespacedEventUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11167,7 +14004,6 @@ func encodeWatchEventsV1beta1NamespacedEventListResponse(response WatchEventsV1b
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11179,7 +14015,6 @@ func encodeWatchEventsV1beta1NamespacedEventListResponse(response WatchEventsV1b
 
 	case *WatchEventsV1beta1NamespacedEventListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11193,7 +14028,6 @@ func encodeWatchFlowcontrolApiserverV1beta1FlowSchemaResponse(response WatchFlow
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11205,7 +14039,6 @@ func encodeWatchFlowcontrolApiserverV1beta1FlowSchemaResponse(response WatchFlow
 
 	case *WatchFlowcontrolApiserverV1beta1FlowSchemaUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11219,7 +14052,6 @@ func encodeWatchFlowcontrolApiserverV1beta1FlowSchemaListResponse(response Watch
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11231,7 +14063,6 @@ func encodeWatchFlowcontrolApiserverV1beta1FlowSchemaListResponse(response Watch
 
 	case *WatchFlowcontrolApiserverV1beta1FlowSchemaListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11245,7 +14076,6 @@ func encodeWatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(re
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11257,7 +14087,6 @@ func encodeWatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationResponse(re
 
 	case *WatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11271,7 +14100,6 @@ func encodeWatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationListRespons
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11283,7 +14111,6 @@ func encodeWatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationListRespons
 
 	case *WatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11297,7 +14124,6 @@ func encodeWatchFlowcontrolApiserverV1beta2FlowSchemaResponse(response WatchFlow
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11309,7 +14135,6 @@ func encodeWatchFlowcontrolApiserverV1beta2FlowSchemaResponse(response WatchFlow
 
 	case *WatchFlowcontrolApiserverV1beta2FlowSchemaUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11323,7 +14148,6 @@ func encodeWatchFlowcontrolApiserverV1beta2FlowSchemaListResponse(response Watch
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11335,7 +14159,6 @@ func encodeWatchFlowcontrolApiserverV1beta2FlowSchemaListResponse(response Watch
 
 	case *WatchFlowcontrolApiserverV1beta2FlowSchemaListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11349,7 +14172,6 @@ func encodeWatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(re
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11361,7 +14183,6 @@ func encodeWatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationResponse(re
 
 	case *WatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11375,7 +14196,6 @@ func encodeWatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationListRespons
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11387,7 +14207,6 @@ func encodeWatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationListRespons
 
 	case *WatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11401,7 +14220,6 @@ func encodeWatchInternalApiserverV1alpha1StorageVersionResponse(response WatchIn
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11413,7 +14231,6 @@ func encodeWatchInternalApiserverV1alpha1StorageVersionResponse(response WatchIn
 
 	case *WatchInternalApiserverV1alpha1StorageVersionUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11427,7 +14244,6 @@ func encodeWatchInternalApiserverV1alpha1StorageVersionListResponse(response Wat
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11439,7 +14255,6 @@ func encodeWatchInternalApiserverV1alpha1StorageVersionListResponse(response Wat
 
 	case *WatchInternalApiserverV1alpha1StorageVersionListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11453,7 +14268,6 @@ func encodeWatchNetworkingV1IngressClassResponse(response WatchNetworkingV1Ingre
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11465,7 +14279,6 @@ func encodeWatchNetworkingV1IngressClassResponse(response WatchNetworkingV1Ingre
 
 	case *WatchNetworkingV1IngressClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11479,7 +14292,6 @@ func encodeWatchNetworkingV1IngressClassListResponse(response WatchNetworkingV1I
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11491,7 +14303,6 @@ func encodeWatchNetworkingV1IngressClassListResponse(response WatchNetworkingV1I
 
 	case *WatchNetworkingV1IngressClassListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11505,7 +14316,6 @@ func encodeWatchNetworkingV1IngressListForAllNamespacesResponse(response WatchNe
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11517,7 +14327,6 @@ func encodeWatchNetworkingV1IngressListForAllNamespacesResponse(response WatchNe
 
 	case *WatchNetworkingV1IngressListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11531,7 +14340,6 @@ func encodeWatchNetworkingV1NamespacedIngressResponse(response WatchNetworkingV1
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11543,7 +14351,6 @@ func encodeWatchNetworkingV1NamespacedIngressResponse(response WatchNetworkingV1
 
 	case *WatchNetworkingV1NamespacedIngressUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11557,7 +14364,6 @@ func encodeWatchNetworkingV1NamespacedIngressListResponse(response WatchNetworki
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11569,7 +14375,6 @@ func encodeWatchNetworkingV1NamespacedIngressListResponse(response WatchNetworki
 
 	case *WatchNetworkingV1NamespacedIngressListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11583,7 +14388,6 @@ func encodeWatchNetworkingV1NamespacedNetworkPolicyResponse(response WatchNetwor
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11595,7 +14399,6 @@ func encodeWatchNetworkingV1NamespacedNetworkPolicyResponse(response WatchNetwor
 
 	case *WatchNetworkingV1NamespacedNetworkPolicyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11609,7 +14412,6 @@ func encodeWatchNetworkingV1NamespacedNetworkPolicyListResponse(response WatchNe
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11621,7 +14423,6 @@ func encodeWatchNetworkingV1NamespacedNetworkPolicyListResponse(response WatchNe
 
 	case *WatchNetworkingV1NamespacedNetworkPolicyListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11635,7 +14436,6 @@ func encodeWatchNetworkingV1NetworkPolicyListForAllNamespacesResponse(response W
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11647,7 +14447,6 @@ func encodeWatchNetworkingV1NetworkPolicyListForAllNamespacesResponse(response W
 
 	case *WatchNetworkingV1NetworkPolicyListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11661,7 +14460,6 @@ func encodeWatchNodeV1RuntimeClassResponse(response WatchNodeV1RuntimeClassRes, 
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11673,7 +14471,6 @@ func encodeWatchNodeV1RuntimeClassResponse(response WatchNodeV1RuntimeClassRes, 
 
 	case *WatchNodeV1RuntimeClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11687,7 +14484,6 @@ func encodeWatchNodeV1RuntimeClassListResponse(response WatchNodeV1RuntimeClassL
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11699,7 +14495,6 @@ func encodeWatchNodeV1RuntimeClassListResponse(response WatchNodeV1RuntimeClassL
 
 	case *WatchNodeV1RuntimeClassListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11713,7 +14508,6 @@ func encodeWatchNodeV1alpha1RuntimeClassResponse(response WatchNodeV1alpha1Runti
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11725,7 +14519,6 @@ func encodeWatchNodeV1alpha1RuntimeClassResponse(response WatchNodeV1alpha1Runti
 
 	case *WatchNodeV1alpha1RuntimeClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11739,7 +14532,6 @@ func encodeWatchNodeV1alpha1RuntimeClassListResponse(response WatchNodeV1alpha1R
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11751,7 +14543,6 @@ func encodeWatchNodeV1alpha1RuntimeClassListResponse(response WatchNodeV1alpha1R
 
 	case *WatchNodeV1alpha1RuntimeClassListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11765,7 +14556,6 @@ func encodeWatchNodeV1beta1RuntimeClassResponse(response WatchNodeV1beta1Runtime
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11777,7 +14567,6 @@ func encodeWatchNodeV1beta1RuntimeClassResponse(response WatchNodeV1beta1Runtime
 
 	case *WatchNodeV1beta1RuntimeClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11791,7 +14580,6 @@ func encodeWatchNodeV1beta1RuntimeClassListResponse(response WatchNodeV1beta1Run
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11803,7 +14591,6 @@ func encodeWatchNodeV1beta1RuntimeClassListResponse(response WatchNodeV1beta1Run
 
 	case *WatchNodeV1beta1RuntimeClassListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11817,7 +14604,6 @@ func encodeWatchPolicyV1NamespacedPodDisruptionBudgetResponse(response WatchPoli
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11829,7 +14615,6 @@ func encodeWatchPolicyV1NamespacedPodDisruptionBudgetResponse(response WatchPoli
 
 	case *WatchPolicyV1NamespacedPodDisruptionBudgetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11843,7 +14628,6 @@ func encodeWatchPolicyV1NamespacedPodDisruptionBudgetListResponse(response Watch
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11855,7 +14639,6 @@ func encodeWatchPolicyV1NamespacedPodDisruptionBudgetListResponse(response Watch
 
 	case *WatchPolicyV1NamespacedPodDisruptionBudgetListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11869,7 +14652,6 @@ func encodeWatchPolicyV1PodDisruptionBudgetListForAllNamespacesResponse(response
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11881,7 +14663,6 @@ func encodeWatchPolicyV1PodDisruptionBudgetListForAllNamespacesResponse(response
 
 	case *WatchPolicyV1PodDisruptionBudgetListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11895,7 +14676,6 @@ func encodeWatchPolicyV1beta1NamespacedPodDisruptionBudgetResponse(response Watc
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11907,7 +14687,6 @@ func encodeWatchPolicyV1beta1NamespacedPodDisruptionBudgetResponse(response Watc
 
 	case *WatchPolicyV1beta1NamespacedPodDisruptionBudgetUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11921,7 +14700,6 @@ func encodeWatchPolicyV1beta1NamespacedPodDisruptionBudgetListResponse(response 
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11933,7 +14711,6 @@ func encodeWatchPolicyV1beta1NamespacedPodDisruptionBudgetListResponse(response 
 
 	case *WatchPolicyV1beta1NamespacedPodDisruptionBudgetListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11947,7 +14724,6 @@ func encodeWatchPolicyV1beta1PodDisruptionBudgetListForAllNamespacesResponse(res
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11959,7 +14735,6 @@ func encodeWatchPolicyV1beta1PodDisruptionBudgetListForAllNamespacesResponse(res
 
 	case *WatchPolicyV1beta1PodDisruptionBudgetListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11973,7 +14748,6 @@ func encodeWatchPolicyV1beta1PodSecurityPolicyResponse(response WatchPolicyV1bet
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -11985,7 +14759,6 @@ func encodeWatchPolicyV1beta1PodSecurityPolicyResponse(response WatchPolicyV1bet
 
 	case *WatchPolicyV1beta1PodSecurityPolicyUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -11999,7 +14772,6 @@ func encodeWatchPolicyV1beta1PodSecurityPolicyListResponse(response WatchPolicyV
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12011,7 +14783,6 @@ func encodeWatchPolicyV1beta1PodSecurityPolicyListResponse(response WatchPolicyV
 
 	case *WatchPolicyV1beta1PodSecurityPolicyListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12025,7 +14796,6 @@ func encodeWatchRbacAuthorizationV1ClusterRoleResponse(response WatchRbacAuthori
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12037,7 +14807,6 @@ func encodeWatchRbacAuthorizationV1ClusterRoleResponse(response WatchRbacAuthori
 
 	case *WatchRbacAuthorizationV1ClusterRoleUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12051,7 +14820,6 @@ func encodeWatchRbacAuthorizationV1ClusterRoleBindingResponse(response WatchRbac
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12063,7 +14831,6 @@ func encodeWatchRbacAuthorizationV1ClusterRoleBindingResponse(response WatchRbac
 
 	case *WatchRbacAuthorizationV1ClusterRoleBindingUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12077,7 +14844,6 @@ func encodeWatchRbacAuthorizationV1ClusterRoleBindingListResponse(response Watch
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12089,7 +14855,6 @@ func encodeWatchRbacAuthorizationV1ClusterRoleBindingListResponse(response Watch
 
 	case *WatchRbacAuthorizationV1ClusterRoleBindingListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12103,7 +14868,6 @@ func encodeWatchRbacAuthorizationV1ClusterRoleListResponse(response WatchRbacAut
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12115,7 +14879,6 @@ func encodeWatchRbacAuthorizationV1ClusterRoleListResponse(response WatchRbacAut
 
 	case *WatchRbacAuthorizationV1ClusterRoleListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12129,7 +14892,6 @@ func encodeWatchRbacAuthorizationV1NamespacedRoleResponse(response WatchRbacAuth
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12141,7 +14903,6 @@ func encodeWatchRbacAuthorizationV1NamespacedRoleResponse(response WatchRbacAuth
 
 	case *WatchRbacAuthorizationV1NamespacedRoleUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12155,7 +14916,6 @@ func encodeWatchRbacAuthorizationV1NamespacedRoleBindingResponse(response WatchR
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12167,7 +14927,6 @@ func encodeWatchRbacAuthorizationV1NamespacedRoleBindingResponse(response WatchR
 
 	case *WatchRbacAuthorizationV1NamespacedRoleBindingUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12181,7 +14940,6 @@ func encodeWatchRbacAuthorizationV1NamespacedRoleBindingListResponse(response Wa
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12193,7 +14951,6 @@ func encodeWatchRbacAuthorizationV1NamespacedRoleBindingListResponse(response Wa
 
 	case *WatchRbacAuthorizationV1NamespacedRoleBindingListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12207,7 +14964,6 @@ func encodeWatchRbacAuthorizationV1NamespacedRoleListResponse(response WatchRbac
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12219,7 +14975,6 @@ func encodeWatchRbacAuthorizationV1NamespacedRoleListResponse(response WatchRbac
 
 	case *WatchRbacAuthorizationV1NamespacedRoleListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12233,7 +14988,6 @@ func encodeWatchRbacAuthorizationV1RoleBindingListForAllNamespacesResponse(respo
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12245,7 +14999,6 @@ func encodeWatchRbacAuthorizationV1RoleBindingListForAllNamespacesResponse(respo
 
 	case *WatchRbacAuthorizationV1RoleBindingListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12259,7 +15012,6 @@ func encodeWatchRbacAuthorizationV1RoleListForAllNamespacesResponse(response Wat
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12271,7 +15023,6 @@ func encodeWatchRbacAuthorizationV1RoleListForAllNamespacesResponse(response Wat
 
 	case *WatchRbacAuthorizationV1RoleListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12285,7 +15036,6 @@ func encodeWatchSchedulingV1PriorityClassResponse(response WatchSchedulingV1Prio
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12297,7 +15047,6 @@ func encodeWatchSchedulingV1PriorityClassResponse(response WatchSchedulingV1Prio
 
 	case *WatchSchedulingV1PriorityClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12311,7 +15060,6 @@ func encodeWatchSchedulingV1PriorityClassListResponse(response WatchSchedulingV1
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12323,7 +15071,6 @@ func encodeWatchSchedulingV1PriorityClassListResponse(response WatchSchedulingV1
 
 	case *WatchSchedulingV1PriorityClassListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12337,7 +15084,6 @@ func encodeWatchStorageV1CSIDriverResponse(response WatchStorageV1CSIDriverRes, 
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12349,7 +15095,6 @@ func encodeWatchStorageV1CSIDriverResponse(response WatchStorageV1CSIDriverRes, 
 
 	case *WatchStorageV1CSIDriverUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12363,7 +15108,6 @@ func encodeWatchStorageV1CSIDriverListResponse(response WatchStorageV1CSIDriverL
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12375,7 +15119,6 @@ func encodeWatchStorageV1CSIDriverListResponse(response WatchStorageV1CSIDriverL
 
 	case *WatchStorageV1CSIDriverListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12389,7 +15132,6 @@ func encodeWatchStorageV1CSINodeResponse(response WatchStorageV1CSINodeRes, w ht
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12401,7 +15143,6 @@ func encodeWatchStorageV1CSINodeResponse(response WatchStorageV1CSINodeRes, w ht
 
 	case *WatchStorageV1CSINodeUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12415,7 +15156,6 @@ func encodeWatchStorageV1CSINodeListResponse(response WatchStorageV1CSINodeListR
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12427,7 +15167,6 @@ func encodeWatchStorageV1CSINodeListResponse(response WatchStorageV1CSINodeListR
 
 	case *WatchStorageV1CSINodeListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12441,7 +15180,6 @@ func encodeWatchStorageV1StorageClassResponse(response WatchStorageV1StorageClas
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12453,7 +15191,6 @@ func encodeWatchStorageV1StorageClassResponse(response WatchStorageV1StorageClas
 
 	case *WatchStorageV1StorageClassUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12467,7 +15204,6 @@ func encodeWatchStorageV1StorageClassListResponse(response WatchStorageV1Storage
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12479,7 +15215,6 @@ func encodeWatchStorageV1StorageClassListResponse(response WatchStorageV1Storage
 
 	case *WatchStorageV1StorageClassListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12493,7 +15228,6 @@ func encodeWatchStorageV1VolumeAttachmentResponse(response WatchStorageV1VolumeA
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12505,7 +15239,6 @@ func encodeWatchStorageV1VolumeAttachmentResponse(response WatchStorageV1VolumeA
 
 	case *WatchStorageV1VolumeAttachmentUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12519,7 +15252,6 @@ func encodeWatchStorageV1VolumeAttachmentListResponse(response WatchStorageV1Vol
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12531,7 +15263,6 @@ func encodeWatchStorageV1VolumeAttachmentListResponse(response WatchStorageV1Vol
 
 	case *WatchStorageV1VolumeAttachmentListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12545,7 +15276,6 @@ func encodeWatchStorageV1alpha1CSIStorageCapacityListForAllNamespacesResponse(re
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12557,7 +15287,6 @@ func encodeWatchStorageV1alpha1CSIStorageCapacityListForAllNamespacesResponse(re
 
 	case *WatchStorageV1alpha1CSIStorageCapacityListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12571,7 +15300,6 @@ func encodeWatchStorageV1alpha1NamespacedCSIStorageCapacityResponse(response Wat
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12583,7 +15311,6 @@ func encodeWatchStorageV1alpha1NamespacedCSIStorageCapacityResponse(response Wat
 
 	case *WatchStorageV1alpha1NamespacedCSIStorageCapacityUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12597,7 +15324,6 @@ func encodeWatchStorageV1alpha1NamespacedCSIStorageCapacityListResponse(response
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12609,7 +15335,6 @@ func encodeWatchStorageV1alpha1NamespacedCSIStorageCapacityListResponse(response
 
 	case *WatchStorageV1alpha1NamespacedCSIStorageCapacityListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12623,7 +15348,6 @@ func encodeWatchStorageV1beta1CSIStorageCapacityListForAllNamespacesResponse(res
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12635,7 +15359,6 @@ func encodeWatchStorageV1beta1CSIStorageCapacityListForAllNamespacesResponse(res
 
 	case *WatchStorageV1beta1CSIStorageCapacityListForAllNamespacesUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12649,7 +15372,6 @@ func encodeWatchStorageV1beta1NamespacedCSIStorageCapacityResponse(response Watc
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12661,7 +15383,6 @@ func encodeWatchStorageV1beta1NamespacedCSIStorageCapacityResponse(response Watc
 
 	case *WatchStorageV1beta1NamespacedCSIStorageCapacityUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 
@@ -12675,7 +15396,6 @@ func encodeWatchStorageV1beta1NamespacedCSIStorageCapacityListResponse(response 
 	case *IoK8sApimachineryPkgApisMetaV1WatchEvent:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -12687,7 +15407,6 @@ func encodeWatchStorageV1beta1NamespacedCSIStorageCapacityListResponse(response 
 
 	case *WatchStorageV1beta1NamespacedCSIStorageCapacityListUnauthorized:
 		w.WriteHeader(401)
-		span.SetStatus(codes.Error, http.StatusText(401))
 
 		return nil
 

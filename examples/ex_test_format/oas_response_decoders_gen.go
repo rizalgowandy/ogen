@@ -15,10 +15,10 @@ import (
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
-
 	"github.com/ogen-go/ogen/json"
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/validate"
+	"github.com/shopspring/decimal"
 )
 
 func decodeTestQueryParameterResponse(resp *http.Response) (res *Error, _ error) {
@@ -59,7 +59,7 @@ func decodeTestQueryParameterResponse(resp *http.Response) (res *Error, _ error)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestAnyResponse(resp *http.Response) (res *Error, _ error) {
@@ -100,7 +100,7 @@ func decodeTestRequestAnyResponse(resp *http.Response) (res *Error, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestBooleanResponse(resp *http.Response) (res *Error, _ error) {
@@ -141,7 +141,7 @@ func decodeTestRequestBooleanResponse(resp *http.Response) (res *Error, _ error)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestBooleanArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -182,7 +182,7 @@ func decodeTestRequestBooleanArrayResponse(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestBooleanArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -223,7 +223,7 @@ func decodeTestRequestBooleanArrayArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestBooleanNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -264,7 +264,7 @@ func decodeTestRequestBooleanNullableResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestBooleanNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -305,7 +305,7 @@ func decodeTestRequestBooleanNullableArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestBooleanNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -346,7 +346,7 @@ func decodeTestRequestBooleanNullableArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestEmptyStructResponse(resp *http.Response) (res *Error, _ error) {
@@ -387,7 +387,7 @@ func decodeTestRequestEmptyStructResponse(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestFormatTestResponse(resp *http.Response) (res *Error, _ error) {
@@ -428,7 +428,7 @@ func decodeTestRequestFormatTestResponse(resp *http.Response) (res *Error, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerResponse(resp *http.Response) (res *Error, _ error) {
@@ -469,7 +469,7 @@ func decodeTestRequestIntegerResponse(resp *http.Response) (res *Error, _ error)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -510,7 +510,7 @@ func decodeTestRequestIntegerArrayResponse(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -551,7 +551,7 @@ func decodeTestRequestIntegerArrayArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt16Response(resp *http.Response) (res *Error, _ error) {
@@ -592,7 +592,7 @@ func decodeTestRequestIntegerInt16Response(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt16ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -633,7 +633,7 @@ func decodeTestRequestIntegerInt16ArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt16ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -674,7 +674,7 @@ func decodeTestRequestIntegerInt16ArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt16NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -715,7 +715,7 @@ func decodeTestRequestIntegerInt16NullableResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt16NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -756,7 +756,7 @@ func decodeTestRequestIntegerInt16NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt16NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -797,7 +797,7 @@ func decodeTestRequestIntegerInt16NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt32Response(resp *http.Response) (res *Error, _ error) {
@@ -838,7 +838,7 @@ func decodeTestRequestIntegerInt32Response(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -879,7 +879,7 @@ func decodeTestRequestIntegerInt32ArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -920,7 +920,7 @@ func decodeTestRequestIntegerInt32ArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -961,7 +961,7 @@ func decodeTestRequestIntegerInt32NullableResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1002,7 +1002,7 @@ func decodeTestRequestIntegerInt32NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1043,7 +1043,7 @@ func decodeTestRequestIntegerInt32NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt64Response(resp *http.Response) (res *Error, _ error) {
@@ -1084,7 +1084,7 @@ func decodeTestRequestIntegerInt64Response(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1125,7 +1125,7 @@ func decodeTestRequestIntegerInt64ArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1166,7 +1166,7 @@ func decodeTestRequestIntegerInt64ArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -1207,7 +1207,7 @@ func decodeTestRequestIntegerInt64NullableResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1248,7 +1248,7 @@ func decodeTestRequestIntegerInt64NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1289,7 +1289,7 @@ func decodeTestRequestIntegerInt64NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt8Response(resp *http.Response) (res *Error, _ error) {
@@ -1330,7 +1330,7 @@ func decodeTestRequestIntegerInt8Response(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt8ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1371,7 +1371,7 @@ func decodeTestRequestIntegerInt8ArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt8ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1412,7 +1412,7 @@ func decodeTestRequestIntegerInt8ArrayArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt8NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -1453,7 +1453,7 @@ func decodeTestRequestIntegerInt8NullableResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt8NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1494,7 +1494,7 @@ func decodeTestRequestIntegerInt8NullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerInt8NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1535,7 +1535,7 @@ func decodeTestRequestIntegerInt8NullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -1576,7 +1576,7 @@ func decodeTestRequestIntegerNullableResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1617,7 +1617,7 @@ func decodeTestRequestIntegerNullableArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1658,7 +1658,7 @@ func decodeTestRequestIntegerNullableArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUintResponse(resp *http.Response) (res *Error, _ error) {
@@ -1699,7 +1699,7 @@ func decodeTestRequestIntegerUintResponse(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint16Response(resp *http.Response) (res *Error, _ error) {
@@ -1740,7 +1740,7 @@ func decodeTestRequestIntegerUint16Response(resp *http.Response) (res *Error, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint16ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1781,7 +1781,7 @@ func decodeTestRequestIntegerUint16ArrayResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint16ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1822,7 +1822,7 @@ func decodeTestRequestIntegerUint16ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint16NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -1863,7 +1863,7 @@ func decodeTestRequestIntegerUint16NullableResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint16NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1904,7 +1904,7 @@ func decodeTestRequestIntegerUint16NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint16NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -1945,7 +1945,7 @@ func decodeTestRequestIntegerUint16NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint32Response(resp *http.Response) (res *Error, _ error) {
@@ -1986,7 +1986,7 @@ func decodeTestRequestIntegerUint32Response(resp *http.Response) (res *Error, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2027,7 +2027,7 @@ func decodeTestRequestIntegerUint32ArrayResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2068,7 +2068,7 @@ func decodeTestRequestIntegerUint32ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -2109,7 +2109,7 @@ func decodeTestRequestIntegerUint32NullableResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2150,7 +2150,7 @@ func decodeTestRequestIntegerUint32NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2191,7 +2191,7 @@ func decodeTestRequestIntegerUint32NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint64Response(resp *http.Response) (res *Error, _ error) {
@@ -2232,7 +2232,7 @@ func decodeTestRequestIntegerUint64Response(resp *http.Response) (res *Error, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2273,7 +2273,7 @@ func decodeTestRequestIntegerUint64ArrayResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2314,7 +2314,7 @@ func decodeTestRequestIntegerUint64ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -2355,7 +2355,7 @@ func decodeTestRequestIntegerUint64NullableResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2396,7 +2396,7 @@ func decodeTestRequestIntegerUint64NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2437,7 +2437,7 @@ func decodeTestRequestIntegerUint64NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint8Response(resp *http.Response) (res *Error, _ error) {
@@ -2478,7 +2478,7 @@ func decodeTestRequestIntegerUint8Response(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint8ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2519,7 +2519,7 @@ func decodeTestRequestIntegerUint8ArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint8ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2560,7 +2560,7 @@ func decodeTestRequestIntegerUint8ArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint8NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -2601,7 +2601,7 @@ func decodeTestRequestIntegerUint8NullableResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint8NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2642,7 +2642,7 @@ func decodeTestRequestIntegerUint8NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUint8NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2683,7 +2683,7 @@ func decodeTestRequestIntegerUint8NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUintArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2724,7 +2724,7 @@ func decodeTestRequestIntegerUintArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUintArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2765,7 +2765,7 @@ func decodeTestRequestIntegerUintArrayArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUintNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -2806,7 +2806,7 @@ func decodeTestRequestIntegerUintNullableResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUintNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2847,7 +2847,7 @@ func decodeTestRequestIntegerUintNullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUintNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2888,7 +2888,7 @@ func decodeTestRequestIntegerUintNullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixResponse(resp *http.Response) (res *Error, _ error) {
@@ -2929,7 +2929,7 @@ func decodeTestRequestIntegerUnixResponse(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -2970,7 +2970,7 @@ func decodeTestRequestIntegerUnixArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3011,7 +3011,7 @@ func decodeTestRequestIntegerUnixArrayArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMicroResponse(resp *http.Response) (res *Error, _ error) {
@@ -3052,7 +3052,7 @@ func decodeTestRequestIntegerUnixMicroResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMicroArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3093,7 +3093,7 @@ func decodeTestRequestIntegerUnixMicroArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMicroArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3134,7 +3134,7 @@ func decodeTestRequestIntegerUnixMicroArrayArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMicroNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -3175,7 +3175,7 @@ func decodeTestRequestIntegerUnixMicroNullableResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMicroNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3216,7 +3216,7 @@ func decodeTestRequestIntegerUnixMicroNullableArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMicroNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3257,7 +3257,7 @@ func decodeTestRequestIntegerUnixMicroNullableArrayArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMilliResponse(resp *http.Response) (res *Error, _ error) {
@@ -3298,7 +3298,7 @@ func decodeTestRequestIntegerUnixMilliResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMilliArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3339,7 +3339,7 @@ func decodeTestRequestIntegerUnixMilliArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMilliArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3380,7 +3380,7 @@ func decodeTestRequestIntegerUnixMilliArrayArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMilliNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -3421,7 +3421,7 @@ func decodeTestRequestIntegerUnixMilliNullableResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMilliNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3462,7 +3462,7 @@ func decodeTestRequestIntegerUnixMilliNullableArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixMilliNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3503,7 +3503,7 @@ func decodeTestRequestIntegerUnixMilliNullableArrayArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixNanoResponse(resp *http.Response) (res *Error, _ error) {
@@ -3544,7 +3544,7 @@ func decodeTestRequestIntegerUnixNanoResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixNanoArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3585,7 +3585,7 @@ func decodeTestRequestIntegerUnixNanoArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixNanoArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3626,7 +3626,7 @@ func decodeTestRequestIntegerUnixNanoArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixNanoNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -3667,7 +3667,7 @@ func decodeTestRequestIntegerUnixNanoNullableResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixNanoNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3708,7 +3708,7 @@ func decodeTestRequestIntegerUnixNanoNullableArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixNanoNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3749,7 +3749,7 @@ func decodeTestRequestIntegerUnixNanoNullableArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -3790,7 +3790,7 @@ func decodeTestRequestIntegerUnixNullableResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3831,7 +3831,7 @@ func decodeTestRequestIntegerUnixNullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3872,7 +3872,7 @@ func decodeTestRequestIntegerUnixNullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixSecondsResponse(resp *http.Response) (res *Error, _ error) {
@@ -3913,7 +3913,7 @@ func decodeTestRequestIntegerUnixSecondsResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixSecondsArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3954,7 +3954,7 @@ func decodeTestRequestIntegerUnixSecondsArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixSecondsArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -3995,7 +3995,7 @@ func decodeTestRequestIntegerUnixSecondsArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixSecondsNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -4036,7 +4036,7 @@ func decodeTestRequestIntegerUnixSecondsNullableResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixSecondsNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4077,7 +4077,7 @@ func decodeTestRequestIntegerUnixSecondsNullableArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestIntegerUnixSecondsNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4118,7 +4118,7 @@ func decodeTestRequestIntegerUnixSecondsNullableArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNullResponse(resp *http.Response) (res *Error, _ error) {
@@ -4159,7 +4159,7 @@ func decodeTestRequestNullResponse(resp *http.Response) (res *Error, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNullArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4200,7 +4200,7 @@ func decodeTestRequestNullArrayResponse(resp *http.Response) (res *Error, _ erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNullArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4241,7 +4241,7 @@ func decodeTestRequestNullArrayArrayResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNullNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -4282,7 +4282,7 @@ func decodeTestRequestNullNullableResponse(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNullNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4323,7 +4323,7 @@ func decodeTestRequestNullNullableArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNullNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4364,7 +4364,7 @@ func decodeTestRequestNullNullableArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberResponse(resp *http.Response) (res *Error, _ error) {
@@ -4405,7 +4405,7 @@ func decodeTestRequestNumberResponse(resp *http.Response) (res *Error, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4446,7 +4446,7 @@ func decodeTestRequestNumberArrayResponse(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4487,7 +4487,253 @@ func decodeTestRequestNumberArrayArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestNumberDecimalResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestNumberDecimalArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestNumberDecimalArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestNumberDecimalNullableResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestNumberDecimalNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestNumberDecimalNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberDoubleResponse(resp *http.Response) (res *Error, _ error) {
@@ -4528,7 +4774,7 @@ func decodeTestRequestNumberDoubleResponse(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberDoubleArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4569,7 +4815,7 @@ func decodeTestRequestNumberDoubleArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberDoubleArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4610,7 +4856,7 @@ func decodeTestRequestNumberDoubleArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberDoubleNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -4651,7 +4897,7 @@ func decodeTestRequestNumberDoubleNullableResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberDoubleNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4692,7 +4938,7 @@ func decodeTestRequestNumberDoubleNullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberDoubleNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4733,7 +4979,7 @@ func decodeTestRequestNumberDoubleNullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberFloatResponse(resp *http.Response) (res *Error, _ error) {
@@ -4774,7 +5020,7 @@ func decodeTestRequestNumberFloatResponse(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberFloatArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4815,7 +5061,7 @@ func decodeTestRequestNumberFloatArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberFloatArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4856,7 +5102,7 @@ func decodeTestRequestNumberFloatArrayArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberFloatNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -4897,7 +5143,7 @@ func decodeTestRequestNumberFloatNullableResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberFloatNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4938,7 +5184,7 @@ func decodeTestRequestNumberFloatNullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberFloatNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -4979,7 +5225,7 @@ func decodeTestRequestNumberFloatNullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt32Response(resp *http.Response) (res *Error, _ error) {
@@ -5020,7 +5266,7 @@ func decodeTestRequestNumberInt32Response(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5061,7 +5307,7 @@ func decodeTestRequestNumberInt32ArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5102,7 +5348,7 @@ func decodeTestRequestNumberInt32ArrayArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -5143,7 +5389,7 @@ func decodeTestRequestNumberInt32NullableResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5184,7 +5430,7 @@ func decodeTestRequestNumberInt32NullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5225,7 +5471,7 @@ func decodeTestRequestNumberInt32NullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt64Response(resp *http.Response) (res *Error, _ error) {
@@ -5266,7 +5512,7 @@ func decodeTestRequestNumberInt64Response(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5307,7 +5553,7 @@ func decodeTestRequestNumberInt64ArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5348,7 +5594,7 @@ func decodeTestRequestNumberInt64ArrayArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -5389,7 +5635,7 @@ func decodeTestRequestNumberInt64NullableResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5430,7 +5676,7 @@ func decodeTestRequestNumberInt64NullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberInt64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5471,7 +5717,7 @@ func decodeTestRequestNumberInt64NullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -5512,7 +5758,7 @@ func decodeTestRequestNumberNullableResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5553,7 +5799,7 @@ func decodeTestRequestNumberNullableArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestNumberNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5594,7 +5840,7 @@ func decodeTestRequestNumberNullableArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredAnyResponse(resp *http.Response) (res *Error, _ error) {
@@ -5635,7 +5881,7 @@ func decodeTestRequestRequiredAnyResponse(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredBooleanResponse(resp *http.Response) (res *Error, _ error) {
@@ -5676,7 +5922,7 @@ func decodeTestRequestRequiredBooleanResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredBooleanArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5717,7 +5963,7 @@ func decodeTestRequestRequiredBooleanArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredBooleanArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5758,7 +6004,7 @@ func decodeTestRequestRequiredBooleanArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredBooleanNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -5799,7 +6045,7 @@ func decodeTestRequestRequiredBooleanNullableResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredBooleanNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5840,7 +6086,7 @@ func decodeTestRequestRequiredBooleanNullableArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredBooleanNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -5881,7 +6127,7 @@ func decodeTestRequestRequiredBooleanNullableArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredEmptyStructResponse(resp *http.Response) (res *Error, _ error) {
@@ -5922,7 +6168,7 @@ func decodeTestRequestRequiredEmptyStructResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredFormatTestResponse(resp *http.Response) (res *Error, _ error) {
@@ -5963,7 +6209,7 @@ func decodeTestRequestRequiredFormatTestResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerResponse(resp *http.Response) (res *Error, _ error) {
@@ -6004,7 +6250,7 @@ func decodeTestRequestRequiredIntegerResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6045,7 +6291,7 @@ func decodeTestRequestRequiredIntegerArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6086,7 +6332,7 @@ func decodeTestRequestRequiredIntegerArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt16Response(resp *http.Response) (res *Error, _ error) {
@@ -6127,7 +6373,7 @@ func decodeTestRequestRequiredIntegerInt16Response(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt16ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6168,7 +6414,7 @@ func decodeTestRequestRequiredIntegerInt16ArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt16ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6209,7 +6455,7 @@ func decodeTestRequestRequiredIntegerInt16ArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt16NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -6250,7 +6496,7 @@ func decodeTestRequestRequiredIntegerInt16NullableResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt16NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6291,7 +6537,7 @@ func decodeTestRequestRequiredIntegerInt16NullableArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt16NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6332,7 +6578,7 @@ func decodeTestRequestRequiredIntegerInt16NullableArrayArrayResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt32Response(resp *http.Response) (res *Error, _ error) {
@@ -6373,7 +6619,7 @@ func decodeTestRequestRequiredIntegerInt32Response(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6414,7 +6660,7 @@ func decodeTestRequestRequiredIntegerInt32ArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6455,7 +6701,7 @@ func decodeTestRequestRequiredIntegerInt32ArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -6496,7 +6742,7 @@ func decodeTestRequestRequiredIntegerInt32NullableResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6537,7 +6783,7 @@ func decodeTestRequestRequiredIntegerInt32NullableArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6578,7 +6824,7 @@ func decodeTestRequestRequiredIntegerInt32NullableArrayArrayResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt64Response(resp *http.Response) (res *Error, _ error) {
@@ -6619,7 +6865,7 @@ func decodeTestRequestRequiredIntegerInt64Response(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6660,7 +6906,7 @@ func decodeTestRequestRequiredIntegerInt64ArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6701,7 +6947,7 @@ func decodeTestRequestRequiredIntegerInt64ArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -6742,7 +6988,7 @@ func decodeTestRequestRequiredIntegerInt64NullableResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6783,7 +7029,7 @@ func decodeTestRequestRequiredIntegerInt64NullableArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6824,7 +7070,7 @@ func decodeTestRequestRequiredIntegerInt64NullableArrayArrayResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt8Response(resp *http.Response) (res *Error, _ error) {
@@ -6865,7 +7111,7 @@ func decodeTestRequestRequiredIntegerInt8Response(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt8ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6906,7 +7152,7 @@ func decodeTestRequestRequiredIntegerInt8ArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt8ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -6947,7 +7193,7 @@ func decodeTestRequestRequiredIntegerInt8ArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt8NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -6988,7 +7234,7 @@ func decodeTestRequestRequiredIntegerInt8NullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt8NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7029,7 +7275,7 @@ func decodeTestRequestRequiredIntegerInt8NullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerInt8NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7070,7 +7316,7 @@ func decodeTestRequestRequiredIntegerInt8NullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -7111,7 +7357,7 @@ func decodeTestRequestRequiredIntegerNullableResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7152,7 +7398,7 @@ func decodeTestRequestRequiredIntegerNullableArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7193,7 +7439,7 @@ func decodeTestRequestRequiredIntegerNullableArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUintResponse(resp *http.Response) (res *Error, _ error) {
@@ -7234,7 +7480,7 @@ func decodeTestRequestRequiredIntegerUintResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint16Response(resp *http.Response) (res *Error, _ error) {
@@ -7275,7 +7521,7 @@ func decodeTestRequestRequiredIntegerUint16Response(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint16ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7316,7 +7562,7 @@ func decodeTestRequestRequiredIntegerUint16ArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint16ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7357,7 +7603,7 @@ func decodeTestRequestRequiredIntegerUint16ArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint16NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -7398,7 +7644,7 @@ func decodeTestRequestRequiredIntegerUint16NullableResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint16NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7439,7 +7685,7 @@ func decodeTestRequestRequiredIntegerUint16NullableArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint16NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7480,7 +7726,7 @@ func decodeTestRequestRequiredIntegerUint16NullableArrayArrayResponse(resp *http
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint32Response(resp *http.Response) (res *Error, _ error) {
@@ -7521,7 +7767,7 @@ func decodeTestRequestRequiredIntegerUint32Response(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7562,7 +7808,7 @@ func decodeTestRequestRequiredIntegerUint32ArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7603,7 +7849,7 @@ func decodeTestRequestRequiredIntegerUint32ArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -7644,7 +7890,7 @@ func decodeTestRequestRequiredIntegerUint32NullableResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7685,7 +7931,7 @@ func decodeTestRequestRequiredIntegerUint32NullableArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7726,7 +7972,7 @@ func decodeTestRequestRequiredIntegerUint32NullableArrayArrayResponse(resp *http
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint64Response(resp *http.Response) (res *Error, _ error) {
@@ -7767,7 +8013,7 @@ func decodeTestRequestRequiredIntegerUint64Response(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7808,7 +8054,7 @@ func decodeTestRequestRequiredIntegerUint64ArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7849,7 +8095,7 @@ func decodeTestRequestRequiredIntegerUint64ArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -7890,7 +8136,7 @@ func decodeTestRequestRequiredIntegerUint64NullableResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7931,7 +8177,7 @@ func decodeTestRequestRequiredIntegerUint64NullableArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -7972,7 +8218,7 @@ func decodeTestRequestRequiredIntegerUint64NullableArrayArrayResponse(resp *http
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint8Response(resp *http.Response) (res *Error, _ error) {
@@ -8013,7 +8259,7 @@ func decodeTestRequestRequiredIntegerUint8Response(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint8ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8054,7 +8300,7 @@ func decodeTestRequestRequiredIntegerUint8ArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint8ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8095,7 +8341,7 @@ func decodeTestRequestRequiredIntegerUint8ArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint8NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -8136,7 +8382,7 @@ func decodeTestRequestRequiredIntegerUint8NullableResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint8NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8177,7 +8423,7 @@ func decodeTestRequestRequiredIntegerUint8NullableArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUint8NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8218,7 +8464,7 @@ func decodeTestRequestRequiredIntegerUint8NullableArrayArrayResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUintArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8259,7 +8505,7 @@ func decodeTestRequestRequiredIntegerUintArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUintArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8300,7 +8546,7 @@ func decodeTestRequestRequiredIntegerUintArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUintNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -8341,7 +8587,7 @@ func decodeTestRequestRequiredIntegerUintNullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUintNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8382,7 +8628,7 @@ func decodeTestRequestRequiredIntegerUintNullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUintNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8423,7 +8669,7 @@ func decodeTestRequestRequiredIntegerUintNullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixResponse(resp *http.Response) (res *Error, _ error) {
@@ -8464,7 +8710,7 @@ func decodeTestRequestRequiredIntegerUnixResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8505,7 +8751,7 @@ func decodeTestRequestRequiredIntegerUnixArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8546,7 +8792,7 @@ func decodeTestRequestRequiredIntegerUnixArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMicroResponse(resp *http.Response) (res *Error, _ error) {
@@ -8587,7 +8833,7 @@ func decodeTestRequestRequiredIntegerUnixMicroResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMicroArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8628,7 +8874,7 @@ func decodeTestRequestRequiredIntegerUnixMicroArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMicroArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8669,7 +8915,7 @@ func decodeTestRequestRequiredIntegerUnixMicroArrayArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMicroNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -8710,7 +8956,7 @@ func decodeTestRequestRequiredIntegerUnixMicroNullableResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMicroNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8751,7 +8997,7 @@ func decodeTestRequestRequiredIntegerUnixMicroNullableArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMicroNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8792,7 +9038,7 @@ func decodeTestRequestRequiredIntegerUnixMicroNullableArrayArrayResponse(resp *h
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMilliResponse(resp *http.Response) (res *Error, _ error) {
@@ -8833,7 +9079,7 @@ func decodeTestRequestRequiredIntegerUnixMilliResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMilliArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8874,7 +9120,7 @@ func decodeTestRequestRequiredIntegerUnixMilliArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMilliArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8915,7 +9161,7 @@ func decodeTestRequestRequiredIntegerUnixMilliArrayArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMilliNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -8956,7 +9202,7 @@ func decodeTestRequestRequiredIntegerUnixMilliNullableResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMilliNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -8997,7 +9243,7 @@ func decodeTestRequestRequiredIntegerUnixMilliNullableArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixMilliNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9038,7 +9284,7 @@ func decodeTestRequestRequiredIntegerUnixMilliNullableArrayArrayResponse(resp *h
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixNanoResponse(resp *http.Response) (res *Error, _ error) {
@@ -9079,7 +9325,7 @@ func decodeTestRequestRequiredIntegerUnixNanoResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixNanoArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9120,7 +9366,7 @@ func decodeTestRequestRequiredIntegerUnixNanoArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixNanoArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9161,7 +9407,7 @@ func decodeTestRequestRequiredIntegerUnixNanoArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixNanoNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -9202,7 +9448,7 @@ func decodeTestRequestRequiredIntegerUnixNanoNullableResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixNanoNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9243,7 +9489,7 @@ func decodeTestRequestRequiredIntegerUnixNanoNullableArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixNanoNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9284,7 +9530,7 @@ func decodeTestRequestRequiredIntegerUnixNanoNullableArrayArrayResponse(resp *ht
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -9325,7 +9571,7 @@ func decodeTestRequestRequiredIntegerUnixNullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9366,7 +9612,7 @@ func decodeTestRequestRequiredIntegerUnixNullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9407,7 +9653,7 @@ func decodeTestRequestRequiredIntegerUnixNullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixSecondsResponse(resp *http.Response) (res *Error, _ error) {
@@ -9448,7 +9694,7 @@ func decodeTestRequestRequiredIntegerUnixSecondsResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixSecondsArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9489,7 +9735,7 @@ func decodeTestRequestRequiredIntegerUnixSecondsArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixSecondsArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9530,7 +9776,7 @@ func decodeTestRequestRequiredIntegerUnixSecondsArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixSecondsNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -9571,7 +9817,7 @@ func decodeTestRequestRequiredIntegerUnixSecondsNullableResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixSecondsNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9612,7 +9858,7 @@ func decodeTestRequestRequiredIntegerUnixSecondsNullableArrayResponse(resp *http
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredIntegerUnixSecondsNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9653,7 +9899,7 @@ func decodeTestRequestRequiredIntegerUnixSecondsNullableArrayArrayResponse(resp 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNullResponse(resp *http.Response) (res *Error, _ error) {
@@ -9694,7 +9940,7 @@ func decodeTestRequestRequiredNullResponse(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNullArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9735,7 +9981,7 @@ func decodeTestRequestRequiredNullArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNullArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9776,7 +10022,7 @@ func decodeTestRequestRequiredNullArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNullNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -9817,7 +10063,7 @@ func decodeTestRequestRequiredNullNullableResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNullNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9858,7 +10104,7 @@ func decodeTestRequestRequiredNullNullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNullNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9899,7 +10145,7 @@ func decodeTestRequestRequiredNullNullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberResponse(resp *http.Response) (res *Error, _ error) {
@@ -9940,7 +10186,7 @@ func decodeTestRequestRequiredNumberResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -9981,7 +10227,7 @@ func decodeTestRequestRequiredNumberArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10022,7 +10268,253 @@ func decodeTestRequestRequiredNumberArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredNumberDecimalResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredNumberDecimalArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredNumberDecimalArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredNumberDecimalNullableResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredNumberDecimalNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredNumberDecimalNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberDoubleResponse(resp *http.Response) (res *Error, _ error) {
@@ -10063,7 +10555,7 @@ func decodeTestRequestRequiredNumberDoubleResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberDoubleArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10104,7 +10596,7 @@ func decodeTestRequestRequiredNumberDoubleArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberDoubleArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10145,7 +10637,7 @@ func decodeTestRequestRequiredNumberDoubleArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberDoubleNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -10186,7 +10678,7 @@ func decodeTestRequestRequiredNumberDoubleNullableResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberDoubleNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10227,7 +10719,7 @@ func decodeTestRequestRequiredNumberDoubleNullableArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberDoubleNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10268,7 +10760,7 @@ func decodeTestRequestRequiredNumberDoubleNullableArrayArrayResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberFloatResponse(resp *http.Response) (res *Error, _ error) {
@@ -10309,7 +10801,7 @@ func decodeTestRequestRequiredNumberFloatResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberFloatArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10350,7 +10842,7 @@ func decodeTestRequestRequiredNumberFloatArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberFloatArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10391,7 +10883,7 @@ func decodeTestRequestRequiredNumberFloatArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberFloatNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -10432,7 +10924,7 @@ func decodeTestRequestRequiredNumberFloatNullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberFloatNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10473,7 +10965,7 @@ func decodeTestRequestRequiredNumberFloatNullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberFloatNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10514,7 +11006,7 @@ func decodeTestRequestRequiredNumberFloatNullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt32Response(resp *http.Response) (res *Error, _ error) {
@@ -10555,7 +11047,7 @@ func decodeTestRequestRequiredNumberInt32Response(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10596,7 +11088,7 @@ func decodeTestRequestRequiredNumberInt32ArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10637,7 +11129,7 @@ func decodeTestRequestRequiredNumberInt32ArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -10678,7 +11170,7 @@ func decodeTestRequestRequiredNumberInt32NullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10719,7 +11211,7 @@ func decodeTestRequestRequiredNumberInt32NullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10760,7 +11252,7 @@ func decodeTestRequestRequiredNumberInt32NullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt64Response(resp *http.Response) (res *Error, _ error) {
@@ -10801,7 +11293,7 @@ func decodeTestRequestRequiredNumberInt64Response(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10842,7 +11334,7 @@ func decodeTestRequestRequiredNumberInt64ArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10883,7 +11375,7 @@ func decodeTestRequestRequiredNumberInt64ArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -10924,7 +11416,7 @@ func decodeTestRequestRequiredNumberInt64NullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -10965,7 +11457,7 @@ func decodeTestRequestRequiredNumberInt64NullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberInt64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11006,7 +11498,7 @@ func decodeTestRequestRequiredNumberInt64NullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -11047,7 +11539,7 @@ func decodeTestRequestRequiredNumberNullableResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11088,7 +11580,7 @@ func decodeTestRequestRequiredNumberNullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredNumberNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11129,7 +11621,7 @@ func decodeTestRequestRequiredNumberNullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringResponse(resp *http.Response) (res *Error, _ error) {
@@ -11170,7 +11662,7 @@ func decodeTestRequestRequiredStringResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11211,7 +11703,7 @@ func decodeTestRequestRequiredStringArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11252,7 +11744,7 @@ func decodeTestRequestRequiredStringArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBase64Response(resp *http.Response) (res *Error, _ error) {
@@ -11293,7 +11785,7 @@ func decodeTestRequestRequiredStringBase64Response(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBase64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11334,7 +11826,7 @@ func decodeTestRequestRequiredStringBase64ArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBase64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11375,7 +11867,7 @@ func decodeTestRequestRequiredStringBase64ArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBase64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -11416,7 +11908,7 @@ func decodeTestRequestRequiredStringBase64NullableResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBase64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11457,7 +11949,7 @@ func decodeTestRequestRequiredStringBase64NullableArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBase64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11498,7 +11990,7 @@ func decodeTestRequestRequiredStringBase64NullableArrayArrayResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBinaryResponse(resp *http.Response) (res *Error, _ error) {
@@ -11539,7 +12031,7 @@ func decodeTestRequestRequiredStringBinaryResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBinaryArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11580,7 +12072,7 @@ func decodeTestRequestRequiredStringBinaryArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBinaryArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11621,7 +12113,7 @@ func decodeTestRequestRequiredStringBinaryArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBinaryNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -11662,7 +12154,7 @@ func decodeTestRequestRequiredStringBinaryNullableResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBinaryNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11703,7 +12195,7 @@ func decodeTestRequestRequiredStringBinaryNullableArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringBinaryNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11744,7 +12236,7 @@ func decodeTestRequestRequiredStringBinaryNullableArrayArrayResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringByteResponse(resp *http.Response) (res *Error, _ error) {
@@ -11785,7 +12277,7 @@ func decodeTestRequestRequiredStringByteResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringByteArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11826,7 +12318,7 @@ func decodeTestRequestRequiredStringByteArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringByteArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11867,7 +12359,7 @@ func decodeTestRequestRequiredStringByteArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringByteNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -11908,7 +12400,7 @@ func decodeTestRequestRequiredStringByteNullableResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringByteNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11949,7 +12441,7 @@ func decodeTestRequestRequiredStringByteNullableArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringByteNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -11990,7 +12482,7 @@ func decodeTestRequestRequiredStringByteNullableArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateResponse(resp *http.Response) (res *Error, _ error) {
@@ -12031,7 +12523,7 @@ func decodeTestRequestRequiredStringDateResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12072,7 +12564,7 @@ func decodeTestRequestRequiredStringDateArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12113,7 +12605,7 @@ func decodeTestRequestRequiredStringDateArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -12154,7 +12646,7 @@ func decodeTestRequestRequiredStringDateNullableResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12195,7 +12687,7 @@ func decodeTestRequestRequiredStringDateNullableArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12236,7 +12728,7 @@ func decodeTestRequestRequiredStringDateNullableArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateTimeResponse(resp *http.Response) (res *Error, _ error) {
@@ -12277,7 +12769,7 @@ func decodeTestRequestRequiredStringDateTimeResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateTimeArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12318,7 +12810,7 @@ func decodeTestRequestRequiredStringDateTimeArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateTimeArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12359,7 +12851,7 @@ func decodeTestRequestRequiredStringDateTimeArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateTimeNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -12400,7 +12892,7 @@ func decodeTestRequestRequiredStringDateTimeNullableResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateTimeNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12441,7 +12933,7 @@ func decodeTestRequestRequiredStringDateTimeNullableArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDateTimeNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12482,7 +12974,253 @@ func decodeTestRequestRequiredStringDateTimeNullableArrayArrayResponse(resp *htt
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringDecimalResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringDecimalArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringDecimalArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringDecimalNullableResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringDecimalNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringDecimalNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDurationResponse(resp *http.Response) (res *Error, _ error) {
@@ -12523,7 +13261,7 @@ func decodeTestRequestRequiredStringDurationResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDurationArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12564,7 +13302,7 @@ func decodeTestRequestRequiredStringDurationArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDurationArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12605,7 +13343,7 @@ func decodeTestRequestRequiredStringDurationArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDurationNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -12646,7 +13384,7 @@ func decodeTestRequestRequiredStringDurationNullableResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDurationNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12687,7 +13425,7 @@ func decodeTestRequestRequiredStringDurationNullableArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringDurationNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12728,7 +13466,7 @@ func decodeTestRequestRequiredStringDurationNullableArrayArrayResponse(resp *htt
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringEmailResponse(resp *http.Response) (res *Error, _ error) {
@@ -12769,7 +13507,7 @@ func decodeTestRequestRequiredStringEmailResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringEmailArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12810,7 +13548,7 @@ func decodeTestRequestRequiredStringEmailArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringEmailArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12851,7 +13589,7 @@ func decodeTestRequestRequiredStringEmailArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringEmailNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -12892,7 +13630,7 @@ func decodeTestRequestRequiredStringEmailNullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringEmailNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12933,7 +13671,7 @@ func decodeTestRequestRequiredStringEmailNullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringEmailNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -12974,7 +13712,7 @@ func decodeTestRequestRequiredStringEmailNullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat32Response(resp *http.Response) (res *Error, _ error) {
@@ -13015,7 +13753,7 @@ func decodeTestRequestRequiredStringFloat32Response(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13056,7 +13794,7 @@ func decodeTestRequestRequiredStringFloat32ArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13097,7 +13835,7 @@ func decodeTestRequestRequiredStringFloat32ArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -13138,7 +13876,7 @@ func decodeTestRequestRequiredStringFloat32NullableResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13179,7 +13917,7 @@ func decodeTestRequestRequiredStringFloat32NullableArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13220,7 +13958,7 @@ func decodeTestRequestRequiredStringFloat32NullableArrayArrayResponse(resp *http
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat64Response(resp *http.Response) (res *Error, _ error) {
@@ -13261,7 +13999,7 @@ func decodeTestRequestRequiredStringFloat64Response(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13302,7 +14040,7 @@ func decodeTestRequestRequiredStringFloat64ArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13343,7 +14081,7 @@ func decodeTestRequestRequiredStringFloat64ArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -13384,7 +14122,7 @@ func decodeTestRequestRequiredStringFloat64NullableResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13425,7 +14163,7 @@ func decodeTestRequestRequiredStringFloat64NullableArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringFloat64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13466,7 +14204,253 @@ func decodeTestRequestRequiredStringFloat64NullableArrayArrayResponse(resp *http
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringHTTPDateResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringHTTPDateArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringHTTPDateArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringHTTPDateNullableResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringHTTPDateNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestRequiredStringHTTPDateNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringHostnameResponse(resp *http.Response) (res *Error, _ error) {
@@ -13507,7 +14491,7 @@ func decodeTestRequestRequiredStringHostnameResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringHostnameArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13548,7 +14532,7 @@ func decodeTestRequestRequiredStringHostnameArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringHostnameArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13589,7 +14573,7 @@ func decodeTestRequestRequiredStringHostnameArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringHostnameNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -13630,7 +14614,7 @@ func decodeTestRequestRequiredStringHostnameNullableResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringHostnameNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13671,7 +14655,7 @@ func decodeTestRequestRequiredStringHostnameNullableArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringHostnameNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13712,7 +14696,7 @@ func decodeTestRequestRequiredStringHostnameNullableArrayArrayResponse(resp *htt
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIPResponse(resp *http.Response) (res *Error, _ error) {
@@ -13753,7 +14737,7 @@ func decodeTestRequestRequiredStringIPResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIPArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13794,7 +14778,7 @@ func decodeTestRequestRequiredStringIPArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIPArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13835,7 +14819,7 @@ func decodeTestRequestRequiredStringIPArrayArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIPNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -13876,7 +14860,7 @@ func decodeTestRequestRequiredStringIPNullableResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIPNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13917,7 +14901,7 @@ func decodeTestRequestRequiredStringIPNullableArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIPNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -13958,7 +14942,7 @@ func decodeTestRequestRequiredStringIPNullableArrayArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIntResponse(resp *http.Response) (res *Error, _ error) {
@@ -13999,7 +14983,7 @@ func decodeTestRequestRequiredStringIntResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt16Response(resp *http.Response) (res *Error, _ error) {
@@ -14040,7 +15024,7 @@ func decodeTestRequestRequiredStringInt16Response(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt16ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14081,7 +15065,7 @@ func decodeTestRequestRequiredStringInt16ArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt16ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14122,7 +15106,7 @@ func decodeTestRequestRequiredStringInt16ArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt16NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -14163,7 +15147,7 @@ func decodeTestRequestRequiredStringInt16NullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt16NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14204,7 +15188,7 @@ func decodeTestRequestRequiredStringInt16NullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt16NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14245,7 +15229,7 @@ func decodeTestRequestRequiredStringInt16NullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt32Response(resp *http.Response) (res *Error, _ error) {
@@ -14286,7 +15270,7 @@ func decodeTestRequestRequiredStringInt32Response(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14327,7 +15311,7 @@ func decodeTestRequestRequiredStringInt32ArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14368,7 +15352,7 @@ func decodeTestRequestRequiredStringInt32ArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -14409,7 +15393,7 @@ func decodeTestRequestRequiredStringInt32NullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14450,7 +15434,7 @@ func decodeTestRequestRequiredStringInt32NullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14491,7 +15475,7 @@ func decodeTestRequestRequiredStringInt32NullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt64Response(resp *http.Response) (res *Error, _ error) {
@@ -14532,7 +15516,7 @@ func decodeTestRequestRequiredStringInt64Response(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14573,7 +15557,7 @@ func decodeTestRequestRequiredStringInt64ArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14614,7 +15598,7 @@ func decodeTestRequestRequiredStringInt64ArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -14655,7 +15639,7 @@ func decodeTestRequestRequiredStringInt64NullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14696,7 +15680,7 @@ func decodeTestRequestRequiredStringInt64NullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14737,7 +15721,7 @@ func decodeTestRequestRequiredStringInt64NullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt8Response(resp *http.Response) (res *Error, _ error) {
@@ -14778,7 +15762,7 @@ func decodeTestRequestRequiredStringInt8Response(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt8ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14819,7 +15803,7 @@ func decodeTestRequestRequiredStringInt8ArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt8ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14860,7 +15844,7 @@ func decodeTestRequestRequiredStringInt8ArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt8NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -14901,7 +15885,7 @@ func decodeTestRequestRequiredStringInt8NullableResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt8NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14942,7 +15926,7 @@ func decodeTestRequestRequiredStringInt8NullableArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringInt8NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -14983,7 +15967,7 @@ func decodeTestRequestRequiredStringInt8NullableArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIntArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15024,7 +16008,7 @@ func decodeTestRequestRequiredStringIntArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIntArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15065,7 +16049,7 @@ func decodeTestRequestRequiredStringIntArrayArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIntNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -15106,7 +16090,7 @@ func decodeTestRequestRequiredStringIntNullableResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIntNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15147,7 +16131,7 @@ func decodeTestRequestRequiredStringIntNullableArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIntNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15188,7 +16172,7 @@ func decodeTestRequestRequiredStringIntNullableArrayArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv4Response(resp *http.Response) (res *Error, _ error) {
@@ -15229,7 +16213,7 @@ func decodeTestRequestRequiredStringIpv4Response(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv4ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15270,7 +16254,7 @@ func decodeTestRequestRequiredStringIpv4ArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv4ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15311,7 +16295,7 @@ func decodeTestRequestRequiredStringIpv4ArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv4NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -15352,7 +16336,7 @@ func decodeTestRequestRequiredStringIpv4NullableResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv4NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15393,7 +16377,7 @@ func decodeTestRequestRequiredStringIpv4NullableArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv4NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15434,7 +16418,7 @@ func decodeTestRequestRequiredStringIpv4NullableArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv6Response(resp *http.Response) (res *Error, _ error) {
@@ -15475,7 +16459,7 @@ func decodeTestRequestRequiredStringIpv6Response(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv6ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15516,7 +16500,7 @@ func decodeTestRequestRequiredStringIpv6ArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv6ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15557,7 +16541,7 @@ func decodeTestRequestRequiredStringIpv6ArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv6NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -15598,7 +16582,7 @@ func decodeTestRequestRequiredStringIpv6NullableResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv6NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15639,7 +16623,7 @@ func decodeTestRequestRequiredStringIpv6NullableArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringIpv6NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15680,7 +16664,7 @@ func decodeTestRequestRequiredStringIpv6NullableArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringMACResponse(resp *http.Response) (res *Error, _ error) {
@@ -15721,7 +16705,7 @@ func decodeTestRequestRequiredStringMACResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringMACArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15762,7 +16746,7 @@ func decodeTestRequestRequiredStringMACArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringMACArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15803,7 +16787,7 @@ func decodeTestRequestRequiredStringMACArrayArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringMACNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -15844,7 +16828,7 @@ func decodeTestRequestRequiredStringMACNullableResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringMACNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15885,7 +16869,7 @@ func decodeTestRequestRequiredStringMACNullableArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringMACNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -15926,7 +16910,7 @@ func decodeTestRequestRequiredStringMACNullableArrayArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -15967,7 +16951,7 @@ func decodeTestRequestRequiredStringNullableResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16008,7 +16992,7 @@ func decodeTestRequestRequiredStringNullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16049,7 +17033,7 @@ func decodeTestRequestRequiredStringNullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringPasswordResponse(resp *http.Response) (res *Error, _ error) {
@@ -16090,7 +17074,7 @@ func decodeTestRequestRequiredStringPasswordResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringPasswordArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16131,7 +17115,7 @@ func decodeTestRequestRequiredStringPasswordArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringPasswordArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16172,7 +17156,7 @@ func decodeTestRequestRequiredStringPasswordArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringPasswordNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -16213,7 +17197,7 @@ func decodeTestRequestRequiredStringPasswordNullableResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringPasswordNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16254,7 +17238,7 @@ func decodeTestRequestRequiredStringPasswordNullableArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringPasswordNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16295,7 +17279,7 @@ func decodeTestRequestRequiredStringPasswordNullableArrayArrayResponse(resp *htt
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringTimeResponse(resp *http.Response) (res *Error, _ error) {
@@ -16336,7 +17320,7 @@ func decodeTestRequestRequiredStringTimeResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringTimeArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16377,7 +17361,7 @@ func decodeTestRequestRequiredStringTimeArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringTimeArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16418,7 +17402,7 @@ func decodeTestRequestRequiredStringTimeArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringTimeNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -16459,7 +17443,7 @@ func decodeTestRequestRequiredStringTimeNullableResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringTimeNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16500,7 +17484,7 @@ func decodeTestRequestRequiredStringTimeNullableArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringTimeNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16541,7 +17525,7 @@ func decodeTestRequestRequiredStringTimeNullableArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringURIResponse(resp *http.Response) (res *Error, _ error) {
@@ -16582,7 +17566,7 @@ func decodeTestRequestRequiredStringURIResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringURIArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16623,7 +17607,7 @@ func decodeTestRequestRequiredStringURIArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringURIArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16664,7 +17648,7 @@ func decodeTestRequestRequiredStringURIArrayArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringURINullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -16705,7 +17689,7 @@ func decodeTestRequestRequiredStringURINullableResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringURINullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16746,7 +17730,7 @@ func decodeTestRequestRequiredStringURINullableArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringURINullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16787,7 +17771,7 @@ func decodeTestRequestRequiredStringURINullableArrayArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUUIDResponse(resp *http.Response) (res *Error, _ error) {
@@ -16828,7 +17812,7 @@ func decodeTestRequestRequiredStringUUIDResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUUIDArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16869,7 +17853,7 @@ func decodeTestRequestRequiredStringUUIDArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUUIDArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16910,7 +17894,7 @@ func decodeTestRequestRequiredStringUUIDArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUUIDNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -16951,7 +17935,7 @@ func decodeTestRequestRequiredStringUUIDNullableResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUUIDNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -16992,7 +17976,7 @@ func decodeTestRequestRequiredStringUUIDNullableArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUUIDNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17033,7 +18017,7 @@ func decodeTestRequestRequiredStringUUIDNullableArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUintResponse(resp *http.Response) (res *Error, _ error) {
@@ -17074,7 +18058,7 @@ func decodeTestRequestRequiredStringUintResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint16Response(resp *http.Response) (res *Error, _ error) {
@@ -17115,7 +18099,7 @@ func decodeTestRequestRequiredStringUint16Response(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint16ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17156,7 +18140,7 @@ func decodeTestRequestRequiredStringUint16ArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint16ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17197,7 +18181,7 @@ func decodeTestRequestRequiredStringUint16ArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint16NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -17238,7 +18222,7 @@ func decodeTestRequestRequiredStringUint16NullableResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint16NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17279,7 +18263,7 @@ func decodeTestRequestRequiredStringUint16NullableArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint16NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17320,7 +18304,7 @@ func decodeTestRequestRequiredStringUint16NullableArrayArrayResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint32Response(resp *http.Response) (res *Error, _ error) {
@@ -17361,7 +18345,7 @@ func decodeTestRequestRequiredStringUint32Response(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17402,7 +18386,7 @@ func decodeTestRequestRequiredStringUint32ArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17443,7 +18427,7 @@ func decodeTestRequestRequiredStringUint32ArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -17484,7 +18468,7 @@ func decodeTestRequestRequiredStringUint32NullableResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17525,7 +18509,7 @@ func decodeTestRequestRequiredStringUint32NullableArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17566,7 +18550,7 @@ func decodeTestRequestRequiredStringUint32NullableArrayArrayResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint64Response(resp *http.Response) (res *Error, _ error) {
@@ -17607,7 +18591,7 @@ func decodeTestRequestRequiredStringUint64Response(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17648,7 +18632,7 @@ func decodeTestRequestRequiredStringUint64ArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17689,7 +18673,7 @@ func decodeTestRequestRequiredStringUint64ArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -17730,7 +18714,7 @@ func decodeTestRequestRequiredStringUint64NullableResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17771,7 +18755,7 @@ func decodeTestRequestRequiredStringUint64NullableArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17812,7 +18796,7 @@ func decodeTestRequestRequiredStringUint64NullableArrayArrayResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint8Response(resp *http.Response) (res *Error, _ error) {
@@ -17853,7 +18837,7 @@ func decodeTestRequestRequiredStringUint8Response(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint8ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17894,7 +18878,7 @@ func decodeTestRequestRequiredStringUint8ArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint8ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -17935,7 +18919,7 @@ func decodeTestRequestRequiredStringUint8ArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint8NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -17976,7 +18960,7 @@ func decodeTestRequestRequiredStringUint8NullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint8NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18017,7 +19001,7 @@ func decodeTestRequestRequiredStringUint8NullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUint8NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18058,7 +19042,7 @@ func decodeTestRequestRequiredStringUint8NullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUintArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18099,7 +19083,7 @@ func decodeTestRequestRequiredStringUintArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUintArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18140,7 +19124,7 @@ func decodeTestRequestRequiredStringUintArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUintNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -18181,7 +19165,7 @@ func decodeTestRequestRequiredStringUintNullableResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUintNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18222,7 +19206,7 @@ func decodeTestRequestRequiredStringUintNullableArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUintNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18263,7 +19247,7 @@ func decodeTestRequestRequiredStringUintNullableArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixResponse(resp *http.Response) (res *Error, _ error) {
@@ -18304,7 +19288,7 @@ func decodeTestRequestRequiredStringUnixResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18345,7 +19329,7 @@ func decodeTestRequestRequiredStringUnixArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18386,7 +19370,7 @@ func decodeTestRequestRequiredStringUnixArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMicroResponse(resp *http.Response) (res *Error, _ error) {
@@ -18427,7 +19411,7 @@ func decodeTestRequestRequiredStringUnixMicroResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMicroArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18468,7 +19452,7 @@ func decodeTestRequestRequiredStringUnixMicroArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMicroArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18509,7 +19493,7 @@ func decodeTestRequestRequiredStringUnixMicroArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMicroNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -18550,7 +19534,7 @@ func decodeTestRequestRequiredStringUnixMicroNullableResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMicroNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18591,7 +19575,7 @@ func decodeTestRequestRequiredStringUnixMicroNullableArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMicroNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18632,7 +19616,7 @@ func decodeTestRequestRequiredStringUnixMicroNullableArrayArrayResponse(resp *ht
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMilliResponse(resp *http.Response) (res *Error, _ error) {
@@ -18673,7 +19657,7 @@ func decodeTestRequestRequiredStringUnixMilliResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMilliArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18714,7 +19698,7 @@ func decodeTestRequestRequiredStringUnixMilliArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMilliArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18755,7 +19739,7 @@ func decodeTestRequestRequiredStringUnixMilliArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMilliNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -18796,7 +19780,7 @@ func decodeTestRequestRequiredStringUnixMilliNullableResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMilliNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18837,7 +19821,7 @@ func decodeTestRequestRequiredStringUnixMilliNullableArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixMilliNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18878,7 +19862,7 @@ func decodeTestRequestRequiredStringUnixMilliNullableArrayArrayResponse(resp *ht
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixNanoResponse(resp *http.Response) (res *Error, _ error) {
@@ -18919,7 +19903,7 @@ func decodeTestRequestRequiredStringUnixNanoResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixNanoArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -18960,7 +19944,7 @@ func decodeTestRequestRequiredStringUnixNanoArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixNanoArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19001,7 +19985,7 @@ func decodeTestRequestRequiredStringUnixNanoArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixNanoNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -19042,7 +20026,7 @@ func decodeTestRequestRequiredStringUnixNanoNullableResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixNanoNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19083,7 +20067,7 @@ func decodeTestRequestRequiredStringUnixNanoNullableArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixNanoNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19124,7 +20108,7 @@ func decodeTestRequestRequiredStringUnixNanoNullableArrayArrayResponse(resp *htt
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -19165,7 +20149,7 @@ func decodeTestRequestRequiredStringUnixNullableResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19206,7 +20190,7 @@ func decodeTestRequestRequiredStringUnixNullableArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19247,7 +20231,7 @@ func decodeTestRequestRequiredStringUnixNullableArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixSecondsResponse(resp *http.Response) (res *Error, _ error) {
@@ -19288,7 +20272,7 @@ func decodeTestRequestRequiredStringUnixSecondsResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixSecondsArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19329,7 +20313,7 @@ func decodeTestRequestRequiredStringUnixSecondsArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixSecondsArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19370,7 +20354,7 @@ func decodeTestRequestRequiredStringUnixSecondsArrayArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixSecondsNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -19411,7 +20395,7 @@ func decodeTestRequestRequiredStringUnixSecondsNullableResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixSecondsNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19452,7 +20436,7 @@ func decodeTestRequestRequiredStringUnixSecondsNullableArrayResponse(resp *http.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestRequiredStringUnixSecondsNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19493,7 +20477,7 @@ func decodeTestRequestRequiredStringUnixSecondsNullableArrayArrayResponse(resp *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringResponse(resp *http.Response) (res *Error, _ error) {
@@ -19534,7 +20518,7 @@ func decodeTestRequestStringResponse(resp *http.Response) (res *Error, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19575,7 +20559,7 @@ func decodeTestRequestStringArrayResponse(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19616,7 +20600,7 @@ func decodeTestRequestStringArrayArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBase64Response(resp *http.Response) (res *Error, _ error) {
@@ -19657,7 +20641,7 @@ func decodeTestRequestStringBase64Response(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBase64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19698,7 +20682,7 @@ func decodeTestRequestStringBase64ArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBase64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19739,7 +20723,7 @@ func decodeTestRequestStringBase64ArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBase64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -19780,7 +20764,7 @@ func decodeTestRequestStringBase64NullableResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBase64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19821,7 +20805,7 @@ func decodeTestRequestStringBase64NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBase64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19862,7 +20846,7 @@ func decodeTestRequestStringBase64NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBinaryResponse(resp *http.Response) (res *Error, _ error) {
@@ -19903,7 +20887,7 @@ func decodeTestRequestStringBinaryResponse(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBinaryArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19944,7 +20928,7 @@ func decodeTestRequestStringBinaryArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBinaryArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -19985,7 +20969,7 @@ func decodeTestRequestStringBinaryArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBinaryNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -20026,7 +21010,7 @@ func decodeTestRequestStringBinaryNullableResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBinaryNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20067,7 +21051,7 @@ func decodeTestRequestStringBinaryNullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringBinaryNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20108,7 +21092,7 @@ func decodeTestRequestStringBinaryNullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringByteResponse(resp *http.Response) (res *Error, _ error) {
@@ -20149,7 +21133,7 @@ func decodeTestRequestStringByteResponse(resp *http.Response) (res *Error, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringByteArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20190,7 +21174,7 @@ func decodeTestRequestStringByteArrayResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringByteArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20231,7 +21215,7 @@ func decodeTestRequestStringByteArrayArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringByteNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -20272,7 +21256,7 @@ func decodeTestRequestStringByteNullableResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringByteNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20313,7 +21297,7 @@ func decodeTestRequestStringByteNullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringByteNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20354,7 +21338,7 @@ func decodeTestRequestStringByteNullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateResponse(resp *http.Response) (res *Error, _ error) {
@@ -20395,7 +21379,7 @@ func decodeTestRequestStringDateResponse(resp *http.Response) (res *Error, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20436,7 +21420,7 @@ func decodeTestRequestStringDateArrayResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20477,7 +21461,7 @@ func decodeTestRequestStringDateArrayArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -20518,7 +21502,7 @@ func decodeTestRequestStringDateNullableResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20559,7 +21543,7 @@ func decodeTestRequestStringDateNullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20600,7 +21584,7 @@ func decodeTestRequestStringDateNullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateTimeResponse(resp *http.Response) (res *Error, _ error) {
@@ -20641,7 +21625,7 @@ func decodeTestRequestStringDateTimeResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateTimeArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20682,7 +21666,7 @@ func decodeTestRequestStringDateTimeArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateTimeArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20723,7 +21707,7 @@ func decodeTestRequestStringDateTimeArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateTimeNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -20764,7 +21748,7 @@ func decodeTestRequestStringDateTimeNullableResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateTimeNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20805,7 +21789,7 @@ func decodeTestRequestStringDateTimeNullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDateTimeNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20846,7 +21830,253 @@ func decodeTestRequestStringDateTimeNullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringDecimalResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringDecimalArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringDecimalArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringDecimalNullableResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringDecimalNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringDecimalNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDurationResponse(resp *http.Response) (res *Error, _ error) {
@@ -20887,7 +22117,7 @@ func decodeTestRequestStringDurationResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDurationArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20928,7 +22158,7 @@ func decodeTestRequestStringDurationArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDurationArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -20969,7 +22199,7 @@ func decodeTestRequestStringDurationArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDurationNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -21010,7 +22240,7 @@ func decodeTestRequestStringDurationNullableResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDurationNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21051,7 +22281,7 @@ func decodeTestRequestStringDurationNullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringDurationNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21092,7 +22322,7 @@ func decodeTestRequestStringDurationNullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringEmailResponse(resp *http.Response) (res *Error, _ error) {
@@ -21133,7 +22363,7 @@ func decodeTestRequestStringEmailResponse(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringEmailArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21174,7 +22404,7 @@ func decodeTestRequestStringEmailArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringEmailArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21215,7 +22445,7 @@ func decodeTestRequestStringEmailArrayArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringEmailNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -21256,7 +22486,7 @@ func decodeTestRequestStringEmailNullableResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringEmailNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21297,7 +22527,7 @@ func decodeTestRequestStringEmailNullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringEmailNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21338,7 +22568,7 @@ func decodeTestRequestStringEmailNullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat32Response(resp *http.Response) (res *Error, _ error) {
@@ -21379,7 +22609,7 @@ func decodeTestRequestStringFloat32Response(resp *http.Response) (res *Error, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21420,7 +22650,7 @@ func decodeTestRequestStringFloat32ArrayResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21461,7 +22691,7 @@ func decodeTestRequestStringFloat32ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -21502,7 +22732,7 @@ func decodeTestRequestStringFloat32NullableResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21543,7 +22773,7 @@ func decodeTestRequestStringFloat32NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21584,7 +22814,7 @@ func decodeTestRequestStringFloat32NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat64Response(resp *http.Response) (res *Error, _ error) {
@@ -21625,7 +22855,7 @@ func decodeTestRequestStringFloat64Response(resp *http.Response) (res *Error, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21666,7 +22896,7 @@ func decodeTestRequestStringFloat64ArrayResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21707,7 +22937,7 @@ func decodeTestRequestStringFloat64ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -21748,7 +22978,7 @@ func decodeTestRequestStringFloat64NullableResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21789,7 +23019,7 @@ func decodeTestRequestStringFloat64NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringFloat64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21830,7 +23060,253 @@ func decodeTestRequestStringFloat64NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringHTTPDateResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringHTTPDateArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringHTTPDateArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringHTTPDateNullableResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringHTTPDateNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestRequestStringHTTPDateNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Error
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringHostnameResponse(resp *http.Response) (res *Error, _ error) {
@@ -21871,7 +23347,7 @@ func decodeTestRequestStringHostnameResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringHostnameArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21912,7 +23388,7 @@ func decodeTestRequestStringHostnameArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringHostnameArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -21953,7 +23429,7 @@ func decodeTestRequestStringHostnameArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringHostnameNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -21994,7 +23470,7 @@ func decodeTestRequestStringHostnameNullableResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringHostnameNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22035,7 +23511,7 @@ func decodeTestRequestStringHostnameNullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringHostnameNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22076,7 +23552,7 @@ func decodeTestRequestStringHostnameNullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIPResponse(resp *http.Response) (res *Error, _ error) {
@@ -22117,7 +23593,7 @@ func decodeTestRequestStringIPResponse(resp *http.Response) (res *Error, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIPArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22158,7 +23634,7 @@ func decodeTestRequestStringIPArrayResponse(resp *http.Response) (res *Error, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIPArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22199,7 +23675,7 @@ func decodeTestRequestStringIPArrayArrayResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIPNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -22240,7 +23716,7 @@ func decodeTestRequestStringIPNullableResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIPNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22281,7 +23757,7 @@ func decodeTestRequestStringIPNullableArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIPNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22322,7 +23798,7 @@ func decodeTestRequestStringIPNullableArrayArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIntResponse(resp *http.Response) (res *Error, _ error) {
@@ -22363,7 +23839,7 @@ func decodeTestRequestStringIntResponse(resp *http.Response) (res *Error, _ erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt16Response(resp *http.Response) (res *Error, _ error) {
@@ -22404,7 +23880,7 @@ func decodeTestRequestStringInt16Response(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt16ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22445,7 +23921,7 @@ func decodeTestRequestStringInt16ArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt16ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22486,7 +23962,7 @@ func decodeTestRequestStringInt16ArrayArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt16NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -22527,7 +24003,7 @@ func decodeTestRequestStringInt16NullableResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt16NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22568,7 +24044,7 @@ func decodeTestRequestStringInt16NullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt16NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22609,7 +24085,7 @@ func decodeTestRequestStringInt16NullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt32Response(resp *http.Response) (res *Error, _ error) {
@@ -22650,7 +24126,7 @@ func decodeTestRequestStringInt32Response(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22691,7 +24167,7 @@ func decodeTestRequestStringInt32ArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22732,7 +24208,7 @@ func decodeTestRequestStringInt32ArrayArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -22773,7 +24249,7 @@ func decodeTestRequestStringInt32NullableResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22814,7 +24290,7 @@ func decodeTestRequestStringInt32NullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22855,7 +24331,7 @@ func decodeTestRequestStringInt32NullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt64Response(resp *http.Response) (res *Error, _ error) {
@@ -22896,7 +24372,7 @@ func decodeTestRequestStringInt64Response(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22937,7 +24413,7 @@ func decodeTestRequestStringInt64ArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -22978,7 +24454,7 @@ func decodeTestRequestStringInt64ArrayArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -23019,7 +24495,7 @@ func decodeTestRequestStringInt64NullableResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23060,7 +24536,7 @@ func decodeTestRequestStringInt64NullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23101,7 +24577,7 @@ func decodeTestRequestStringInt64NullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt8Response(resp *http.Response) (res *Error, _ error) {
@@ -23142,7 +24618,7 @@ func decodeTestRequestStringInt8Response(resp *http.Response) (res *Error, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt8ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23183,7 +24659,7 @@ func decodeTestRequestStringInt8ArrayResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt8ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23224,7 +24700,7 @@ func decodeTestRequestStringInt8ArrayArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt8NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -23265,7 +24741,7 @@ func decodeTestRequestStringInt8NullableResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt8NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23306,7 +24782,7 @@ func decodeTestRequestStringInt8NullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringInt8NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23347,7 +24823,7 @@ func decodeTestRequestStringInt8NullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIntArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23388,7 +24864,7 @@ func decodeTestRequestStringIntArrayResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIntArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23429,7 +24905,7 @@ func decodeTestRequestStringIntArrayArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIntNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -23470,7 +24946,7 @@ func decodeTestRequestStringIntNullableResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIntNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23511,7 +24987,7 @@ func decodeTestRequestStringIntNullableArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIntNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23552,7 +25028,7 @@ func decodeTestRequestStringIntNullableArrayArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv4Response(resp *http.Response) (res *Error, _ error) {
@@ -23593,7 +25069,7 @@ func decodeTestRequestStringIpv4Response(resp *http.Response) (res *Error, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv4ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23634,7 +25110,7 @@ func decodeTestRequestStringIpv4ArrayResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv4ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23675,7 +25151,7 @@ func decodeTestRequestStringIpv4ArrayArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv4NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -23716,7 +25192,7 @@ func decodeTestRequestStringIpv4NullableResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv4NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23757,7 +25233,7 @@ func decodeTestRequestStringIpv4NullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv4NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23798,7 +25274,7 @@ func decodeTestRequestStringIpv4NullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv6Response(resp *http.Response) (res *Error, _ error) {
@@ -23839,7 +25315,7 @@ func decodeTestRequestStringIpv6Response(resp *http.Response) (res *Error, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv6ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23880,7 +25356,7 @@ func decodeTestRequestStringIpv6ArrayResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv6ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -23921,7 +25397,7 @@ func decodeTestRequestStringIpv6ArrayArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv6NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -23962,7 +25438,7 @@ func decodeTestRequestStringIpv6NullableResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv6NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24003,7 +25479,7 @@ func decodeTestRequestStringIpv6NullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringIpv6NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24044,7 +25520,7 @@ func decodeTestRequestStringIpv6NullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringMACResponse(resp *http.Response) (res *Error, _ error) {
@@ -24085,7 +25561,7 @@ func decodeTestRequestStringMACResponse(resp *http.Response) (res *Error, _ erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringMACArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24126,7 +25602,7 @@ func decodeTestRequestStringMACArrayResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringMACArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24167,7 +25643,7 @@ func decodeTestRequestStringMACArrayArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringMACNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -24208,7 +25684,7 @@ func decodeTestRequestStringMACNullableResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringMACNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24249,7 +25725,7 @@ func decodeTestRequestStringMACNullableArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringMACNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24290,7 +25766,7 @@ func decodeTestRequestStringMACNullableArrayArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -24331,7 +25807,7 @@ func decodeTestRequestStringNullableResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24372,7 +25848,7 @@ func decodeTestRequestStringNullableArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24413,7 +25889,7 @@ func decodeTestRequestStringNullableArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringPasswordResponse(resp *http.Response) (res *Error, _ error) {
@@ -24454,7 +25930,7 @@ func decodeTestRequestStringPasswordResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringPasswordArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24495,7 +25971,7 @@ func decodeTestRequestStringPasswordArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringPasswordArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24536,7 +26012,7 @@ func decodeTestRequestStringPasswordArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringPasswordNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -24577,7 +26053,7 @@ func decodeTestRequestStringPasswordNullableResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringPasswordNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24618,7 +26094,7 @@ func decodeTestRequestStringPasswordNullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringPasswordNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24659,7 +26135,7 @@ func decodeTestRequestStringPasswordNullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringTimeResponse(resp *http.Response) (res *Error, _ error) {
@@ -24700,7 +26176,7 @@ func decodeTestRequestStringTimeResponse(resp *http.Response) (res *Error, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringTimeArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24741,7 +26217,7 @@ func decodeTestRequestStringTimeArrayResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringTimeArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24782,7 +26258,7 @@ func decodeTestRequestStringTimeArrayArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringTimeNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -24823,7 +26299,7 @@ func decodeTestRequestStringTimeNullableResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringTimeNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24864,7 +26340,7 @@ func decodeTestRequestStringTimeNullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringTimeNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24905,7 +26381,7 @@ func decodeTestRequestStringTimeNullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringURIResponse(resp *http.Response) (res *Error, _ error) {
@@ -24946,7 +26422,7 @@ func decodeTestRequestStringURIResponse(resp *http.Response) (res *Error, _ erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringURIArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -24987,7 +26463,7 @@ func decodeTestRequestStringURIArrayResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringURIArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25028,7 +26504,7 @@ func decodeTestRequestStringURIArrayArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringURINullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -25069,7 +26545,7 @@ func decodeTestRequestStringURINullableResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringURINullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25110,7 +26586,7 @@ func decodeTestRequestStringURINullableArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringURINullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25151,7 +26627,7 @@ func decodeTestRequestStringURINullableArrayArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUUIDResponse(resp *http.Response) (res *Error, _ error) {
@@ -25192,7 +26668,7 @@ func decodeTestRequestStringUUIDResponse(resp *http.Response) (res *Error, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUUIDArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25233,7 +26709,7 @@ func decodeTestRequestStringUUIDArrayResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUUIDArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25274,7 +26750,7 @@ func decodeTestRequestStringUUIDArrayArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUUIDNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -25315,7 +26791,7 @@ func decodeTestRequestStringUUIDNullableResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUUIDNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25356,7 +26832,7 @@ func decodeTestRequestStringUUIDNullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUUIDNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25397,7 +26873,7 @@ func decodeTestRequestStringUUIDNullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUintResponse(resp *http.Response) (res *Error, _ error) {
@@ -25438,7 +26914,7 @@ func decodeTestRequestStringUintResponse(resp *http.Response) (res *Error, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint16Response(resp *http.Response) (res *Error, _ error) {
@@ -25479,7 +26955,7 @@ func decodeTestRequestStringUint16Response(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint16ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25520,7 +26996,7 @@ func decodeTestRequestStringUint16ArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint16ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25561,7 +27037,7 @@ func decodeTestRequestStringUint16ArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint16NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -25602,7 +27078,7 @@ func decodeTestRequestStringUint16NullableResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint16NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25643,7 +27119,7 @@ func decodeTestRequestStringUint16NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint16NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25684,7 +27160,7 @@ func decodeTestRequestStringUint16NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint32Response(resp *http.Response) (res *Error, _ error) {
@@ -25725,7 +27201,7 @@ func decodeTestRequestStringUint32Response(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint32ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25766,7 +27242,7 @@ func decodeTestRequestStringUint32ArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint32ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25807,7 +27283,7 @@ func decodeTestRequestStringUint32ArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint32NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -25848,7 +27324,7 @@ func decodeTestRequestStringUint32NullableResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint32NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25889,7 +27365,7 @@ func decodeTestRequestStringUint32NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint32NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -25930,7 +27406,7 @@ func decodeTestRequestStringUint32NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint64Response(resp *http.Response) (res *Error, _ error) {
@@ -25971,7 +27447,7 @@ func decodeTestRequestStringUint64Response(resp *http.Response) (res *Error, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint64ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26012,7 +27488,7 @@ func decodeTestRequestStringUint64ArrayResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint64ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26053,7 +27529,7 @@ func decodeTestRequestStringUint64ArrayArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint64NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -26094,7 +27570,7 @@ func decodeTestRequestStringUint64NullableResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint64NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26135,7 +27611,7 @@ func decodeTestRequestStringUint64NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint64NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26176,7 +27652,7 @@ func decodeTestRequestStringUint64NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint8Response(resp *http.Response) (res *Error, _ error) {
@@ -26217,7 +27693,7 @@ func decodeTestRequestStringUint8Response(resp *http.Response) (res *Error, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint8ArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26258,7 +27734,7 @@ func decodeTestRequestStringUint8ArrayResponse(resp *http.Response) (res *Error,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint8ArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26299,7 +27775,7 @@ func decodeTestRequestStringUint8ArrayArrayResponse(resp *http.Response) (res *E
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint8NullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -26340,7 +27816,7 @@ func decodeTestRequestStringUint8NullableResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint8NullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26381,7 +27857,7 @@ func decodeTestRequestStringUint8NullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUint8NullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26422,7 +27898,7 @@ func decodeTestRequestStringUint8NullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUintArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26463,7 +27939,7 @@ func decodeTestRequestStringUintArrayResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUintArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26504,7 +27980,7 @@ func decodeTestRequestStringUintArrayArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUintNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -26545,7 +28021,7 @@ func decodeTestRequestStringUintNullableResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUintNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26586,7 +28062,7 @@ func decodeTestRequestStringUintNullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUintNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26627,7 +28103,7 @@ func decodeTestRequestStringUintNullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixResponse(resp *http.Response) (res *Error, _ error) {
@@ -26668,7 +28144,7 @@ func decodeTestRequestStringUnixResponse(resp *http.Response) (res *Error, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26709,7 +28185,7 @@ func decodeTestRequestStringUnixArrayResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26750,7 +28226,7 @@ func decodeTestRequestStringUnixArrayArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMicroResponse(resp *http.Response) (res *Error, _ error) {
@@ -26791,7 +28267,7 @@ func decodeTestRequestStringUnixMicroResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMicroArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26832,7 +28308,7 @@ func decodeTestRequestStringUnixMicroArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMicroArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26873,7 +28349,7 @@ func decodeTestRequestStringUnixMicroArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMicroNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -26914,7 +28390,7 @@ func decodeTestRequestStringUnixMicroNullableResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMicroNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26955,7 +28431,7 @@ func decodeTestRequestStringUnixMicroNullableArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMicroNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -26996,7 +28472,7 @@ func decodeTestRequestStringUnixMicroNullableArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMilliResponse(resp *http.Response) (res *Error, _ error) {
@@ -27037,7 +28513,7 @@ func decodeTestRequestStringUnixMilliResponse(resp *http.Response) (res *Error, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMilliArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27078,7 +28554,7 @@ func decodeTestRequestStringUnixMilliArrayResponse(resp *http.Response) (res *Er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMilliArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27119,7 +28595,7 @@ func decodeTestRequestStringUnixMilliArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMilliNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -27160,7 +28636,7 @@ func decodeTestRequestStringUnixMilliNullableResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMilliNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27201,7 +28677,7 @@ func decodeTestRequestStringUnixMilliNullableArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixMilliNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27242,7 +28718,7 @@ func decodeTestRequestStringUnixMilliNullableArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixNanoResponse(resp *http.Response) (res *Error, _ error) {
@@ -27283,7 +28759,7 @@ func decodeTestRequestStringUnixNanoResponse(resp *http.Response) (res *Error, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixNanoArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27324,7 +28800,7 @@ func decodeTestRequestStringUnixNanoArrayResponse(resp *http.Response) (res *Err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixNanoArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27365,7 +28841,7 @@ func decodeTestRequestStringUnixNanoArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixNanoNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -27406,7 +28882,7 @@ func decodeTestRequestStringUnixNanoNullableResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixNanoNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27447,7 +28923,7 @@ func decodeTestRequestStringUnixNanoNullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixNanoNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27488,7 +28964,7 @@ func decodeTestRequestStringUnixNanoNullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -27529,7 +29005,7 @@ func decodeTestRequestStringUnixNullableResponse(resp *http.Response) (res *Erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27570,7 +29046,7 @@ func decodeTestRequestStringUnixNullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27611,7 +29087,7 @@ func decodeTestRequestStringUnixNullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixSecondsResponse(resp *http.Response) (res *Error, _ error) {
@@ -27652,7 +29128,7 @@ func decodeTestRequestStringUnixSecondsResponse(resp *http.Response) (res *Error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixSecondsArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27693,7 +29169,7 @@ func decodeTestRequestStringUnixSecondsArrayResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixSecondsArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27734,7 +29210,7 @@ func decodeTestRequestStringUnixSecondsArrayArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixSecondsNullableResponse(resp *http.Response) (res *Error, _ error) {
@@ -27775,7 +29251,7 @@ func decodeTestRequestStringUnixSecondsNullableResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixSecondsNullableArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27816,7 +29292,7 @@ func decodeTestRequestStringUnixSecondsNullableArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestRequestStringUnixSecondsNullableArrayArrayResponse(resp *http.Response) (res *Error, _ error) {
@@ -27857,7 +29333,7 @@ func decodeTestRequestStringUnixSecondsNullableArrayArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseAnyResponse(resp *http.Response) (res jx.Raw, _ error) {
@@ -27900,7 +29376,7 @@ func decodeTestResponseAnyResponse(resp *http.Response) (res jx.Raw, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseBooleanResponse(resp *http.Response) (res bool, _ error) {
@@ -27943,7 +29419,7 @@ func decodeTestResponseBooleanResponse(resp *http.Response) (res bool, _ error) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseBooleanArrayResponse(resp *http.Response) (res []bool, _ error) {
@@ -28003,7 +29479,7 @@ func decodeTestResponseBooleanArrayResponse(resp *http.Response) (res []bool, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseBooleanArrayArrayResponse(resp *http.Response) (res [][]bool, _ error) {
@@ -28088,7 +29564,7 @@ func decodeTestResponseBooleanArrayArrayResponse(resp *http.Response) (res [][]b
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseBooleanNullableResponse(resp *http.Response) (res NilBool, _ error) {
@@ -28129,7 +29605,7 @@ func decodeTestResponseBooleanNullableResponse(resp *http.Response) (res NilBool
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseBooleanNullableArrayResponse(resp *http.Response) (res []NilBool, _ error) {
@@ -28187,7 +29663,7 @@ func decodeTestResponseBooleanNullableArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseBooleanNullableArrayArrayResponse(resp *http.Response) (res [][]NilBool, _ error) {
@@ -28270,7 +29746,7 @@ func decodeTestResponseBooleanNullableArrayArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseEmptyStructResponse(resp *http.Response) (res *TestResponseEmptyStructOK, _ error) {
@@ -28311,7 +29787,7 @@ func decodeTestResponseEmptyStructResponse(resp *http.Response) (res *TestRespon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseFormatTestResponse(resp *http.Response) (res *TestResponseFormatTestOK, _ error) {
@@ -28361,7 +29837,7 @@ func decodeTestResponseFormatTestResponse(resp *http.Response) (res *TestRespons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerResponse(resp *http.Response) (res int, _ error) {
@@ -28404,7 +29880,7 @@ func decodeTestResponseIntegerResponse(resp *http.Response) (res int, _ error) {
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerArrayResponse(resp *http.Response) (res []int, _ error) {
@@ -28464,7 +29940,7 @@ func decodeTestResponseIntegerArrayResponse(resp *http.Response) (res []int, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerArrayArrayResponse(resp *http.Response) (res [][]int, _ error) {
@@ -28549,7 +30025,7 @@ func decodeTestResponseIntegerArrayArrayResponse(resp *http.Response) (res [][]i
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt16Response(resp *http.Response) (res int16, _ error) {
@@ -28592,7 +30068,7 @@ func decodeTestResponseIntegerInt16Response(resp *http.Response) (res int16, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt16ArrayResponse(resp *http.Response) (res []int16, _ error) {
@@ -28652,7 +30128,7 @@ func decodeTestResponseIntegerInt16ArrayResponse(resp *http.Response) (res []int
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt16ArrayArrayResponse(resp *http.Response) (res [][]int16, _ error) {
@@ -28737,7 +30213,7 @@ func decodeTestResponseIntegerInt16ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt16NullableResponse(resp *http.Response) (res NilInt16, _ error) {
@@ -28778,7 +30254,7 @@ func decodeTestResponseIntegerInt16NullableResponse(resp *http.Response) (res Ni
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt16NullableArrayResponse(resp *http.Response) (res []NilInt16, _ error) {
@@ -28836,7 +30312,7 @@ func decodeTestResponseIntegerInt16NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt16NullableArrayArrayResponse(resp *http.Response) (res [][]NilInt16, _ error) {
@@ -28919,7 +30395,7 @@ func decodeTestResponseIntegerInt16NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt32Response(resp *http.Response) (res int32, _ error) {
@@ -28962,7 +30438,7 @@ func decodeTestResponseIntegerInt32Response(resp *http.Response) (res int32, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt32ArrayResponse(resp *http.Response) (res []int32, _ error) {
@@ -29022,7 +30498,7 @@ func decodeTestResponseIntegerInt32ArrayResponse(resp *http.Response) (res []int
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt32ArrayArrayResponse(resp *http.Response) (res [][]int32, _ error) {
@@ -29107,7 +30583,7 @@ func decodeTestResponseIntegerInt32ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt32NullableResponse(resp *http.Response) (res NilInt32, _ error) {
@@ -29148,7 +30624,7 @@ func decodeTestResponseIntegerInt32NullableResponse(resp *http.Response) (res Ni
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt32NullableArrayResponse(resp *http.Response) (res []NilInt32, _ error) {
@@ -29206,7 +30682,7 @@ func decodeTestResponseIntegerInt32NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt32NullableArrayArrayResponse(resp *http.Response) (res [][]NilInt32, _ error) {
@@ -29289,7 +30765,7 @@ func decodeTestResponseIntegerInt32NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt64Response(resp *http.Response) (res int64, _ error) {
@@ -29332,7 +30808,7 @@ func decodeTestResponseIntegerInt64Response(resp *http.Response) (res int64, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt64ArrayResponse(resp *http.Response) (res []int64, _ error) {
@@ -29392,7 +30868,7 @@ func decodeTestResponseIntegerInt64ArrayResponse(resp *http.Response) (res []int
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt64ArrayArrayResponse(resp *http.Response) (res [][]int64, _ error) {
@@ -29477,7 +30953,7 @@ func decodeTestResponseIntegerInt64ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt64NullableResponse(resp *http.Response) (res NilInt64, _ error) {
@@ -29518,7 +30994,7 @@ func decodeTestResponseIntegerInt64NullableResponse(resp *http.Response) (res Ni
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt64NullableArrayResponse(resp *http.Response) (res []NilInt64, _ error) {
@@ -29576,7 +31052,7 @@ func decodeTestResponseIntegerInt64NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt64NullableArrayArrayResponse(resp *http.Response) (res [][]NilInt64, _ error) {
@@ -29659,7 +31135,7 @@ func decodeTestResponseIntegerInt64NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt8Response(resp *http.Response) (res int8, _ error) {
@@ -29702,7 +31178,7 @@ func decodeTestResponseIntegerInt8Response(resp *http.Response) (res int8, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt8ArrayResponse(resp *http.Response) (res []int8, _ error) {
@@ -29762,7 +31238,7 @@ func decodeTestResponseIntegerInt8ArrayResponse(resp *http.Response) (res []int8
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt8ArrayArrayResponse(resp *http.Response) (res [][]int8, _ error) {
@@ -29847,7 +31323,7 @@ func decodeTestResponseIntegerInt8ArrayArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt8NullableResponse(resp *http.Response) (res NilInt8, _ error) {
@@ -29888,7 +31364,7 @@ func decodeTestResponseIntegerInt8NullableResponse(resp *http.Response) (res Nil
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt8NullableArrayResponse(resp *http.Response) (res []NilInt8, _ error) {
@@ -29946,7 +31422,7 @@ func decodeTestResponseIntegerInt8NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerInt8NullableArrayArrayResponse(resp *http.Response) (res [][]NilInt8, _ error) {
@@ -30029,7 +31505,7 @@ func decodeTestResponseIntegerInt8NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerNullableResponse(resp *http.Response) (res NilInt, _ error) {
@@ -30070,7 +31546,7 @@ func decodeTestResponseIntegerNullableResponse(resp *http.Response) (res NilInt,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerNullableArrayResponse(resp *http.Response) (res []NilInt, _ error) {
@@ -30128,7 +31604,7 @@ func decodeTestResponseIntegerNullableArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerNullableArrayArrayResponse(resp *http.Response) (res [][]NilInt, _ error) {
@@ -30211,7 +31687,7 @@ func decodeTestResponseIntegerNullableArrayArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUintResponse(resp *http.Response) (res uint, _ error) {
@@ -30254,7 +31730,7 @@ func decodeTestResponseIntegerUintResponse(resp *http.Response) (res uint, _ err
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint16Response(resp *http.Response) (res uint16, _ error) {
@@ -30297,7 +31773,7 @@ func decodeTestResponseIntegerUint16Response(resp *http.Response) (res uint16, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint16ArrayResponse(resp *http.Response) (res []uint16, _ error) {
@@ -30357,7 +31833,7 @@ func decodeTestResponseIntegerUint16ArrayResponse(resp *http.Response) (res []ui
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint16ArrayArrayResponse(resp *http.Response) (res [][]uint16, _ error) {
@@ -30442,7 +31918,7 @@ func decodeTestResponseIntegerUint16ArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint16NullableResponse(resp *http.Response) (res NilUint16, _ error) {
@@ -30483,7 +31959,7 @@ func decodeTestResponseIntegerUint16NullableResponse(resp *http.Response) (res N
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint16NullableArrayResponse(resp *http.Response) (res []NilUint16, _ error) {
@@ -30541,7 +32017,7 @@ func decodeTestResponseIntegerUint16NullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint16NullableArrayArrayResponse(resp *http.Response) (res [][]NilUint16, _ error) {
@@ -30624,7 +32100,7 @@ func decodeTestResponseIntegerUint16NullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint32Response(resp *http.Response) (res uint32, _ error) {
@@ -30667,7 +32143,7 @@ func decodeTestResponseIntegerUint32Response(resp *http.Response) (res uint32, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint32ArrayResponse(resp *http.Response) (res []uint32, _ error) {
@@ -30727,7 +32203,7 @@ func decodeTestResponseIntegerUint32ArrayResponse(resp *http.Response) (res []ui
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint32ArrayArrayResponse(resp *http.Response) (res [][]uint32, _ error) {
@@ -30812,7 +32288,7 @@ func decodeTestResponseIntegerUint32ArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint32NullableResponse(resp *http.Response) (res NilUint32, _ error) {
@@ -30853,7 +32329,7 @@ func decodeTestResponseIntegerUint32NullableResponse(resp *http.Response) (res N
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint32NullableArrayResponse(resp *http.Response) (res []NilUint32, _ error) {
@@ -30911,7 +32387,7 @@ func decodeTestResponseIntegerUint32NullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint32NullableArrayArrayResponse(resp *http.Response) (res [][]NilUint32, _ error) {
@@ -30994,7 +32470,7 @@ func decodeTestResponseIntegerUint32NullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint64Response(resp *http.Response) (res uint64, _ error) {
@@ -31037,7 +32513,7 @@ func decodeTestResponseIntegerUint64Response(resp *http.Response) (res uint64, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint64ArrayResponse(resp *http.Response) (res []uint64, _ error) {
@@ -31097,7 +32573,7 @@ func decodeTestResponseIntegerUint64ArrayResponse(resp *http.Response) (res []ui
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint64ArrayArrayResponse(resp *http.Response) (res [][]uint64, _ error) {
@@ -31182,7 +32658,7 @@ func decodeTestResponseIntegerUint64ArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint64NullableResponse(resp *http.Response) (res NilUint64, _ error) {
@@ -31223,7 +32699,7 @@ func decodeTestResponseIntegerUint64NullableResponse(resp *http.Response) (res N
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint64NullableArrayResponse(resp *http.Response) (res []NilUint64, _ error) {
@@ -31281,7 +32757,7 @@ func decodeTestResponseIntegerUint64NullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint64NullableArrayArrayResponse(resp *http.Response) (res [][]NilUint64, _ error) {
@@ -31364,7 +32840,7 @@ func decodeTestResponseIntegerUint64NullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint8Response(resp *http.Response) (res uint8, _ error) {
@@ -31407,7 +32883,7 @@ func decodeTestResponseIntegerUint8Response(resp *http.Response) (res uint8, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint8ArrayResponse(resp *http.Response) (res []uint8, _ error) {
@@ -31467,7 +32943,7 @@ func decodeTestResponseIntegerUint8ArrayResponse(resp *http.Response) (res []uin
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint8ArrayArrayResponse(resp *http.Response) (res [][]uint8, _ error) {
@@ -31552,7 +33028,7 @@ func decodeTestResponseIntegerUint8ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint8NullableResponse(resp *http.Response) (res NilUint8, _ error) {
@@ -31593,7 +33069,7 @@ func decodeTestResponseIntegerUint8NullableResponse(resp *http.Response) (res Ni
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint8NullableArrayResponse(resp *http.Response) (res []NilUint8, _ error) {
@@ -31651,7 +33127,7 @@ func decodeTestResponseIntegerUint8NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUint8NullableArrayArrayResponse(resp *http.Response) (res [][]NilUint8, _ error) {
@@ -31734,7 +33210,7 @@ func decodeTestResponseIntegerUint8NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUintArrayResponse(resp *http.Response) (res []uint, _ error) {
@@ -31794,7 +33270,7 @@ func decodeTestResponseIntegerUintArrayResponse(resp *http.Response) (res []uint
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUintArrayArrayResponse(resp *http.Response) (res [][]uint, _ error) {
@@ -31879,7 +33355,7 @@ func decodeTestResponseIntegerUintArrayArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUintNullableResponse(resp *http.Response) (res NilUint, _ error) {
@@ -31920,7 +33396,7 @@ func decodeTestResponseIntegerUintNullableResponse(resp *http.Response) (res Nil
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUintNullableArrayResponse(resp *http.Response) (res []NilUint, _ error) {
@@ -31978,7 +33454,7 @@ func decodeTestResponseIntegerUintNullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUintNullableArrayArrayResponse(resp *http.Response) (res [][]NilUint, _ error) {
@@ -32061,7 +33537,7 @@ func decodeTestResponseIntegerUintNullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixResponse(resp *http.Response) (res time.Time, _ error) {
@@ -32104,7 +33580,7 @@ func decodeTestResponseIntegerUnixResponse(resp *http.Response) (res time.Time, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -32164,7 +33640,7 @@ func decodeTestResponseIntegerUnixArrayResponse(resp *http.Response) (res []time
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -32249,7 +33725,7 @@ func decodeTestResponseIntegerUnixArrayArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMicroResponse(resp *http.Response) (res time.Time, _ error) {
@@ -32292,7 +33768,7 @@ func decodeTestResponseIntegerUnixMicroResponse(resp *http.Response) (res time.T
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMicroArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -32352,7 +33828,7 @@ func decodeTestResponseIntegerUnixMicroArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMicroArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -32437,7 +33913,7 @@ func decodeTestResponseIntegerUnixMicroArrayArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMicroNullableResponse(resp *http.Response) (res NilUnixMicro, _ error) {
@@ -32478,7 +33954,7 @@ func decodeTestResponseIntegerUnixMicroNullableResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMicroNullableArrayResponse(resp *http.Response) (res []NilUnixMicro, _ error) {
@@ -32536,7 +34012,7 @@ func decodeTestResponseIntegerUnixMicroNullableArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMicroNullableArrayArrayResponse(resp *http.Response) (res [][]NilUnixMicro, _ error) {
@@ -32619,7 +34095,7 @@ func decodeTestResponseIntegerUnixMicroNullableArrayArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMilliResponse(resp *http.Response) (res time.Time, _ error) {
@@ -32662,7 +34138,7 @@ func decodeTestResponseIntegerUnixMilliResponse(resp *http.Response) (res time.T
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMilliArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -32722,7 +34198,7 @@ func decodeTestResponseIntegerUnixMilliArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMilliArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -32807,7 +34283,7 @@ func decodeTestResponseIntegerUnixMilliArrayArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMilliNullableResponse(resp *http.Response) (res NilUnixMilli, _ error) {
@@ -32848,7 +34324,7 @@ func decodeTestResponseIntegerUnixMilliNullableResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMilliNullableArrayResponse(resp *http.Response) (res []NilUnixMilli, _ error) {
@@ -32906,7 +34382,7 @@ func decodeTestResponseIntegerUnixMilliNullableArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixMilliNullableArrayArrayResponse(resp *http.Response) (res [][]NilUnixMilli, _ error) {
@@ -32989,7 +34465,7 @@ func decodeTestResponseIntegerUnixMilliNullableArrayArrayResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixNanoResponse(resp *http.Response) (res time.Time, _ error) {
@@ -33032,7 +34508,7 @@ func decodeTestResponseIntegerUnixNanoResponse(resp *http.Response) (res time.Ti
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixNanoArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -33092,7 +34568,7 @@ func decodeTestResponseIntegerUnixNanoArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixNanoArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -33177,7 +34653,7 @@ func decodeTestResponseIntegerUnixNanoArrayArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixNanoNullableResponse(resp *http.Response) (res NilUnixNano, _ error) {
@@ -33218,7 +34694,7 @@ func decodeTestResponseIntegerUnixNanoNullableResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixNanoNullableArrayResponse(resp *http.Response) (res []NilUnixNano, _ error) {
@@ -33276,7 +34752,7 @@ func decodeTestResponseIntegerUnixNanoNullableArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixNanoNullableArrayArrayResponse(resp *http.Response) (res [][]NilUnixNano, _ error) {
@@ -33359,7 +34835,7 @@ func decodeTestResponseIntegerUnixNanoNullableArrayArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixNullableResponse(resp *http.Response) (res NilUnixSeconds, _ error) {
@@ -33400,7 +34876,7 @@ func decodeTestResponseIntegerUnixNullableResponse(resp *http.Response) (res Nil
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixNullableArrayResponse(resp *http.Response) (res []NilUnixSeconds, _ error) {
@@ -33458,7 +34934,7 @@ func decodeTestResponseIntegerUnixNullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixNullableArrayArrayResponse(resp *http.Response) (res [][]NilUnixSeconds, _ error) {
@@ -33541,7 +35017,7 @@ func decodeTestResponseIntegerUnixNullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixSecondsResponse(resp *http.Response) (res time.Time, _ error) {
@@ -33584,7 +35060,7 @@ func decodeTestResponseIntegerUnixSecondsResponse(resp *http.Response) (res time
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixSecondsArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -33644,7 +35120,7 @@ func decodeTestResponseIntegerUnixSecondsArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixSecondsArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -33729,7 +35205,7 @@ func decodeTestResponseIntegerUnixSecondsArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixSecondsNullableResponse(resp *http.Response) (res NilUnixSeconds, _ error) {
@@ -33770,7 +35246,7 @@ func decodeTestResponseIntegerUnixSecondsNullableResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixSecondsNullableArrayResponse(resp *http.Response) (res []NilUnixSeconds, _ error) {
@@ -33828,7 +35304,7 @@ func decodeTestResponseIntegerUnixSecondsNullableArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseIntegerUnixSecondsNullableArrayArrayResponse(resp *http.Response) (res [][]NilUnixSeconds, _ error) {
@@ -33911,7 +35387,7 @@ func decodeTestResponseIntegerUnixSecondsNullableArrayArrayResponse(resp *http.R
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNullResponse(resp *http.Response) (res struct{}, _ error) {
@@ -33952,7 +35428,7 @@ func decodeTestResponseNullResponse(resp *http.Response) (res struct{}, _ error)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNullArrayResponse(resp *http.Response) (res []struct{}, _ error) {
@@ -34010,7 +35486,7 @@ func decodeTestResponseNullArrayResponse(resp *http.Response) (res []struct{}, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNullArrayArrayResponse(resp *http.Response) (res [][]struct{}, _ error) {
@@ -34093,7 +35569,7 @@ func decodeTestResponseNullArrayArrayResponse(resp *http.Response) (res [][]stru
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNullNullableResponse(resp *http.Response) (res struct{}, _ error) {
@@ -34134,7 +35610,7 @@ func decodeTestResponseNullNullableResponse(resp *http.Response) (res struct{}, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNullNullableArrayResponse(resp *http.Response) (res []struct{}, _ error) {
@@ -34192,7 +35668,7 @@ func decodeTestResponseNullNullableArrayResponse(resp *http.Response) (res []str
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNullNullableArrayArrayResponse(resp *http.Response) (res [][]struct{}, _ error) {
@@ -34275,7 +35751,7 @@ func decodeTestResponseNullNullableArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberResponse(resp *http.Response) (res float64, _ error) {
@@ -34327,7 +35803,7 @@ func decodeTestResponseNumberResponse(resp *http.Response) (res float64, _ error
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberArrayResponse(resp *http.Response) (res []float64, _ error) {
@@ -34404,7 +35880,7 @@ func decodeTestResponseNumberArrayResponse(resp *http.Response) (res []float64, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberArrayArrayResponse(resp *http.Response) (res [][]float64, _ error) {
@@ -34506,7 +35982,377 @@ func decodeTestResponseNumberArrayArrayResponse(resp *http.Response) (res [][]fl
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseNumberDecimalResponse(resp *http.Response) (res decimal.Decimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response decimal.Decimal
+			if err := func() error {
+				v, err := json.DecodeDecimal(d)
+				response = v
+				if err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseNumberDecimalArrayResponse(resp *http.Response) (res []decimal.Decimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response []decimal.Decimal
+			if err := func() error {
+				response = make([]decimal.Decimal, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem decimal.Decimal
+					v, err := json.DecodeDecimal(d)
+					elem = v
+					if err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseNumberDecimalArrayArrayResponse(resp *http.Response) (res [][]decimal.Decimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response [][]decimal.Decimal
+			if err := func() error {
+				response = make([][]decimal.Decimal, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem []decimal.Decimal
+					elem = make([]decimal.Decimal, 0)
+					if err := d.Arr(func(d *jx.Decoder) error {
+						var elemElem decimal.Decimal
+						v, err := json.DecodeDecimal(d)
+						elemElem = v
+						if err != nil {
+							return err
+						}
+						elem = append(elem, elemElem)
+						return nil
+					}); err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				var failures []validate.FieldError
+				for i, elem := range response {
+					if err := func() error {
+						if elem == nil {
+							return errors.New("nil is invalid value")
+						}
+						return nil
+					}(); err != nil {
+						failures = append(failures, validate.FieldError{
+							Name:  fmt.Sprintf("[%d]", i),
+							Error: err,
+						})
+					}
+				}
+				if len(failures) > 0 {
+					return &validate.Error{Fields: failures}
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseNumberDecimalNullableResponse(resp *http.Response) (res NilDecimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response NilDecimal
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseNumberDecimalNullableArrayResponse(resp *http.Response) (res []NilDecimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response []NilDecimal
+			if err := func() error {
+				response = make([]NilDecimal, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem NilDecimal
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseNumberDecimalNullableArrayArrayResponse(resp *http.Response) (res [][]NilDecimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response [][]NilDecimal
+			if err := func() error {
+				response = make([][]NilDecimal, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem []NilDecimal
+					elem = make([]NilDecimal, 0)
+					if err := d.Arr(func(d *jx.Decoder) error {
+						var elemElem NilDecimal
+						if err := elemElem.Decode(d); err != nil {
+							return err
+						}
+						elem = append(elem, elemElem)
+						return nil
+					}); err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				var failures []validate.FieldError
+				for i, elem := range response {
+					if err := func() error {
+						if elem == nil {
+							return errors.New("nil is invalid value")
+						}
+						return nil
+					}(); err != nil {
+						failures = append(failures, validate.FieldError{
+							Name:  fmt.Sprintf("[%d]", i),
+							Error: err,
+						})
+					}
+				}
+				if len(failures) > 0 {
+					return &validate.Error{Fields: failures}
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberDoubleResponse(resp *http.Response) (res float64, _ error) {
@@ -34558,7 +36404,7 @@ func decodeTestResponseNumberDoubleResponse(resp *http.Response) (res float64, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberDoubleArrayResponse(resp *http.Response) (res []float64, _ error) {
@@ -34635,7 +36481,7 @@ func decodeTestResponseNumberDoubleArrayResponse(resp *http.Response) (res []flo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberDoubleArrayArrayResponse(resp *http.Response) (res [][]float64, _ error) {
@@ -34737,7 +36583,7 @@ func decodeTestResponseNumberDoubleArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberDoubleNullableResponse(resp *http.Response) (res NilFloat64, _ error) {
@@ -34794,7 +36640,7 @@ func decodeTestResponseNumberDoubleNullableResponse(resp *http.Response) (res Ni
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberDoubleNullableArrayResponse(resp *http.Response) (res []NilFloat64, _ error) {
@@ -34876,7 +36722,7 @@ func decodeTestResponseNumberDoubleNullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberDoubleNullableArrayArrayResponse(resp *http.Response) (res [][]NilFloat64, _ error) {
@@ -34983,7 +36829,7 @@ func decodeTestResponseNumberDoubleNullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberFloatResponse(resp *http.Response) (res float32, _ error) {
@@ -35035,7 +36881,7 @@ func decodeTestResponseNumberFloatResponse(resp *http.Response) (res float32, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberFloatArrayResponse(resp *http.Response) (res []float32, _ error) {
@@ -35112,7 +36958,7 @@ func decodeTestResponseNumberFloatArrayResponse(resp *http.Response) (res []floa
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberFloatArrayArrayResponse(resp *http.Response) (res [][]float32, _ error) {
@@ -35214,7 +37060,7 @@ func decodeTestResponseNumberFloatArrayArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberFloatNullableResponse(resp *http.Response) (res NilFloat32, _ error) {
@@ -35271,7 +37117,7 @@ func decodeTestResponseNumberFloatNullableResponse(resp *http.Response) (res Nil
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberFloatNullableArrayResponse(resp *http.Response) (res []NilFloat32, _ error) {
@@ -35353,7 +37199,7 @@ func decodeTestResponseNumberFloatNullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberFloatNullableArrayArrayResponse(resp *http.Response) (res [][]NilFloat32, _ error) {
@@ -35460,7 +37306,7 @@ func decodeTestResponseNumberFloatNullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt32Response(resp *http.Response) (res int32, _ error) {
@@ -35503,7 +37349,7 @@ func decodeTestResponseNumberInt32Response(resp *http.Response) (res int32, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt32ArrayResponse(resp *http.Response) (res []int32, _ error) {
@@ -35563,7 +37409,7 @@ func decodeTestResponseNumberInt32ArrayResponse(resp *http.Response) (res []int3
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt32ArrayArrayResponse(resp *http.Response) (res [][]int32, _ error) {
@@ -35648,7 +37494,7 @@ func decodeTestResponseNumberInt32ArrayArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt32NullableResponse(resp *http.Response) (res NilInt32, _ error) {
@@ -35689,7 +37535,7 @@ func decodeTestResponseNumberInt32NullableResponse(resp *http.Response) (res Nil
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt32NullableArrayResponse(resp *http.Response) (res []NilInt32, _ error) {
@@ -35747,7 +37593,7 @@ func decodeTestResponseNumberInt32NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt32NullableArrayArrayResponse(resp *http.Response) (res [][]NilInt32, _ error) {
@@ -35830,7 +37676,7 @@ func decodeTestResponseNumberInt32NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt64Response(resp *http.Response) (res int64, _ error) {
@@ -35873,7 +37719,7 @@ func decodeTestResponseNumberInt64Response(resp *http.Response) (res int64, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt64ArrayResponse(resp *http.Response) (res []int64, _ error) {
@@ -35933,7 +37779,7 @@ func decodeTestResponseNumberInt64ArrayResponse(resp *http.Response) (res []int6
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt64ArrayArrayResponse(resp *http.Response) (res [][]int64, _ error) {
@@ -36018,7 +37864,7 @@ func decodeTestResponseNumberInt64ArrayArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt64NullableResponse(resp *http.Response) (res NilInt64, _ error) {
@@ -36059,7 +37905,7 @@ func decodeTestResponseNumberInt64NullableResponse(resp *http.Response) (res Nil
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt64NullableArrayResponse(resp *http.Response) (res []NilInt64, _ error) {
@@ -36117,7 +37963,7 @@ func decodeTestResponseNumberInt64NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberInt64NullableArrayArrayResponse(resp *http.Response) (res [][]NilInt64, _ error) {
@@ -36200,7 +38046,7 @@ func decodeTestResponseNumberInt64NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberNullableResponse(resp *http.Response) (res NilFloat64, _ error) {
@@ -36257,7 +38103,7 @@ func decodeTestResponseNumberNullableResponse(resp *http.Response) (res NilFloat
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberNullableArrayResponse(resp *http.Response) (res []NilFloat64, _ error) {
@@ -36339,7 +38185,7 @@ func decodeTestResponseNumberNullableArrayResponse(resp *http.Response) (res []N
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseNumberNullableArrayArrayResponse(resp *http.Response) (res [][]NilFloat64, _ error) {
@@ -36446,7 +38292,7 @@ func decodeTestResponseNumberNullableArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringResponse(resp *http.Response) (res string, _ error) {
@@ -36489,7 +38335,7 @@ func decodeTestResponseStringResponse(resp *http.Response) (res string, _ error)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringArrayResponse(resp *http.Response) (res []string, _ error) {
@@ -36549,7 +38395,7 @@ func decodeTestResponseStringArrayResponse(resp *http.Response) (res []string, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringArrayArrayResponse(resp *http.Response) (res [][]string, _ error) {
@@ -36634,7 +38480,7 @@ func decodeTestResponseStringArrayArrayResponse(resp *http.Response) (res [][]st
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBase64Response(resp *http.Response) (res []byte, _ error) {
@@ -36677,7 +38523,7 @@ func decodeTestResponseStringBase64Response(resp *http.Response) (res []byte, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBase64ArrayResponse(resp *http.Response) (res [][]byte, _ error) {
@@ -36737,7 +38583,7 @@ func decodeTestResponseStringBase64ArrayResponse(resp *http.Response) (res [][]b
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBase64ArrayArrayResponse(resp *http.Response) (res [][][]byte, _ error) {
@@ -36822,7 +38668,7 @@ func decodeTestResponseStringBase64ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBase64NullableResponse(resp *http.Response) (res []byte, _ error) {
@@ -36865,7 +38711,7 @@ func decodeTestResponseStringBase64NullableResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBase64NullableArrayResponse(resp *http.Response) (res [][]byte, _ error) {
@@ -36925,7 +38771,7 @@ func decodeTestResponseStringBase64NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBase64NullableArrayArrayResponse(resp *http.Response) (res [][][]byte, _ error) {
@@ -37010,7 +38856,7 @@ func decodeTestResponseStringBase64NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBinaryResponse(resp *http.Response) (res string, _ error) {
@@ -37053,7 +38899,7 @@ func decodeTestResponseStringBinaryResponse(resp *http.Response) (res string, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBinaryArrayResponse(resp *http.Response) (res []string, _ error) {
@@ -37113,7 +38959,7 @@ func decodeTestResponseStringBinaryArrayResponse(resp *http.Response) (res []str
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBinaryArrayArrayResponse(resp *http.Response) (res [][]string, _ error) {
@@ -37198,7 +39044,7 @@ func decodeTestResponseStringBinaryArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBinaryNullableResponse(resp *http.Response) (res NilString, _ error) {
@@ -37239,7 +39085,7 @@ func decodeTestResponseStringBinaryNullableResponse(resp *http.Response) (res Ni
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBinaryNullableArrayResponse(resp *http.Response) (res []NilString, _ error) {
@@ -37297,7 +39143,7 @@ func decodeTestResponseStringBinaryNullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringBinaryNullableArrayArrayResponse(resp *http.Response) (res [][]NilString, _ error) {
@@ -37380,7 +39226,7 @@ func decodeTestResponseStringBinaryNullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringByteResponse(resp *http.Response) (res []byte, _ error) {
@@ -37423,7 +39269,7 @@ func decodeTestResponseStringByteResponse(resp *http.Response) (res []byte, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringByteArrayResponse(resp *http.Response) (res [][]byte, _ error) {
@@ -37483,7 +39329,7 @@ func decodeTestResponseStringByteArrayResponse(resp *http.Response) (res [][]byt
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringByteArrayArrayResponse(resp *http.Response) (res [][][]byte, _ error) {
@@ -37568,7 +39414,7 @@ func decodeTestResponseStringByteArrayArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringByteNullableResponse(resp *http.Response) (res []byte, _ error) {
@@ -37611,7 +39457,7 @@ func decodeTestResponseStringByteNullableResponse(resp *http.Response) (res []by
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringByteNullableArrayResponse(resp *http.Response) (res [][]byte, _ error) {
@@ -37671,7 +39517,7 @@ func decodeTestResponseStringByteNullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringByteNullableArrayArrayResponse(resp *http.Response) (res [][][]byte, _ error) {
@@ -37756,7 +39602,7 @@ func decodeTestResponseStringByteNullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateResponse(resp *http.Response) (res time.Time, _ error) {
@@ -37799,7 +39645,7 @@ func decodeTestResponseStringDateResponse(resp *http.Response) (res time.Time, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -37859,7 +39705,7 @@ func decodeTestResponseStringDateArrayResponse(resp *http.Response) (res []time.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -37944,7 +39790,7 @@ func decodeTestResponseStringDateArrayArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateNullableResponse(resp *http.Response) (res NilDate, _ error) {
@@ -37985,7 +39831,7 @@ func decodeTestResponseStringDateNullableResponse(resp *http.Response) (res NilD
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateNullableArrayResponse(resp *http.Response) (res []NilDate, _ error) {
@@ -38043,7 +39889,7 @@ func decodeTestResponseStringDateNullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateNullableArrayArrayResponse(resp *http.Response) (res [][]NilDate, _ error) {
@@ -38126,7 +39972,7 @@ func decodeTestResponseStringDateNullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateTimeResponse(resp *http.Response) (res time.Time, _ error) {
@@ -38169,7 +40015,7 @@ func decodeTestResponseStringDateTimeResponse(resp *http.Response) (res time.Tim
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateTimeArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -38229,7 +40075,7 @@ func decodeTestResponseStringDateTimeArrayResponse(resp *http.Response) (res []t
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateTimeArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -38314,7 +40160,7 @@ func decodeTestResponseStringDateTimeArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateTimeNullableResponse(resp *http.Response) (res NilDateTime, _ error) {
@@ -38355,7 +40201,7 @@ func decodeTestResponseStringDateTimeNullableResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateTimeNullableArrayResponse(resp *http.Response) (res []NilDateTime, _ error) {
@@ -38413,7 +40259,7 @@ func decodeTestResponseStringDateTimeNullableArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDateTimeNullableArrayArrayResponse(resp *http.Response) (res [][]NilDateTime, _ error) {
@@ -38496,7 +40342,377 @@ func decodeTestResponseStringDateTimeNullableArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringDecimalResponse(resp *http.Response) (res decimal.Decimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response decimal.Decimal
+			if err := func() error {
+				v, err := json.DecodeStringDecimal(d)
+				response = v
+				if err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringDecimalArrayResponse(resp *http.Response) (res []decimal.Decimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response []decimal.Decimal
+			if err := func() error {
+				response = make([]decimal.Decimal, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem decimal.Decimal
+					v, err := json.DecodeStringDecimal(d)
+					elem = v
+					if err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringDecimalArrayArrayResponse(resp *http.Response) (res [][]decimal.Decimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response [][]decimal.Decimal
+			if err := func() error {
+				response = make([][]decimal.Decimal, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem []decimal.Decimal
+					elem = make([]decimal.Decimal, 0)
+					if err := d.Arr(func(d *jx.Decoder) error {
+						var elemElem decimal.Decimal
+						v, err := json.DecodeStringDecimal(d)
+						elemElem = v
+						if err != nil {
+							return err
+						}
+						elem = append(elem, elemElem)
+						return nil
+					}); err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				var failures []validate.FieldError
+				for i, elem := range response {
+					if err := func() error {
+						if elem == nil {
+							return errors.New("nil is invalid value")
+						}
+						return nil
+					}(); err != nil {
+						failures = append(failures, validate.FieldError{
+							Name:  fmt.Sprintf("[%d]", i),
+							Error: err,
+						})
+					}
+				}
+				if len(failures) > 0 {
+					return &validate.Error{Fields: failures}
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringDecimalNullableResponse(resp *http.Response) (res NilStringDecimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response NilStringDecimal
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringDecimalNullableArrayResponse(resp *http.Response) (res []NilStringDecimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response []NilStringDecimal
+			if err := func() error {
+				response = make([]NilStringDecimal, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem NilStringDecimal
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringDecimalNullableArrayArrayResponse(resp *http.Response) (res [][]NilStringDecimal, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response [][]NilStringDecimal
+			if err := func() error {
+				response = make([][]NilStringDecimal, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem []NilStringDecimal
+					elem = make([]NilStringDecimal, 0)
+					if err := d.Arr(func(d *jx.Decoder) error {
+						var elemElem NilStringDecimal
+						if err := elemElem.Decode(d); err != nil {
+							return err
+						}
+						elem = append(elem, elemElem)
+						return nil
+					}); err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				var failures []validate.FieldError
+				for i, elem := range response {
+					if err := func() error {
+						if elem == nil {
+							return errors.New("nil is invalid value")
+						}
+						return nil
+					}(); err != nil {
+						failures = append(failures, validate.FieldError{
+							Name:  fmt.Sprintf("[%d]", i),
+							Error: err,
+						})
+					}
+				}
+				if len(failures) > 0 {
+					return &validate.Error{Fields: failures}
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDurationResponse(resp *http.Response) (res time.Duration, _ error) {
@@ -38539,7 +40755,7 @@ func decodeTestResponseStringDurationResponse(resp *http.Response) (res time.Dur
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDurationArrayResponse(resp *http.Response) (res []time.Duration, _ error) {
@@ -38599,7 +40815,7 @@ func decodeTestResponseStringDurationArrayResponse(resp *http.Response) (res []t
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDurationArrayArrayResponse(resp *http.Response) (res [][]time.Duration, _ error) {
@@ -38684,7 +40900,7 @@ func decodeTestResponseStringDurationArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDurationNullableResponse(resp *http.Response) (res NilDuration, _ error) {
@@ -38725,7 +40941,7 @@ func decodeTestResponseStringDurationNullableResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDurationNullableArrayResponse(resp *http.Response) (res []NilDuration, _ error) {
@@ -38783,7 +40999,7 @@ func decodeTestResponseStringDurationNullableArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringDurationNullableArrayArrayResponse(resp *http.Response) (res [][]NilDuration, _ error) {
@@ -38866,7 +41082,7 @@ func decodeTestResponseStringDurationNullableArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringEmailResponse(resp *http.Response) (res string, _ error) {
@@ -38907,13 +41123,17 @@ func decodeTestResponseStringEmailResponse(resp *http.Response) (res string, _ e
 			// Validate response.
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    0,
-					MinLengthSet: false,
-					MaxLength:    0,
-					MaxLengthSet: false,
-					Email:        true,
-					Hostname:     false,
-					Regex:        nil,
+					MinLength:     0,
+					MinLengthSet:  false,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         true,
+					Hostname:      false,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(response)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -38926,7 +41146,7 @@ func decodeTestResponseStringEmailResponse(resp *http.Response) (res string, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringEmailArrayResponse(resp *http.Response) (res []string, _ error) {
@@ -38981,13 +41201,17 @@ func decodeTestResponseStringEmailArrayResponse(resp *http.Response) (res []stri
 				for i, elem := range response {
 					if err := func() error {
 						if err := (validate.String{
-							MinLength:    0,
-							MinLengthSet: false,
-							MaxLength:    0,
-							MaxLengthSet: false,
-							Email:        true,
-							Hostname:     false,
-							Regex:        nil,
+							MinLength:     0,
+							MinLengthSet:  false,
+							MaxLength:     0,
+							MaxLengthSet:  false,
+							Email:         true,
+							Hostname:      false,
+							Regex:         nil,
+							MinNumeric:    0,
+							MinNumericSet: false,
+							MaxNumeric:    0,
+							MaxNumericSet: false,
 						}).Validate(string(elem)); err != nil {
 							return errors.Wrap(err, "string")
 						}
@@ -39011,7 +41235,7 @@ func decodeTestResponseStringEmailArrayResponse(resp *http.Response) (res []stri
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringEmailArrayArrayResponse(resp *http.Response) (res [][]string, _ error) {
@@ -39080,13 +41304,17 @@ func decodeTestResponseStringEmailArrayArrayResponse(resp *http.Response) (res [
 						for i, elem := range elem {
 							if err := func() error {
 								if err := (validate.String{
-									MinLength:    0,
-									MinLengthSet: false,
-									MaxLength:    0,
-									MaxLengthSet: false,
-									Email:        true,
-									Hostname:     false,
-									Regex:        nil,
+									MinLength:     0,
+									MinLengthSet:  false,
+									MaxLength:     0,
+									MaxLengthSet:  false,
+									Email:         true,
+									Hostname:      false,
+									Regex:         nil,
+									MinNumeric:    0,
+									MinNumericSet: false,
+									MaxNumeric:    0,
+									MaxNumericSet: false,
 								}).Validate(string(elem)); err != nil {
 									return errors.Wrap(err, "string")
 								}
@@ -39121,7 +41349,7 @@ func decodeTestResponseStringEmailArrayArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringEmailNullableResponse(resp *http.Response) (res NilString, _ error) {
@@ -39162,13 +41390,17 @@ func decodeTestResponseStringEmailNullableResponse(resp *http.Response) (res Nil
 				if value, ok := response.Get(); ok {
 					if err := func() error {
 						if err := (validate.String{
-							MinLength:    0,
-							MinLengthSet: false,
-							MaxLength:    0,
-							MaxLengthSet: false,
-							Email:        true,
-							Hostname:     false,
-							Regex:        nil,
+							MinLength:     0,
+							MinLengthSet:  false,
+							MaxLength:     0,
+							MaxLengthSet:  false,
+							Email:         true,
+							Hostname:      false,
+							Regex:         nil,
+							MinNumeric:    0,
+							MinNumericSet: false,
+							MaxNumeric:    0,
+							MaxNumericSet: false,
 						}).Validate(string(value)); err != nil {
 							return errors.Wrap(err, "string")
 						}
@@ -39186,7 +41418,7 @@ func decodeTestResponseStringEmailNullableResponse(resp *http.Response) (res Nil
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringEmailNullableArrayResponse(resp *http.Response) (res []NilString, _ error) {
@@ -39241,13 +41473,17 @@ func decodeTestResponseStringEmailNullableArrayResponse(resp *http.Response) (re
 						if value, ok := elem.Get(); ok {
 							if err := func() error {
 								if err := (validate.String{
-									MinLength:    0,
-									MinLengthSet: false,
-									MaxLength:    0,
-									MaxLengthSet: false,
-									Email:        true,
-									Hostname:     false,
-									Regex:        nil,
+									MinLength:     0,
+									MinLengthSet:  false,
+									MaxLength:     0,
+									MaxLengthSet:  false,
+									Email:         true,
+									Hostname:      false,
+									Regex:         nil,
+									MinNumeric:    0,
+									MinNumericSet: false,
+									MaxNumeric:    0,
+									MaxNumericSet: false,
 								}).Validate(string(value)); err != nil {
 									return errors.Wrap(err, "string")
 								}
@@ -39276,7 +41512,7 @@ func decodeTestResponseStringEmailNullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringEmailNullableArrayArrayResponse(resp *http.Response) (res [][]NilString, _ error) {
@@ -39345,13 +41581,17 @@ func decodeTestResponseStringEmailNullableArrayArrayResponse(resp *http.Response
 								if value, ok := elem.Get(); ok {
 									if err := func() error {
 										if err := (validate.String{
-											MinLength:    0,
-											MinLengthSet: false,
-											MaxLength:    0,
-											MaxLengthSet: false,
-											Email:        true,
-											Hostname:     false,
-											Regex:        nil,
+											MinLength:     0,
+											MinLengthSet:  false,
+											MaxLength:     0,
+											MaxLengthSet:  false,
+											Email:         true,
+											Hostname:      false,
+											Regex:         nil,
+											MinNumeric:    0,
+											MinNumericSet: false,
+											MaxNumeric:    0,
+											MaxNumericSet: false,
 										}).Validate(string(value)); err != nil {
 											return errors.Wrap(err, "string")
 										}
@@ -39391,7 +41631,7 @@ func decodeTestResponseStringEmailNullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat32Response(resp *http.Response) (res float32, _ error) {
@@ -39443,7 +41683,7 @@ func decodeTestResponseStringFloat32Response(resp *http.Response) (res float32, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat32ArrayResponse(resp *http.Response) (res []float32, _ error) {
@@ -39520,7 +41760,7 @@ func decodeTestResponseStringFloat32ArrayResponse(resp *http.Response) (res []fl
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat32ArrayArrayResponse(resp *http.Response) (res [][]float32, _ error) {
@@ -39622,7 +41862,7 @@ func decodeTestResponseStringFloat32ArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat32NullableResponse(resp *http.Response) (res NilStringFloat32, _ error) {
@@ -39679,7 +41919,7 @@ func decodeTestResponseStringFloat32NullableResponse(resp *http.Response) (res N
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat32NullableArrayResponse(resp *http.Response) (res []NilStringFloat32, _ error) {
@@ -39761,7 +42001,7 @@ func decodeTestResponseStringFloat32NullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat32NullableArrayArrayResponse(resp *http.Response) (res [][]NilStringFloat32, _ error) {
@@ -39868,7 +42108,7 @@ func decodeTestResponseStringFloat32NullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat64Response(resp *http.Response) (res float64, _ error) {
@@ -39920,7 +42160,7 @@ func decodeTestResponseStringFloat64Response(resp *http.Response) (res float64, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat64ArrayResponse(resp *http.Response) (res []float64, _ error) {
@@ -39997,7 +42237,7 @@ func decodeTestResponseStringFloat64ArrayResponse(resp *http.Response) (res []fl
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat64ArrayArrayResponse(resp *http.Response) (res [][]float64, _ error) {
@@ -40099,7 +42339,7 @@ func decodeTestResponseStringFloat64ArrayArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat64NullableResponse(resp *http.Response) (res NilStringFloat64, _ error) {
@@ -40156,7 +42396,7 @@ func decodeTestResponseStringFloat64NullableResponse(resp *http.Response) (res N
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat64NullableArrayResponse(resp *http.Response) (res []NilStringFloat64, _ error) {
@@ -40238,7 +42478,7 @@ func decodeTestResponseStringFloat64NullableArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringFloat64NullableArrayArrayResponse(resp *http.Response) (res [][]NilStringFloat64, _ error) {
@@ -40345,7 +42585,377 @@ func decodeTestResponseStringFloat64NullableArrayArrayResponse(resp *http.Respon
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringHTTPDateResponse(resp *http.Response) (res time.Time, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response time.Time
+			if err := func() error {
+				v, err := json.DecodeHTTPDate(d)
+				response = v
+				if err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringHTTPDateArrayResponse(resp *http.Response) (res []time.Time, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response []time.Time
+			if err := func() error {
+				response = make([]time.Time, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem time.Time
+					v, err := json.DecodeHTTPDate(d)
+					elem = v
+					if err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringHTTPDateArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response [][]time.Time
+			if err := func() error {
+				response = make([][]time.Time, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem []time.Time
+					elem = make([]time.Time, 0)
+					if err := d.Arr(func(d *jx.Decoder) error {
+						var elemElem time.Time
+						v, err := json.DecodeHTTPDate(d)
+						elemElem = v
+						if err != nil {
+							return err
+						}
+						elem = append(elem, elemElem)
+						return nil
+					}); err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				var failures []validate.FieldError
+				for i, elem := range response {
+					if err := func() error {
+						if elem == nil {
+							return errors.New("nil is invalid value")
+						}
+						return nil
+					}(); err != nil {
+						failures = append(failures, validate.FieldError{
+							Name:  fmt.Sprintf("[%d]", i),
+							Error: err,
+						})
+					}
+				}
+				if len(failures) > 0 {
+					return &validate.Error{Fields: failures}
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringHTTPDateNullableResponse(resp *http.Response) (res NilHTTPDate, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response NilHTTPDate
+			if err := func() error {
+				if err := response.Decode(d, json.DecodeHTTPDate); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringHTTPDateNullableArrayResponse(resp *http.Response) (res []NilHTTPDate, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response []NilHTTPDate
+			if err := func() error {
+				response = make([]NilHTTPDate, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem NilHTTPDate
+					if err := elem.Decode(d, json.DecodeHTTPDate); err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTestResponseStringHTTPDateNullableArrayArrayResponse(resp *http.Response) (res [][]NilHTTPDate, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response [][]NilHTTPDate
+			if err := func() error {
+				response = make([][]NilHTTPDate, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem []NilHTTPDate
+					elem = make([]NilHTTPDate, 0)
+					if err := d.Arr(func(d *jx.Decoder) error {
+						var elemElem NilHTTPDate
+						if err := elemElem.Decode(d, json.DecodeHTTPDate); err != nil {
+							return err
+						}
+						elem = append(elem, elemElem)
+						return nil
+					}); err != nil {
+						return err
+					}
+					response = append(response, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if response == nil {
+					return errors.New("nil is invalid value")
+				}
+				var failures []validate.FieldError
+				for i, elem := range response {
+					if err := func() error {
+						if elem == nil {
+							return errors.New("nil is invalid value")
+						}
+						return nil
+					}(); err != nil {
+						failures = append(failures, validate.FieldError{
+							Name:  fmt.Sprintf("[%d]", i),
+							Error: err,
+						})
+					}
+				}
+				if len(failures) > 0 {
+					return &validate.Error{Fields: failures}
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringHostnameResponse(resp *http.Response) (res string, _ error) {
@@ -40386,13 +42996,17 @@ func decodeTestResponseStringHostnameResponse(resp *http.Response) (res string, 
 			// Validate response.
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    0,
-					MinLengthSet: false,
-					MaxLength:    0,
-					MaxLengthSet: false,
-					Email:        false,
-					Hostname:     true,
-					Regex:        nil,
+					MinLength:     0,
+					MinLengthSet:  false,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         false,
+					Hostname:      true,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(response)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -40405,7 +43019,7 @@ func decodeTestResponseStringHostnameResponse(resp *http.Response) (res string, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringHostnameArrayResponse(resp *http.Response) (res []string, _ error) {
@@ -40460,13 +43074,17 @@ func decodeTestResponseStringHostnameArrayResponse(resp *http.Response) (res []s
 				for i, elem := range response {
 					if err := func() error {
 						if err := (validate.String{
-							MinLength:    0,
-							MinLengthSet: false,
-							MaxLength:    0,
-							MaxLengthSet: false,
-							Email:        false,
-							Hostname:     true,
-							Regex:        nil,
+							MinLength:     0,
+							MinLengthSet:  false,
+							MaxLength:     0,
+							MaxLengthSet:  false,
+							Email:         false,
+							Hostname:      true,
+							Regex:         nil,
+							MinNumeric:    0,
+							MinNumericSet: false,
+							MaxNumeric:    0,
+							MaxNumericSet: false,
 						}).Validate(string(elem)); err != nil {
 							return errors.Wrap(err, "string")
 						}
@@ -40490,7 +43108,7 @@ func decodeTestResponseStringHostnameArrayResponse(resp *http.Response) (res []s
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringHostnameArrayArrayResponse(resp *http.Response) (res [][]string, _ error) {
@@ -40559,13 +43177,17 @@ func decodeTestResponseStringHostnameArrayArrayResponse(resp *http.Response) (re
 						for i, elem := range elem {
 							if err := func() error {
 								if err := (validate.String{
-									MinLength:    0,
-									MinLengthSet: false,
-									MaxLength:    0,
-									MaxLengthSet: false,
-									Email:        false,
-									Hostname:     true,
-									Regex:        nil,
+									MinLength:     0,
+									MinLengthSet:  false,
+									MaxLength:     0,
+									MaxLengthSet:  false,
+									Email:         false,
+									Hostname:      true,
+									Regex:         nil,
+									MinNumeric:    0,
+									MinNumericSet: false,
+									MaxNumeric:    0,
+									MaxNumericSet: false,
 								}).Validate(string(elem)); err != nil {
 									return errors.Wrap(err, "string")
 								}
@@ -40600,7 +43222,7 @@ func decodeTestResponseStringHostnameArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringHostnameNullableResponse(resp *http.Response) (res NilString, _ error) {
@@ -40641,13 +43263,17 @@ func decodeTestResponseStringHostnameNullableResponse(resp *http.Response) (res 
 				if value, ok := response.Get(); ok {
 					if err := func() error {
 						if err := (validate.String{
-							MinLength:    0,
-							MinLengthSet: false,
-							MaxLength:    0,
-							MaxLengthSet: false,
-							Email:        false,
-							Hostname:     true,
-							Regex:        nil,
+							MinLength:     0,
+							MinLengthSet:  false,
+							MaxLength:     0,
+							MaxLengthSet:  false,
+							Email:         false,
+							Hostname:      true,
+							Regex:         nil,
+							MinNumeric:    0,
+							MinNumericSet: false,
+							MaxNumeric:    0,
+							MaxNumericSet: false,
 						}).Validate(string(value)); err != nil {
 							return errors.Wrap(err, "string")
 						}
@@ -40665,7 +43291,7 @@ func decodeTestResponseStringHostnameNullableResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringHostnameNullableArrayResponse(resp *http.Response) (res []NilString, _ error) {
@@ -40720,13 +43346,17 @@ func decodeTestResponseStringHostnameNullableArrayResponse(resp *http.Response) 
 						if value, ok := elem.Get(); ok {
 							if err := func() error {
 								if err := (validate.String{
-									MinLength:    0,
-									MinLengthSet: false,
-									MaxLength:    0,
-									MaxLengthSet: false,
-									Email:        false,
-									Hostname:     true,
-									Regex:        nil,
+									MinLength:     0,
+									MinLengthSet:  false,
+									MaxLength:     0,
+									MaxLengthSet:  false,
+									Email:         false,
+									Hostname:      true,
+									Regex:         nil,
+									MinNumeric:    0,
+									MinNumericSet: false,
+									MaxNumeric:    0,
+									MaxNumericSet: false,
 								}).Validate(string(value)); err != nil {
 									return errors.Wrap(err, "string")
 								}
@@ -40755,7 +43385,7 @@ func decodeTestResponseStringHostnameNullableArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringHostnameNullableArrayArrayResponse(resp *http.Response) (res [][]NilString, _ error) {
@@ -40824,13 +43454,17 @@ func decodeTestResponseStringHostnameNullableArrayArrayResponse(resp *http.Respo
 								if value, ok := elem.Get(); ok {
 									if err := func() error {
 										if err := (validate.String{
-											MinLength:    0,
-											MinLengthSet: false,
-											MaxLength:    0,
-											MaxLengthSet: false,
-											Email:        false,
-											Hostname:     true,
-											Regex:        nil,
+											MinLength:     0,
+											MinLengthSet:  false,
+											MaxLength:     0,
+											MaxLengthSet:  false,
+											Email:         false,
+											Hostname:      true,
+											Regex:         nil,
+											MinNumeric:    0,
+											MinNumericSet: false,
+											MaxNumeric:    0,
+											MaxNumericSet: false,
 										}).Validate(string(value)); err != nil {
 											return errors.Wrap(err, "string")
 										}
@@ -40870,7 +43504,7 @@ func decodeTestResponseStringHostnameNullableArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIPResponse(resp *http.Response) (res netip.Addr, _ error) {
@@ -40913,7 +43547,7 @@ func decodeTestResponseStringIPResponse(resp *http.Response) (res netip.Addr, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIPArrayResponse(resp *http.Response) (res []netip.Addr, _ error) {
@@ -40973,7 +43607,7 @@ func decodeTestResponseStringIPArrayResponse(resp *http.Response) (res []netip.A
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIPArrayArrayResponse(resp *http.Response) (res [][]netip.Addr, _ error) {
@@ -41058,7 +43692,7 @@ func decodeTestResponseStringIPArrayArrayResponse(resp *http.Response) (res [][]
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIPNullableResponse(resp *http.Response) (res NilIP, _ error) {
@@ -41099,7 +43733,7 @@ func decodeTestResponseStringIPNullableResponse(resp *http.Response) (res NilIP,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIPNullableArrayResponse(resp *http.Response) (res []NilIP, _ error) {
@@ -41157,7 +43791,7 @@ func decodeTestResponseStringIPNullableArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIPNullableArrayArrayResponse(resp *http.Response) (res [][]NilIP, _ error) {
@@ -41240,7 +43874,7 @@ func decodeTestResponseStringIPNullableArrayArrayResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIntResponse(resp *http.Response) (res int, _ error) {
@@ -41283,7 +43917,7 @@ func decodeTestResponseStringIntResponse(resp *http.Response) (res int, _ error)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt16Response(resp *http.Response) (res int16, _ error) {
@@ -41326,7 +43960,7 @@ func decodeTestResponseStringInt16Response(resp *http.Response) (res int16, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt16ArrayResponse(resp *http.Response) (res []int16, _ error) {
@@ -41386,7 +44020,7 @@ func decodeTestResponseStringInt16ArrayResponse(resp *http.Response) (res []int1
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt16ArrayArrayResponse(resp *http.Response) (res [][]int16, _ error) {
@@ -41471,7 +44105,7 @@ func decodeTestResponseStringInt16ArrayArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt16NullableResponse(resp *http.Response) (res NilStringInt16, _ error) {
@@ -41512,7 +44146,7 @@ func decodeTestResponseStringInt16NullableResponse(resp *http.Response) (res Nil
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt16NullableArrayResponse(resp *http.Response) (res []NilStringInt16, _ error) {
@@ -41570,7 +44204,7 @@ func decodeTestResponseStringInt16NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt16NullableArrayArrayResponse(resp *http.Response) (res [][]NilStringInt16, _ error) {
@@ -41653,7 +44287,7 @@ func decodeTestResponseStringInt16NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt32Response(resp *http.Response) (res int32, _ error) {
@@ -41696,7 +44330,7 @@ func decodeTestResponseStringInt32Response(resp *http.Response) (res int32, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt32ArrayResponse(resp *http.Response) (res []int32, _ error) {
@@ -41756,7 +44390,7 @@ func decodeTestResponseStringInt32ArrayResponse(resp *http.Response) (res []int3
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt32ArrayArrayResponse(resp *http.Response) (res [][]int32, _ error) {
@@ -41841,7 +44475,7 @@ func decodeTestResponseStringInt32ArrayArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt32NullableResponse(resp *http.Response) (res NilStringInt32, _ error) {
@@ -41882,7 +44516,7 @@ func decodeTestResponseStringInt32NullableResponse(resp *http.Response) (res Nil
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt32NullableArrayResponse(resp *http.Response) (res []NilStringInt32, _ error) {
@@ -41940,7 +44574,7 @@ func decodeTestResponseStringInt32NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt32NullableArrayArrayResponse(resp *http.Response) (res [][]NilStringInt32, _ error) {
@@ -42023,7 +44657,7 @@ func decodeTestResponseStringInt32NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt64Response(resp *http.Response) (res int64, _ error) {
@@ -42066,7 +44700,7 @@ func decodeTestResponseStringInt64Response(resp *http.Response) (res int64, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt64ArrayResponse(resp *http.Response) (res []int64, _ error) {
@@ -42126,7 +44760,7 @@ func decodeTestResponseStringInt64ArrayResponse(resp *http.Response) (res []int6
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt64ArrayArrayResponse(resp *http.Response) (res [][]int64, _ error) {
@@ -42211,7 +44845,7 @@ func decodeTestResponseStringInt64ArrayArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt64NullableResponse(resp *http.Response) (res NilStringInt64, _ error) {
@@ -42252,7 +44886,7 @@ func decodeTestResponseStringInt64NullableResponse(resp *http.Response) (res Nil
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt64NullableArrayResponse(resp *http.Response) (res []NilStringInt64, _ error) {
@@ -42310,7 +44944,7 @@ func decodeTestResponseStringInt64NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt64NullableArrayArrayResponse(resp *http.Response) (res [][]NilStringInt64, _ error) {
@@ -42393,7 +45027,7 @@ func decodeTestResponseStringInt64NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt8Response(resp *http.Response) (res int8, _ error) {
@@ -42436,7 +45070,7 @@ func decodeTestResponseStringInt8Response(resp *http.Response) (res int8, _ erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt8ArrayResponse(resp *http.Response) (res []int8, _ error) {
@@ -42496,7 +45130,7 @@ func decodeTestResponseStringInt8ArrayResponse(resp *http.Response) (res []int8,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt8ArrayArrayResponse(resp *http.Response) (res [][]int8, _ error) {
@@ -42581,7 +45215,7 @@ func decodeTestResponseStringInt8ArrayArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt8NullableResponse(resp *http.Response) (res NilStringInt8, _ error) {
@@ -42622,7 +45256,7 @@ func decodeTestResponseStringInt8NullableResponse(resp *http.Response) (res NilS
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt8NullableArrayResponse(resp *http.Response) (res []NilStringInt8, _ error) {
@@ -42680,7 +45314,7 @@ func decodeTestResponseStringInt8NullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringInt8NullableArrayArrayResponse(resp *http.Response) (res [][]NilStringInt8, _ error) {
@@ -42763,7 +45397,7 @@ func decodeTestResponseStringInt8NullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIntArrayResponse(resp *http.Response) (res []int, _ error) {
@@ -42823,7 +45457,7 @@ func decodeTestResponseStringIntArrayResponse(resp *http.Response) (res []int, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIntArrayArrayResponse(resp *http.Response) (res [][]int, _ error) {
@@ -42908,7 +45542,7 @@ func decodeTestResponseStringIntArrayArrayResponse(resp *http.Response) (res [][
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIntNullableResponse(resp *http.Response) (res NilStringInt, _ error) {
@@ -42949,7 +45583,7 @@ func decodeTestResponseStringIntNullableResponse(resp *http.Response) (res NilSt
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIntNullableArrayResponse(resp *http.Response) (res []NilStringInt, _ error) {
@@ -43007,7 +45641,7 @@ func decodeTestResponseStringIntNullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIntNullableArrayArrayResponse(resp *http.Response) (res [][]NilStringInt, _ error) {
@@ -43090,7 +45724,7 @@ func decodeTestResponseStringIntNullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv4Response(resp *http.Response) (res netip.Addr, _ error) {
@@ -43133,7 +45767,7 @@ func decodeTestResponseStringIpv4Response(resp *http.Response) (res netip.Addr, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv4ArrayResponse(resp *http.Response) (res []netip.Addr, _ error) {
@@ -43193,7 +45827,7 @@ func decodeTestResponseStringIpv4ArrayResponse(resp *http.Response) (res []netip
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv4ArrayArrayResponse(resp *http.Response) (res [][]netip.Addr, _ error) {
@@ -43278,7 +45912,7 @@ func decodeTestResponseStringIpv4ArrayArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv4NullableResponse(resp *http.Response) (res NilIPv4, _ error) {
@@ -43319,7 +45953,7 @@ func decodeTestResponseStringIpv4NullableResponse(resp *http.Response) (res NilI
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv4NullableArrayResponse(resp *http.Response) (res []NilIPv4, _ error) {
@@ -43377,7 +46011,7 @@ func decodeTestResponseStringIpv4NullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv4NullableArrayArrayResponse(resp *http.Response) (res [][]NilIPv4, _ error) {
@@ -43460,7 +46094,7 @@ func decodeTestResponseStringIpv4NullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv6Response(resp *http.Response) (res netip.Addr, _ error) {
@@ -43503,7 +46137,7 @@ func decodeTestResponseStringIpv6Response(resp *http.Response) (res netip.Addr, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv6ArrayResponse(resp *http.Response) (res []netip.Addr, _ error) {
@@ -43563,7 +46197,7 @@ func decodeTestResponseStringIpv6ArrayResponse(resp *http.Response) (res []netip
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv6ArrayArrayResponse(resp *http.Response) (res [][]netip.Addr, _ error) {
@@ -43648,7 +46282,7 @@ func decodeTestResponseStringIpv6ArrayArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv6NullableResponse(resp *http.Response) (res NilIPv6, _ error) {
@@ -43689,7 +46323,7 @@ func decodeTestResponseStringIpv6NullableResponse(resp *http.Response) (res NilI
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv6NullableArrayResponse(resp *http.Response) (res []NilIPv6, _ error) {
@@ -43747,7 +46381,7 @@ func decodeTestResponseStringIpv6NullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringIpv6NullableArrayArrayResponse(resp *http.Response) (res [][]NilIPv6, _ error) {
@@ -43830,7 +46464,7 @@ func decodeTestResponseStringIpv6NullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringMACResponse(resp *http.Response) (res net.HardwareAddr, _ error) {
@@ -43873,7 +46507,7 @@ func decodeTestResponseStringMACResponse(resp *http.Response) (res net.HardwareA
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringMACArrayResponse(resp *http.Response) (res []net.HardwareAddr, _ error) {
@@ -43933,7 +46567,7 @@ func decodeTestResponseStringMACArrayResponse(resp *http.Response) (res []net.Ha
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringMACArrayArrayResponse(resp *http.Response) (res [][]net.HardwareAddr, _ error) {
@@ -44018,7 +46652,7 @@ func decodeTestResponseStringMACArrayArrayResponse(resp *http.Response) (res [][
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringMACNullableResponse(resp *http.Response) (res NilHardwareAddr, _ error) {
@@ -44059,7 +46693,7 @@ func decodeTestResponseStringMACNullableResponse(resp *http.Response) (res NilHa
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringMACNullableArrayResponse(resp *http.Response) (res []NilHardwareAddr, _ error) {
@@ -44117,7 +46751,7 @@ func decodeTestResponseStringMACNullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringMACNullableArrayArrayResponse(resp *http.Response) (res [][]NilHardwareAddr, _ error) {
@@ -44200,7 +46834,7 @@ func decodeTestResponseStringMACNullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringNullableResponse(resp *http.Response) (res NilString, _ error) {
@@ -44241,7 +46875,7 @@ func decodeTestResponseStringNullableResponse(resp *http.Response) (res NilStrin
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringNullableArrayResponse(resp *http.Response) (res []NilString, _ error) {
@@ -44299,7 +46933,7 @@ func decodeTestResponseStringNullableArrayResponse(resp *http.Response) (res []N
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringNullableArrayArrayResponse(resp *http.Response) (res [][]NilString, _ error) {
@@ -44382,7 +47016,7 @@ func decodeTestResponseStringNullableArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringPasswordResponse(resp *http.Response) (res string, _ error) {
@@ -44425,7 +47059,7 @@ func decodeTestResponseStringPasswordResponse(resp *http.Response) (res string, 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringPasswordArrayResponse(resp *http.Response) (res []string, _ error) {
@@ -44485,7 +47119,7 @@ func decodeTestResponseStringPasswordArrayResponse(resp *http.Response) (res []s
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringPasswordArrayArrayResponse(resp *http.Response) (res [][]string, _ error) {
@@ -44570,7 +47204,7 @@ func decodeTestResponseStringPasswordArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringPasswordNullableResponse(resp *http.Response) (res NilString, _ error) {
@@ -44611,7 +47245,7 @@ func decodeTestResponseStringPasswordNullableResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringPasswordNullableArrayResponse(resp *http.Response) (res []NilString, _ error) {
@@ -44669,7 +47303,7 @@ func decodeTestResponseStringPasswordNullableArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringPasswordNullableArrayArrayResponse(resp *http.Response) (res [][]NilString, _ error) {
@@ -44752,7 +47386,7 @@ func decodeTestResponseStringPasswordNullableArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringTimeResponse(resp *http.Response) (res time.Time, _ error) {
@@ -44795,7 +47429,7 @@ func decodeTestResponseStringTimeResponse(resp *http.Response) (res time.Time, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringTimeArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -44855,7 +47489,7 @@ func decodeTestResponseStringTimeArrayResponse(resp *http.Response) (res []time.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringTimeArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -44940,7 +47574,7 @@ func decodeTestResponseStringTimeArrayArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringTimeNullableResponse(resp *http.Response) (res NilTime, _ error) {
@@ -44981,7 +47615,7 @@ func decodeTestResponseStringTimeNullableResponse(resp *http.Response) (res NilT
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringTimeNullableArrayResponse(resp *http.Response) (res []NilTime, _ error) {
@@ -45039,7 +47673,7 @@ func decodeTestResponseStringTimeNullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringTimeNullableArrayArrayResponse(resp *http.Response) (res [][]NilTime, _ error) {
@@ -45122,7 +47756,7 @@ func decodeTestResponseStringTimeNullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringURIResponse(resp *http.Response) (res url.URL, _ error) {
@@ -45165,7 +47799,7 @@ func decodeTestResponseStringURIResponse(resp *http.Response) (res url.URL, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringURIArrayResponse(resp *http.Response) (res []url.URL, _ error) {
@@ -45225,7 +47859,7 @@ func decodeTestResponseStringURIArrayResponse(resp *http.Response) (res []url.UR
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringURIArrayArrayResponse(resp *http.Response) (res [][]url.URL, _ error) {
@@ -45310,7 +47944,7 @@ func decodeTestResponseStringURIArrayArrayResponse(resp *http.Response) (res [][
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringURINullableResponse(resp *http.Response) (res NilURI, _ error) {
@@ -45351,7 +47985,7 @@ func decodeTestResponseStringURINullableResponse(resp *http.Response) (res NilUR
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringURINullableArrayResponse(resp *http.Response) (res []NilURI, _ error) {
@@ -45409,7 +48043,7 @@ func decodeTestResponseStringURINullableArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringURINullableArrayArrayResponse(resp *http.Response) (res [][]NilURI, _ error) {
@@ -45492,7 +48126,7 @@ func decodeTestResponseStringURINullableArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUUIDResponse(resp *http.Response) (res uuid.UUID, _ error) {
@@ -45535,7 +48169,7 @@ func decodeTestResponseStringUUIDResponse(resp *http.Response) (res uuid.UUID, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUUIDArrayResponse(resp *http.Response) (res []uuid.UUID, _ error) {
@@ -45595,7 +48229,7 @@ func decodeTestResponseStringUUIDArrayResponse(resp *http.Response) (res []uuid.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUUIDArrayArrayResponse(resp *http.Response) (res [][]uuid.UUID, _ error) {
@@ -45680,7 +48314,7 @@ func decodeTestResponseStringUUIDArrayArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUUIDNullableResponse(resp *http.Response) (res NilUUID, _ error) {
@@ -45721,7 +48355,7 @@ func decodeTestResponseStringUUIDNullableResponse(resp *http.Response) (res NilU
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUUIDNullableArrayResponse(resp *http.Response) (res []NilUUID, _ error) {
@@ -45779,7 +48413,7 @@ func decodeTestResponseStringUUIDNullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUUIDNullableArrayArrayResponse(resp *http.Response) (res [][]NilUUID, _ error) {
@@ -45862,7 +48496,7 @@ func decodeTestResponseStringUUIDNullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUintResponse(resp *http.Response) (res uint, _ error) {
@@ -45905,7 +48539,7 @@ func decodeTestResponseStringUintResponse(resp *http.Response) (res uint, _ erro
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint16Response(resp *http.Response) (res uint16, _ error) {
@@ -45948,7 +48582,7 @@ func decodeTestResponseStringUint16Response(resp *http.Response) (res uint16, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint16ArrayResponse(resp *http.Response) (res []uint16, _ error) {
@@ -46008,7 +48642,7 @@ func decodeTestResponseStringUint16ArrayResponse(resp *http.Response) (res []uin
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint16ArrayArrayResponse(resp *http.Response) (res [][]uint16, _ error) {
@@ -46093,7 +48727,7 @@ func decodeTestResponseStringUint16ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint16NullableResponse(resp *http.Response) (res NilStringUint16, _ error) {
@@ -46134,7 +48768,7 @@ func decodeTestResponseStringUint16NullableResponse(resp *http.Response) (res Ni
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint16NullableArrayResponse(resp *http.Response) (res []NilStringUint16, _ error) {
@@ -46192,7 +48826,7 @@ func decodeTestResponseStringUint16NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint16NullableArrayArrayResponse(resp *http.Response) (res [][]NilStringUint16, _ error) {
@@ -46275,7 +48909,7 @@ func decodeTestResponseStringUint16NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint32Response(resp *http.Response) (res uint32, _ error) {
@@ -46318,7 +48952,7 @@ func decodeTestResponseStringUint32Response(resp *http.Response) (res uint32, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint32ArrayResponse(resp *http.Response) (res []uint32, _ error) {
@@ -46378,7 +49012,7 @@ func decodeTestResponseStringUint32ArrayResponse(resp *http.Response) (res []uin
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint32ArrayArrayResponse(resp *http.Response) (res [][]uint32, _ error) {
@@ -46463,7 +49097,7 @@ func decodeTestResponseStringUint32ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint32NullableResponse(resp *http.Response) (res NilStringUint32, _ error) {
@@ -46504,7 +49138,7 @@ func decodeTestResponseStringUint32NullableResponse(resp *http.Response) (res Ni
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint32NullableArrayResponse(resp *http.Response) (res []NilStringUint32, _ error) {
@@ -46562,7 +49196,7 @@ func decodeTestResponseStringUint32NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint32NullableArrayArrayResponse(resp *http.Response) (res [][]NilStringUint32, _ error) {
@@ -46645,7 +49279,7 @@ func decodeTestResponseStringUint32NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint64Response(resp *http.Response) (res uint64, _ error) {
@@ -46688,7 +49322,7 @@ func decodeTestResponseStringUint64Response(resp *http.Response) (res uint64, _ 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint64ArrayResponse(resp *http.Response) (res []uint64, _ error) {
@@ -46748,7 +49382,7 @@ func decodeTestResponseStringUint64ArrayResponse(resp *http.Response) (res []uin
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint64ArrayArrayResponse(resp *http.Response) (res [][]uint64, _ error) {
@@ -46833,7 +49467,7 @@ func decodeTestResponseStringUint64ArrayArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint64NullableResponse(resp *http.Response) (res NilStringUint64, _ error) {
@@ -46874,7 +49508,7 @@ func decodeTestResponseStringUint64NullableResponse(resp *http.Response) (res Ni
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint64NullableArrayResponse(resp *http.Response) (res []NilStringUint64, _ error) {
@@ -46932,7 +49566,7 @@ func decodeTestResponseStringUint64NullableArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint64NullableArrayArrayResponse(resp *http.Response) (res [][]NilStringUint64, _ error) {
@@ -47015,7 +49649,7 @@ func decodeTestResponseStringUint64NullableArrayArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint8Response(resp *http.Response) (res uint8, _ error) {
@@ -47058,7 +49692,7 @@ func decodeTestResponseStringUint8Response(resp *http.Response) (res uint8, _ er
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint8ArrayResponse(resp *http.Response) (res []uint8, _ error) {
@@ -47118,7 +49752,7 @@ func decodeTestResponseStringUint8ArrayResponse(resp *http.Response) (res []uint
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint8ArrayArrayResponse(resp *http.Response) (res [][]uint8, _ error) {
@@ -47203,7 +49837,7 @@ func decodeTestResponseStringUint8ArrayArrayResponse(resp *http.Response) (res [
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint8NullableResponse(resp *http.Response) (res NilStringUint8, _ error) {
@@ -47244,7 +49878,7 @@ func decodeTestResponseStringUint8NullableResponse(resp *http.Response) (res Nil
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint8NullableArrayResponse(resp *http.Response) (res []NilStringUint8, _ error) {
@@ -47302,7 +49936,7 @@ func decodeTestResponseStringUint8NullableArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUint8NullableArrayArrayResponse(resp *http.Response) (res [][]NilStringUint8, _ error) {
@@ -47385,7 +50019,7 @@ func decodeTestResponseStringUint8NullableArrayArrayResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUintArrayResponse(resp *http.Response) (res []uint, _ error) {
@@ -47445,7 +50079,7 @@ func decodeTestResponseStringUintArrayResponse(resp *http.Response) (res []uint,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUintArrayArrayResponse(resp *http.Response) (res [][]uint, _ error) {
@@ -47530,7 +50164,7 @@ func decodeTestResponseStringUintArrayArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUintNullableResponse(resp *http.Response) (res NilStringUint, _ error) {
@@ -47571,7 +50205,7 @@ func decodeTestResponseStringUintNullableResponse(resp *http.Response) (res NilS
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUintNullableArrayResponse(resp *http.Response) (res []NilStringUint, _ error) {
@@ -47629,7 +50263,7 @@ func decodeTestResponseStringUintNullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUintNullableArrayArrayResponse(resp *http.Response) (res [][]NilStringUint, _ error) {
@@ -47712,7 +50346,7 @@ func decodeTestResponseStringUintNullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixResponse(resp *http.Response) (res time.Time, _ error) {
@@ -47755,7 +50389,7 @@ func decodeTestResponseStringUnixResponse(resp *http.Response) (res time.Time, _
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -47815,7 +50449,7 @@ func decodeTestResponseStringUnixArrayResponse(resp *http.Response) (res []time.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -47900,7 +50534,7 @@ func decodeTestResponseStringUnixArrayArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMicroResponse(resp *http.Response) (res time.Time, _ error) {
@@ -47943,7 +50577,7 @@ func decodeTestResponseStringUnixMicroResponse(resp *http.Response) (res time.Ti
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMicroArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -48003,7 +50637,7 @@ func decodeTestResponseStringUnixMicroArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMicroArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -48088,7 +50722,7 @@ func decodeTestResponseStringUnixMicroArrayArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMicroNullableResponse(resp *http.Response) (res NilStringUnixMicro, _ error) {
@@ -48129,7 +50763,7 @@ func decodeTestResponseStringUnixMicroNullableResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMicroNullableArrayResponse(resp *http.Response) (res []NilStringUnixMicro, _ error) {
@@ -48187,7 +50821,7 @@ func decodeTestResponseStringUnixMicroNullableArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMicroNullableArrayArrayResponse(resp *http.Response) (res [][]NilStringUnixMicro, _ error) {
@@ -48270,7 +50904,7 @@ func decodeTestResponseStringUnixMicroNullableArrayArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMilliResponse(resp *http.Response) (res time.Time, _ error) {
@@ -48313,7 +50947,7 @@ func decodeTestResponseStringUnixMilliResponse(resp *http.Response) (res time.Ti
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMilliArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -48373,7 +51007,7 @@ func decodeTestResponseStringUnixMilliArrayResponse(resp *http.Response) (res []
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMilliArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -48458,7 +51092,7 @@ func decodeTestResponseStringUnixMilliArrayArrayResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMilliNullableResponse(resp *http.Response) (res NilStringUnixMilli, _ error) {
@@ -48499,7 +51133,7 @@ func decodeTestResponseStringUnixMilliNullableResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMilliNullableArrayResponse(resp *http.Response) (res []NilStringUnixMilli, _ error) {
@@ -48557,7 +51191,7 @@ func decodeTestResponseStringUnixMilliNullableArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixMilliNullableArrayArrayResponse(resp *http.Response) (res [][]NilStringUnixMilli, _ error) {
@@ -48640,7 +51274,7 @@ func decodeTestResponseStringUnixMilliNullableArrayArrayResponse(resp *http.Resp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixNanoResponse(resp *http.Response) (res time.Time, _ error) {
@@ -48683,7 +51317,7 @@ func decodeTestResponseStringUnixNanoResponse(resp *http.Response) (res time.Tim
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixNanoArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -48743,7 +51377,7 @@ func decodeTestResponseStringUnixNanoArrayResponse(resp *http.Response) (res []t
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixNanoArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -48828,7 +51462,7 @@ func decodeTestResponseStringUnixNanoArrayArrayResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixNanoNullableResponse(resp *http.Response) (res NilStringUnixNano, _ error) {
@@ -48869,7 +51503,7 @@ func decodeTestResponseStringUnixNanoNullableResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixNanoNullableArrayResponse(resp *http.Response) (res []NilStringUnixNano, _ error) {
@@ -48927,7 +51561,7 @@ func decodeTestResponseStringUnixNanoNullableArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixNanoNullableArrayArrayResponse(resp *http.Response) (res [][]NilStringUnixNano, _ error) {
@@ -49010,7 +51644,7 @@ func decodeTestResponseStringUnixNanoNullableArrayArrayResponse(resp *http.Respo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixNullableResponse(resp *http.Response) (res NilStringUnixSeconds, _ error) {
@@ -49051,7 +51685,7 @@ func decodeTestResponseStringUnixNullableResponse(resp *http.Response) (res NilS
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixNullableArrayResponse(resp *http.Response) (res []NilStringUnixSeconds, _ error) {
@@ -49109,7 +51743,7 @@ func decodeTestResponseStringUnixNullableArrayResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixNullableArrayArrayResponse(resp *http.Response) (res [][]NilStringUnixSeconds, _ error) {
@@ -49192,7 +51826,7 @@ func decodeTestResponseStringUnixNullableArrayArrayResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixSecondsResponse(resp *http.Response) (res time.Time, _ error) {
@@ -49235,7 +51869,7 @@ func decodeTestResponseStringUnixSecondsResponse(resp *http.Response) (res time.
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixSecondsArrayResponse(resp *http.Response) (res []time.Time, _ error) {
@@ -49295,7 +51929,7 @@ func decodeTestResponseStringUnixSecondsArrayResponse(resp *http.Response) (res 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixSecondsArrayArrayResponse(resp *http.Response) (res [][]time.Time, _ error) {
@@ -49380,7 +52014,7 @@ func decodeTestResponseStringUnixSecondsArrayArrayResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixSecondsNullableResponse(resp *http.Response) (res NilStringUnixSeconds, _ error) {
@@ -49421,7 +52055,7 @@ func decodeTestResponseStringUnixSecondsNullableResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixSecondsNullableArrayResponse(resp *http.Response) (res []NilStringUnixSeconds, _ error) {
@@ -49479,7 +52113,7 @@ func decodeTestResponseStringUnixSecondsNullableArrayResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTestResponseStringUnixSecondsNullableArrayArrayResponse(resp *http.Response) (res [][]NilStringUnixSeconds, _ error) {
@@ -49562,5 +52196,5 @@ func decodeTestResponseStringUnixSecondsNullableArrayArrayResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }

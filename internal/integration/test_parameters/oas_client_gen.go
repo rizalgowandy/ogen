@@ -4,23 +4,28 @@ package api
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 	"time"
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
-	"go.opentelemetry.io/otel/trace"
-
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/otelogen"
 	"github.com/ogen-go/ogen/uri"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
+	"go.opentelemetry.io/otel/trace"
 )
+
+func trimTrailingSlashes(u *url.URL) {
+	u.Path = strings.TrimRight(u.Path, "/")
+	u.RawPath = strings.TrimRight(u.RawPath, "/")
+}
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
@@ -56,6 +61,10 @@ type Invoker interface {
 	//
 	// GET /optionalArrayParameter
 	OptionalArrayParameter(ctx context.Context, params OptionalArrayParameterParams) (string, error)
+	// OptionalParameters invokes optionalParameters operation.
+	//
+	// GET /optionalParameters
+	OptionalParameters(ctx context.Context, params OptionalParametersParams) (*OptionalQueryParametersResponse, error)
 	// PathParameter invokes pathParameter operation.
 	//
 	// Test for path param.
@@ -74,21 +83,18 @@ type Invoker interface {
 	//
 	// GET /similarNames
 	SimilarNames(ctx context.Context, params SimilarNamesParams) error
+	// SpaceDelimitedParameter invokes spaceDelimitedParameter operation.
+	//
+	// Test for spaceDelimited style query array parameters.
+	//
+	// GET /spaceDelimitedParameter
+	SpaceDelimitedParameter(ctx context.Context, params SpaceDelimitedParameterParams) (*SpaceDelimitedParameterOK, error)
 }
 
 // Client implements OAS client.
 type Client struct {
 	serverURL *url.URL
 	baseClient
-}
-
-var _ Handler = struct {
-	*Client
-}{}
-
-func trimTrailingSlashes(u *url.URL) {
-	u.Path = strings.TrimRight(u.Path, "/")
-	u.RawPath = strings.TrimRight(u.RawPath, "/")
 }
 
 // NewClient initializes new Client defined by OAS.
@@ -135,22 +141,23 @@ func (c *Client) ComplicatedParameterNameGet(ctx context.Context, params Complic
 func (c *Client) sendComplicatedParameterNameGet(ctx context.Context, params ComplicatedParameterNameGetParams) (res *ComplicatedParameterNameGetOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/complicatedParameterName"),
+		semconv.URLTemplateKey.String("/complicatedParameterName"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ComplicatedParameterNameGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, ComplicatedParameterNameGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -256,7 +263,14 @@ func (c *Client) sendComplicatedParameterNameGet(ctx context.Context, params Com
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeComplicatedParameterNameGetResponse(resp)
@@ -279,22 +293,23 @@ func (c *Client) sendContentParameters(ctx context.Context, params ContentParame
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("contentParameters"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/contentParameters/{path}"),
+		semconv.URLTemplateKey.String("/contentParameters/{path}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ContentParameters",
+	ctx, span := c.cfg.Tracer.Start(ctx, ContentParametersOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -408,7 +423,14 @@ func (c *Client) sendContentParameters(ctx context.Context, params ContentParame
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeContentParametersResponse(resp)
@@ -433,22 +455,23 @@ func (c *Client) sendCookieParameter(ctx context.Context, params CookieParameter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("cookieParameter"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/cookieParameter"),
+		semconv.URLTemplateKey.String("/cookieParameter"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "CookieParameter",
+	ctx, span := c.cfg.Tracer.Start(ctx, CookieParameterOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -496,7 +519,14 @@ func (c *Client) sendCookieParameter(ctx context.Context, params CookieParameter
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeCookieParameterResponse(resp)
@@ -521,22 +551,23 @@ func (c *Client) sendHeaderParameter(ctx context.Context, params HeaderParameter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("headerParameter"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/headerParameter"),
+		semconv.URLTemplateKey.String("/headerParameter"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "HeaderParameter",
+	ctx, span := c.cfg.Tracer.Start(ctx, HeaderParameterOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -582,7 +613,14 @@ func (c *Client) sendHeaderParameter(ctx context.Context, params HeaderParameter
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeHeaderParameterResponse(resp)
@@ -605,22 +643,23 @@ func (c *Client) sendObjectCookieParameter(ctx context.Context, params ObjectCoo
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("objectCookieParameter"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/objectCookieParameter"),
+		semconv.URLTemplateKey.String("/objectCookieParameter"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ObjectCookieParameter",
+	ctx, span := c.cfg.Tracer.Start(ctx, ObjectCookieParameterOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -668,7 +707,14 @@ func (c *Client) sendObjectCookieParameter(ctx context.Context, params ObjectCoo
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeObjectCookieParameterResponse(resp)
@@ -691,22 +737,23 @@ func (c *Client) sendObjectQueryParameter(ctx context.Context, params ObjectQuer
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("objectQueryParameter"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/objectQueryParameter"),
+		semconv.URLTemplateKey.String("/objectQueryParameter"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "ObjectQueryParameter",
+	ctx, span := c.cfg.Tracer.Start(ctx, ObjectQueryParameterOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -776,7 +823,14 @@ func (c *Client) sendObjectQueryParameter(ctx context.Context, params ObjectQuer
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeObjectQueryParameterResponse(resp)
@@ -799,22 +853,23 @@ func (c *Client) sendOptionalArrayParameter(ctx context.Context, params Optional
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("optionalArrayParameter"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/optionalArrayParameter"),
+		semconv.URLTemplateKey.String("/optionalArrayParameter"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "OptionalArrayParameter",
+	ctx, span := c.cfg.Tracer.Start(ctx, OptionalArrayParameterOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -902,10 +957,210 @@ func (c *Client) sendOptionalArrayParameter(ctx context.Context, params Optional
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeOptionalArrayParameterResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// OptionalParameters invokes optionalParameters operation.
+//
+// GET /optionalParameters
+func (c *Client) OptionalParameters(ctx context.Context, params OptionalParametersParams) (*OptionalQueryParametersResponse, error) {
+	res, err := c.sendOptionalParameters(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendOptionalParameters(ctx context.Context, params OptionalParametersParams) (res *OptionalQueryParametersResponse, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("optionalParameters"),
+		semconv.HTTPRequestMethodKey.String("GET"),
+		semconv.URLTemplateKey.String("/optionalParameters"),
+	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, OptionalParametersOperation,
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/optionalParameters"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "integer" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "integer",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Integer.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "string" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "string",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.String.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "boolean" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "boolean",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Boolean.Get(); ok {
+				return e.EncodeValue(conv.BoolToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "object" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "object",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Object.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "timestamp" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "timestamp",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Timestamp.Get(); ok {
+				return e.EncodeValue(conv.DateTimeToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "array" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "array",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.Array != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Array {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	stage = "DecodeResponse"
+	result, err := decodeOptionalParametersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -927,22 +1182,23 @@ func (c *Client) sendPathParameter(ctx context.Context, params PathParameterPara
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("pathParameter"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/pathParameter/{value}"),
+		semconv.URLTemplateKey.String("/pathParameter/{value}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "PathParameter",
+	ctx, span := c.cfg.Tracer.Start(ctx, PathParameterOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -992,7 +1248,14 @@ func (c *Client) sendPathParameter(ctx context.Context, params PathParameterPara
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodePathParameterResponse(resp)
@@ -1017,22 +1280,23 @@ func (c *Client) sendSameName(ctx context.Context, params SameNameParams) (res *
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("sameName"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/same_name/{param}"),
+		semconv.URLTemplateKey.String("/same_name/{param}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "SameName",
+	ctx, span := c.cfg.Tracer.Start(ctx, SameNameOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1100,7 +1364,14 @@ func (c *Client) sendSameName(ctx context.Context, params SameNameParams) (res *
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeSameNameResponse(resp)
@@ -1125,22 +1396,23 @@ func (c *Client) sendSimilarNames(ctx context.Context, params SimilarNamesParams
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("similarNames"),
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/similarNames"),
+		semconv.URLTemplateKey.String("/similarNames"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "SimilarNames",
+	ctx, span := c.cfg.Tracer.Start(ctx, SimilarNamesOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1204,10 +1476,147 @@ func (c *Client) sendSimilarNames(ctx context.Context, params SimilarNamesParams
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeSimilarNamesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// SpaceDelimitedParameter invokes spaceDelimitedParameter operation.
+//
+// Test for spaceDelimited style query array parameters.
+//
+// GET /spaceDelimitedParameter
+func (c *Client) SpaceDelimitedParameter(ctx context.Context, params SpaceDelimitedParameterParams) (*SpaceDelimitedParameterOK, error) {
+	res, err := c.sendSpaceDelimitedParameter(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendSpaceDelimitedParameter(ctx context.Context, params SpaceDelimitedParameterParams) (res *SpaceDelimitedParameterOK, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("spaceDelimitedParameter"),
+		semconv.HTTPRequestMethodKey.String("GET"),
+		semconv.URLTemplateKey.String("/spaceDelimitedParameter"),
+	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, SpaceDelimitedParameterOperation,
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/spaceDelimitedParameter"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "exploded" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "exploded",
+			Style:   uri.QueryStyleSpaceDelimited,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Exploded {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "joined" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "joined",
+			Style:   uri.QueryStyleSpaceDelimited,
+			Explode: false,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Joined {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	stage = "DecodeResponse"
+	result, err := decodeSpaceDelimitedParameterResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

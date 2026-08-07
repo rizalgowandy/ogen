@@ -11,6 +11,7 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
 )
 
 // Handler handles operations described by OpenAPI v3 specification.
@@ -451,6 +452,30 @@ type Handler interface {
 	//
 	// POST /test_request_number_array_array
 	TestRequestNumberArrayArray(ctx context.Context, req [][]float64) (*Error, error)
+	// TestRequestNumberDecimal implements test_request_number_decimal operation.
+	//
+	// POST /test_request_number_decimal
+	TestRequestNumberDecimal(ctx context.Context, req OptDecimal) (*Error, error)
+	// TestRequestNumberDecimalArray implements test_request_number_decimal_array operation.
+	//
+	// POST /test_request_number_decimal_array
+	TestRequestNumberDecimalArray(ctx context.Context, req []decimal.Decimal) (*Error, error)
+	// TestRequestNumberDecimalArrayArray implements test_request_number_decimal_array_array operation.
+	//
+	// POST /test_request_number_decimal_array_array
+	TestRequestNumberDecimalArrayArray(ctx context.Context, req [][]decimal.Decimal) (*Error, error)
+	// TestRequestNumberDecimalNullable implements test_request_number_decimal_nullable operation.
+	//
+	// POST /test_request_number_decimal_nullable
+	TestRequestNumberDecimalNullable(ctx context.Context, req OptNilDecimal) (*Error, error)
+	// TestRequestNumberDecimalNullableArray implements test_request_number_decimal_nullable_array operation.
+	//
+	// POST /test_request_number_decimal_nullable_array
+	TestRequestNumberDecimalNullableArray(ctx context.Context, req []NilDecimal) (*Error, error)
+	// TestRequestNumberDecimalNullableArrayArray implements test_request_number_decimal_nullable_array_array operation.
+	//
+	// POST /test_request_number_decimal_nullable_array_array
+	TestRequestNumberDecimalNullableArrayArray(ctx context.Context, req [][]NilDecimal) (*Error, error)
 	// TestRequestNumberDouble implements test_request_number_double operation.
 	//
 	// POST /test_request_number_double
@@ -991,6 +1016,30 @@ type Handler interface {
 	//
 	// POST /test_request_required_number_array_array
 	TestRequestRequiredNumberArrayArray(ctx context.Context, req [][]float64) (*Error, error)
+	// TestRequestRequiredNumberDecimal implements test_request_required_number_decimal operation.
+	//
+	// POST /test_request_required_number_decimal
+	TestRequestRequiredNumberDecimal(ctx context.Context, req decimal.Decimal) (*Error, error)
+	// TestRequestRequiredNumberDecimalArray implements test_request_required_number_decimal_array operation.
+	//
+	// POST /test_request_required_number_decimal_array
+	TestRequestRequiredNumberDecimalArray(ctx context.Context, req []decimal.Decimal) (*Error, error)
+	// TestRequestRequiredNumberDecimalArrayArray implements test_request_required_number_decimal_array_array operation.
+	//
+	// POST /test_request_required_number_decimal_array_array
+	TestRequestRequiredNumberDecimalArrayArray(ctx context.Context, req [][]decimal.Decimal) (*Error, error)
+	// TestRequestRequiredNumberDecimalNullable implements test_request_required_number_decimal_nullable operation.
+	//
+	// POST /test_request_required_number_decimal_nullable
+	TestRequestRequiredNumberDecimalNullable(ctx context.Context, req NilDecimal) (*Error, error)
+	// TestRequestRequiredNumberDecimalNullableArray implements test_request_required_number_decimal_nullable_array operation.
+	//
+	// POST /test_request_required_number_decimal_nullable_array
+	TestRequestRequiredNumberDecimalNullableArray(ctx context.Context, req []NilDecimal) (*Error, error)
+	// TestRequestRequiredNumberDecimalNullableArrayArray implements test_request_required_number_decimal_nullable_array_array operation.
+	//
+	// POST /test_request_required_number_decimal_nullable_array_array
+	TestRequestRequiredNumberDecimalNullableArrayArray(ctx context.Context, req [][]NilDecimal) (*Error, error)
 	// TestRequestRequiredNumberDouble implements test_request_required_number_double operation.
 	//
 	// POST /test_request_required_number_double
@@ -1231,6 +1280,30 @@ type Handler interface {
 	//
 	// POST /test_request_required_string_date-time_nullable_array_array
 	TestRequestRequiredStringDateTimeNullableArrayArray(ctx context.Context, req [][]NilDateTime) (*Error, error)
+	// TestRequestRequiredStringDecimal implements test_request_required_string_decimal operation.
+	//
+	// POST /test_request_required_string_decimal
+	TestRequestRequiredStringDecimal(ctx context.Context, req decimal.Decimal) (*Error, error)
+	// TestRequestRequiredStringDecimalArray implements test_request_required_string_decimal_array operation.
+	//
+	// POST /test_request_required_string_decimal_array
+	TestRequestRequiredStringDecimalArray(ctx context.Context, req []decimal.Decimal) (*Error, error)
+	// TestRequestRequiredStringDecimalArrayArray implements test_request_required_string_decimal_array_array operation.
+	//
+	// POST /test_request_required_string_decimal_array_array
+	TestRequestRequiredStringDecimalArrayArray(ctx context.Context, req [][]decimal.Decimal) (*Error, error)
+	// TestRequestRequiredStringDecimalNullable implements test_request_required_string_decimal_nullable operation.
+	//
+	// POST /test_request_required_string_decimal_nullable
+	TestRequestRequiredStringDecimalNullable(ctx context.Context, req NilStringDecimal) (*Error, error)
+	// TestRequestRequiredStringDecimalNullableArray implements test_request_required_string_decimal_nullable_array operation.
+	//
+	// POST /test_request_required_string_decimal_nullable_array
+	TestRequestRequiredStringDecimalNullableArray(ctx context.Context, req []NilStringDecimal) (*Error, error)
+	// TestRequestRequiredStringDecimalNullableArrayArray implements test_request_required_string_decimal_nullable_array_array operation.
+	//
+	// POST /test_request_required_string_decimal_nullable_array_array
+	TestRequestRequiredStringDecimalNullableArrayArray(ctx context.Context, req [][]NilStringDecimal) (*Error, error)
 	// TestRequestRequiredStringDuration implements test_request_required_string_duration operation.
 	//
 	// POST /test_request_required_string_duration
@@ -1327,6 +1400,30 @@ type Handler interface {
 	//
 	// POST /test_request_required_string_float64_nullable_array_array
 	TestRequestRequiredStringFloat64NullableArrayArray(ctx context.Context, req [][]NilStringFloat64) (*Error, error)
+	// TestRequestRequiredStringHTTPDate implements test_request_required_string_http-date operation.
+	//
+	// POST /test_request_required_string_http-date
+	TestRequestRequiredStringHTTPDate(ctx context.Context, req time.Time) (*Error, error)
+	// TestRequestRequiredStringHTTPDateArray implements test_request_required_string_http-date_array operation.
+	//
+	// POST /test_request_required_string_http-date_array
+	TestRequestRequiredStringHTTPDateArray(ctx context.Context, req []time.Time) (*Error, error)
+	// TestRequestRequiredStringHTTPDateArrayArray implements test_request_required_string_http-date_array_array operation.
+	//
+	// POST /test_request_required_string_http-date_array_array
+	TestRequestRequiredStringHTTPDateArrayArray(ctx context.Context, req [][]time.Time) (*Error, error)
+	// TestRequestRequiredStringHTTPDateNullable implements test_request_required_string_http-date_nullable operation.
+	//
+	// POST /test_request_required_string_http-date_nullable
+	TestRequestRequiredStringHTTPDateNullable(ctx context.Context, req NilHTTPDate) (*Error, error)
+	// TestRequestRequiredStringHTTPDateNullableArray implements test_request_required_string_http-date_nullable_array operation.
+	//
+	// POST /test_request_required_string_http-date_nullable_array
+	TestRequestRequiredStringHTTPDateNullableArray(ctx context.Context, req []NilHTTPDate) (*Error, error)
+	// TestRequestRequiredStringHTTPDateNullableArrayArray implements test_request_required_string_http-date_nullable_array_array operation.
+	//
+	// POST /test_request_required_string_http-date_nullable_array_array
+	TestRequestRequiredStringHTTPDateNullableArrayArray(ctx context.Context, req [][]NilHTTPDate) (*Error, error)
 	// TestRequestRequiredStringHostname implements test_request_required_string_hostname operation.
 	//
 	// POST /test_request_required_string_hostname
@@ -2047,6 +2144,30 @@ type Handler interface {
 	//
 	// POST /test_request_string_date-time_nullable_array_array
 	TestRequestStringDateTimeNullableArrayArray(ctx context.Context, req [][]NilDateTime) (*Error, error)
+	// TestRequestStringDecimal implements test_request_string_decimal operation.
+	//
+	// POST /test_request_string_decimal
+	TestRequestStringDecimal(ctx context.Context, req OptStringDecimal) (*Error, error)
+	// TestRequestStringDecimalArray implements test_request_string_decimal_array operation.
+	//
+	// POST /test_request_string_decimal_array
+	TestRequestStringDecimalArray(ctx context.Context, req []decimal.Decimal) (*Error, error)
+	// TestRequestStringDecimalArrayArray implements test_request_string_decimal_array_array operation.
+	//
+	// POST /test_request_string_decimal_array_array
+	TestRequestStringDecimalArrayArray(ctx context.Context, req [][]decimal.Decimal) (*Error, error)
+	// TestRequestStringDecimalNullable implements test_request_string_decimal_nullable operation.
+	//
+	// POST /test_request_string_decimal_nullable
+	TestRequestStringDecimalNullable(ctx context.Context, req OptNilStringDecimal) (*Error, error)
+	// TestRequestStringDecimalNullableArray implements test_request_string_decimal_nullable_array operation.
+	//
+	// POST /test_request_string_decimal_nullable_array
+	TestRequestStringDecimalNullableArray(ctx context.Context, req []NilStringDecimal) (*Error, error)
+	// TestRequestStringDecimalNullableArrayArray implements test_request_string_decimal_nullable_array_array operation.
+	//
+	// POST /test_request_string_decimal_nullable_array_array
+	TestRequestStringDecimalNullableArrayArray(ctx context.Context, req [][]NilStringDecimal) (*Error, error)
 	// TestRequestStringDuration implements test_request_string_duration operation.
 	//
 	// POST /test_request_string_duration
@@ -2143,6 +2264,30 @@ type Handler interface {
 	//
 	// POST /test_request_string_float64_nullable_array_array
 	TestRequestStringFloat64NullableArrayArray(ctx context.Context, req [][]NilStringFloat64) (*Error, error)
+	// TestRequestStringHTTPDate implements test_request_string_http-date operation.
+	//
+	// POST /test_request_string_http-date
+	TestRequestStringHTTPDate(ctx context.Context, req OptHTTPDate) (*Error, error)
+	// TestRequestStringHTTPDateArray implements test_request_string_http-date_array operation.
+	//
+	// POST /test_request_string_http-date_array
+	TestRequestStringHTTPDateArray(ctx context.Context, req []time.Time) (*Error, error)
+	// TestRequestStringHTTPDateArrayArray implements test_request_string_http-date_array_array operation.
+	//
+	// POST /test_request_string_http-date_array_array
+	TestRequestStringHTTPDateArrayArray(ctx context.Context, req [][]time.Time) (*Error, error)
+	// TestRequestStringHTTPDateNullable implements test_request_string_http-date_nullable operation.
+	//
+	// POST /test_request_string_http-date_nullable
+	TestRequestStringHTTPDateNullable(ctx context.Context, req OptNilHTTPDate) (*Error, error)
+	// TestRequestStringHTTPDateNullableArray implements test_request_string_http-date_nullable_array operation.
+	//
+	// POST /test_request_string_http-date_nullable_array
+	TestRequestStringHTTPDateNullableArray(ctx context.Context, req []NilHTTPDate) (*Error, error)
+	// TestRequestStringHTTPDateNullableArrayArray implements test_request_string_http-date_nullable_array_array operation.
+	//
+	// POST /test_request_string_http-date_nullable_array_array
+	TestRequestStringHTTPDateNullableArrayArray(ctx context.Context, req [][]NilHTTPDate) (*Error, error)
 	// TestRequestStringHostname implements test_request_string_hostname operation.
 	//
 	// POST /test_request_string_hostname
@@ -3163,6 +3308,30 @@ type Handler interface {
 	//
 	// POST /test_response_number_array_array
 	TestResponseNumberArrayArray(ctx context.Context, req string) ([][]float64, error)
+	// TestResponseNumberDecimal implements test_response_number_decimal operation.
+	//
+	// POST /test_response_number_decimal
+	TestResponseNumberDecimal(ctx context.Context, req string) (decimal.Decimal, error)
+	// TestResponseNumberDecimalArray implements test_response_number_decimal_array operation.
+	//
+	// POST /test_response_number_decimal_array
+	TestResponseNumberDecimalArray(ctx context.Context, req string) ([]decimal.Decimal, error)
+	// TestResponseNumberDecimalArrayArray implements test_response_number_decimal_array_array operation.
+	//
+	// POST /test_response_number_decimal_array_array
+	TestResponseNumberDecimalArrayArray(ctx context.Context, req string) ([][]decimal.Decimal, error)
+	// TestResponseNumberDecimalNullable implements test_response_number_decimal_nullable operation.
+	//
+	// POST /test_response_number_decimal_nullable
+	TestResponseNumberDecimalNullable(ctx context.Context, req string) (NilDecimal, error)
+	// TestResponseNumberDecimalNullableArray implements test_response_number_decimal_nullable_array operation.
+	//
+	// POST /test_response_number_decimal_nullable_array
+	TestResponseNumberDecimalNullableArray(ctx context.Context, req string) ([]NilDecimal, error)
+	// TestResponseNumberDecimalNullableArrayArray implements test_response_number_decimal_nullable_array_array operation.
+	//
+	// POST /test_response_number_decimal_nullable_array_array
+	TestResponseNumberDecimalNullableArrayArray(ctx context.Context, req string) ([][]NilDecimal, error)
 	// TestResponseNumberDouble implements test_response_number_double operation.
 	//
 	// POST /test_response_number_double
@@ -3403,6 +3572,30 @@ type Handler interface {
 	//
 	// POST /test_response_string_date-time_nullable_array_array
 	TestResponseStringDateTimeNullableArrayArray(ctx context.Context, req string) ([][]NilDateTime, error)
+	// TestResponseStringDecimal implements test_response_string_decimal operation.
+	//
+	// POST /test_response_string_decimal
+	TestResponseStringDecimal(ctx context.Context, req string) (decimal.Decimal, error)
+	// TestResponseStringDecimalArray implements test_response_string_decimal_array operation.
+	//
+	// POST /test_response_string_decimal_array
+	TestResponseStringDecimalArray(ctx context.Context, req string) ([]decimal.Decimal, error)
+	// TestResponseStringDecimalArrayArray implements test_response_string_decimal_array_array operation.
+	//
+	// POST /test_response_string_decimal_array_array
+	TestResponseStringDecimalArrayArray(ctx context.Context, req string) ([][]decimal.Decimal, error)
+	// TestResponseStringDecimalNullable implements test_response_string_decimal_nullable operation.
+	//
+	// POST /test_response_string_decimal_nullable
+	TestResponseStringDecimalNullable(ctx context.Context, req string) (NilStringDecimal, error)
+	// TestResponseStringDecimalNullableArray implements test_response_string_decimal_nullable_array operation.
+	//
+	// POST /test_response_string_decimal_nullable_array
+	TestResponseStringDecimalNullableArray(ctx context.Context, req string) ([]NilStringDecimal, error)
+	// TestResponseStringDecimalNullableArrayArray implements test_response_string_decimal_nullable_array_array operation.
+	//
+	// POST /test_response_string_decimal_nullable_array_array
+	TestResponseStringDecimalNullableArrayArray(ctx context.Context, req string) ([][]NilStringDecimal, error)
 	// TestResponseStringDuration implements test_response_string_duration operation.
 	//
 	// POST /test_response_string_duration
@@ -3499,6 +3692,30 @@ type Handler interface {
 	//
 	// POST /test_response_string_float64_nullable_array_array
 	TestResponseStringFloat64NullableArrayArray(ctx context.Context, req string) ([][]NilStringFloat64, error)
+	// TestResponseStringHTTPDate implements test_response_string_http-date operation.
+	//
+	// POST /test_response_string_http-date
+	TestResponseStringHTTPDate(ctx context.Context, req string) (time.Time, error)
+	// TestResponseStringHTTPDateArray implements test_response_string_http-date_array operation.
+	//
+	// POST /test_response_string_http-date_array
+	TestResponseStringHTTPDateArray(ctx context.Context, req string) ([]time.Time, error)
+	// TestResponseStringHTTPDateArrayArray implements test_response_string_http-date_array_array operation.
+	//
+	// POST /test_response_string_http-date_array_array
+	TestResponseStringHTTPDateArrayArray(ctx context.Context, req string) ([][]time.Time, error)
+	// TestResponseStringHTTPDateNullable implements test_response_string_http-date_nullable operation.
+	//
+	// POST /test_response_string_http-date_nullable
+	TestResponseStringHTTPDateNullable(ctx context.Context, req string) (NilHTTPDate, error)
+	// TestResponseStringHTTPDateNullableArray implements test_response_string_http-date_nullable_array operation.
+	//
+	// POST /test_response_string_http-date_nullable_array
+	TestResponseStringHTTPDateNullableArray(ctx context.Context, req string) ([]NilHTTPDate, error)
+	// TestResponseStringHTTPDateNullableArrayArray implements test_response_string_http-date_nullable_array_array operation.
+	//
+	// POST /test_response_string_http-date_nullable_array_array
+	TestResponseStringHTTPDateNullableArrayArray(ctx context.Context, req string) ([][]NilHTTPDate, error)
 	// TestResponseStringHostname implements test_response_string_hostname operation.
 	//
 	// POST /test_response_string_hostname

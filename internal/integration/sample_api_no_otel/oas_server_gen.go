@@ -128,6 +128,10 @@ type Handler interface {
 	//
 	// GET /stringIntMap
 	StringIntMapGet(ctx context.Context) (*StringIntMap, error)
+	// TestDecimalValidation implements testDecimalValidation operation.
+	//
+	// POST /testDecimalValidation
+	TestDecimalValidation(ctx context.Context, req *TestDecimalValidation) error
 	// TestFloatValidation implements testFloatValidation operation.
 	//
 	// POST /testFloatValidation
@@ -136,6 +140,14 @@ type Handler interface {
 	//
 	// GET /testInlineOneof
 	TestInlineOneof(ctx context.Context) (*TestInlineOneOf, error)
+	// TestIssue1310 implements testIssue1310 operation.
+	//
+	// GET /testIssue1310
+	TestIssue1310(ctx context.Context) (*Issue1310, error)
+	// TestIssue1461 implements testIssue1461 operation.
+	//
+	// GET /testIssue1461
+	TestIssue1461(ctx context.Context) (*Issue1461, error)
 	// TestNullableOneofs implements testNullableOneofs operation.
 	//
 	// GET /testNullableOneofs

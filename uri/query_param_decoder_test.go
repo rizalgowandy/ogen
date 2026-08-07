@@ -3,6 +3,7 @@ package uri
 import (
 	"fmt"
 	"net/url"
+	"slices"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -91,12 +92,20 @@ func TestQueryParamDecoder(t *testing.T) {
 				Style:   QueryStyleSpaceDelimited,
 				Explode: true,
 			},
-			// {
-			// 	Input:   []string{"a%20b%20c"},
-			// 	Expect:  []string{"a", "b", "c"},
-			// 	Style:   QueryStyleSpaceDelimited,
-			// 	Explode: false,
-			// },
+			{
+				Param:   "id",
+				Input:   "id=a%20b%20c",
+				Expect:  []string{"a", "b", "c"},
+				Style:   QueryStyleSpaceDelimited,
+				Explode: false,
+			},
+			{
+				Param:   "id",
+				Input:   "id=a+b+c",
+				Expect:  []string{"a", "b", "c"},
+				Style:   QueryStyleSpaceDelimited,
+				Explode: false,
+			},
 			{
 				Param:   "id",
 				Input:   "id=3&id=4&id=5",
@@ -139,11 +148,12 @@ func TestQueryParamDecoder(t *testing.T) {
 
 	t.Run("Object", func(t *testing.T) {
 		tests := []struct {
-			Param   string
-			Input   string
-			Expect  []Field
-			Style   QueryStyle
-			Explode bool
+			Param               string
+			Input               string
+			Expect              []Field
+			NonEnumeratedFields []Field
+			Style               QueryStyle
+			Explode             bool
 		}{
 			{
 				Param:   "id",
@@ -151,8 +161,8 @@ func TestQueryParamDecoder(t *testing.T) {
 				Style:   QueryStyleForm,
 				Explode: true,
 				Expect: []Field{
-					{"role", "admin"},
 					{"firstName", "Alex"},
+					{"role", "admin"},
 				},
 			},
 			{
@@ -171,8 +181,22 @@ func TestQueryParamDecoder(t *testing.T) {
 				Style:   QueryStyleDeepObject,
 				Explode: true,
 				Expect: []Field{
-					{"role", "admin"},
 					{"firstName", "Alex"},
+					{"role", "admin"},
+				},
+			},
+			{
+				Param:   "id",
+				Input:   "id%5BfirstName%5D=Alex&id%5Brole%5D=admin&id%5Brole%5D%5BsubRole%5D=owner&id%5Brole%5D%5BsubRole%5D%5Bgroup%5D=superuser",
+				Style:   QueryStyleDeepObject,
+				Explode: true,
+				Expect: []Field{
+					{"firstName", "Alex"},
+					{"role", "admin"},
+				},
+				NonEnumeratedFields: []Field{
+					{"role[subRole]", "owner"},
+					{"role[subRole][group]", "superuser"},
 				},
 			},
 		}
@@ -207,7 +231,9 @@ func TestQueryParamDecoder(t *testing.T) {
 				return nil
 			})
 			require.NoError(t, err, fmt.Sprintf("Test %d", i+1))
-			require.Equal(t, test.Expect, result, fmt.Sprintf("Test %d", i+1))
+
+			expectedFields := slices.Concat(test.Expect, test.NonEnumeratedFields)
+			require.ElementsMatch(t, expectedFields, result, fmt.Sprintf("Test %d", i+1))
 		}
 	})
 }

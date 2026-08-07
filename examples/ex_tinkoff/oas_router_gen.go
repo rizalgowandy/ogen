@@ -10,6 +10,72 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
+var (
+	rn1AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn3AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn5AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn6AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn7AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn8AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn10AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn12AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn14AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn17AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn16AllowedHeaders = map[string]string{
+		"POST": "Authorization",
+	}
+	rn19AllowedHeaders = map[string]string{
+		"POST": "Authorization,Content-Type",
+	}
+	rn20AllowedHeaders = map[string]string{
+		"POST": "Authorization,Content-Type",
+	}
+	rn22AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn21AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn23AllowedHeaders = map[string]string{
+		"POST": "Authorization",
+	}
+	rn25AllowedHeaders = map[string]string{
+		"POST": "Authorization,Content-Type",
+	}
+	rn27AllowedHeaders = map[string]string{
+		"POST": "Authorization,Content-Type",
+	}
+	rn28AllowedHeaders = map[string]string{
+		"POST": "Authorization,Content-Type",
+	}
+	rn30AllowedHeaders = map[string]string{
+		"POST": "Authorization",
+	}
+	rn31AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+)
+
 func (s *Server) cutPrefix(path string) (string, bool) {
 	prefix := s.cfg.Prefix
 	if prefix == "" {
@@ -49,7 +115,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -61,7 +127,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 			switch elem[0] {
 			case 'm': // Prefix: "market/"
-				origElem := elem
+
 				if l := len("market/"); len(elem) >= l && elem[0:l] == "market/" {
 					elem = elem[l:]
 				} else {
@@ -73,7 +139,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 				switch elem[0] {
 				case 'b': // Prefix: "bonds"
-					origElem := elem
+
 					if l := len("bonds"); len(elem) >= l && elem[0:l] == "bonds" {
 						elem = elem[l:]
 					} else {
@@ -86,15 +152,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleMarketBondsGetRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: rn1AllowedHeaders,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'c': // Prefix: "c"
-					origElem := elem
+
 					if l := len("c"); len(elem) >= l && elem[0:l] == "c" {
 						elem = elem[l:]
 					} else {
@@ -106,7 +176,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					}
 					switch elem[0] {
 					case 'a': // Prefix: "andles"
-						origElem := elem
+
 						if l := len("andles"); len(elem) >= l && elem[0:l] == "andles" {
 							elem = elem[l:]
 						} else {
@@ -119,15 +189,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "GET":
 								s.handleMarketCandlesGetRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "GET")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "GET",
+									allowedHeaders: rn3AllowedHeaders,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					case 'u': // Prefix: "urrencies"
-						origElem := elem
+
 						if l := len("urrencies"); len(elem) >= l && elem[0:l] == "urrencies" {
 							elem = elem[l:]
 						} else {
@@ -140,18 +214,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "GET":
 								s.handleMarketCurrenciesGetRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "GET")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "GET",
+									allowedHeaders: rn5AllowedHeaders,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				case 'e': // Prefix: "etfs"
-					origElem := elem
+
 					if l := len("etfs"); len(elem) >= l && elem[0:l] == "etfs" {
 						elem = elem[l:]
 					} else {
@@ -164,15 +241,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleMarketEtfsGetRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: rn6AllowedHeaders,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'o': // Prefix: "orderbook"
-					origElem := elem
+
 					if l := len("orderbook"); len(elem) >= l && elem[0:l] == "orderbook" {
 						elem = elem[l:]
 					} else {
@@ -185,15 +266,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleMarketOrderbookGetRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: rn7AllowedHeaders,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 's': // Prefix: "s"
-					origElem := elem
+
 					if l := len("s"); len(elem) >= l && elem[0:l] == "s" {
 						elem = elem[l:]
 					} else {
@@ -205,7 +290,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					}
 					switch elem[0] {
 					case 'e': // Prefix: "earch/by-"
-						origElem := elem
+
 						if l := len("earch/by-"); len(elem) >= l && elem[0:l] == "earch/by-" {
 							elem = elem[l:]
 						} else {
@@ -217,7 +302,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						}
 						switch elem[0] {
 						case 'f': // Prefix: "figi"
-							origElem := elem
+
 							if l := len("figi"); len(elem) >= l && elem[0:l] == "figi" {
 								elem = elem[l:]
 							} else {
@@ -230,15 +315,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 								case "GET":
 									s.handleMarketSearchByFigiGetRequest([0]string{}, elemIsEscaped, w, r)
 								default:
-									s.notAllowed(w, r, "GET")
+									s.notAllowed(w, r, notAllowedParams{
+										allowedMethods: "GET",
+										allowedHeaders: rn8AllowedHeaders,
+										acceptPost:     "",
+										acceptPatch:    "",
+									})
 								}
 
 								return
 							}
 
-							elem = origElem
 						case 't': // Prefix: "ticker"
-							origElem := elem
+
 							if l := len("ticker"); len(elem) >= l && elem[0:l] == "ticker" {
 								elem = elem[l:]
 							} else {
@@ -251,18 +340,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 								case "GET":
 									s.handleMarketSearchByTickerGetRequest([0]string{}, elemIsEscaped, w, r)
 								default:
-									s.notAllowed(w, r, "GET")
+									s.notAllowed(w, r, notAllowedParams{
+										allowedMethods: "GET",
+										allowedHeaders: rn10AllowedHeaders,
+										acceptPost:     "",
+										acceptPatch:    "",
+									})
 								}
 
 								return
 							}
 
-							elem = origElem
 						}
 
-						elem = origElem
 					case 't': // Prefix: "tocks"
-						origElem := elem
+
 						if l := len("tocks"); len(elem) >= l && elem[0:l] == "tocks" {
 							elem = elem[l:]
 						} else {
@@ -275,21 +367,23 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "GET":
 								s.handleMarketStocksGetRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "GET")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "GET",
+									allowedHeaders: rn12AllowedHeaders,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "o"
-				origElem := elem
+
 				if l := len("o"); len(elem) >= l && elem[0:l] == "o" {
 					elem = elem[l:]
 				} else {
@@ -301,7 +395,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 				switch elem[0] {
 				case 'p': // Prefix: "perations"
-					origElem := elem
+
 					if l := len("perations"); len(elem) >= l && elem[0:l] == "perations" {
 						elem = elem[l:]
 					} else {
@@ -314,15 +408,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleOperationsGetRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: rn14AllowedHeaders,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'r': // Prefix: "rders"
-					origElem := elem
+
 					if l := len("rders"); len(elem) >= l && elem[0:l] == "rders" {
 						elem = elem[l:]
 					} else {
@@ -334,14 +432,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleOrdersGetRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: rn17AllowedHeaders,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 					switch elem[0] {
 					case '/': // Prefix: "/"
-						origElem := elem
+
 						if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 							elem = elem[l:]
 						} else {
@@ -353,7 +456,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						}
 						switch elem[0] {
 						case 'c': // Prefix: "cancel"
-							origElem := elem
+
 							if l := len("cancel"); len(elem) >= l && elem[0:l] == "cancel" {
 								elem = elem[l:]
 							} else {
@@ -366,15 +469,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 								case "POST":
 									s.handleOrdersCancelPostRequest([0]string{}, elemIsEscaped, w, r)
 								default:
-									s.notAllowed(w, r, "POST")
+									s.notAllowed(w, r, notAllowedParams{
+										allowedMethods: "POST",
+										allowedHeaders: rn16AllowedHeaders,
+										acceptPost:     "",
+										acceptPatch:    "",
+									})
 								}
 
 								return
 							}
 
-							elem = origElem
 						case 'l': // Prefix: "limit-order"
-							origElem := elem
+
 							if l := len("limit-order"); len(elem) >= l && elem[0:l] == "limit-order" {
 								elem = elem[l:]
 							} else {
@@ -387,15 +494,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 								case "POST":
 									s.handleOrdersLimitOrderPostRequest([0]string{}, elemIsEscaped, w, r)
 								default:
-									s.notAllowed(w, r, "POST")
+									s.notAllowed(w, r, notAllowedParams{
+										allowedMethods: "POST",
+										allowedHeaders: rn19AllowedHeaders,
+										acceptPost:     "application/json",
+										acceptPatch:    "",
+									})
 								}
 
 								return
 							}
 
-							elem = origElem
 						case 'm': // Prefix: "market-order"
-							origElem := elem
+
 							if l := len("market-order"); len(elem) >= l && elem[0:l] == "market-order" {
 								elem = elem[l:]
 							} else {
@@ -408,24 +519,25 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 								case "POST":
 									s.handleOrdersMarketOrderPostRequest([0]string{}, elemIsEscaped, w, r)
 								default:
-									s.notAllowed(w, r, "POST")
+									s.notAllowed(w, r, notAllowedParams{
+										allowedMethods: "POST",
+										allowedHeaders: rn20AllowedHeaders,
+										acceptPost:     "application/json",
+										acceptPatch:    "",
+									})
 								}
 
 								return
 							}
 
-							elem = origElem
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'p': // Prefix: "portfolio"
-				origElem := elem
+
 				if l := len("portfolio"); len(elem) >= l && elem[0:l] == "portfolio" {
 					elem = elem[l:]
 				} else {
@@ -437,14 +549,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handlePortfolioGetRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: rn22AllowedHeaders,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 				switch elem[0] {
 				case '/': // Prefix: "/currencies"
-					origElem := elem
+
 					if l := len("/currencies"); len(elem) >= l && elem[0:l] == "/currencies" {
 						elem = elem[l:]
 					} else {
@@ -457,18 +574,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handlePortfolioCurrenciesGetRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: rn21AllowedHeaders,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 's': // Prefix: "sandbox/"
-				origElem := elem
+
 				if l := len("sandbox/"); len(elem) >= l && elem[0:l] == "sandbox/" {
 					elem = elem[l:]
 				} else {
@@ -480,7 +600,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 				switch elem[0] {
 				case 'c': // Prefix: "c"
-					origElem := elem
+
 					if l := len("c"); len(elem) >= l && elem[0:l] == "c" {
 						elem = elem[l:]
 					} else {
@@ -492,7 +612,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					}
 					switch elem[0] {
 					case 'l': // Prefix: "lear"
-						origElem := elem
+
 						if l := len("lear"); len(elem) >= l && elem[0:l] == "lear" {
 							elem = elem[l:]
 						} else {
@@ -505,15 +625,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "POST":
 								s.handleSandboxClearPostRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "POST")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "POST",
+									allowedHeaders: rn23AllowedHeaders,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					case 'u': // Prefix: "urrencies/balance"
-						origElem := elem
+
 						if l := len("urrencies/balance"); len(elem) >= l && elem[0:l] == "urrencies/balance" {
 							elem = elem[l:]
 						} else {
@@ -526,18 +650,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "POST":
 								s.handleSandboxCurrenciesBalancePostRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "POST")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "POST",
+									allowedHeaders: rn25AllowedHeaders,
+									acceptPost:     "application/json",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				case 'p': // Prefix: "positions/balance"
-					origElem := elem
+
 					if l := len("positions/balance"); len(elem) >= l && elem[0:l] == "positions/balance" {
 						elem = elem[l:]
 					} else {
@@ -550,15 +677,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "POST":
 							s.handleSandboxPositionsBalancePostRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "POST")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "POST",
+								allowedHeaders: rn27AllowedHeaders,
+								acceptPost:     "application/json",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'r': // Prefix: "re"
-					origElem := elem
+
 					if l := len("re"); len(elem) >= l && elem[0:l] == "re" {
 						elem = elem[l:]
 					} else {
@@ -570,7 +701,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					}
 					switch elem[0] {
 					case 'g': // Prefix: "gister"
-						origElem := elem
+
 						if l := len("gister"); len(elem) >= l && elem[0:l] == "gister" {
 							elem = elem[l:]
 						} else {
@@ -583,15 +714,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "POST":
 								s.handleSandboxRegisterPostRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "POST")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "POST",
+									allowedHeaders: rn28AllowedHeaders,
+									acceptPost:     "application/json",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					case 'm': // Prefix: "move"
-						origElem := elem
+
 						if l := len("move"); len(elem) >= l && elem[0:l] == "move" {
 							elem = elem[l:]
 						} else {
@@ -604,21 +739,23 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "POST":
 								s.handleSandboxRemovePostRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "POST")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "POST",
+									allowedHeaders: rn30AllowedHeaders,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'u': // Prefix: "user/accounts"
-				origElem := elem
+
 				if l := len("user/accounts"); len(elem) >= l && elem[0:l] == "user/accounts" {
 					elem = elem[l:]
 				} else {
@@ -631,16 +768,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleUserAccountsGetRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: rn31AllowedHeaders,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	s.notFound(w, r)
@@ -648,12 +788,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Route is route object.
 type Route struct {
-	name        string
-	summary     string
-	operationID string
-	pathPattern string
-	count       int
-	args        [0]string
+	name           string
+	summary        string
+	operationID    string
+	operationGroup string
+	pathPattern    string
+	count          int
+	args           [0]string
 }
 
 // Name returns ogen operation name.
@@ -671,6 +812,11 @@ func (r Route) Summary() string {
 // OperationID returns OpenAPI operationId.
 func (r Route) OperationID() string {
 	return r.operationID
+}
+
+// OperationGroup returns the x-ogen-operation-group value.
+func (r Route) OperationGroup() string {
+	return r.operationGroup
 }
 
 // PathPattern returns OpenAPI path.
@@ -722,7 +868,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -734,7 +880,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			}
 			switch elem[0] {
 			case 'm': // Prefix: "market/"
-				origElem := elem
+
 				if l := len("market/"); len(elem) >= l && elem[0:l] == "market/" {
 					elem = elem[l:]
 				} else {
@@ -746,7 +892,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'b': // Prefix: "bonds"
-					origElem := elem
+
 					if l := len("bonds"); len(elem) >= l && elem[0:l] == "bonds" {
 						elem = elem[l:]
 					} else {
@@ -757,9 +903,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "MarketBondsGet"
+							r.name = MarketBondsGetOperation
 							r.summary = "Получение списка облигаций"
 							r.operationID = ""
+							r.operationGroup = ""
 							r.pathPattern = "/market/bonds"
 							r.args = args
 							r.count = 0
@@ -769,9 +916,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'c': // Prefix: "c"
-					origElem := elem
+
 					if l := len("c"); len(elem) >= l && elem[0:l] == "c" {
 						elem = elem[l:]
 					} else {
@@ -783,7 +929,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 					switch elem[0] {
 					case 'a': // Prefix: "andles"
-						origElem := elem
+
 						if l := len("andles"); len(elem) >= l && elem[0:l] == "andles" {
 							elem = elem[l:]
 						} else {
@@ -794,9 +940,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "GET":
-								r.name = "MarketCandlesGet"
+								r.name = MarketCandlesGetOperation
 								r.summary = "Получение исторических свечей по FIGI"
 								r.operationID = ""
+								r.operationGroup = ""
 								r.pathPattern = "/market/candles"
 								r.args = args
 								r.count = 0
@@ -806,9 +953,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					case 'u': // Prefix: "urrencies"
-						origElem := elem
+
 						if l := len("urrencies"); len(elem) >= l && elem[0:l] == "urrencies" {
 							elem = elem[l:]
 						} else {
@@ -819,9 +965,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "GET":
-								r.name = "MarketCurrenciesGet"
+								r.name = MarketCurrenciesGetOperation
 								r.summary = "Получение списка валютных пар"
 								r.operationID = ""
+								r.operationGroup = ""
 								r.pathPattern = "/market/currencies"
 								r.args = args
 								r.count = 0
@@ -831,12 +978,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				case 'e': // Prefix: "etfs"
-					origElem := elem
+
 					if l := len("etfs"); len(elem) >= l && elem[0:l] == "etfs" {
 						elem = elem[l:]
 					} else {
@@ -847,9 +992,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "MarketEtfsGet"
+							r.name = MarketEtfsGetOperation
 							r.summary = "Получение списка ETF"
 							r.operationID = ""
+							r.operationGroup = ""
 							r.pathPattern = "/market/etfs"
 							r.args = args
 							r.count = 0
@@ -859,9 +1005,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'o': // Prefix: "orderbook"
-					origElem := elem
+
 					if l := len("orderbook"); len(elem) >= l && elem[0:l] == "orderbook" {
 						elem = elem[l:]
 					} else {
@@ -872,9 +1017,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "MarketOrderbookGet"
+							r.name = MarketOrderbookGetOperation
 							r.summary = "Получение стакана по FIGI"
 							r.operationID = ""
+							r.operationGroup = ""
 							r.pathPattern = "/market/orderbook"
 							r.args = args
 							r.count = 0
@@ -884,9 +1030,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 's': // Prefix: "s"
-					origElem := elem
+
 					if l := len("s"); len(elem) >= l && elem[0:l] == "s" {
 						elem = elem[l:]
 					} else {
@@ -898,7 +1043,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 					switch elem[0] {
 					case 'e': // Prefix: "earch/by-"
-						origElem := elem
+
 						if l := len("earch/by-"); len(elem) >= l && elem[0:l] == "earch/by-" {
 							elem = elem[l:]
 						} else {
@@ -910,7 +1055,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 						switch elem[0] {
 						case 'f': // Prefix: "figi"
-							origElem := elem
+
 							if l := len("figi"); len(elem) >= l && elem[0:l] == "figi" {
 								elem = elem[l:]
 							} else {
@@ -921,9 +1066,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								// Leaf node.
 								switch method {
 								case "GET":
-									r.name = "MarketSearchByFigiGet"
+									r.name = MarketSearchByFigiGetOperation
 									r.summary = "Получение инструмента по FIGI"
 									r.operationID = ""
+									r.operationGroup = ""
 									r.pathPattern = "/market/search/by-figi"
 									r.args = args
 									r.count = 0
@@ -933,9 +1079,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								}
 							}
 
-							elem = origElem
 						case 't': // Prefix: "ticker"
-							origElem := elem
+
 							if l := len("ticker"); len(elem) >= l && elem[0:l] == "ticker" {
 								elem = elem[l:]
 							} else {
@@ -946,9 +1091,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								// Leaf node.
 								switch method {
 								case "GET":
-									r.name = "MarketSearchByTickerGet"
+									r.name = MarketSearchByTickerGetOperation
 									r.summary = "Получение инструмента по тикеру"
 									r.operationID = ""
+									r.operationGroup = ""
 									r.pathPattern = "/market/search/by-ticker"
 									r.args = args
 									r.count = 0
@@ -958,12 +1104,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								}
 							}
 
-							elem = origElem
 						}
 
-						elem = origElem
 					case 't': // Prefix: "tocks"
-						origElem := elem
+
 						if l := len("tocks"); len(elem) >= l && elem[0:l] == "tocks" {
 							elem = elem[l:]
 						} else {
@@ -974,9 +1118,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "GET":
-								r.name = "MarketStocksGet"
+								r.name = MarketStocksGetOperation
 								r.summary = "Получение списка акций"
 								r.operationID = ""
+								r.operationGroup = ""
 								r.pathPattern = "/market/stocks"
 								r.args = args
 								r.count = 0
@@ -986,15 +1131,12 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "o"
-				origElem := elem
+
 				if l := len("o"); len(elem) >= l && elem[0:l] == "o" {
 					elem = elem[l:]
 				} else {
@@ -1006,7 +1148,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'p': // Prefix: "perations"
-					origElem := elem
+
 					if l := len("perations"); len(elem) >= l && elem[0:l] == "perations" {
 						elem = elem[l:]
 					} else {
@@ -1017,9 +1159,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "OperationsGet"
+							r.name = OperationsGetOperation
 							r.summary = "Получение списка операций"
 							r.operationID = ""
+							r.operationGroup = ""
 							r.pathPattern = "/operations"
 							r.args = args
 							r.count = 0
@@ -1029,9 +1172,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'r': // Prefix: "rders"
-					origElem := elem
+
 					if l := len("rders"); len(elem) >= l && elem[0:l] == "rders" {
 						elem = elem[l:]
 					} else {
@@ -1041,9 +1183,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					if len(elem) == 0 {
 						switch method {
 						case "GET":
-							r.name = "OrdersGet"
+							r.name = OrdersGetOperation
 							r.summary = "Получение списка активных заявок"
 							r.operationID = ""
+							r.operationGroup = ""
 							r.pathPattern = "/orders"
 							r.args = args
 							r.count = 0
@@ -1054,7 +1197,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 					switch elem[0] {
 					case '/': // Prefix: "/"
-						origElem := elem
+
 						if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 							elem = elem[l:]
 						} else {
@@ -1066,7 +1209,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 						switch elem[0] {
 						case 'c': // Prefix: "cancel"
-							origElem := elem
+
 							if l := len("cancel"); len(elem) >= l && elem[0:l] == "cancel" {
 								elem = elem[l:]
 							} else {
@@ -1077,9 +1220,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								// Leaf node.
 								switch method {
 								case "POST":
-									r.name = "OrdersCancelPost"
+									r.name = OrdersCancelPostOperation
 									r.summary = "Отмена заявки"
 									r.operationID = ""
+									r.operationGroup = ""
 									r.pathPattern = "/orders/cancel"
 									r.args = args
 									r.count = 0
@@ -1089,9 +1233,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								}
 							}
 
-							elem = origElem
 						case 'l': // Prefix: "limit-order"
-							origElem := elem
+
 							if l := len("limit-order"); len(elem) >= l && elem[0:l] == "limit-order" {
 								elem = elem[l:]
 							} else {
@@ -1102,9 +1245,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								// Leaf node.
 								switch method {
 								case "POST":
-									r.name = "OrdersLimitOrderPost"
+									r.name = OrdersLimitOrderPostOperation
 									r.summary = "Создание лимитной заявки"
 									r.operationID = ""
+									r.operationGroup = ""
 									r.pathPattern = "/orders/limit-order"
 									r.args = args
 									r.count = 0
@@ -1114,9 +1258,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								}
 							}
 
-							elem = origElem
 						case 'm': // Prefix: "market-order"
-							origElem := elem
+
 							if l := len("market-order"); len(elem) >= l && elem[0:l] == "market-order" {
 								elem = elem[l:]
 							} else {
@@ -1127,9 +1270,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								// Leaf node.
 								switch method {
 								case "POST":
-									r.name = "OrdersMarketOrderPost"
+									r.name = OrdersMarketOrderPostOperation
 									r.summary = "Создание рыночной заявки"
 									r.operationID = ""
+									r.operationGroup = ""
 									r.pathPattern = "/orders/market-order"
 									r.args = args
 									r.count = 0
@@ -1139,18 +1283,14 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								}
 							}
 
-							elem = origElem
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'p': // Prefix: "portfolio"
-				origElem := elem
+
 				if l := len("portfolio"); len(elem) >= l && elem[0:l] == "portfolio" {
 					elem = elem[l:]
 				} else {
@@ -1160,9 +1300,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				if len(elem) == 0 {
 					switch method {
 					case "GET":
-						r.name = "PortfolioGet"
+						r.name = PortfolioGetOperation
 						r.summary = "Получение портфеля клиента"
 						r.operationID = ""
+						r.operationGroup = ""
 						r.pathPattern = "/portfolio"
 						r.args = args
 						r.count = 0
@@ -1173,7 +1314,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case '/': // Prefix: "/currencies"
-					origElem := elem
+
 					if l := len("/currencies"); len(elem) >= l && elem[0:l] == "/currencies" {
 						elem = elem[l:]
 					} else {
@@ -1184,9 +1325,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "PortfolioCurrenciesGet"
+							r.name = PortfolioCurrenciesGetOperation
 							r.summary = "Получение валютных активов клиента"
 							r.operationID = ""
+							r.operationGroup = ""
 							r.pathPattern = "/portfolio/currencies"
 							r.args = args
 							r.count = 0
@@ -1196,12 +1338,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 's': // Prefix: "sandbox/"
-				origElem := elem
+
 				if l := len("sandbox/"); len(elem) >= l && elem[0:l] == "sandbox/" {
 					elem = elem[l:]
 				} else {
@@ -1213,7 +1353,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'c': // Prefix: "c"
-					origElem := elem
+
 					if l := len("c"); len(elem) >= l && elem[0:l] == "c" {
 						elem = elem[l:]
 					} else {
@@ -1225,7 +1365,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 					switch elem[0] {
 					case 'l': // Prefix: "lear"
-						origElem := elem
+
 						if l := len("lear"); len(elem) >= l && elem[0:l] == "lear" {
 							elem = elem[l:]
 						} else {
@@ -1236,9 +1376,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "POST":
-								r.name = "SandboxClearPost"
+								r.name = SandboxClearPostOperation
 								r.summary = "Удаление всех позиций"
 								r.operationID = ""
+								r.operationGroup = ""
 								r.pathPattern = "/sandbox/clear"
 								r.args = args
 								r.count = 0
@@ -1248,9 +1389,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					case 'u': // Prefix: "urrencies/balance"
-						origElem := elem
+
 						if l := len("urrencies/balance"); len(elem) >= l && elem[0:l] == "urrencies/balance" {
 							elem = elem[l:]
 						} else {
@@ -1261,9 +1401,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "POST":
-								r.name = "SandboxCurrenciesBalancePost"
+								r.name = SandboxCurrenciesBalancePostOperation
 								r.summary = "Выставление баланса по валютным позициям"
 								r.operationID = ""
+								r.operationGroup = ""
 								r.pathPattern = "/sandbox/currencies/balance"
 								r.args = args
 								r.count = 0
@@ -1273,12 +1414,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				case 'p': // Prefix: "positions/balance"
-					origElem := elem
+
 					if l := len("positions/balance"); len(elem) >= l && elem[0:l] == "positions/balance" {
 						elem = elem[l:]
 					} else {
@@ -1289,9 +1428,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "POST":
-							r.name = "SandboxPositionsBalancePost"
+							r.name = SandboxPositionsBalancePostOperation
 							r.summary = "Выставление баланса по инструментным позициям"
 							r.operationID = ""
+							r.operationGroup = ""
 							r.pathPattern = "/sandbox/positions/balance"
 							r.args = args
 							r.count = 0
@@ -1301,9 +1441,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'r': // Prefix: "re"
-					origElem := elem
+
 					if l := len("re"); len(elem) >= l && elem[0:l] == "re" {
 						elem = elem[l:]
 					} else {
@@ -1315,7 +1454,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 					switch elem[0] {
 					case 'g': // Prefix: "gister"
-						origElem := elem
+
 						if l := len("gister"); len(elem) >= l && elem[0:l] == "gister" {
 							elem = elem[l:]
 						} else {
@@ -1326,9 +1465,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "POST":
-								r.name = "SandboxRegisterPost"
+								r.name = SandboxRegisterPostOperation
 								r.summary = "Регистрация клиента в sandbox"
 								r.operationID = ""
+								r.operationGroup = ""
 								r.pathPattern = "/sandbox/register"
 								r.args = args
 								r.count = 0
@@ -1338,9 +1478,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					case 'm': // Prefix: "move"
-						origElem := elem
+
 						if l := len("move"); len(elem) >= l && elem[0:l] == "move" {
 							elem = elem[l:]
 						} else {
@@ -1351,9 +1490,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "POST":
-								r.name = "SandboxRemovePost"
+								r.name = SandboxRemovePostOperation
 								r.summary = "Удаление счета"
 								r.operationID = ""
+								r.operationGroup = ""
 								r.pathPattern = "/sandbox/remove"
 								r.args = args
 								r.count = 0
@@ -1363,15 +1503,12 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'u': // Prefix: "user/accounts"
-				origElem := elem
+
 				if l := len("user/accounts"); len(elem) >= l && elem[0:l] == "user/accounts" {
 					elem = elem[l:]
 				} else {
@@ -1382,9 +1519,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "UserAccountsGet"
+						r.name = UserAccountsGetOperation
 						r.summary = "Получение брокерских счетов клиента"
 						r.operationID = ""
+						r.operationGroup = ""
 						r.pathPattern = "/user/accounts"
 						r.args = args
 						r.count = 0
@@ -1394,10 +1532,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	return r, false

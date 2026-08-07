@@ -11,6 +11,90 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestAllOfWithSiblingExtensionsReq_EncodeDecode(t *testing.T) {
+	var typ AllOfWithSiblingExtensionsReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 AllOfWithSiblingExtensionsReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestAllOfWithSiblingPropertiesReq_EncodeDecode(t *testing.T) {
+	var typ AllOfWithSiblingPropertiesReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 AllOfWithSiblingPropertiesReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestBar_EncodeDecode(t *testing.T) {
+	var typ Bar
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Bar
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestBazStatus_EncodeDecode(t *testing.T) {
+	var typ BazStatus
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 BazStatus
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestFoo_EncodeDecode(t *testing.T) {
+	var typ Foo
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Foo
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestFooConfig_EncodeDecode(t *testing.T) {
+	var typ FooConfig
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 FooConfig
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestGetAdminFooOK_EncodeDecode(t *testing.T) {
+	var typ GetAdminFooOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 GetAdminFooOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestLocation_EncodeDecode(t *testing.T) {
 	var typ Location
 	typ.SetFake()
@@ -21,6 +105,18 @@ func TestLocation_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 Location
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestMultiAllOfWithSiblingPropertiesReq_EncodeDecode(t *testing.T) {
+	var typ MultiAllOfWithSiblingPropertiesReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MultiAllOfWithSiblingPropertiesReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestObjectsWithConflictingArrayPropertyReq_EncodeDecode(t *testing.T) {
@@ -45,6 +141,18 @@ func TestObjectsWithConflictingPropertiesReq_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 ObjectsWithConflictingPropertiesReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReferencedAllOfNullable_EncodeDecode(t *testing.T) {
+	var typ ReferencedAllOfNullable
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReferencedAllOfNullable
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestRobot_EncodeDecode(t *testing.T) {

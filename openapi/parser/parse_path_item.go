@@ -3,10 +3,12 @@ package parser
 import (
 	"fmt"
 	"go/token"
+	"strings"
 
 	"github.com/go-faster/errors"
 
 	"github.com/ogen-go/ogen"
+	"github.com/ogen-go/ogen/internal/xmaps"
 	"github.com/ogen-go/ogen/jsonpointer"
 	"github.com/ogen-go/ogen/jsonschema"
 	"github.com/ogen-go/ogen/location"
@@ -64,6 +66,30 @@ func (p *parser) parsePathItem(
 		return nil, errors.Wrap(err, xOgenOperationGroup)
 	}
 
+	if len(item.AdditionalOperations) > 0 {
+		if err := p.requireMinorVersion("additional operations", 2); err != nil {
+			err := p.wrapField("additionalOperations", p.file(ctx), locator, err)
+			return nil, err
+		}
+		// Validate that additionalOperations don't contain any
+		// any entry for the methods that can be defined by other fixed fields.
+		for method := range item.AdditionalOperations {
+			switch strings.ToLower(method) {
+			case "get", "put", "post", "delete", "options", "head", "patch", "trace", "query":
+				err := errors.Errorf("entry for method %q is not allowed", method)
+				return nil, p.wrapField("additionalOperations", p.file(ctx), locator, err)
+			default:
+				continue
+			}
+		}
+	}
+	if item.Query != nil {
+		if err := p.requireMinorVersion("query method", 2); err != nil {
+			err := p.wrapField("query", p.file(ctx), locator, err)
+			return nil, err
+		}
+	}
+
 	var ops []*openapi.Operation
 	if err := forEachOps(item, func(method string, op ogen.Operation) error {
 		locator := op.Common.Locator
@@ -113,6 +139,7 @@ func (p *parser) parseOp(
 	}()
 
 	op := &openapi.Operation{
+		Tags:                spec.Tags,
 		OperationID:         spec.OperationID,
 		Summary:             spec.Summary,
 		Description:         spec.Description,
@@ -209,6 +236,15 @@ func forEachOps(item *ogen.PathItem, f func(method string, op ogen.Operation) er
 	handle("head", item.Head)
 	handle("patch", item.Patch)
 	handle("trace", item.Trace)
+	handle("query", item.Query)
+
+	if len(item.AdditionalOperations) > 0 {
+		methods := xmaps.SortedKeys(item.AdditionalOperations)
+		for _, method := range methods {
+			handle(method, item.AdditionalOperations[method])
+		}
+	}
+
 	return err
 }
 

@@ -37,11 +37,21 @@ func testGenerate(t *testing.T, dir, filename string, data []byte, aliases ctAli
 			NotImplementedHook: func(name string, err error) {
 				notImplemented[name] = struct{}{}
 			},
-			ContentTypeAliases: aliases,
+			ContentTypeAliases:         aliases,
+			WildcardContentTypeDefault: ir.EncodingJSON,
 		},
 		Logger: log,
 	}
 
+	if filename == "wikimedia.openapi.yaml" || filename == "openai-2.3.0.openapi.yaml" {
+		// TODO: remove when SSE server generation feature is implemented.
+		opt.Generator.Features = &gen.FeatureOptions{
+			Disable: gen.FeatureSet{
+				gen.PathsServer.Name:    {},
+				gen.WebhooksServer.Name: {},
+			},
+		}
+	}
 	if filename == "file_reference.yml" { // HACK
 		opt.Parser.AllowRemote = true
 		opt.Parser.RootURL = &url.URL{
@@ -132,6 +142,9 @@ func TestGenerate(t *testing.T) {
 			"content_header_response.json": {
 				"parameter content encoding",
 			},
+			"issue1710.yml": {
+				"sse server response encoding",
+			},
 		}))
 
 	t.Run("Examples", runPositive("_testdata/examples",
@@ -155,6 +168,9 @@ func TestGenerate(t *testing.T) {
 				"application/merge-patch+json":           ir.EncodingJSON,
 				"application/strategic-merge-patch+json": ir.EncodingJSON,
 			},
+			"problemjson.yml": {
+				"application/problem+json": ir.EncodingProblemJSON,
+			},
 		},
 		map[string][]string{
 			"autorest/additionalProperties.json": {},
@@ -166,20 +182,94 @@ func TestGenerate(t *testing.T) {
 				"complex anyOf",
 				"discriminator inference",
 				"sum types with same names",
-				"sum type parameter",
-				"array defaults",
+				"type-based discrimination with same jxType",
 			},
-			"manga.json":            {},
-			"telegram_bot_api.json": {},
-			"gotd_bot_api.json":     {},
-			"k8s.json": {
-				"unsupported content types",
-			},
-			"petstore-expanded.yml": {},
-			"redoc/discriminator.json": {
-				"unsupported content types",
+			"manga.json":                {},
+			"telegram_bot_api.json":     {},
+			"gotd_bot_api.json":         {},
+			"k8s.json":                  {},
+			"petstore-expanded.yml":     {},
+			"problemjson.yml":           {},
+			"openai-2.3.0.openapi.yaml": {}, // NOTE: remove condition branch on top of test.
+			"wikimedia.openapi.yaml":    {}, // NOTE: remove condition branch on top of test.
+			"redoc/discriminator.json":  {},
+			"swagger-petstore-1.0.27.yaml": {
+				"nested objects in form parameters",
 			},
 		}))
+}
+
+// TestDuplicatePathsDifferentMethods tests that the generator correctly handles
+// paths that normalize to the same structure but have different HTTP methods.
+func TestDuplicatePathsDifferentMethods(t *testing.T) {
+	log := zaptest.NewLogger(t)
+	a := require.New(t)
+
+	specYAML := `
+openapi: 3.0.3
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /pets/{petId}:
+    get:
+      operationId: getPet
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /pets/{id}:
+    post:
+      operationId: createPet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+`
+	spec, err := ogen.Parse([]byte(specYAML))
+	a.NoError(err)
+
+	opt := gen.Options{
+		Parser: gen.ParseOptions{
+			File: location.NewFile("test.yaml", "test.yaml", []byte(specYAML)),
+		},
+		Logger: log,
+	}
+
+	g, err := gen.NewGenerator(spec, opt)
+	a.NoError(err)
+
+	// Verify both operations were generated
+	ops := g.Operations()
+	a.Len(ops, 2)
+
+	var foundGet, foundPost bool
+	for _, op := range ops {
+		switch op.Spec.OperationID {
+		case "getPet":
+			foundGet = true
+			a.Equal("get", op.Spec.HTTPMethod)
+		case "createPet":
+			foundPost = true
+			a.Equal("post", op.Spec.HTTPMethod)
+		}
+	}
+	a.True(foundGet, "GET operation not found")
+	a.True(foundPost, "POST operation not found")
+
+	// Also verify that we can write the generated files without error
+	err = g.WriteSource(genfs.CheckFS{}, "api")
+	a.NoError(err)
 }
 
 func TestNegative(t *testing.T) {

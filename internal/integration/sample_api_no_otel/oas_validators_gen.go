@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/validate"
+	"github.com/shopspring/decimal"
 )
 
 func (s *ArrayTest) Validate() error {
@@ -59,13 +59,17 @@ func (s *Data) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.String{
-			MinLength:    0,
-			MinLengthSet: false,
-			MaxLength:    0,
-			MaxLengthSet: false,
-			Email:        true,
-			Hostname:     false,
-			Regex:        nil,
+			MinLength:     0,
+			MinLengthSet:  false,
+			MaxLength:     0,
+			MaxLengthSet:  false,
+			Email:         true,
+			Hostname:      false,
+			Regex:         nil,
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
 		}).Validate(string(s.Email)); err != nil {
 			return errors.Wrap(err, "string")
 		}
@@ -78,13 +82,17 @@ func (s *Data) Validate() error {
 	}
 	if err := func() error {
 		if err := (validate.String{
-			MinLength:    0,
-			MinLengthSet: false,
-			MaxLength:    0,
-			MaxLengthSet: false,
-			Email:        false,
-			Hostname:     true,
-			Regex:        nil,
+			MinLength:     0,
+			MinLengthSet:  false,
+			MaxLength:     0,
+			MaxLengthSet:  false,
+			Email:         false,
+			Hostname:      true,
+			Regex:         nil,
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
 		}).Validate(string(s.Hostname)); err != nil {
 			return errors.Wrap(err, "string")
 		}
@@ -97,13 +105,17 @@ func (s *Data) Validate() error {
 	}
 	if err := func() error {
 		if err := (validate.String{
-			MinLength:    0,
-			MinLengthSet: false,
-			MaxLength:    0,
-			MaxLengthSet: false,
-			Email:        false,
-			Hostname:     false,
-			Regex:        regexMap["^\\d-\\d$"],
+			MinLength:     0,
+			MinLengthSet:  false,
+			MaxLength:     0,
+			MaxLengthSet:  false,
+			Email:         false,
+			Hostname:      false,
+			Regex:         regexMap["^\\d-\\d$"],
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
 		}).Validate(string(s.Format)); err != nil {
 			return errors.Wrap(err, "string")
 		}
@@ -166,13 +178,17 @@ func (s *DefaultTest) Validate() error {
 		if value, ok := s.Email.Get(); ok {
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    0,
-					MinLengthSet: false,
-					MaxLength:    0,
-					MaxLengthSet: false,
-					Email:        true,
-					Hostname:     false,
-					Regex:        nil,
+					MinLength:     0,
+					MinLengthSet:  false,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         true,
+					Hostname:      false,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(value)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -192,13 +208,17 @@ func (s *DefaultTest) Validate() error {
 		if value, ok := s.Hostname.Get(); ok {
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    0,
-					MinLengthSet: false,
-					MaxLength:    0,
-					MaxLengthSet: false,
-					Email:        false,
-					Hostname:     true,
-					Regex:        nil,
+					MinLength:     0,
+					MinLengthSet:  false,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         false,
+					Hostname:      true,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(value)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -218,13 +238,17 @@ func (s *DefaultTest) Validate() error {
 		if value, ok := s.Format.Get(); ok {
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    0,
-					MinLengthSet: false,
-					MaxLength:    0,
-					MaxLengthSet: false,
-					Email:        false,
-					Hostname:     false,
-					Regex:        regexMap["^\\d-\\d$"],
+					MinLength:     0,
+					MinLengthSet:  false,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         false,
+					Hostname:      false,
+					Regex:         regexMap["^\\d-\\d$"],
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(value)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -237,6 +261,56 @@ func (s *DefaultTest) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "format",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Priorities {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "priorities",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Nested {
+			if err := func() error {
+				if elem == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "nested",
 			Error: err,
 		})
 	}
@@ -255,6 +329,234 @@ func (s DefaultTestEnum) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+
+func (s DefaultTestPrioritiesItem) Validate() error {
+	switch s {
+	case "low":
+		return nil
+	case "medium":
+		return nil
+	case "high":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *Issue1461) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.RequiredTest.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "requiredTest",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.OptionalTest.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "optionalTest",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.NullableTest.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "nullableTest",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.NullableOptionalTest.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "nullableOptionalTest",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *Issue1461NullableOptionalTest) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Banana.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				if err := (validate.Array{
+					MinLength:    2,
+					MinLengthSet: true,
+					MaxLength:    0,
+					MaxLengthSet: false,
+				}).ValidateLength(len(value)); err != nil {
+					return errors.Wrap(err, "array")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "banana",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *Issue1461NullableTest) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Banana == nil {
+			return nil // null
+		}
+		if err := (validate.Array{
+			MinLength:    2,
+			MinLengthSet: true,
+			MaxLength:    0,
+			MaxLengthSet: false,
+		}).ValidateLength(len(s.Banana)); err != nil {
+			return errors.Wrap(err, "array")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "banana",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *Issue1461OptionalTest) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Banana == nil {
+			return nil // optional
+		}
+		if err := (validate.Array{
+			MinLength:    2,
+			MinLengthSet: true,
+			MaxLength:    0,
+			MaxLengthSet: false,
+		}).ValidateLength(len(s.Banana)); err != nil {
+			return errors.Wrap(err, "array")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "banana",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *Issue1461RequiredTest) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Banana == nil {
+			return errors.New("nil is invalid value")
+		}
+		if err := (validate.Array{
+			MinLength:    2,
+			MinLengthSet: true,
+			MaxLength:    0,
+			MaxLengthSet: false,
+		}).ValidateLength(len(s.Banana)); err != nil {
+			return errors.Wrap(err, "array")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "banana",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *MapWithProperties) Validate() error {
@@ -544,6 +846,7 @@ func (s *Pet) Validate() error {
 			MaxExclusive:  false,
 			MultipleOfSet: false,
 			MultipleOf:    0,
+			Pattern:       nil,
 		}).Validate(int64(s.ID)); err != nil {
 			return errors.Wrap(err, "int")
 		}
@@ -556,13 +859,17 @@ func (s *Pet) Validate() error {
 	}
 	if err := func() error {
 		if err := (validate.String{
-			MinLength:    4,
-			MinLengthSet: true,
-			MaxLength:    24,
-			MaxLengthSet: true,
-			Email:        false,
-			Hostname:     false,
-			Regex:        nil,
+			MinLength:     4,
+			MinLengthSet:  true,
+			MaxLength:     24,
+			MaxLengthSet:  true,
+			Email:         false,
+			Hostname:      false,
+			Regex:         nil,
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
 		}).Validate(string(s.Name)); err != nil {
 			return errors.Wrap(err, "string")
 		}
@@ -603,6 +910,9 @@ func (s *Pet) Validate() error {
 		})
 	}
 	if err := func() error {
+		if s.Friends == nil {
+			return nil // optional
+		}
 		if err := (validate.Array{
 			MinLength:    0,
 			MinLengthSet: false,
@@ -665,6 +975,7 @@ func (s *Pet) Validate() error {
 					MaxExclusive:  false,
 					MultipleOfSet: true,
 					MultipleOf:    10,
+					Pattern:       nil,
 				}).Validate(int64(value)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -692,6 +1003,7 @@ func (s *Pet) Validate() error {
 					MaxExclusive:  false,
 					MultipleOfSet: true,
 					MultipleOf:    ratMap["10"],
+					Pattern:       nil,
 				}).Validate(float64(value)); err != nil {
 					return errors.Wrap(err, "float")
 				}
@@ -726,13 +1038,17 @@ func (s *Pet) Validate() error {
 				for i, elem := range elem {
 					if err := func() error {
 						if err := (validate.String{
-							MinLength:    0,
-							MinLengthSet: false,
-							MaxLength:    255,
-							MaxLengthSet: true,
-							Email:        false,
-							Hostname:     false,
-							Regex:        nil,
+							MinLength:     0,
+							MinLengthSet:  false,
+							MaxLength:     255,
+							MaxLengthSet:  true,
+							Email:         false,
+							Hostname:      false,
+							Regex:         nil,
+							MinNumeric:    0,
+							MinNumericSet: false,
+							MaxNumeric:    0,
+							MaxNumericSet: false,
 						}).Validate(string(elem)); err != nil {
 							return errors.Wrap(err, "string")
 						}
@@ -839,13 +1155,17 @@ func (s PetKind) Validate() error {
 func (s PetName) Validate() error {
 	alias := (string)(s)
 	if err := (validate.String{
-		MinLength:    6,
-		MinLengthSet: true,
-		MaxLength:    0,
-		MaxLengthSet: false,
-		Email:        false,
-		Hostname:     false,
-		Regex:        nil,
+		MinLength:     6,
+		MinLengthSet:  true,
+		MaxLength:     0,
+		MaxLengthSet:  false,
+		Email:         false,
+		Hostname:      false,
+		Regex:         nil,
+		MinNumeric:    0,
+		MinNumericSet: false,
+		MaxNumeric:    0,
+		MaxNumericSet: false,
 	}).Validate(string(alias)); err != nil {
 		return errors.Wrap(err, "string")
 	}
@@ -893,13 +1213,17 @@ func (s StringMap) Validate() error {
 	for key, elem := range s {
 		if err := func() error {
 			if err := (validate.String{
-				MinLength:    1,
-				MinLengthSet: true,
-				MaxLength:    0,
-				MaxLengthSet: false,
-				Email:        false,
-				Hostname:     false,
-				Regex:        nil,
+				MinLength:     1,
+				MinLengthSet:  true,
+				MaxLength:     0,
+				MaxLengthSet:  false,
+				Email:         false,
+				Hostname:      false,
+				Regex:         nil,
+				MinNumeric:    0,
+				MinNumericSet: false,
+				MaxNumeric:    0,
+				MaxNumericSet: false,
 			}).Validate(string(elem)); err != nil {
 				return errors.Wrap(err, "string")
 			}
@@ -940,6 +1264,58 @@ func (s StringStringMap) Validate() error {
 	return nil
 }
 
+func (s *TestDecimalValidation) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Decimal{
+			MinSet:        true,
+			Min:           decimal.RequireFromString("1.5"),
+			MaxSet:        true,
+			Max:           decimal.RequireFromString("2"),
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    decimal.Zero,
+		}).Validate(s.Minmax); err != nil {
+			return errors.Wrap(err, "decimal")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "minmax",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Decimal{
+			MinSet:        false,
+			Min:           decimal.RequireFromString("0"),
+			MaxSet:        false,
+			Max:           decimal.RequireFromString("0"),
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: true,
+			MultipleOf:    decimal.RequireFromString("5"),
+		}).Validate(s.MultipleOf); err != nil {
+			return errors.Wrap(err, "decimal")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "multipleOf",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s *TestFloatValidation) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -956,6 +1332,7 @@ func (s *TestFloatValidation) Validate() error {
 			MaxExclusive:  false,
 			MultipleOfSet: false,
 			MultipleOf:    nil,
+			Pattern:       nil,
 		}).Validate(float64(s.Minmax)); err != nil {
 			return errors.Wrap(err, "float")
 		}
@@ -976,6 +1353,7 @@ func (s *TestFloatValidation) Validate() error {
 			MaxExclusive:  false,
 			MultipleOfSet: true,
 			MultipleOf:    ratMap["5"],
+			Pattern:       nil,
 		}).Validate(float64(s.MultipleOf)); err != nil {
 			return errors.Wrap(err, "float")
 		}
@@ -1156,13 +1534,17 @@ func (s ValidationStringMap) Validate() error {
 	for key, elem := range s {
 		if err := func() error {
 			if err := (validate.String{
-				MinLength:    1,
-				MinLengthSet: true,
-				MaxLength:    0,
-				MaxLengthSet: false,
-				Email:        false,
-				Hostname:     false,
-				Regex:        nil,
+				MinLength:     1,
+				MinLengthSet:  true,
+				MaxLength:     0,
+				MaxLengthSet:  false,
+				Email:         false,
+				Hostname:      false,
+				Regex:         nil,
+				MinNumeric:    0,
+				MinNumericSet: false,
+				MaxNumeric:    0,
+				MaxNumericSet: false,
 			}).Validate(string(elem)); err != nil {
 				return errors.Wrap(err, "string")
 			}

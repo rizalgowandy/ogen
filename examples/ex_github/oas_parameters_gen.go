@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -1773,6 +1772,220 @@ func decodeActionsCreateSelfHostedRunnerGroupForOrgParams(args [1]string, argsEs
 	return params, nil
 }
 
+// ActionsCreateWorkflowDispatchParams is parameters of actions/create-workflow-dispatch operation.
+type ActionsCreateWorkflowDispatchParams struct {
+	Owner string
+	Repo  string
+	// The ID of the workflow. You can also pass the workflow file name as a string.
+	WorkflowID WorkflowID
+}
+
+func unpackActionsCreateWorkflowDispatchParams(packed middleware.Parameters) (params ActionsCreateWorkflowDispatchParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "owner",
+			In:   "path",
+		}
+		params.Owner = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "repo",
+			In:   "path",
+		}
+		params.Repo = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "workflow_id",
+			In:   "path",
+		}
+		params.WorkflowID = packed[key].(WorkflowID)
+	}
+	return params
+}
+
+func decodeActionsCreateWorkflowDispatchParams(args [3]string, argsEscaped bool, r *http.Request) (params ActionsCreateWorkflowDispatchParams, _ error) {
+	// Decode path: owner.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "owner",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Owner = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "owner",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: repo.
+	if err := func() error {
+		param := args[1]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[1])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "repo",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Repo = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "repo",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: workflow_id.
+	if err := func() error {
+		param := args[2]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[2])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "workflow_id",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				var failures []error
+				// Try to decode as Int
+				if err := func() error {
+					var variant int
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToInt(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetInt(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "Int"))
+				}
+				// Try to decode as String
+				if err := func() error {
+					var variant string
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToString(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetString(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "String"))
+				}
+				return errors.Wrap(errors.Join(failures...), "failed to decode WorkflowID")
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "workflow_id",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
 // ActionsDeleteArtifactParams is parameters of actions/delete-artifact operation.
 type ActionsDeleteArtifactParams struct {
 	Owner string
@@ -3281,6 +3494,220 @@ func decodeActionsDisableSelectedRepositoryGithubActionsOrganizationParams(args 
 	return params, nil
 }
 
+// ActionsDisableWorkflowParams is parameters of actions/disable-workflow operation.
+type ActionsDisableWorkflowParams struct {
+	Owner string
+	Repo  string
+	// The ID of the workflow. You can also pass the workflow file name as a string.
+	WorkflowID WorkflowID
+}
+
+func unpackActionsDisableWorkflowParams(packed middleware.Parameters) (params ActionsDisableWorkflowParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "owner",
+			In:   "path",
+		}
+		params.Owner = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "repo",
+			In:   "path",
+		}
+		params.Repo = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "workflow_id",
+			In:   "path",
+		}
+		params.WorkflowID = packed[key].(WorkflowID)
+	}
+	return params
+}
+
+func decodeActionsDisableWorkflowParams(args [3]string, argsEscaped bool, r *http.Request) (params ActionsDisableWorkflowParams, _ error) {
+	// Decode path: owner.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "owner",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Owner = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "owner",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: repo.
+	if err := func() error {
+		param := args[1]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[1])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "repo",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Repo = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "repo",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: workflow_id.
+	if err := func() error {
+		param := args[2]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[2])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "workflow_id",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				var failures []error
+				// Try to decode as Int
+				if err := func() error {
+					var variant int
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToInt(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetInt(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "Int"))
+				}
+				// Try to decode as String
+				if err := func() error {
+					var variant string
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToString(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetString(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "String"))
+				}
+				return errors.Wrap(errors.Join(failures...), "failed to decode WorkflowID")
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "workflow_id",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
 // ActionsDownloadArtifactParams is parameters of actions/download-artifact operation.
 type ActionsDownloadArtifactParams struct {
 	Owner string
@@ -3961,6 +4388,220 @@ func decodeActionsEnableSelectedRepositoryGithubActionsOrganizationParams(args [
 	}(); err != nil {
 		return params, &ogenerrors.DecodeParamError{
 			Name: "repository_id",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
+// ActionsEnableWorkflowParams is parameters of actions/enable-workflow operation.
+type ActionsEnableWorkflowParams struct {
+	Owner string
+	Repo  string
+	// The ID of the workflow. You can also pass the workflow file name as a string.
+	WorkflowID WorkflowID
+}
+
+func unpackActionsEnableWorkflowParams(packed middleware.Parameters) (params ActionsEnableWorkflowParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "owner",
+			In:   "path",
+		}
+		params.Owner = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "repo",
+			In:   "path",
+		}
+		params.Repo = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "workflow_id",
+			In:   "path",
+		}
+		params.WorkflowID = packed[key].(WorkflowID)
+	}
+	return params
+}
+
+func decodeActionsEnableWorkflowParams(args [3]string, argsEscaped bool, r *http.Request) (params ActionsEnableWorkflowParams, _ error) {
+	// Decode path: owner.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "owner",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Owner = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "owner",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: repo.
+	if err := func() error {
+		param := args[1]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[1])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "repo",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Repo = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "repo",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: workflow_id.
+	if err := func() error {
+		param := args[2]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[2])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "workflow_id",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				var failures []error
+				// Try to decode as Int
+				if err := func() error {
+					var variant int
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToInt(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetInt(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "Int"))
+				}
+				// Try to decode as String
+				if err := func() error {
+					var variant string
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToString(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetString(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "String"))
+				}
+				return errors.Wrap(errors.Join(failures...), "failed to decode WorkflowID")
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "workflow_id",
 			In:   "path",
 			Err:  err,
 		}
@@ -6026,6 +6667,220 @@ func decodeActionsGetSelfHostedRunnerGroupForOrgParams(args [2]string, argsEscap
 	return params, nil
 }
 
+// ActionsGetWorkflowParams is parameters of actions/get-workflow operation.
+type ActionsGetWorkflowParams struct {
+	Owner string
+	Repo  string
+	// The ID of the workflow. You can also pass the workflow file name as a string.
+	WorkflowID WorkflowID
+}
+
+func unpackActionsGetWorkflowParams(packed middleware.Parameters) (params ActionsGetWorkflowParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "owner",
+			In:   "path",
+		}
+		params.Owner = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "repo",
+			In:   "path",
+		}
+		params.Repo = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "workflow_id",
+			In:   "path",
+		}
+		params.WorkflowID = packed[key].(WorkflowID)
+	}
+	return params
+}
+
+func decodeActionsGetWorkflowParams(args [3]string, argsEscaped bool, r *http.Request) (params ActionsGetWorkflowParams, _ error) {
+	// Decode path: owner.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "owner",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Owner = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "owner",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: repo.
+	if err := func() error {
+		param := args[1]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[1])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "repo",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Repo = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "repo",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: workflow_id.
+	if err := func() error {
+		param := args[2]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[2])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "workflow_id",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				var failures []error
+				// Try to decode as Int
+				if err := func() error {
+					var variant int
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToInt(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetInt(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "Int"))
+				}
+				// Try to decode as String
+				if err := func() error {
+					var variant string
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToString(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetString(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "String"))
+				}
+				return errors.Wrap(errors.Join(failures...), "failed to decode WorkflowID")
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "workflow_id",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
 // ActionsGetWorkflowRunParams is parameters of actions/get-workflow-run operation.
 type ActionsGetWorkflowRunParams struct {
 	Owner string
@@ -6370,14 +7225,228 @@ func decodeActionsGetWorkflowRunUsageParams(args [3]string, argsEscaped bool, r 
 	return params, nil
 }
 
+// ActionsGetWorkflowUsageParams is parameters of actions/get-workflow-usage operation.
+type ActionsGetWorkflowUsageParams struct {
+	Owner string
+	Repo  string
+	// The ID of the workflow. You can also pass the workflow file name as a string.
+	WorkflowID WorkflowID
+}
+
+func unpackActionsGetWorkflowUsageParams(packed middleware.Parameters) (params ActionsGetWorkflowUsageParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "owner",
+			In:   "path",
+		}
+		params.Owner = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "repo",
+			In:   "path",
+		}
+		params.Repo = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "workflow_id",
+			In:   "path",
+		}
+		params.WorkflowID = packed[key].(WorkflowID)
+	}
+	return params
+}
+
+func decodeActionsGetWorkflowUsageParams(args [3]string, argsEscaped bool, r *http.Request) (params ActionsGetWorkflowUsageParams, _ error) {
+	// Decode path: owner.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "owner",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Owner = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "owner",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: repo.
+	if err := func() error {
+		param := args[1]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[1])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "repo",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Repo = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "repo",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: workflow_id.
+	if err := func() error {
+		param := args[2]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[2])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "workflow_id",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				var failures []error
+				// Try to decode as Int
+				if err := func() error {
+					var variant int
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToInt(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetInt(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "Int"))
+				}
+				// Try to decode as String
+				if err := func() error {
+					var variant string
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToString(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetString(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "String"))
+				}
+				return errors.Wrap(errors.Join(failures...), "failed to decode WorkflowID")
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "workflow_id",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
 // ActionsListArtifactsForRepoParams is parameters of actions/list-artifacts-for-repo operation.
 type ActionsListArtifactsForRepoParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListArtifactsForRepoParams(packed middleware.Parameters) (params ActionsListArtifactsForRepoParams) {
@@ -6609,9 +7678,9 @@ type ActionsListEnvironmentSecretsParams struct {
 	// The name of the environment.
 	EnvironmentName string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListEnvironmentSecretsParams(packed middleware.Parameters) (params ActionsListEnvironmentSecretsParams) {
@@ -6843,14 +7912,14 @@ type ActionsListJobsForWorkflowRunParams struct {
 	Repo  string
 	// The id of the workflow run.
 	RunID int
-	// Filters jobs by their `completed_at` timestamp. Can be one of:
-	// \* `latest`: Returns jobs from the most recent execution of the workflow run.
-	// \* `all`: Returns all jobs for a workflow run, including from old executions of the workflow run.
-	Filter OptActionsListJobsForWorkflowRunFilter
+	// Filters jobs by their `completed_at` timestamp. Can be one of: \* `latest`: Returns jobs from the
+	// most recent execution of the workflow run. \* `all`: Returns all jobs for a workflow run, including
+	// from old executions of the workflow run.
+	Filter OptActionsListJobsForWorkflowRunFilter `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListJobsForWorkflowRunParams(packed middleware.Parameters) (params ActionsListJobsForWorkflowRunParams) {
@@ -7202,9 +8271,9 @@ func decodeActionsListJobsForWorkflowRunParams(args [3]string, argsEscaped bool,
 type ActionsListOrgSecretsParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListOrgSecretsParams(packed middleware.Parameters) (params ActionsListOrgSecretsParams) {
@@ -7384,9 +8453,9 @@ type ActionsListRepoAccessToSelfHostedRunnerGroupInOrgParams struct {
 	// Unique identifier of the self-hosted runner group.
 	RunnerGroupID int
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListRepoAccessToSelfHostedRunnerGroupInOrgParams(packed middleware.Parameters) (params ActionsListRepoAccessToSelfHostedRunnerGroupInOrgParams) {
@@ -7617,9 +8686,9 @@ type ActionsListRepoSecretsParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListRepoSecretsParams(packed middleware.Parameters) (params ActionsListRepoSecretsParams) {
@@ -7850,9 +8919,9 @@ type ActionsListRepoWorkflowsParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListRepoWorkflowsParams(packed middleware.Parameters) (params ActionsListRepoWorkflowsParams) {
@@ -8267,9 +9336,9 @@ type ActionsListSelectedReposForOrgSecretParams struct {
 	// Secret_name parameter.
 	SecretName string
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListSelectedReposForOrgSecretParams(packed middleware.Parameters) (params ActionsListSelectedReposForOrgSecretParams) {
@@ -8499,9 +9568,9 @@ func decodeActionsListSelectedReposForOrgSecretParams(args [2]string, argsEscape
 type ActionsListSelectedRepositoriesEnabledGithubActionsOrganizationParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListSelectedRepositoriesEnabledGithubActionsOrganizationParams(packed middleware.Parameters) (params ActionsListSelectedRepositoriesEnabledGithubActionsOrganizationParams) {
@@ -8679,9 +9748,9 @@ func decodeActionsListSelectedRepositoriesEnabledGithubActionsOrganizationParams
 type ActionsListSelfHostedRunnerGroupsForOrgParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListSelfHostedRunnerGroupsForOrgParams(packed middleware.Parameters) (params ActionsListSelfHostedRunnerGroupsForOrgParams) {
@@ -8859,9 +9928,9 @@ func decodeActionsListSelfHostedRunnerGroupsForOrgParams(args [1]string, argsEsc
 type ActionsListSelfHostedRunnersForOrgParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListSelfHostedRunnersForOrgParams(packed middleware.Parameters) (params ActionsListSelfHostedRunnersForOrgParams) {
@@ -9040,9 +10109,9 @@ type ActionsListSelfHostedRunnersForRepoParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListSelfHostedRunnersForRepoParams(packed middleware.Parameters) (params ActionsListSelfHostedRunnersForRepoParams) {
@@ -9274,9 +10343,9 @@ type ActionsListSelfHostedRunnersInGroupForOrgParams struct {
 	// Unique identifier of the self-hosted runner group.
 	RunnerGroupID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListSelfHostedRunnersInGroupForOrgParams(packed middleware.Parameters) (params ActionsListSelfHostedRunnersInGroupForOrgParams) {
@@ -9509,9 +10578,9 @@ type ActionsListWorkflowRunArtifactsParams struct {
 	// The id of the workflow run.
 	RunID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListWorkflowRunArtifactsParams(packed middleware.Parameters) (params ActionsListWorkflowRunArtifactsParams) {
@@ -9789,29 +10858,644 @@ func decodeActionsListWorkflowRunArtifactsParams(args [3]string, argsEscaped boo
 	return params, nil
 }
 
+// ActionsListWorkflowRunsParams is parameters of actions/list-workflow-runs operation.
+type ActionsListWorkflowRunsParams struct {
+	Owner string
+	Repo  string
+	// The ID of the workflow. You can also pass the workflow file name as a string.
+	WorkflowID WorkflowID
+	// Returns someone's workflow runs. Use the login for the user who created the `push` associated with
+	// the check suite or workflow run.
+	Actor OptString `json:",omitempty,omitzero"`
+	// Returns workflow runs associated with a branch. Use the name of the branch of the `push`.
+	Branch OptString `json:",omitempty,omitzero"`
+	// Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or
+	// `issue`. For more information, see "[Events that trigger workflows].".
+	//
+	// [Events that trigger workflows]: https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows
+	Event OptString `json:",omitempty,omitzero"`
+	// Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a
+	// conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of
+	// `waiting` or `requested`. For a list of the possible `status` and `conclusion` options, see
+	// "[Create a check run].".
+	//
+	// [Create a check run]: https://docs.github.com/rest/reference/checks#create-a-check-run
+	Status OptWorkflowRunStatus `json:",omitempty,omitzero"`
+	// Results per page (max 100).
+	PerPage OptInt `json:",omitempty,omitzero"`
+	// Page number of the results to fetch.
+	Page    OptInt      `json:",omitempty,omitzero"`
+	Created OptDateTime `json:",omitempty,omitzero"`
+}
+
+func unpackActionsListWorkflowRunsParams(packed middleware.Parameters) (params ActionsListWorkflowRunsParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "owner",
+			In:   "path",
+		}
+		params.Owner = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "repo",
+			In:   "path",
+		}
+		params.Repo = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "workflow_id",
+			In:   "path",
+		}
+		params.WorkflowID = packed[key].(WorkflowID)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "actor",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Actor = v.(OptString)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "branch",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Branch = v.(OptString)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "event",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Event = v.(OptString)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "status",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Status = v.(OptWorkflowRunStatus)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "per_page",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.PerPage = v.(OptInt)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "page",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Page = v.(OptInt)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "created",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Created = v.(OptDateTime)
+		}
+	}
+	return params
+}
+
+func decodeActionsListWorkflowRunsParams(args [3]string, argsEscaped bool, r *http.Request) (params ActionsListWorkflowRunsParams, _ error) {
+	q := uri.NewQueryDecoder(r.URL.Query())
+	// Decode path: owner.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "owner",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Owner = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "owner",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: repo.
+	if err := func() error {
+		param := args[1]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[1])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "repo",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Repo = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "repo",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: workflow_id.
+	if err := func() error {
+		param := args[2]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[2])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "workflow_id",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				var failures []error
+				// Try to decode as Int
+				if err := func() error {
+					var variant int
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToInt(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetInt(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "Int"))
+				}
+				// Try to decode as String
+				if err := func() error {
+					var variant string
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToString(val)
+						if err != nil {
+							return err
+						}
+
+						variant = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.WorkflowID.SetString(variant)
+					return nil
+				}(); err == nil {
+					return nil
+				} else {
+					failures = append(failures, errors.Wrap(err, "String"))
+				}
+				return errors.Wrap(errors.Join(failures...), "failed to decode WorkflowID")
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "workflow_id",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode query: actor.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "actor",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotActorVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotActorVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Actor.SetTo(paramsDotActorVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "actor",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: branch.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "branch",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotBranchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotBranchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Branch.SetTo(paramsDotBranchVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "branch",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: event.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "event",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotEventVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotEventVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Event.SetTo(paramsDotEventVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "event",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: status.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "status",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotStatusVal WorkflowRunStatus
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotStatusVal = WorkflowRunStatus(c)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Status.SetTo(paramsDotStatusVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+			if err := func() error {
+				if value, ok := params.Status.Get(); ok {
+					if err := func() error {
+						if err := value.Validate(); err != nil {
+							return err
+						}
+						return nil
+					}(); err != nil {
+						return err
+					}
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "status",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Set default value for query: per_page.
+	{
+		val := int(30)
+		params.PerPage.SetTo(val)
+	}
+	// Decode query: per_page.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "per_page",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotPerPageVal int
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToInt(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotPerPageVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.PerPage.SetTo(paramsDotPerPageVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "per_page",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Set default value for query: page.
+	{
+		val := int(1)
+		params.Page.SetTo(val)
+	}
+	// Decode query: page.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotPageVal int
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToInt(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotPageVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Page.SetTo(paramsDotPageVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "page",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: created.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "created",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotCreatedVal time.Time
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToDateTime(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotCreatedVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Created.SetTo(paramsDotCreatedVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "created",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
 // ActionsListWorkflowRunsForRepoParams is parameters of actions/list-workflow-runs-for-repo operation.
 type ActionsListWorkflowRunsForRepoParams struct {
 	Owner string
 	Repo  string
 	// Returns someone's workflow runs. Use the login for the user who created the `push` associated with
 	// the check suite or workflow run.
-	Actor OptString
+	Actor OptString `json:",omitempty,omitzero"`
 	// Returns workflow runs associated with a branch. Use the name of the branch of the `push`.
-	Branch OptString
+	Branch OptString `json:",omitempty,omitzero"`
 	// Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or
-	// `issue`. For more information, see "[Events that trigger workflows](https://help.github.
-	// com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows).".
-	Event OptString
+	// `issue`. For more information, see "[Events that trigger workflows].".
+	//
+	// [Events that trigger workflows]: https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows
+	Event OptString `json:",omitempty,omitzero"`
 	// Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a
 	// conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of
 	// `waiting` or `requested`. For a list of the possible `status` and `conclusion` options, see
-	// "[Create a check run](https://docs.github.com/rest/reference/checks#create-a-check-run).".
-	Status OptWorkflowRunStatus
+	// "[Create a check run].".
+	//
+	// [Create a check run]: https://docs.github.com/rest/reference/checks#create-a-check-run
+	Status OptWorkflowRunStatus `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page    OptInt
-	Created OptDateTime
+	Page    OptInt      `json:",omitempty,omitzero"`
+	Created OptDateTime `json:",omitempty,omitzero"`
 }
 
 func unpackActionsListWorkflowRunsForRepoParams(packed middleware.Parameters) (params ActionsListWorkflowRunsForRepoParams) {
@@ -12798,9 +14482,9 @@ func decodeActivityGetThreadSubscriptionForAuthenticatedUserParams(args [1]strin
 type ActivityListEventsForAuthenticatedUserParams struct {
 	Username string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListEventsForAuthenticatedUserParams(packed middleware.Parameters) (params ActivityListEventsForAuthenticatedUserParams) {
@@ -12977,19 +14661,23 @@ func decodeActivityListEventsForAuthenticatedUserParams(args [1]string, argsEsca
 // ActivityListNotificationsForAuthenticatedUserParams is parameters of activity/list-notifications-for-authenticated-user operation.
 type ActivityListNotificationsForAuthenticatedUserParams struct {
 	// If `true`, show notifications marked as read.
-	All OptBool
+	All OptBool `json:",omitempty,omitzero"`
 	// If `true`, only shows notifications in which the user is directly participating or mentioned.
-	Participating OptBool
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
-	// Only show notifications updated before the given time. This is a timestamp in [ISO
-	// 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Before OptDateTime
+	Participating OptBool `json:",omitempty,omitzero"`
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
+	// Only show notifications updated before the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Before OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListNotificationsForAuthenticatedUserParams(packed middleware.Parameters) (params ActivityListNotificationsForAuthenticatedUserParams) {
@@ -13326,9 +15014,9 @@ type ActivityListOrgEventsForAuthenticatedUserParams struct {
 	Username string
 	Org      string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListOrgEventsForAuthenticatedUserParams(packed middleware.Parameters) (params ActivityListOrgEventsForAuthenticatedUserParams) {
@@ -13557,9 +15245,9 @@ func decodeActivityListOrgEventsForAuthenticatedUserParams(args [2]string, argsE
 // ActivityListPublicEventsParams is parameters of activity/list-public-events operation.
 type ActivityListPublicEventsParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListPublicEventsParams(packed middleware.Parameters) (params ActivityListPublicEventsParams) {
@@ -13686,9 +15374,9 @@ type ActivityListPublicEventsForRepoNetworkParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListPublicEventsForRepoNetworkParams(packed middleware.Parameters) (params ActivityListPublicEventsForRepoNetworkParams) {
@@ -13918,9 +15606,9 @@ func decodeActivityListPublicEventsForRepoNetworkParams(args [2]string, argsEsca
 type ActivityListPublicEventsForUserParams struct {
 	Username string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListPublicEventsForUserParams(packed middleware.Parameters) (params ActivityListPublicEventsForUserParams) {
@@ -14098,9 +15786,9 @@ func decodeActivityListPublicEventsForUserParams(args [1]string, argsEscaped boo
 type ActivityListPublicOrgEventsParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListPublicOrgEventsParams(packed middleware.Parameters) (params ActivityListPublicOrgEventsParams) {
@@ -14278,9 +15966,9 @@ func decodeActivityListPublicOrgEventsParams(args [1]string, argsEscaped bool, r
 type ActivityListReceivedEventsForUserParams struct {
 	Username string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListReceivedEventsForUserParams(packed middleware.Parameters) (params ActivityListReceivedEventsForUserParams) {
@@ -14458,9 +16146,9 @@ func decodeActivityListReceivedEventsForUserParams(args [1]string, argsEscaped b
 type ActivityListReceivedPublicEventsForUserParams struct {
 	Username string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListReceivedPublicEventsForUserParams(packed middleware.Parameters) (params ActivityListReceivedPublicEventsForUserParams) {
@@ -14639,9 +16327,9 @@ type ActivityListRepoEventsParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListRepoEventsParams(packed middleware.Parameters) (params ActivityListRepoEventsParams) {
@@ -14872,19 +16560,23 @@ type ActivityListRepoNotificationsForAuthenticatedUserParams struct {
 	Owner string
 	Repo  string
 	// If `true`, show notifications marked as read.
-	All OptBool
+	All OptBool `json:",omitempty,omitzero"`
 	// If `true`, only shows notifications in which the user is directly participating or mentioned.
-	Participating OptBool
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
-	// Only show notifications updated before the given time. This is a timestamp in [ISO
-	// 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Before OptDateTime
+	Participating OptBool `json:",omitempty,omitzero"`
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
+	// Only show notifications updated before the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Before OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListRepoNotificationsForAuthenticatedUserParams(packed middleware.Parameters) (params ActivityListRepoNotificationsForAuthenticatedUserParams) {
@@ -15323,13 +17015,13 @@ func decodeActivityListRepoNotificationsForAuthenticatedUserParams(args [2]strin
 // ActivityListReposStarredByAuthenticatedUserParams is parameters of activity/list-repos-starred-by-authenticated-user operation.
 type ActivityListReposStarredByAuthenticatedUserParams struct {
 	// One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
-	Sort OptSort
+	Sort OptSort `json:",omitempty,omitzero"`
 	// One of `asc` (ascending) or `desc` (descending).
-	Direction OptDirection
+	Direction OptDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListReposStarredByAuthenticatedUserParams(packed middleware.Parameters) (params ActivityListReposStarredByAuthenticatedUserParams) {
@@ -15595,9 +17287,9 @@ func decodeActivityListReposStarredByAuthenticatedUserParams(args [0]string, arg
 type ActivityListReposWatchedByUserParams struct {
 	Username string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListReposWatchedByUserParams(packed middleware.Parameters) (params ActivityListReposWatchedByUserParams) {
@@ -15774,9 +17466,9 @@ func decodeActivityListReposWatchedByUserParams(args [1]string, argsEscaped bool
 // ActivityListWatchedReposForAuthenticatedUserParams is parameters of activity/list-watched-repos-for-authenticated-user operation.
 type ActivityListWatchedReposForAuthenticatedUserParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListWatchedReposForAuthenticatedUserParams(packed middleware.Parameters) (params ActivityListWatchedReposForAuthenticatedUserParams) {
@@ -15903,9 +17595,9 @@ type ActivityListWatchersForRepoParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackActivityListWatchersForRepoParams(packed middleware.Parameters) (params ActivityListWatchersForRepoParams) {
@@ -16922,11 +18614,11 @@ func decodeAppsCheckTokenParams(args [1]string, argsEscaped bool, r *http.Reques
 
 // AppsCreateContentAttachmentParams is parameters of apps/create-content-attachment operation.
 type AppsCreateContentAttachmentParams struct {
-	// The owner of the repository. Determined from the `repository` `full_name` of the
-	// `content_reference` event.
+	// The owner of the repository. Determined from the `repository` `full_name` of the `content_reference`
+	// event.
 	Owner string
-	// The name of the repository. Determined from the `repository` `full_name` of the
-	// `content_reference` event.
+	// The name of the repository. Determined from the `repository` `full_name` of the `content_reference`
+	// event.
 	Repo string
 	// The `id` of the `content_reference` event.
 	ContentReferenceID int
@@ -17692,14 +19384,14 @@ type AppsListAccountsForPlanParams struct {
 	// Plan_id parameter.
 	PlanID int
 	// One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
-	Sort OptSort
+	Sort OptSort `json:",omitempty,omitzero"`
 	// To return the oldest accounts first, set to `asc`. Can be one of `asc` or `desc`. Ignored without
 	// the `sort` parameter.
-	Direction OptAppsListAccountsForPlanDirection
+	Direction OptAppsListAccountsForPlanDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAppsListAccountsForPlanParams(packed middleware.Parameters) (params AppsListAccountsForPlanParams) {
@@ -18013,14 +19705,14 @@ type AppsListAccountsForPlanStubbedParams struct {
 	// Plan_id parameter.
 	PlanID int
 	// One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
-	Sort OptSort
+	Sort OptSort `json:",omitempty,omitzero"`
 	// To return the oldest accounts first, set to `asc`. Can be one of `asc` or `desc`. Ignored without
 	// the `sort` parameter.
-	Direction OptAppsListAccountsForPlanStubbedDirection
+	Direction OptAppsListAccountsForPlanStubbedDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAppsListAccountsForPlanStubbedParams(packed middleware.Parameters) (params AppsListAccountsForPlanStubbedParams) {
@@ -18334,9 +20026,9 @@ type AppsListInstallationReposForAuthenticatedUserParams struct {
 	// Installation_id parameter.
 	InstallationID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAppsListInstallationReposForAuthenticatedUserParams(packed middleware.Parameters) (params AppsListInstallationReposForAuthenticatedUserParams) {
@@ -18513,9 +20205,9 @@ func decodeAppsListInstallationReposForAuthenticatedUserParams(args [1]string, a
 // AppsListPlansParams is parameters of apps/list-plans operation.
 type AppsListPlansParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAppsListPlansParams(packed middleware.Parameters) (params AppsListPlansParams) {
@@ -18640,9 +20332,9 @@ func decodeAppsListPlansParams(args [0]string, argsEscaped bool, r *http.Request
 // AppsListPlansStubbedParams is parameters of apps/list-plans-stubbed operation.
 type AppsListPlansStubbedParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAppsListPlansStubbedParams(packed middleware.Parameters) (params AppsListPlansStubbedParams) {
@@ -18767,9 +20459,9 @@ func decodeAppsListPlansStubbedParams(args [0]string, argsEscaped bool, r *http.
 // AppsListReposAccessibleToInstallationParams is parameters of apps/list-repos-accessible-to-installation operation.
 type AppsListReposAccessibleToInstallationParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAppsListReposAccessibleToInstallationParams(packed middleware.Parameters) (params AppsListReposAccessibleToInstallationParams) {
@@ -18894,9 +20586,9 @@ func decodeAppsListReposAccessibleToInstallationParams(args [0]string, argsEscap
 // AppsListSubscriptionsForAuthenticatedUserParams is parameters of apps/list-subscriptions-for-authenticated-user operation.
 type AppsListSubscriptionsForAuthenticatedUserParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAppsListSubscriptionsForAuthenticatedUserParams(packed middleware.Parameters) (params AppsListSubscriptionsForAuthenticatedUserParams) {
@@ -19021,9 +20713,9 @@ func decodeAppsListSubscriptionsForAuthenticatedUserParams(args [0]string, argsE
 // AppsListSubscriptionsForAuthenticatedUserStubbedParams is parameters of apps/list-subscriptions-for-authenticated-user-stubbed operation.
 type AppsListSubscriptionsForAuthenticatedUserStubbedParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackAppsListSubscriptionsForAuthenticatedUserStubbedParams(packed middleware.Parameters) (params AppsListSubscriptionsForAuthenticatedUserStubbedParams) {
@@ -19148,10 +20840,10 @@ func decodeAppsListSubscriptionsForAuthenticatedUserStubbedParams(args [0]string
 // AppsListWebhookDeliveriesParams is parameters of apps/list-webhook-deliveries operation.
 type AppsListWebhookDeliveriesParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to
 	// the `link` header for the next and previous page cursors.
-	Cursor OptString
+	Cursor OptString `json:",omitempty,omitzero"`
 }
 
 func unpackAppsListWebhookDeliveriesParams(packed middleware.Parameters) (params AppsListWebhookDeliveriesParams) {
@@ -20304,6 +21996,124 @@ func decodeBillingGetSharedStorageBillingUserParams(args [1]string, argsEscaped 
 	return params, nil
 }
 
+// ChecksCreateParams is parameters of checks/create operation.
+type ChecksCreateParams struct {
+	Owner string
+	Repo  string
+}
+
+func unpackChecksCreateParams(packed middleware.Parameters) (params ChecksCreateParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "owner",
+			In:   "path",
+		}
+		params.Owner = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "repo",
+			In:   "path",
+		}
+		params.Repo = packed[key].(string)
+	}
+	return params
+}
+
+func decodeChecksCreateParams(args [2]string, argsEscaped bool, r *http.Request) (params ChecksCreateParams, _ error) {
+	// Decode path: owner.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "owner",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Owner = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "owner",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: repo.
+	if err := func() error {
+		param := args[1]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[1])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "repo",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Repo = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "repo",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
 // ChecksCreateSuiteParams is parameters of checks/create-suite operation.
 type ChecksCreateSuiteParams struct {
 	Owner string
@@ -20773,9 +22583,9 @@ type ChecksListAnnotationsParams struct {
 	// Check_run_id parameter.
 	CheckRunID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackChecksListAnnotationsParams(packed middleware.Parameters) (params ChecksListAnnotationsParams) {
@@ -21060,18 +22870,18 @@ type ChecksListForRefParams struct {
 	// Ref parameter.
 	Ref string
 	// Returns check runs with the specified `name`.
-	CheckName OptString
+	CheckName OptString `json:",omitempty,omitzero"`
 	// Returns check runs with the specified `status`. Can be one of `queued`, `in_progress`, or
 	// `completed`.
-	Status OptStatusParameter
+	Status OptStatusParameter `json:",omitempty,omitzero"`
 	// Filters check runs by their `completed_at` timestamp. Can be one of `latest` (returning the most
 	// recent check runs) or `all`.
-	Filter OptChecksListForRefFilter
+	Filter OptChecksListForRefFilter `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page  OptInt
-	AppID OptInt
+	Page  OptInt `json:",omitempty,omitzero"`
+	AppID OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackChecksListForRefParams(packed middleware.Parameters) (params ChecksListForRefParams) {
@@ -21591,17 +23401,17 @@ type ChecksListForSuiteParams struct {
 	// Check_suite_id parameter.
 	CheckSuiteID int
 	// Returns check runs with the specified `name`.
-	CheckName OptString
+	CheckName OptString `json:",omitempty,omitzero"`
 	// Returns check runs with the specified `status`. Can be one of `queued`, `in_progress`, or
 	// `completed`.
-	Status OptStatusParameter
+	Status OptStatusParameter `json:",omitempty,omitzero"`
 	// Filters check runs by their `completed_at` timestamp. Can be one of `latest` (returning the most
 	// recent check runs) or `all`.
-	Filter OptChecksListForSuiteFilter
+	Filter OptChecksListForSuiteFilter `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackChecksListForSuiteParams(packed middleware.Parameters) (params ChecksListForSuiteParams) {
@@ -22071,13 +23881,13 @@ type ChecksListSuitesForRefParams struct {
 	// Ref parameter.
 	Ref string
 	// Filters check suites by GitHub App `id`.
-	AppID OptInt
+	AppID OptInt `json:",omitempty,omitzero"`
 	// Returns check runs with the specified `name`.
-	CheckName OptString
+	CheckName OptString `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackChecksListSuitesForRefParams(packed middleware.Parameters) (params ChecksListSuitesForRefParams) {
@@ -22754,9 +24564,9 @@ type CodeScanningDeleteAnalysisParams struct {
 	AnalysisID int
 	// Allow deletion if the specified analysis is the last in a set. If you attempt to delete the final
 	// analysis in a set without setting this parameter to `true`, you'll get a 400 response with the
-	// message: `Analysis is last of its type and deletion may result in the loss of historical alert
-	// data. Please specify confirm_delete.`.
-	ConfirmDelete OptNilString
+	// message:
+	// `Analysis is last of its type and deletion may result in the loss of historical alert data. Please specify confirm_delete.`.
+	ConfirmDelete OptNilString `json:",omitempty,omitzero"`
 }
 
 func unpackCodeScanningDeleteAnalysisParams(packed middleware.Parameters) (params CodeScanningDeleteAnalysisParams) {
@@ -22979,8 +24789,8 @@ type CodeScanningGetAlertParams struct {
 	Owner string
 	Repo  string
 	// The number that identifies an alert. You can find this at the end of the URL for a code scanning
-	// alert within GitHub, and in the `number` field in the response from the `GET
-	// /repos/{owner}/{repo}/code-scanning/alerts` operation.
+	// alert within GitHub, and in the `number` field in the response from the
+	// `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.
 	AlertNumber AlertNumber
 }
 
@@ -23505,17 +25315,17 @@ type CodeScanningListAlertInstancesParams struct {
 	Owner string
 	Repo  string
 	// The number that identifies an alert. You can find this at the end of the URL for a code scanning
-	// alert within GitHub, and in the `number` field in the response from the `GET
-	// /repos/{owner}/{repo}/code-scanning/alerts` operation.
+	// alert within GitHub, and in the `number` field in the response from the
+	// `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.
 	AlertNumber AlertNumber
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// The Git reference for the results you want to list. The `ref` for a branch can be formatted either
 	// as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use
 	// `refs/pull/<number>/merge`.
-	Ref OptCodeScanningRef
+	Ref OptCodeScanningRef `json:",omitempty,omitzero"`
 }
 
 func unpackCodeScanningListAlertInstancesParams(packed middleware.Parameters) (params CodeScanningListAlertInstancesParams) {
@@ -23861,23 +25671,23 @@ func decodeCodeScanningListAlertInstancesParams(args [3]string, argsEscaped bool
 type CodeScanningListAlertsForRepoParams struct {
 	Owner string
 	Repo  string
-	// The name of a code scanning tool. Only results by this tool will be listed. You can specify the
-	// tool by using either `tool_name` or `tool_guid`, but not both.
-	ToolName OptCodeScanningAnalysisToolName
+	// The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool
+	// by using either `tool_name` or `tool_guid`, but not both.
+	ToolName OptCodeScanningAnalysisToolName `json:",omitempty,omitzero"`
 	// The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code
 	// scanning tools may not include a GUID in their analysis data. You can specify the tool by using
 	// either `tool_guid` or `tool_name`, but not both.
-	ToolGUID OptNilCodeScanningAnalysisToolGUID
+	ToolGUID OptNilCodeScanningAnalysisToolGUID `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// The Git reference for the results you want to list. The `ref` for a branch can be formatted either
 	// as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use
 	// `refs/pull/<number>/merge`.
-	Ref OptCodeScanningRef
+	Ref OptCodeScanningRef `json:",omitempty,omitzero"`
 	// Set to `open`, `fixed`, or `dismissed` to list code scanning alerts in a specific state.
-	State OptCodeScanningAlertState
+	State OptCodeScanningAlertState `json:",omitempty,omitzero"`
 }
 
 func unpackCodeScanningListAlertsForRepoParams(packed middleware.Parameters) (params CodeScanningListAlertsForRepoParams) {
@@ -24343,23 +26153,23 @@ func decodeCodeScanningListAlertsForRepoParams(args [2]string, argsEscaped bool,
 type CodeScanningListRecentAnalysesParams struct {
 	Owner string
 	Repo  string
-	// The name of a code scanning tool. Only results by this tool will be listed. You can specify the
-	// tool by using either `tool_name` or `tool_guid`, but not both.
-	ToolName OptCodeScanningAnalysisToolName
+	// The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool
+	// by using either `tool_name` or `tool_guid`, but not both.
+	ToolName OptCodeScanningAnalysisToolName `json:",omitempty,omitzero"`
 	// The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code
 	// scanning tools may not include a GUID in their analysis data. You can specify the tool by using
 	// either `tool_guid` or `tool_name`, but not both.
-	ToolGUID OptNilCodeScanningAnalysisToolGUID
+	ToolGUID OptNilCodeScanningAnalysisToolGUID `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
-	// The Git reference for the analyses you want to list. The `ref` for a branch can be formatted
-	// either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use
+	PerPage OptInt `json:",omitempty,omitzero"`
+	// The Git reference for the analyses you want to list. The `ref` for a branch can be formatted either
+	// as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use
 	// `refs/pull/<number>/merge`.
-	Ref OptCodeScanningRef
+	Ref OptCodeScanningRef `json:",omitempty,omitzero"`
 	// Filter analyses belonging to the same SARIF upload.
-	SarifID OptCodeScanningAnalysisSarifID
+	SarifID OptCodeScanningAnalysisSarifID `json:",omitempty,omitzero"`
 }
 
 func unpackCodeScanningListRecentAnalysesParams(packed middleware.Parameters) (params CodeScanningListRecentAnalysesParams) {
@@ -24818,8 +26628,8 @@ type CodeScanningUpdateAlertParams struct {
 	Owner string
 	Repo  string
 	// The number that identifies an alert. You can find this at the end of the URL for a code scanning
-	// alert within GitHub, and in the `number` field in the response from the `GET
-	// /repos/{owner}/{repo}/code-scanning/alerts` operation.
+	// alert within GitHub, and in the `number` field in the response from the
+	// `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.
 	AlertNumber AlertNumber
 }
 
@@ -26513,31 +28323,37 @@ func decodeEnterpriseAdminGetAllowedActionsEnterpriseParams(args [1]string, args
 type EnterpriseAdminGetAuditLogParams struct {
 	// The slug version of the enterprise name. You can also substitute this value with the enterprise id.
 	Enterprise string
-	// A search phrase. For more information, see [Searching the audit log](https://docs.github.
-	// com/github/setting-up-and-managing-organizations-and-teams/reviewing-the-audit-log-for-your-organization#searching-the-audit-log).
-	Phrase OptString
+	// A search phrase. For more information, see [Searching the audit log].
+	//
+	// [Searching the audit log]: https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/reviewing-the-audit-log-for-your-organization#searching-the-audit-log
+	Phrase OptString `json:",omitempty,omitzero"`
 	// The event types to include:
-	// - `web` - returns web (non-Git) events
-	// - `git` - returns Git events
-	// - `all` - returns both web and Git events
+	//
+	//  - `web` - returns web (non-Git) events
+	//  - `git` - returns Git events
+	//  - `all` - returns both web and Git events
+	//
 	// The default is `web`.
-	Include OptAuditLogInclude
-	// A cursor, as given in the [Link header](https://docs.github.
-	// com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches
-	// for events after this cursor.
-	After OptString
-	// A cursor, as given in the [Link header](https://docs.github.
-	// com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches
-	// for events before this cursor.
-	Before OptString
+	Include OptAuditLogInclude `json:",omitempty,omitzero"`
+	// A cursor, as given in the [Link header]. If specified, the query only searches for events after this
+	// cursor.
+	//
+	// [Link header]: https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header
+	After OptString `json:",omitempty,omitzero"`
+	// A cursor, as given in the [Link header]. If specified, the query only searches for events before
+	// this cursor.
+	//
+	// [Link header]: https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header
+	Before OptString `json:",omitempty,omitzero"`
 	// The order of audit log events. To list newest events first, specify `desc`. To list oldest events
 	// first, specify `asc`.
+	//
 	// The default is `desc`.
-	Order OptAuditLogOrder
+	Order OptAuditLogOrder `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackEnterpriseAdminGetAuditLogParams(packed middleware.Parameters) (params EnterpriseAdminGetAuditLogParams) {
@@ -27064,7 +28880,7 @@ type EnterpriseAdminGetProvisioningInformationForEnterpriseGroupParams struct {
 	// Identifier generated by the GitHub SCIM endpoint.
 	ScimGroupID string
 	// Attributes to exclude.
-	ExcludedAttributes OptString
+	ExcludedAttributes OptString `json:",omitempty,omitzero"`
 }
 
 func unpackEnterpriseAdminGetProvisioningInformationForEnterpriseGroupParams(packed middleware.Parameters) (params EnterpriseAdminGetProvisioningInformationForEnterpriseGroupParams) {
@@ -27597,9 +29413,9 @@ type EnterpriseAdminListOrgAccessToSelfHostedRunnerGroupInEnterpriseParams struc
 	// Unique identifier of the self-hosted runner group.
 	RunnerGroupID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackEnterpriseAdminListOrgAccessToSelfHostedRunnerGroupInEnterpriseParams(packed middleware.Parameters) (params EnterpriseAdminListOrgAccessToSelfHostedRunnerGroupInEnterpriseParams) {
@@ -27830,13 +29646,13 @@ type EnterpriseAdminListProvisionedGroupsEnterpriseParams struct {
 	// The slug version of the enterprise name. You can also substitute this value with the enterprise id.
 	Enterprise string
 	// Used for pagination: the index of the first result to return.
-	StartIndex OptInt
+	StartIndex OptInt `json:",omitempty,omitzero"`
 	// Used for pagination: the number of results to return.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// Filter results.
-	Filter OptString
+	Filter OptString `json:",omitempty,omitzero"`
 	// Attributes to exclude.
-	ExcludedAttributes OptString
+	ExcludedAttributes OptString `json:",omitempty,omitzero"`
 }
 
 func unpackEnterpriseAdminListProvisionedGroupsEnterpriseParams(packed middleware.Parameters) (params EnterpriseAdminListProvisionedGroupsEnterpriseParams) {
@@ -28105,11 +29921,11 @@ type EnterpriseAdminListProvisionedIdentitiesEnterpriseParams struct {
 	// The slug version of the enterprise name. You can also substitute this value with the enterprise id.
 	Enterprise string
 	// Used for pagination: the index of the first result to return.
-	StartIndex OptInt
+	StartIndex OptInt `json:",omitempty,omitzero"`
 	// Used for pagination: the number of results to return.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// Filter results.
-	Filter OptString
+	Filter OptString `json:",omitempty,omitzero"`
 }
 
 func unpackEnterpriseAdminListProvisionedIdentitiesEnterpriseParams(packed middleware.Parameters) (params EnterpriseAdminListProvisionedIdentitiesEnterpriseParams) {
@@ -28394,9 +30210,9 @@ type EnterpriseAdminListSelectedOrganizationsEnabledGithubActionsEnterpriseParam
 	// The slug version of the enterprise name. You can also substitute this value with the enterprise id.
 	Enterprise string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackEnterpriseAdminListSelectedOrganizationsEnabledGithubActionsEnterpriseParams(packed middleware.Parameters) (params EnterpriseAdminListSelectedOrganizationsEnabledGithubActionsEnterpriseParams) {
@@ -28575,9 +30391,9 @@ type EnterpriseAdminListSelfHostedRunnerGroupsForEnterpriseParams struct {
 	// The slug version of the enterprise name. You can also substitute this value with the enterprise id.
 	Enterprise string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackEnterpriseAdminListSelfHostedRunnerGroupsForEnterpriseParams(packed middleware.Parameters) (params EnterpriseAdminListSelfHostedRunnerGroupsForEnterpriseParams) {
@@ -28756,9 +30572,9 @@ type EnterpriseAdminListSelfHostedRunnersForEnterpriseParams struct {
 	// The slug version of the enterprise name. You can also substitute this value with the enterprise id.
 	Enterprise string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackEnterpriseAdminListSelfHostedRunnersForEnterpriseParams(packed middleware.Parameters) (params EnterpriseAdminListSelfHostedRunnersForEnterpriseParams) {
@@ -28939,9 +30755,9 @@ type EnterpriseAdminListSelfHostedRunnersInGroupForEnterpriseParams struct {
 	// Unique identifier of the self-hosted runner group.
 	RunnerGroupID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackEnterpriseAdminListSelfHostedRunnersInGroupForEnterpriseParams(packed middleware.Parameters) (params EnterpriseAdminListSelfHostedRunnersInGroupForEnterpriseParams) {
@@ -31376,13 +33192,15 @@ func decodeGistsGetRevisionParams(args [2]string, argsEscaped bool, r *http.Requ
 
 // GistsListParams is parameters of gists/list operation.
 type GistsListParams struct {
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackGistsListParams(packed middleware.Parameters) (params GistsListParams) {
@@ -31559,9 +33377,9 @@ type GistsListCommentsParams struct {
 	// Gist_id parameter.
 	GistID string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackGistsListCommentsParams(packed middleware.Parameters) (params GistsListCommentsParams) {
@@ -31740,9 +33558,9 @@ type GistsListCommitsParams struct {
 	// Gist_id parameter.
 	GistID string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackGistsListCommitsParams(packed middleware.Parameters) (params GistsListCommitsParams) {
@@ -31919,13 +33737,15 @@ func decodeGistsListCommitsParams(args [1]string, argsEscaped bool, r *http.Requ
 // GistsListForUserParams is parameters of gists/list-for-user operation.
 type GistsListForUserParams struct {
 	Username string
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackGistsListForUserParams(packed middleware.Parameters) (params GistsListForUserParams) {
@@ -32154,9 +33974,9 @@ type GistsListForksParams struct {
 	// Gist_id parameter.
 	GistID string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackGistsListForksParams(packed middleware.Parameters) (params GistsListForksParams) {
@@ -32332,13 +34152,15 @@ func decodeGistsListForksParams(args [1]string, argsEscaped bool, r *http.Reques
 
 // GistsListPublicParams is parameters of gists/list-public operation.
 type GistsListPublicParams struct {
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackGistsListPublicParams(packed middleware.Parameters) (params GistsListPublicParams) {
@@ -32512,13 +34334,15 @@ func decodeGistsListPublicParams(args [0]string, argsEscaped bool, r *http.Reque
 
 // GistsListStarredParams is parameters of gists/list-starred operation.
 type GistsListStarredParams struct {
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackGistsListStarredParams(packed middleware.Parameters) (params GistsListStarredParams) {
@@ -34395,11 +36219,11 @@ type GitGetTreeParams struct {
 	Owner   string
 	Repo    string
 	TreeSha string
-	// Setting this parameter to any value returns the objects or subtrees referenced by the tree
-	// specified in `:tree_sha`. For example, setting `recursive` to any of the following will enable
-	// returning objects or subtrees: `0`, `1`, `"true"`, and `"false"`. Omit this parameter to prevent
-	// recursively returning objects or subtrees.
-	Recursive OptString
+	// Setting this parameter to any value returns the objects or subtrees referenced by the tree specified
+	// in `:tree_sha`. For example, setting `recursive` to any of the following will enable returning
+	// objects or subtrees: `0`, `1`, `"true"`, and `"false"`. Omit this parameter to prevent recursively
+	// returning objects or subtrees.
+	Recursive OptString `json:",omitempty,omitzero"`
 }
 
 func unpackGitGetTreeParams(packed middleware.Parameters) (params GitGetTreeParams) {
@@ -34624,9 +36448,9 @@ type GitListMatchingRefsParams struct {
 	// Ref parameter.
 	Ref string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackGitListMatchingRefsParams(packed middleware.Parameters) (params GitListMatchingRefsParams) {
@@ -37751,33 +39575,32 @@ func decodeIssuesGetMilestoneParams(args [3]string, argsEscaped bool, r *http.Re
 
 // IssuesListParams is parameters of issues/list operation.
 type IssuesListParams struct {
-	// Indicates which sorts of issues to return. Can be one of:
-	// \* `assigned`: Issues assigned to you
-	// \* `created`: Issues created by you
-	// \* `mentioned`: Issues mentioning you
-	// \* `subscribed`: Issues you're subscribed to updates for
-	// \* `all` or `repos`: All issues the authenticated user can see, regardless of participation or
-	// creation.
-	Filter OptIssuesListFilter
+	// Indicates which sorts of issues to return. Can be one of: \* `assigned`: Issues assigned to you \*
+	// `created`: Issues created by you \* `mentioned`: Issues mentioning you \* `subscribed`: Issues
+	// you're subscribed to updates for \* `all` or `repos`: All issues the authenticated user can see,
+	// regardless of participation or creation.
+	Filter OptIssuesListFilter `json:",omitempty,omitzero"`
 	// Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.
-	State OptIssuesListState
+	State OptIssuesListState `json:",omitempty,omitzero"`
 	// A list of comma separated label names. Example: `bug,ui,@high`.
-	Labels OptString
+	Labels OptString `json:",omitempty,omitzero"`
 	// What to sort results by. Can be either `created`, `updated`, `comments`.
-	Sort OptIssuesListSort
+	Sort OptIssuesListSort `json:",omitempty,omitzero"`
 	// One of `asc` (ascending) or `desc` (descending).
-	Direction OptDirection
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since  OptDateTime
-	Collab OptBool
-	Orgs   OptBool
-	Owned  OptBool
-	Pulls  OptBool
+	Direction OptDirection `json:",omitempty,omitzero"`
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since  OptDateTime `json:",omitempty,omitzero"`
+	Collab OptBool     `json:",omitempty,omitzero"`
+	Orgs   OptBool     `json:",omitempty,omitzero"`
+	Owned  OptBool     `json:",omitempty,omitzero"`
+	Pulls  OptBool     `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListParams(packed middleware.Parameters) (params IssuesListParams) {
@@ -38484,9 +40307,9 @@ type IssuesListAssigneesParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListAssigneesParams(packed middleware.Parameters) (params IssuesListAssigneesParams) {
@@ -38718,13 +40541,15 @@ type IssuesListCommentsParams struct {
 	Repo  string
 	// Issue_number parameter.
 	IssueNumber int
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListCommentsParams(packed middleware.Parameters) (params IssuesListCommentsParams) {
@@ -39057,16 +40882,18 @@ type IssuesListCommentsForRepoParams struct {
 	Owner string
 	Repo  string
 	// One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
-	Sort OptSort
+	Sort OptSort `json:",omitempty,omitzero"`
 	// Either `asc` or `desc`. Ignored without the `sort` parameter.
-	Direction OptIssuesListCommentsForRepoDirection
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
+	Direction OptIssuesListCommentsForRepoDirection `json:",omitempty,omitzero"`
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListCommentsForRepoParams(packed middleware.Parameters) (params IssuesListCommentsForRepoParams) {
@@ -39482,9 +41309,9 @@ type IssuesListEventsForRepoParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListEventsForRepoParams(packed middleware.Parameters) (params IssuesListEventsForRepoParams) {
@@ -39712,29 +41539,28 @@ func decodeIssuesListEventsForRepoParams(args [2]string, argsEscaped bool, r *ht
 
 // IssuesListForAuthenticatedUserParams is parameters of issues/list-for-authenticated-user operation.
 type IssuesListForAuthenticatedUserParams struct {
-	// Indicates which sorts of issues to return. Can be one of:
-	// \* `assigned`: Issues assigned to you
-	// \* `created`: Issues created by you
-	// \* `mentioned`: Issues mentioning you
-	// \* `subscribed`: Issues you're subscribed to updates for
-	// \* `all` or `repos`: All issues the authenticated user can see, regardless of participation or
-	// creation.
-	Filter OptIssuesListForAuthenticatedUserFilter
+	// Indicates which sorts of issues to return. Can be one of: \* `assigned`: Issues assigned to you \*
+	// `created`: Issues created by you \* `mentioned`: Issues mentioning you \* `subscribed`: Issues
+	// you're subscribed to updates for \* `all` or `repos`: All issues the authenticated user can see,
+	// regardless of participation or creation.
+	Filter OptIssuesListForAuthenticatedUserFilter `json:",omitempty,omitzero"`
 	// Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.
-	State OptIssuesListForAuthenticatedUserState
+	State OptIssuesListForAuthenticatedUserState `json:",omitempty,omitzero"`
 	// A list of comma separated label names. Example: `bug,ui,@high`.
-	Labels OptString
+	Labels OptString `json:",omitempty,omitzero"`
 	// What to sort results by. Can be either `created`, `updated`, `comments`.
-	Sort OptIssuesListForAuthenticatedUserSort
+	Sort OptIssuesListForAuthenticatedUserSort `json:",omitempty,omitzero"`
 	// One of `asc` (ascending) or `desc` (descending).
-	Direction OptDirection
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
+	Direction OptDirection `json:",omitempty,omitzero"`
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListForAuthenticatedUserParams(packed middleware.Parameters) (params IssuesListForAuthenticatedUserParams) {
@@ -40239,29 +42065,28 @@ func decodeIssuesListForAuthenticatedUserParams(args [0]string, argsEscaped bool
 // IssuesListForOrgParams is parameters of issues/list-for-org operation.
 type IssuesListForOrgParams struct {
 	Org string
-	// Indicates which sorts of issues to return. Can be one of:
-	// \* `assigned`: Issues assigned to you
-	// \* `created`: Issues created by you
-	// \* `mentioned`: Issues mentioning you
-	// \* `subscribed`: Issues you're subscribed to updates for
-	// \* `all` or `repos`: All issues the authenticated user can see, regardless of participation or
-	// creation.
-	Filter OptIssuesListForOrgFilter
+	// Indicates which sorts of issues to return. Can be one of: \* `assigned`: Issues assigned to you \*
+	// `created`: Issues created by you \* `mentioned`: Issues mentioning you \* `subscribed`: Issues
+	// you're subscribed to updates for \* `all` or `repos`: All issues the authenticated user can see,
+	// regardless of participation or creation.
+	Filter OptIssuesListForOrgFilter `json:",omitempty,omitzero"`
 	// Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.
-	State OptIssuesListForOrgState
+	State OptIssuesListForOrgState `json:",omitempty,omitzero"`
 	// A list of comma separated label names. Example: `bug,ui,@high`.
-	Labels OptString
+	Labels OptString `json:",omitempty,omitzero"`
 	// What to sort results by. Can be either `created`, `updated`, `comments`.
-	Sort OptIssuesListForOrgSort
+	Sort OptIssuesListForOrgSort `json:",omitempty,omitzero"`
 	// One of `asc` (ascending) or `desc` (descending).
-	Direction OptDirection
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
+	Direction OptDirection `json:",omitempty,omitzero"`
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListForOrgParams(packed middleware.Parameters) (params IssuesListForOrgParams) {
@@ -40822,29 +42647,31 @@ type IssuesListForRepoParams struct {
 	// If an `integer` is passed, it should refer to a milestone by its `number` field. If the string `*`
 	// is passed, issues with any milestone are accepted. If the string `none` is passed, issues without
 	// milestones are returned.
-	Milestone OptString
+	Milestone OptString `json:",omitempty,omitzero"`
 	// Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.
-	State OptIssuesListForRepoState
+	State OptIssuesListForRepoState `json:",omitempty,omitzero"`
 	// Can be the name of a user. Pass in `none` for issues with no assigned user, and `*` for issues
 	// assigned to any user.
-	Assignee OptString
+	Assignee OptString `json:",omitempty,omitzero"`
 	// The user that created the issue.
-	Creator OptString
+	Creator OptString `json:",omitempty,omitzero"`
 	// A user that's mentioned in the issue.
-	Mentioned OptString
+	Mentioned OptString `json:",omitempty,omitzero"`
 	// A list of comma separated label names. Example: `bug,ui,@high`.
-	Labels OptString
+	Labels OptString `json:",omitempty,omitzero"`
 	// What to sort results by. Can be either `created`, `updated`, `comments`.
-	Sort OptIssuesListForRepoSort
+	Sort OptIssuesListForRepoSort `json:",omitempty,omitzero"`
 	// One of `asc` (ascending) or `desc` (descending).
-	Direction OptDirection
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
+	Direction OptDirection `json:",omitempty,omitzero"`
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListForRepoParams(packed middleware.Parameters) (params IssuesListForRepoParams) {
@@ -41587,9 +43414,9 @@ type IssuesListLabelsForMilestoneParams struct {
 	// Milestone_number parameter.
 	MilestoneNumber int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListLabelsForMilestoneParams(packed middleware.Parameters) (params IssuesListLabelsForMilestoneParams) {
@@ -41872,9 +43699,9 @@ type IssuesListLabelsForRepoParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListLabelsForRepoParams(packed middleware.Parameters) (params IssuesListLabelsForRepoParams) {
@@ -42107,9 +43934,9 @@ type IssuesListLabelsOnIssueParams struct {
 	// Issue_number parameter.
 	IssueNumber int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListLabelsOnIssueParams(packed middleware.Parameters) (params IssuesListLabelsOnIssueParams) {
@@ -42392,15 +44219,15 @@ type IssuesListMilestonesParams struct {
 	Owner string
 	Repo  string
 	// The state of the milestone. Either `open`, `closed`, or `all`.
-	State OptIssuesListMilestonesState
+	State OptIssuesListMilestonesState `json:",omitempty,omitzero"`
 	// What to sort results by. Either `due_on` or `completeness`.
-	Sort OptIssuesListMilestonesSort
+	Sort OptIssuesListMilestonesSort `json:",omitempty,omitzero"`
 	// The direction of the sort. Either `asc` or `desc`.
-	Direction OptIssuesListMilestonesDirection
+	Direction OptIssuesListMilestonesDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackIssuesListMilestonesParams(packed middleware.Parameters) (params IssuesListMilestonesParams) {
@@ -44503,11 +46330,11 @@ func decodeLicensesGetParams(args [1]string, argsEscaped bool, r *http.Request) 
 
 // LicensesGetAllCommonlyUsedParams is parameters of licenses/get-all-commonly-used operation.
 type LicensesGetAllCommonlyUsedParams struct {
-	Featured OptBool
+	Featured OptBool `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackLicensesGetAllCommonlyUsedParams(packed middleware.Parameters) (params LicensesGetAllCommonlyUsedParams) {
@@ -44800,7 +46627,7 @@ func decodeLicensesGetForRepoParams(args [2]string, argsEscaped bool, r *http.Re
 // MetaGetOctocatParams is parameters of meta/get-octocat operation.
 type MetaGetOctocatParams struct {
 	// The words to show in Octocat's speech bubble.
-	S OptString
+	S OptString `json:",omitempty,omitzero"`
 }
 
 func unpackMetaGetOctocatParams(packed middleware.Parameters) (params MetaGetOctocatParams) {
@@ -45355,7 +47182,7 @@ type MigrationsGetCommitAuthorsParams struct {
 	Owner string
 	Repo  string
 	// A user ID. Only return users with an ID greater than this ID.
-	Since OptInt
+	Since OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackMigrationsGetCommitAuthorsParams(packed middleware.Parameters) (params MigrationsGetCommitAuthorsParams) {
@@ -45761,7 +47588,7 @@ func decodeMigrationsGetLargeFilesParams(args [2]string, argsEscaped bool, r *ht
 type MigrationsGetStatusForAuthenticatedUserParams struct {
 	// Migration_id parameter.
 	MigrationID int
-	Exclude     []string
+	Exclude     []string `json:",omitempty"`
 }
 
 func unpackMigrationsGetStatusForAuthenticatedUserParams(packed middleware.Parameters) (params MigrationsGetStatusForAuthenticatedUserParams) {
@@ -45841,6 +47668,7 @@ func decodeMigrationsGetStatusForAuthenticatedUserParams(args [1]string, argsEsc
 
 		if err := q.HasParam(cfg); err == nil {
 			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.Exclude = nil
 				return d.DecodeArray(func(d uri.Decoder) error {
 					var paramsDotExcludeVal string
 					if err := func() error {
@@ -45883,7 +47711,7 @@ type MigrationsGetStatusForOrgParams struct {
 	// Migration_id parameter.
 	MigrationID int
 	// Exclude attributes from the API response to improve performance.
-	Exclude []MigrationsGetStatusForOrgExcludeItem
+	Exclude []MigrationsGetStatusForOrgExcludeItem `json:",omitempty"`
 }
 
 func unpackMigrationsGetStatusForOrgParams(packed middleware.Parameters) (params MigrationsGetStatusForOrgParams) {
@@ -46015,6 +47843,7 @@ func decodeMigrationsGetStatusForOrgParams(args [2]string, argsEscaped bool, r *
 
 		if err := q.HasParam(cfg); err == nil {
 			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.Exclude = nil
 				return d.DecodeArray(func(d uri.Decoder) error {
 					var paramsDotExcludeVal MigrationsGetStatusForOrgExcludeItem
 					if err := func() error {
@@ -46076,9 +47905,9 @@ func decodeMigrationsGetStatusForOrgParams(args [2]string, argsEscaped bool, r *
 // MigrationsListForAuthenticatedUserParams is parameters of migrations/list-for-authenticated-user operation.
 type MigrationsListForAuthenticatedUserParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackMigrationsListForAuthenticatedUserParams(packed middleware.Parameters) (params MigrationsListForAuthenticatedUserParams) {
@@ -46204,11 +48033,11 @@ func decodeMigrationsListForAuthenticatedUserParams(args [0]string, argsEscaped 
 type MigrationsListForOrgParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Exclude attributes from the API response to improve performance.
-	Exclude []MigrationsListForOrgExcludeItem
+	Exclude []MigrationsListForOrgExcludeItem `json:",omitempty"`
 }
 
 func unpackMigrationsListForOrgParams(packed middleware.Parameters) (params MigrationsListForOrgParams) {
@@ -46398,6 +48227,7 @@ func decodeMigrationsListForOrgParams(args [1]string, argsEscaped bool, r *http.
 
 		if err := q.HasParam(cfg); err == nil {
 			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.Exclude = nil
 				return d.DecodeArray(func(d uri.Decoder) error {
 					var paramsDotExcludeVal MigrationsListForOrgExcludeItem
 					if err := func() error {
@@ -46462,9 +48292,9 @@ type MigrationsListReposForOrgParams struct {
 	// Migration_id parameter.
 	MigrationID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackMigrationsListReposForOrgParams(packed middleware.Parameters) (params MigrationsListReposForOrgParams) {
@@ -46695,9 +48525,9 @@ type MigrationsListReposForUserParams struct {
 	// Migration_id parameter.
 	MigrationID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackMigrationsListReposForUserParams(packed middleware.Parameters) (params MigrationsListReposForUserParams) {
@@ -48206,11 +50036,11 @@ func decodeOAuthAuthorizationsGetOrCreateAuthorizationForAppAndFingerprintParams
 // OAuthAuthorizationsListAuthorizationsParams is parameters of oauth-authorizations/list-authorizations operation.
 type OAuthAuthorizationsListAuthorizationsParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// The client ID of your GitHub app.
-	ClientID OptString
+	ClientID OptString `json:",omitempty,omitzero"`
 }
 
 func unpackOAuthAuthorizationsListAuthorizationsParams(packed middleware.Parameters) (params OAuthAuthorizationsListAuthorizationsParams) {
@@ -48385,11 +50215,11 @@ func decodeOAuthAuthorizationsListAuthorizationsParams(args [0]string, argsEscap
 // OAuthAuthorizationsListGrantsParams is parameters of oauth-authorizations/list-grants operation.
 type OAuthAuthorizationsListGrantsParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// The client ID of your GitHub app.
-	ClientID OptString
+	ClientID OptString `json:",omitempty,omitzero"`
 }
 
 func unpackOAuthAuthorizationsListGrantsParams(packed middleware.Parameters) (params OAuthAuthorizationsListGrantsParams) {
@@ -49652,31 +51482,37 @@ func decodeOrgsGetParams(args [1]string, argsEscaped bool, r *http.Request) (par
 // OrgsGetAuditLogParams is parameters of orgs/get-audit-log operation.
 type OrgsGetAuditLogParams struct {
 	Org string
-	// A search phrase. For more information, see [Searching the audit log](https://docs.github.
-	// com/github/setting-up-and-managing-organizations-and-teams/reviewing-the-audit-log-for-your-organization#searching-the-audit-log).
-	Phrase OptString
+	// A search phrase. For more information, see [Searching the audit log].
+	//
+	// [Searching the audit log]: https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/reviewing-the-audit-log-for-your-organization#searching-the-audit-log
+	Phrase OptString `json:",omitempty,omitzero"`
 	// The event types to include:
-	// - `web` - returns web (non-Git) events
-	// - `git` - returns Git events
-	// - `all` - returns both web and Git events
+	//
+	//  - `web` - returns web (non-Git) events
+	//  - `git` - returns Git events
+	//  - `all` - returns both web and Git events
+	//
 	// The default is `web`.
-	Include OptAuditLogInclude
-	// A cursor, as given in the [Link header](https://docs.github.
-	// com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches
-	// for events after this cursor.
-	After OptString
-	// A cursor, as given in the [Link header](https://docs.github.
-	// com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches
-	// for events before this cursor.
-	Before OptString
+	Include OptAuditLogInclude `json:",omitempty,omitzero"`
+	// A cursor, as given in the [Link header]. If specified, the query only searches for events after this
+	// cursor.
+	//
+	// [Link header]: https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header
+	After OptString `json:",omitempty,omitzero"`
+	// A cursor, as given in the [Link header]. If specified, the query only searches for events before
+	// this cursor.
+	//
+	// [Link header]: https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header
+	Before OptString `json:",omitempty,omitzero"`
 	// The order of audit log events. To list newest events first, specify `desc`. To list oldest events
 	// first, specify `asc`.
+	//
 	// The default is `desc`.
-	Order OptAuditLogOrder
+	Order OptAuditLogOrder `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsGetAuditLogParams(packed middleware.Parameters) (params OrgsGetAuditLogParams) {
@@ -50723,9 +52559,9 @@ func decodeOrgsGetWebhookDeliveryParams(args [3]string, argsEscaped bool, r *htt
 // OrgsListParams is parameters of orgs/list operation.
 type OrgsListParams struct {
 	// An organization ID. Only return organizations with an ID greater than this ID.
-	Since OptInt
+	Since OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListParams(packed middleware.Parameters) (params OrgsListParams) {
@@ -50911,9 +52747,9 @@ func decodeOrgsListBlockedUsersParams(args [1]string, argsEscaped bool, r *http.
 type OrgsListFailedInvitationsParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListFailedInvitationsParams(packed middleware.Parameters) (params OrgsListFailedInvitationsParams) {
@@ -51090,9 +52926,9 @@ func decodeOrgsListFailedInvitationsParams(args [1]string, argsEscaped bool, r *
 // OrgsListForAuthenticatedUserParams is parameters of orgs/list-for-authenticated-user operation.
 type OrgsListForAuthenticatedUserParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListForAuthenticatedUserParams(packed middleware.Parameters) (params OrgsListForAuthenticatedUserParams) {
@@ -51218,9 +53054,9 @@ func decodeOrgsListForAuthenticatedUserParams(args [0]string, argsEscaped bool, 
 type OrgsListForUserParams struct {
 	Username string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListForUserParams(packed middleware.Parameters) (params OrgsListForUserParams) {
@@ -51400,9 +53236,9 @@ type OrgsListInvitationTeamsParams struct {
 	// Invitation_id parameter.
 	InvitationID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListInvitationTeamsParams(packed middleware.Parameters) (params OrgsListInvitationTeamsParams) {
@@ -51631,20 +53467,19 @@ func decodeOrgsListInvitationTeamsParams(args [2]string, argsEscaped bool, r *ht
 // OrgsListMembersParams is parameters of orgs/list-members operation.
 type OrgsListMembersParams struct {
 	Org string
-	// Filter members returned in the list. Can be one of:
-	// \* `2fa_disabled` - Members without [two-factor authentication](https://github.
-	// com/blog/1614-two-factor-authentication) enabled. Available for organization owners.
-	// \* `all` - All members the authenticated user can see.
-	Filter OptOrgsListMembersFilter
-	// Filter members returned by their role. Can be one of:
-	// \* `all` - All members of the organization, regardless of role.
-	// \* `admin` - Organization owners.
-	// \* `member` - Non-owner organization members.
-	Role OptOrgsListMembersRole
+	// Filter members returned in the list. Can be one of: \* `2fa_disabled` - Members without
+	// [two-factor authentication] enabled. Available for organization owners. \* `all` - All members the
+	// authenticated user can see.
+	//
+	// [two-factor authentication]: https://github.com/blog/1614-two-factor-authentication
+	Filter OptOrgsListMembersFilter `json:",omitempty,omitzero"`
+	// Filter members returned by their role. Can be one of: \* `all` - All members of the organization,
+	// regardless of role. \* `admin` - Organization owners. \* `member` - Non-owner organization members.
+	Role OptOrgsListMembersRole `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListMembersParams(packed middleware.Parameters) (params OrgsListMembersParams) {
@@ -51962,11 +53797,11 @@ func decodeOrgsListMembersParams(args [1]string, argsEscaped bool, r *http.Reque
 type OrgsListMembershipsForAuthenticatedUserParams struct {
 	// Indicates the state of the memberships to return. Can be either `active` or `pending`. If not
 	// specified, the API returns both active and pending memberships.
-	State OptOrgsListMembershipsForAuthenticatedUserState
+	State OptOrgsListMembershipsForAuthenticatedUserState `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListMembershipsForAuthenticatedUserParams(packed middleware.Parameters) (params OrgsListMembershipsForAuthenticatedUserParams) {
@@ -52156,15 +53991,15 @@ func decodeOrgsListMembershipsForAuthenticatedUserParams(args [0]string, argsEsc
 // OrgsListOutsideCollaboratorsParams is parameters of orgs/list-outside-collaborators operation.
 type OrgsListOutsideCollaboratorsParams struct {
 	Org string
-	// Filter the list of outside collaborators. Can be one of:
-	// \* `2fa_disabled`: Outside collaborators without [two-factor authentication](https://github.
-	// com/blog/1614-two-factor-authentication) enabled.
-	// \* `all`: All outside collaborators.
-	Filter OptOrgsListOutsideCollaboratorsFilter
+	// Filter the list of outside collaborators. Can be one of: \* `2fa_disabled`: Outside collaborators
+	// without [two-factor authentication] enabled. \* `all`: All outside collaborators.
+	//
+	// [two-factor authentication]: https://github.com/blog/1614-two-factor-authentication
+	Filter OptOrgsListOutsideCollaboratorsFilter `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListOutsideCollaboratorsParams(packed middleware.Parameters) (params OrgsListOutsideCollaboratorsParams) {
@@ -52412,9 +54247,9 @@ func decodeOrgsListOutsideCollaboratorsParams(args [1]string, argsEscaped bool, 
 type OrgsListPendingInvitationsParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListPendingInvitationsParams(packed middleware.Parameters) (params OrgsListPendingInvitationsParams) {
@@ -52592,9 +54427,9 @@ func decodeOrgsListPendingInvitationsParams(args [1]string, argsEscaped bool, r 
 type OrgsListPublicMembersParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListPublicMembersParams(packed middleware.Parameters) (params OrgsListPublicMembersParams) {
@@ -52838,10 +54673,10 @@ type OrgsListWebhookDeliveriesParams struct {
 	Org    string
 	HookID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to
 	// the `link` header for the next and previous page cursors.
-	Cursor OptString
+	Cursor OptString `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListWebhookDeliveriesParams(packed middleware.Parameters) (params OrgsListWebhookDeliveriesParams) {
@@ -53066,9 +54901,9 @@ func decodeOrgsListWebhookDeliveriesParams(args [2]string, argsEscaped bool, r *
 type OrgsListWebhooksParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackOrgsListWebhooksParams(packed middleware.Parameters) (params OrgsListWebhooksParams) {
@@ -54780,9 +56615,9 @@ func decodeOrgsUpdateWebhookConfigForOrgParams(args [2]string, argsEscaped bool,
 type PackagesDeletePackageForAuthenticatedUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -54912,9 +56747,9 @@ func decodePackagesDeletePackageForAuthenticatedUserParams(args [2]string, argsE
 type PackagesDeletePackageForOrgParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -55097,9 +56932,9 @@ func decodePackagesDeletePackageForOrgParams(args [3]string, argsEscaped bool, r
 type PackagesDeletePackageForUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -55282,9 +57117,9 @@ func decodePackagesDeletePackageForUserParams(args [3]string, argsEscaped bool, 
 type PackagesDeletePackageVersionForAuthenticatedUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -55468,9 +57303,9 @@ func decodePackagesDeletePackageVersionForAuthenticatedUserParams(args [3]string
 type PackagesDeletePackageVersionForOrgParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -55707,9 +57542,9 @@ func decodePackagesDeletePackageVersionForOrgParams(args [4]string, argsEscaped 
 type PackagesDeletePackageVersionForUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -55946,18 +57781,18 @@ func decodePackagesDeletePackageVersionForUserParams(args [4]string, argsEscaped
 type PackagesGetAllPackageVersionsForPackageOwnedByAuthenticatedUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// The state of the package, either active or deleted.
-	State OptPackagesGetAllPackageVersionsForPackageOwnedByAuthenticatedUserState
+	State OptPackagesGetAllPackageVersionsForPackageOwnedByAuthenticatedUserState `json:",omitempty,omitzero"`
 }
 
 func unpackPackagesGetAllPackageVersionsForPackageOwnedByAuthenticatedUserParams(packed middleware.Parameters) (params PackagesGetAllPackageVersionsForPackageOwnedByAuthenticatedUserParams) {
@@ -56265,19 +58100,19 @@ func decodePackagesGetAllPackageVersionsForPackageOwnedByAuthenticatedUserParams
 type PackagesGetAllPackageVersionsForPackageOwnedByOrgParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
 	Org         string
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// The state of the package, either active or deleted.
-	State OptPackagesGetAllPackageVersionsForPackageOwnedByOrgState
+	State OptPackagesGetAllPackageVersionsForPackageOwnedByOrgState `json:",omitempty,omitzero"`
 }
 
 func unpackPackagesGetAllPackageVersionsForPackageOwnedByOrgParams(packed middleware.Parameters) (params PackagesGetAllPackageVersionsForPackageOwnedByOrgParams) {
@@ -56637,9 +58472,9 @@ func decodePackagesGetAllPackageVersionsForPackageOwnedByOrgParams(args [3]strin
 type PackagesGetAllPackageVersionsForPackageOwnedByUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -56822,9 +58657,9 @@ func decodePackagesGetAllPackageVersionsForPackageOwnedByUserParams(args [3]stri
 type PackagesGetPackageForAuthenticatedUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -56954,9 +58789,9 @@ func decodePackagesGetPackageForAuthenticatedUserParams(args [2]string, argsEsca
 type PackagesGetPackageForOrganizationParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -57139,9 +58974,9 @@ func decodePackagesGetPackageForOrganizationParams(args [3]string, argsEscaped b
 type PackagesGetPackageForUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -57324,9 +59159,9 @@ func decodePackagesGetPackageForUserParams(args [3]string, argsEscaped bool, r *
 type PackagesGetPackageVersionForAuthenticatedUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -57510,9 +59345,9 @@ func decodePackagesGetPackageVersionForAuthenticatedUserParams(args [3]string, a
 type PackagesGetPackageVersionForOrganizationParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -57749,9 +59584,9 @@ func decodePackagesGetPackageVersionForOrganizationParams(args [4]string, argsEs
 type PackagesGetPackageVersionForUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -57988,15 +59823,15 @@ func decodePackagesGetPackageVersionForUserParams(args [4]string, argsEscaped bo
 type PackagesListPackagesForAuthenticatedUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackagesListPackagesForAuthenticatedUserPackageType
 	// The selected visibility of the packages. Can be one of `public`, `private`, or `internal`. Only
 	// `container` package_types currently support `internal` visibility properly. For other ecosystems
 	// `internal` is synonymous with `private`. This parameter is optional and only filters an existing
 	// result set.
-	Visibility OptPackageVisibilityParam
+	Visibility OptPackageVisibilityParam `json:",omitempty,omitzero"`
 }
 
 func unpackPackagesListPackagesForAuthenticatedUserParams(packed middleware.Parameters) (params PackagesListPackagesForAuthenticatedUserParams) {
@@ -58055,7 +59890,7 @@ func decodePackagesListPackagesForAuthenticatedUserParams(args [0]string, argsEs
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -58128,16 +59963,16 @@ func decodePackagesListPackagesForAuthenticatedUserParams(args [0]string, argsEs
 type PackagesListPackagesForOrganizationParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackagesListPackagesForOrganizationPackageType
 	Org         string
 	// The selected visibility of the packages. Can be one of `public`, `private`, or `internal`. Only
 	// `container` package_types currently support `internal` visibility properly. For other ecosystems
 	// `internal` is synonymous with `private`. This parameter is optional and only filters an existing
 	// result set.
-	Visibility OptPackageVisibilityParam
+	Visibility OptPackageVisibilityParam `json:",omitempty,omitzero"`
 }
 
 func unpackPackagesListPackagesForOrganizationParams(packed middleware.Parameters) (params PackagesListPackagesForOrganizationParams) {
@@ -58203,7 +60038,7 @@ func decodePackagesListPackagesForOrganizationParams(args [1]string, argsEscaped
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -58321,15 +60156,15 @@ func decodePackagesListPackagesForOrganizationParams(args [1]string, argsEscaped
 type PackagesListPackagesForUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackagesListPackagesForUserPackageType
 	// The selected visibility of the packages. Can be one of `public`, `private`, or `internal`. Only
 	// `container` package_types currently support `internal` visibility properly. For other ecosystems
 	// `internal` is synonymous with `private`. This parameter is optional and only filters an existing
 	// result set.
-	Visibility OptPackageVisibilityParam
+	Visibility OptPackageVisibilityParam `json:",omitempty,omitzero"`
 	Username   string
 }
 
@@ -58396,7 +60231,7 @@ func decodePackagesListPackagesForUserParams(args [1]string, argsEscaped bool, r
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -58514,14 +60349,14 @@ func decodePackagesListPackagesForUserParams(args [1]string, argsEscaped bool, r
 type PackagesRestorePackageForAuthenticatedUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
 	// Package token.
-	Token OptString
+	Token OptString `json:",omitempty,omitzero"`
 }
 
 func unpackPackagesRestorePackageForAuthenticatedUserParams(packed middleware.Parameters) (params PackagesRestorePackageForAuthenticatedUserParams) {
@@ -58699,15 +60534,15 @@ func decodePackagesRestorePackageForAuthenticatedUserParams(args [2]string, args
 type PackagesRestorePackageForOrgParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
 	Org         string
 	// Package token.
-	Token OptString
+	Token OptString `json:",omitempty,omitzero"`
 }
 
 func unpackPackagesRestorePackageForOrgParams(packed middleware.Parameters) (params PackagesRestorePackageForOrgParams) {
@@ -58937,15 +60772,15 @@ func decodePackagesRestorePackageForOrgParams(args [3]string, argsEscaped bool, 
 type PackagesRestorePackageForUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
 	Username    string
 	// Package token.
-	Token OptString
+	Token OptString `json:",omitempty,omitzero"`
 }
 
 func unpackPackagesRestorePackageForUserParams(packed middleware.Parameters) (params PackagesRestorePackageForUserParams) {
@@ -59175,9 +61010,9 @@ func decodePackagesRestorePackageForUserParams(args [3]string, argsEscaped bool,
 type PackagesRestorePackageVersionForAuthenticatedUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -59361,9 +61196,9 @@ func decodePackagesRestorePackageVersionForAuthenticatedUserParams(args [3]strin
 type PackagesRestorePackageVersionForOrgParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -59600,9 +61435,9 @@ func decodePackagesRestorePackageVersionForOrgParams(args [4]string, argsEscaped
 type PackagesRestorePackageVersionForUserParams struct {
 	// The type of supported package. Can be one of `npm`, `maven`, `rubygems`, `nuget`, `docker`, or
 	// `container`. Packages in GitHub's Gradle registry have the type `maven`. Docker images pushed to
-	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker`
-	// to find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if
-	// these have now been migrated to the Container registry.
+	// GitHub's Container registry (`ghcr.io`) have the type `container`. You can use the type `docker` to
+	// find images that were pushed to GitHub's Docker registry (`docker.pkg.github.com`), even if these
+	// have now been migrated to the Container registry.
 	PackageType PackageType
 	// The name of the package.
 	PackageName string
@@ -60717,13 +62552,13 @@ func decodeProjectsGetPermissionForUserParams(args [2]string, argsEscaped bool, 
 type ProjectsListCardsParams struct {
 	// Column_id parameter.
 	ColumnID int
-	// Filters the project cards that are returned by the card's state. Can be one of `all`,`archived`,
-	// or `not_archived`.
-	ArchivedState OptProjectsListCardsArchivedState
+	// Filters the project cards that are returned by the card's state. Can be one of `all`,`archived`, or
+	// `not_archived`.
+	ArchivedState OptProjectsListCardsArchivedState `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackProjectsListCardsParams(packed middleware.Parameters) (params ProjectsListCardsParams) {
@@ -60970,17 +62805,15 @@ func decodeProjectsListCardsParams(args [1]string, argsEscaped bool, r *http.Req
 // ProjectsListCollaboratorsParams is parameters of projects/list-collaborators operation.
 type ProjectsListCollaboratorsParams struct {
 	ProjectID int
-	// Filters the collaborators by their affiliation. Can be one of:
-	// \* `outside`: Outside collaborators of a project that are not a member of the project's
-	// organization.
-	// \* `direct`: Collaborators with permissions to a project, regardless of organization membership
-	// status.
-	// \* `all`: All collaborators the authenticated user can see.
-	Affiliation OptProjectsListCollaboratorsAffiliation
+	// Filters the collaborators by their affiliation. Can be one of: \* `outside`: Outside collaborators
+	// of a project that are not a member of the project's organization. \* `direct`: Collaborators with
+	// permissions to a project, regardless of organization membership status. \* `all`: All collaborators
+	// the authenticated user can see.
+	Affiliation OptProjectsListCollaboratorsAffiliation `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackProjectsListCollaboratorsParams(packed middleware.Parameters) (params ProjectsListCollaboratorsParams) {
@@ -61228,9 +63061,9 @@ func decodeProjectsListCollaboratorsParams(args [1]string, argsEscaped bool, r *
 type ProjectsListColumnsParams struct {
 	ProjectID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackProjectsListColumnsParams(packed middleware.Parameters) (params ProjectsListColumnsParams) {
@@ -61408,11 +63241,11 @@ func decodeProjectsListColumnsParams(args [1]string, argsEscaped bool, r *http.R
 type ProjectsListForOrgParams struct {
 	Org string
 	// Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`.
-	State OptProjectsListForOrgState
+	State OptProjectsListForOrgState `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackProjectsListForOrgParams(packed middleware.Parameters) (params ProjectsListForOrgParams) {
@@ -61661,11 +63494,11 @@ type ProjectsListForRepoParams struct {
 	Owner string
 	Repo  string
 	// Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`.
-	State OptProjectsListForRepoState
+	State OptProjectsListForRepoState `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackProjectsListForRepoParams(packed middleware.Parameters) (params ProjectsListForRepoParams) {
@@ -61965,11 +63798,11 @@ func decodeProjectsListForRepoParams(args [2]string, argsEscaped bool, r *http.R
 type ProjectsListForUserParams struct {
 	Username string
 	// Indicates the state of the projects to return. Can be either `open`, `closed`, or `all`.
-	State OptProjectsListForUserState
+	State OptProjectsListForUserState `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackProjectsListForUserParams(packed middleware.Parameters) (params ProjectsListForUserParams) {
@@ -64711,22 +66544,22 @@ type PullsListParams struct {
 	Owner string
 	Repo  string
 	// Either `open`, `closed`, or `all` to filter by state.
-	State OptPullsListState
+	State OptPullsListState `json:",omitempty,omitzero"`
 	// Filter pulls by head user or head organization and branch name in the format of `user:ref-name` or
 	// `organization:ref-name`. For example: `github:new-script-format` or `octocat:test-branch`.
-	Head OptString
+	Head OptString `json:",omitempty,omitzero"`
 	// Filter pulls by base branch name. Example: `gh-pages`.
-	Base OptString
+	Base OptString `json:",omitempty,omitzero"`
 	// What to sort results by. Can be either `created`, `updated`, `popularity` (comment count) or
 	// `long-running` (age, filtering by pulls updated in the last month).
-	Sort OptPullsListSort
-	// The direction of the sort. Can be either `asc` or `desc`. Default: `desc` when sort is `created`
-	// or sort is not specified, otherwise `asc`.
-	Direction OptPullsListDirection
+	Sort OptPullsListSort `json:",omitempty,omitzero"`
+	// The direction of the sort. Can be either `asc` or `desc`. Default: `desc` when sort is `created` or
+	// sort is not specified, otherwise `asc`.
+	Direction OptPullsListDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackPullsListParams(packed middleware.Parameters) (params PullsListParams) {
@@ -65265,9 +67098,9 @@ type PullsListCommentsForReviewParams struct {
 	// Review_id parameter.
 	ReviewID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackPullsListCommentsForReviewParams(packed middleware.Parameters) (params PullsListCommentsForReviewParams) {
@@ -65603,9 +67436,9 @@ type PullsListCommitsParams struct {
 	Repo       string
 	PullNumber int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackPullsListCommitsParams(packed middleware.Parameters) (params PullsListCommitsParams) {
@@ -65889,9 +67722,9 @@ type PullsListFilesParams struct {
 	Repo       string
 	PullNumber int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackPullsListFilesParams(packed middleware.Parameters) (params PullsListFilesParams) {
@@ -66175,9 +68008,9 @@ type PullsListRequestedReviewersParams struct {
 	Repo       string
 	PullNumber int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackPullsListRequestedReviewersParams(packed middleware.Parameters) (params PullsListRequestedReviewersParams) {
@@ -66461,16 +68294,18 @@ type PullsListReviewCommentsParams struct {
 	Repo       string
 	PullNumber int
 	// One of `created` (when the repository was starred) or `updated` (when it was last pushed to).
-	Sort OptSort
+	Sort OptSort `json:",omitempty,omitzero"`
 	// Can be either `asc` or `desc`. Ignored without `sort` parameter.
-	Direction OptPullsListReviewCommentsDirection
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
+	Direction OptPullsListReviewCommentsDirection `json:",omitempty,omitzero"`
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackPullsListReviewCommentsParams(packed middleware.Parameters) (params PullsListReviewCommentsParams) {
@@ -66937,16 +68772,18 @@ func decodePullsListReviewCommentsParams(args [3]string, argsEscaped bool, r *ht
 type PullsListReviewCommentsForRepoParams struct {
 	Owner string
 	Repo  string
-	Sort  OptPullsListReviewCommentsForRepoSort
+	Sort  OptPullsListReviewCommentsForRepoSort `json:",omitempty,omitzero"`
 	// Can be either `asc` or `desc`. Ignored without `sort` parameter.
-	Direction OptPullsListReviewCommentsForRepoDirection
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
+	Direction OptPullsListReviewCommentsForRepoDirection `json:",omitempty,omitzero"`
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackPullsListReviewCommentsForRepoParams(packed middleware.Parameters) (params PullsListReviewCommentsForRepoParams) {
@@ -67358,9 +69195,9 @@ type PullsListReviewsParams struct {
 	Repo       string
 	PullNumber int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackPullsListReviewsParams(packed middleware.Parameters) (params PullsListReviewsParams) {
@@ -71964,13 +73801,14 @@ type ReactionsListForCommitCommentParams struct {
 	Repo  string
 	// Comment_id parameter.
 	CommentID int
-	// Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types).
-	// Omit this parameter to list all reactions to a commit comment.
-	Content OptReactionsListForCommitCommentContent
+	// Returns a single [reaction type]. Omit this parameter to list all reactions to a commit comment.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
+	Content OptReactionsListForCommitCommentContent `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReactionsListForCommitCommentParams(packed middleware.Parameters) (params ReactionsListForCommitCommentParams) {
@@ -72319,13 +74157,14 @@ type ReactionsListForIssueParams struct {
 	Repo  string
 	// Issue_number parameter.
 	IssueNumber int
-	// Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types).
-	// Omit this parameter to list all reactions to an issue.
-	Content OptReactionsListForIssueContent
+	// Returns a single [reaction type]. Omit this parameter to list all reactions to an issue.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
+	Content OptReactionsListForIssueContent `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReactionsListForIssueParams(packed middleware.Parameters) (params ReactionsListForIssueParams) {
@@ -72674,13 +74513,14 @@ type ReactionsListForIssueCommentParams struct {
 	Repo  string
 	// Comment_id parameter.
 	CommentID int
-	// Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types).
-	// Omit this parameter to list all reactions to an issue comment.
-	Content OptReactionsListForIssueCommentContent
+	// Returns a single [reaction type]. Omit this parameter to list all reactions to an issue comment.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
+	Content OptReactionsListForIssueCommentContent `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReactionsListForIssueCommentParams(packed middleware.Parameters) (params ReactionsListForIssueCommentParams) {
@@ -73029,13 +74869,15 @@ type ReactionsListForPullRequestReviewCommentParams struct {
 	Repo  string
 	// Comment_id parameter.
 	CommentID int
-	// Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types).
-	// Omit this parameter to list all reactions to a pull request review comment.
-	Content OptReactionsListForPullRequestReviewCommentContent
+	// Returns a single [reaction type]. Omit this parameter to list all reactions to a pull request review
+	// comment.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
+	Content OptReactionsListForPullRequestReviewCommentContent `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReactionsListForPullRequestReviewCommentParams(packed middleware.Parameters) (params ReactionsListForPullRequestReviewCommentParams) {
@@ -73385,13 +75227,15 @@ type ReactionsListForTeamDiscussionCommentInOrgParams struct {
 	TeamSlug         string
 	DiscussionNumber int
 	CommentNumber    int
-	// Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types).
-	// Omit this parameter to list all reactions to a team discussion comment.
-	Content OptReactionsListForTeamDiscussionCommentInOrgContent
+	// Returns a single [reaction type]. Omit this parameter to list all reactions to a team discussion
+	// comment.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
+	Content OptReactionsListForTeamDiscussionCommentInOrgContent `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReactionsListForTeamDiscussionCommentInOrgParams(packed middleware.Parameters) (params ReactionsListForTeamDiscussionCommentInOrgParams) {
@@ -73791,13 +75635,15 @@ type ReactionsListForTeamDiscussionCommentLegacyParams struct {
 	TeamID           int
 	DiscussionNumber int
 	CommentNumber    int
-	// Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types).
-	// Omit this parameter to list all reactions to a team discussion comment.
-	Content OptReactionsListForTeamDiscussionCommentLegacyContent
+	// Returns a single [reaction type]. Omit this parameter to list all reactions to a team discussion
+	// comment.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
+	Content OptReactionsListForTeamDiscussionCommentLegacyContent `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReactionsListForTeamDiscussionCommentLegacyParams(packed middleware.Parameters) (params ReactionsListForTeamDiscussionCommentLegacyParams) {
@@ -74146,13 +75992,14 @@ type ReactionsListForTeamDiscussionInOrgParams struct {
 	// Team_slug parameter.
 	TeamSlug         string
 	DiscussionNumber int
-	// Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types).
-	// Omit this parameter to list all reactions to a team discussion.
-	Content OptReactionsListForTeamDiscussionInOrgContent
+	// Returns a single [reaction type]. Omit this parameter to list all reactions to a team discussion.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
+	Content OptReactionsListForTeamDiscussionInOrgContent `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReactionsListForTeamDiscussionInOrgParams(packed middleware.Parameters) (params ReactionsListForTeamDiscussionInOrgParams) {
@@ -74499,13 +76346,14 @@ func decodeReactionsListForTeamDiscussionInOrgParams(args [3]string, argsEscaped
 type ReactionsListForTeamDiscussionLegacyParams struct {
 	TeamID           int
 	DiscussionNumber int
-	// Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types).
-	// Omit this parameter to list all reactions to a team discussion.
-	Content OptReactionsListForTeamDiscussionLegacyContent
+	// Returns a single [reaction type]. Omit this parameter to list all reactions to a team discussion.
+	//
+	// [reaction type]: https://docs.github.com/rest/reference/reactions#reaction-types
+	Content OptReactionsListForTeamDiscussionLegacyContent `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReactionsListForTeamDiscussionLegacyParams(packed middleware.Parameters) (params ReactionsListForTeamDiscussionLegacyParams) {
@@ -76015,9 +77863,9 @@ type ReposCompareCommitsParams struct {
 	Owner string
 	Repo  string
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// The base branch and head branch to compare. This parameter expects the format `{base}...{head}`.
 	Basehead string
 }
@@ -82853,9 +84701,9 @@ type ReposGetAllTopicsParams struct {
 	Owner string
 	Repo  string
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposGetAllTopicsParams(packed middleware.Parameters) (params ReposGetAllTopicsParams) {
@@ -83774,7 +85622,7 @@ type ReposGetClonesParams struct {
 	Owner string
 	Repo  string
 	// Must be one of: `day`, `week`.
-	Per OptPer
+	Per OptPer `json:",omitempty,omitzero"`
 }
 
 func unpackReposGetClonesParams(packed middleware.Parameters) (params ReposGetClonesParams) {
@@ -84256,9 +86104,9 @@ type ReposGetCombinedStatusForRefParams struct {
 	// Ref parameter.
 	Ref string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposGetCombinedStatusForRefParams(packed middleware.Parameters) (params ReposGetCombinedStatusForRefParams) {
@@ -84541,9 +86389,9 @@ type ReposGetCommitParams struct {
 	Owner string
 	Repo  string
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Ref parameter.
 	Ref string
 }
@@ -87146,7 +88994,7 @@ type ReposGetReadmeParams struct {
 	Owner string
 	Repo  string
 	// The name of the commit/branch/tag. Default: the repository’s default branch (usually `master`).
-	Ref OptString
+	Ref OptString `json:",omitempty,omitzero"`
 }
 
 func unpackReposGetReadmeParams(packed middleware.Parameters) (params ReposGetReadmeParams) {
@@ -87319,7 +89167,7 @@ type ReposGetReadmeInDirectoryParams struct {
 	// The alternate path to look for a README file.
 	Dir string
 	// The name of the commit/branch/tag. Default: the repository’s default branch (usually `master`).
-	Ref OptString
+	Ref OptString `json:",omitempty,omitzero"`
 }
 
 func unpackReposGetReadmeInDirectoryParams(packed middleware.Parameters) (params ReposGetReadmeInDirectoryParams) {
@@ -88810,7 +90658,7 @@ type ReposGetViewsParams struct {
 	Owner string
 	Repo  string
 	// Must be one of: `day`, `week`.
-	Per OptPer
+	Per OptPer `json:",omitempty,omitzero"`
 }
 
 func unpackReposGetViewsParams(packed middleware.Parameters) (params ReposGetViewsParams) {
@@ -89567,7 +91415,7 @@ type ReposListAutolinksParams struct {
 	Owner string
 	Repo  string
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListAutolinksParams(packed middleware.Parameters) (params ReposListAutolinksParams) {
@@ -89744,11 +91592,11 @@ type ReposListBranchesParams struct {
 	Repo  string
 	// Setting to `true` returns only protected branches. When set to `false`, only unprotected branches
 	// are returned. Omitting this parameter returns all branches.
-	Protected OptBool
+	Protected OptBool `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListBranchesParams(packed middleware.Parameters) (params ReposListBranchesParams) {
@@ -90200,16 +92048,15 @@ func decodeReposListBranchesForHeadCommitParams(args [3]string, argsEscaped bool
 type ReposListCollaboratorsParams struct {
 	Owner string
 	Repo  string
-	// Filter collaborators returned by their affiliation. Can be one of:
-	// \* `outside`: All outside collaborators of an organization-owned repository.
-	// \* `direct`: All collaborators with permissions to an organization-owned repository, regardless of
-	// organization membership status.
-	// \* `all`: All collaborators the authenticated user can see.
-	Affiliation OptReposListCollaboratorsAffiliation
+	// Filter collaborators returned by their affiliation. Can be one of: \* `outside`: All outside
+	// collaborators of an organization-owned repository. \* `direct`: All collaborators with permissions
+	// to an organization-owned repository, regardless of organization membership status. \* `all`: All
+	// collaborators the authenticated user can see.
+	Affiliation OptReposListCollaboratorsAffiliation `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListCollaboratorsParams(packed middleware.Parameters) (params ReposListCollaboratorsParams) {
@@ -90512,9 +92359,9 @@ type ReposListCommentsForCommitParams struct {
 	// Commit_sha parameter.
 	CommitSha string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListCommentsForCommitParams(packed middleware.Parameters) (params ReposListCommentsForCommitParams) {
@@ -90797,9 +92644,9 @@ type ReposListCommitCommentsForRepoParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListCommitCommentsForRepoParams(packed middleware.Parameters) (params ReposListCommitCommentsForRepoParams) {
@@ -91032,9 +92879,9 @@ type ReposListCommitStatusesForRefParams struct {
 	// Ref parameter.
 	Ref string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListCommitStatusesForRefParams(packed middleware.Parameters) (params ReposListCommitStatusesForRefParams) {
@@ -91318,21 +93165,25 @@ type ReposListCommitsParams struct {
 	Repo  string
 	// SHA or branch to start listing commits from. Default: the repository’s default branch (usually
 	// `master`).
-	Sha OptString
+	Sha OptString `json:",omitempty,omitzero"`
 	// Only commits containing this file path will be returned.
-	Path OptString
+	Path OptString `json:",omitempty,omitzero"`
 	// GitHub login or email address by which to filter by commit author.
-	Author OptString
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
-	// Only commits before this date will be returned. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Until OptDateTime
+	Author OptString `json:",omitempty,omitzero"`
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
+	// Only commits before this date will be returned. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Until OptDateTime `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListCommitsParams(packed middleware.Parameters) (params ReposListCommitsParams) {
@@ -91813,11 +93664,11 @@ type ReposListContributorsParams struct {
 	Owner string
 	Repo  string
 	// Set to `1` or `true` to include anonymous contributors in results.
-	Anon OptString
+	Anon OptString `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListContributorsParams(packed middleware.Parameters) (params ReposListContributorsParams) {
@@ -92098,9 +93949,9 @@ type ReposListDeployKeysParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListDeployKeysParams(packed middleware.Parameters) (params ReposListDeployKeysParams) {
@@ -92333,9 +94184,9 @@ type ReposListDeploymentStatusesParams struct {
 	// Deployment_id parameter.
 	DeploymentID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListDeploymentStatusesParams(packed middleware.Parameters) (params ReposListDeploymentStatusesParams) {
@@ -92618,17 +94469,17 @@ type ReposListDeploymentsParams struct {
 	Owner string
 	Repo  string
 	// The SHA recorded at creation time.
-	Sha OptString
+	Sha OptString `json:",omitempty,omitzero"`
 	// The name of the ref. This can be a branch, tag, or SHA.
-	Ref OptString
+	Ref OptString `json:",omitempty,omitzero"`
 	// The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`).
-	Task OptString
+	Task OptString `json:",omitempty,omitzero"`
 	// The name of the environment that was deployed to (e.g., `staging` or `production`).
-	Environment OptNilString
+	Environment OptNilString `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListDeploymentsParams(packed middleware.Parameters) (params ReposListDeploymentsParams) {
@@ -93078,32 +94929,36 @@ func decodeReposListDeploymentsParams(args [2]string, argsEscaped bool, r *http.
 type ReposListForAuthenticatedUserParams struct {
 	// Can be one of `all`, `public`, or `private`. Note: For GitHub AE, can be one of `all`, `internal`,
 	// or `private`.
-	Visibility OptReposListForAuthenticatedUserVisibility
-	// Comma-separated list of values. Can include:
-	// \* `owner`: Repositories that are owned by the authenticated user.
-	// \* `collaborator`: Repositories that the user has been added to as a collaborator.
-	// \* `organization_member`: Repositories that the user has access to through being a member of an
-	// organization. This includes every repository on every team that the user is on.
-	Affiliation OptString
+	Visibility OptReposListForAuthenticatedUserVisibility `json:",omitempty,omitzero"`
+	// Comma-separated list of values. Can include: \* `owner`: Repositories that are owned by the
+	// authenticated user. \* `collaborator`: Repositories that the user has been added to as a
+	// collaborator. \* `organization_member`: Repositories that the user has access to through being a
+	// member of an organization. This includes every repository on every team that the user is on.
+	Affiliation OptString `json:",omitempty,omitzero"`
 	// Can be one of `all`, `owner`, `public`, `private`, `member`. Note: For GitHub AE, can be one of
 	// `all`, `owner`, `internal`, `private`, `member`. Default: `all`
-	// Will cause a `422` error if used in the same request as **visibility** or **affiliation**. Will
-	// cause a `422` error if used in the same request as **visibility** or **affiliation**.
-	Type OptReposListForAuthenticatedUserType
+	//
+	// Will cause a `422` error if used in the same request as visibility or affiliation. Will cause a
+	// `422` error if used in the same request as visibility or affiliation.
+	Type OptReposListForAuthenticatedUserType `json:",omitempty,omitzero"`
 	// Can be one of `created`, `updated`, `pushed`, `full_name`.
-	Sort OptReposListForAuthenticatedUserSort
+	Sort OptReposListForAuthenticatedUserSort `json:",omitempty,omitzero"`
 	// Can be one of `asc` or `desc`. Default: `asc` when using `full_name`, otherwise `desc`.
-	Direction OptReposListForAuthenticatedUserDirection
+	Direction OptReposListForAuthenticatedUserDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
-	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.
-	// wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Since OptDateTime
-	// Only show notifications updated before the given time. This is a timestamp in [ISO
-	// 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-	Before OptDateTime
+	Page OptInt `json:",omitempty,omitzero"`
+	// Only show notifications updated after the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Since OptDateTime `json:",omitempty,omitzero"`
+	// Only show notifications updated before the given time. This is a timestamp in [ISO 8601] format:
+	// `YYYY-MM-DDTHH:MM:SSZ`.
+	//
+	// [ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+	Before OptDateTime `json:",omitempty,omitzero"`
 }
 
 func unpackReposListForAuthenticatedUserParams(packed middleware.Parameters) (params ReposListForAuthenticatedUserParams) {
@@ -93660,19 +95515,19 @@ type ReposListForOrgParams struct {
 	Org string
 	// Specifies the types of repositories you want returned. Can be one of `all`, `public`, `private`,
 	// `forks`, `sources`, `member`, `internal`. Note: For GitHub AE, can be one of `all`, `private`,
-	// `forks`, `sources`, `member`, `internal`. Default: `all`. If your organization is associated with
-	// an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `type` can
-	// also be `internal`. However, the `internal` value is not yet supported when a GitHub App calls
-	// this API with an installation access token.
-	Type OptReposListForOrgType
+	// `forks`, `sources`, `member`, `internal`. Default: `all`. If your organization is associated with an
+	// enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `type` can also
+	// be `internal`. However, the `internal` value is not yet supported when a GitHub App calls this API
+	// with an installation access token.
+	Type OptReposListForOrgType `json:",omitempty,omitzero"`
 	// Can be one of `created`, `updated`, `pushed`, `full_name`.
-	Sort OptReposListForOrgSort
+	Sort OptReposListForOrgSort `json:",omitempty,omitzero"`
 	// Can be one of `asc` or `desc`. Default: when using `full_name`: `asc`, otherwise `desc`.
-	Direction OptReposListForOrgDirection
+	Direction OptReposListForOrgDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListForOrgParams(packed middleware.Parameters) (params ReposListForOrgParams) {
@@ -94050,15 +95905,15 @@ func decodeReposListForOrgParams(args [1]string, argsEscaped bool, r *http.Reque
 type ReposListForUserParams struct {
 	Username string
 	// Can be one of `all`, `owner`, `member`.
-	Type OptReposListForUserType
+	Type OptReposListForUserType `json:",omitempty,omitzero"`
 	// Can be one of `created`, `updated`, `pushed`, `full_name`.
-	Sort OptReposListForUserSort
+	Sort OptReposListForUserSort `json:",omitempty,omitzero"`
 	// Can be one of `asc` or `desc`. Default: `asc` when using `full_name`, otherwise `desc`.
-	Direction OptReposListForUserDirection
+	Direction OptReposListForUserDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListForUserParams(packed middleware.Parameters) (params ReposListForUserParams) {
@@ -94442,11 +96297,11 @@ type ReposListForksParams struct {
 	Owner string
 	Repo  string
 	// The sort order. Can be either `newest`, `oldest`, or `stargazers`.
-	Sort OptReposListForksSort
+	Sort OptReposListForksSort `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListForksParams(packed middleware.Parameters) (params ReposListForksParams) {
@@ -94747,9 +96602,9 @@ type ReposListInvitationsParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListInvitationsParams(packed middleware.Parameters) (params ReposListInvitationsParams) {
@@ -94978,9 +96833,9 @@ func decodeReposListInvitationsParams(args [2]string, argsEscaped bool, r *http.
 // ReposListInvitationsForAuthenticatedUserParams is parameters of repos/list-invitations-for-authenticated-user operation.
 type ReposListInvitationsForAuthenticatedUserParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListInvitationsForAuthenticatedUserParams(packed middleware.Parameters) (params ReposListInvitationsForAuthenticatedUserParams) {
@@ -95225,9 +97080,9 @@ type ReposListPagesBuildsParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListPagesBuildsParams(packed middleware.Parameters) (params ReposListPagesBuildsParams) {
@@ -95456,7 +97311,7 @@ func decodeReposListPagesBuildsParams(args [2]string, argsEscaped bool, r *http.
 // ReposListPublicParams is parameters of repos/list-public operation.
 type ReposListPublicParams struct {
 	// A repository ID. Only return repositories with an ID greater than this ID.
-	Since OptInt
+	Since OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListPublicParams(packed middleware.Parameters) (params ReposListPublicParams) {
@@ -95525,9 +97380,9 @@ type ReposListPullRequestsAssociatedWithCommitParams struct {
 	// Commit_sha parameter.
 	CommitSha string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListPullRequestsAssociatedWithCommitParams(packed middleware.Parameters) (params ReposListPullRequestsAssociatedWithCommitParams) {
@@ -95812,9 +97667,9 @@ type ReposListReleaseAssetsParams struct {
 	// Release_id parameter.
 	ReleaseID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListReleaseAssetsParams(packed middleware.Parameters) (params ReposListReleaseAssetsParams) {
@@ -96097,9 +97952,9 @@ type ReposListReleasesParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListReleasesParams(packed middleware.Parameters) (params ReposListReleasesParams) {
@@ -96330,9 +98185,9 @@ type ReposListTagsParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListTagsParams(packed middleware.Parameters) (params ReposListTagsParams) {
@@ -96563,9 +98418,9 @@ type ReposListTeamsParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListTeamsParams(packed middleware.Parameters) (params ReposListTeamsParams) {
@@ -96797,10 +98652,10 @@ type ReposListWebhookDeliveriesParams struct {
 	Repo   string
 	HookID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to
 	// the `link` header for the next and previous page cursors.
-	Cursor OptString
+	Cursor OptString `json:",omitempty,omitzero"`
 }
 
 func unpackReposListWebhookDeliveriesParams(packed middleware.Parameters) (params ReposListWebhookDeliveriesParams) {
@@ -97078,9 +98933,9 @@ type ReposListWebhooksParams struct {
 	Owner string
 	Repo  string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackReposListWebhooksParams(packed middleware.Parameters) (params ReposListWebhooksParams) {
@@ -102196,7 +104051,7 @@ type ReposUploadReleaseAssetParams struct {
 	// Release_id parameter.
 	ReleaseID int
 	Name      string
-	Label     OptString
+	Label     OptString `json:",omitempty,omitzero"`
 }
 
 func unpackReposUploadReleaseAssetParams(packed middleware.Parameters) (params ReposUploadReleaseAssetParams) {
@@ -102403,7 +104258,7 @@ func decodeReposUploadReleaseAssetParams(args [3]string, argsEscaped bool, r *ht
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -102576,25 +104431,680 @@ func decodeScimDeleteUserFromOrgParams(args [2]string, argsEscaped bool, r *http
 	return params, nil
 }
 
+// ScimGetProvisioningInformationForUserParams is parameters of scim/get-provisioning-information-for-user operation.
+type ScimGetProvisioningInformationForUserParams struct {
+	Org string
+	// Scim_user_id parameter.
+	ScimUserID string
+}
+
+func unpackScimGetProvisioningInformationForUserParams(packed middleware.Parameters) (params ScimGetProvisioningInformationForUserParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "org",
+			In:   "path",
+		}
+		params.Org = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "scim_user_id",
+			In:   "path",
+		}
+		params.ScimUserID = packed[key].(string)
+	}
+	return params
+}
+
+func decodeScimGetProvisioningInformationForUserParams(args [2]string, argsEscaped bool, r *http.Request) (params ScimGetProvisioningInformationForUserParams, _ error) {
+	// Decode path: org.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "org",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Org = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "org",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: scim_user_id.
+	if err := func() error {
+		param := args[1]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[1])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "scim_user_id",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.ScimUserID = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "scim_user_id",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
+// ScimListProvisionedIdentitiesParams is parameters of scim/list-provisioned-identities operation.
+type ScimListProvisionedIdentitiesParams struct {
+	Org string
+	// Used for pagination: the index of the first result to return.
+	StartIndex OptInt `json:",omitempty,omitzero"`
+	// Used for pagination: the number of results to return.
+	Count OptInt `json:",omitempty,omitzero"`
+	// Filters results using the equals query parameter operator (`eq`). You can filter results that are
+	// equal to `id`, `userName`, `emails`, and `external_id`. For example, to search for an identity with
+	// the `userName` Octocat, you would use this query:
+	//
+	// `?filter=userName%20eq%20\"Octocat\"`.
+	//
+	// To filter results for the identity with the email `octocat@github.com`, you would use this query:
+	//
+	// `?filter=emails%20eq%20\"octocat@github.com\"`.
+	Filter OptString `json:",omitempty,omitzero"`
+}
+
+func unpackScimListProvisionedIdentitiesParams(packed middleware.Parameters) (params ScimListProvisionedIdentitiesParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "org",
+			In:   "path",
+		}
+		params.Org = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "startIndex",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.StartIndex = v.(OptInt)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "count",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Count = v.(OptInt)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "filter",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Filter = v.(OptString)
+		}
+	}
+	return params
+}
+
+func decodeScimListProvisionedIdentitiesParams(args [1]string, argsEscaped bool, r *http.Request) (params ScimListProvisionedIdentitiesParams, _ error) {
+	q := uri.NewQueryDecoder(r.URL.Query())
+	// Decode path: org.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "org",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Org = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "org",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode query: startIndex.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "startIndex",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotStartIndexVal int
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToInt(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotStartIndexVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.StartIndex.SetTo(paramsDotStartIndexVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "startIndex",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: count.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotCountVal int
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToInt(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotCountVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Count.SetTo(paramsDotCountVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "count",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: filter.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotFilterVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotFilterVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Filter.SetTo(paramsDotFilterVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "filter",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
+// ScimProvisionAndInviteUserParams is parameters of scim/provision-and-invite-user operation.
+type ScimProvisionAndInviteUserParams struct {
+	Org string
+}
+
+func unpackScimProvisionAndInviteUserParams(packed middleware.Parameters) (params ScimProvisionAndInviteUserParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "org",
+			In:   "path",
+		}
+		params.Org = packed[key].(string)
+	}
+	return params
+}
+
+func decodeScimProvisionAndInviteUserParams(args [1]string, argsEscaped bool, r *http.Request) (params ScimProvisionAndInviteUserParams, _ error) {
+	// Decode path: org.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "org",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Org = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "org",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
+// ScimSetInformationForProvisionedUserParams is parameters of scim/set-information-for-provisioned-user operation.
+type ScimSetInformationForProvisionedUserParams struct {
+	Org string
+	// Scim_user_id parameter.
+	ScimUserID string
+}
+
+func unpackScimSetInformationForProvisionedUserParams(packed middleware.Parameters) (params ScimSetInformationForProvisionedUserParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "org",
+			In:   "path",
+		}
+		params.Org = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "scim_user_id",
+			In:   "path",
+		}
+		params.ScimUserID = packed[key].(string)
+	}
+	return params
+}
+
+func decodeScimSetInformationForProvisionedUserParams(args [2]string, argsEscaped bool, r *http.Request) (params ScimSetInformationForProvisionedUserParams, _ error) {
+	// Decode path: org.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "org",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Org = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "org",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: scim_user_id.
+	if err := func() error {
+		param := args[1]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[1])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "scim_user_id",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.ScimUserID = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "scim_user_id",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
+// ScimUpdateAttributeForUserParams is parameters of scim/update-attribute-for-user operation.
+type ScimUpdateAttributeForUserParams struct {
+	Org string
+	// Scim_user_id parameter.
+	ScimUserID string
+}
+
+func unpackScimUpdateAttributeForUserParams(packed middleware.Parameters) (params ScimUpdateAttributeForUserParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "org",
+			In:   "path",
+		}
+		params.Org = packed[key].(string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "scim_user_id",
+			In:   "path",
+		}
+		params.ScimUserID = packed[key].(string)
+	}
+	return params
+}
+
+func decodeScimUpdateAttributeForUserParams(args [2]string, argsEscaped bool, r *http.Request) (params ScimUpdateAttributeForUserParams, _ error) {
+	// Decode path: org.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "org",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.Org = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "org",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: scim_user_id.
+	if err := func() error {
+		param := args[1]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[1])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "scim_user_id",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.ScimUserID = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "scim_user_id",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
 // SearchCodeParams is parameters of search/code operation.
 type SearchCodeParams struct {
 	// The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your
 	// search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To
-	// learn more about the format of the query, see [Constructing a search query](https://docs.github.
-	// com/rest/reference/search#constructing-a-search-query). See "[Searching code](https://help.github.
-	// com/articles/searching-code/)" for a detailed list of qualifiers.
+	// learn more about the format of the query, see [Constructing a search query]. See "[Searching code]"
+	// for a detailed list of qualifiers.
+	//
+	// [Constructing a search query]: https://docs.github.com/rest/reference/search#constructing-a-search-query
+	// [Searching code]: https://help.github.com/articles/searching-code/
 	Q string
-	// Sorts the results of your query. Can only be `indexed`, which indicates how recently a file has
-	// been indexed by the GitHub search infrastructure. Default: [best match](https://docs.github.
-	// com/rest/reference/search#ranking-search-results).
-	Sort OptSearchCodeSort
+	// Sorts the results of your query. Can only be `indexed`, which indicates how recently a file has been
+	// indexed by the GitHub search infrastructure. Default: [best match].
+	//
+	// [best match]: https://docs.github.com/rest/reference/search#ranking-search-results
+	Sort OptSearchCodeSort `json:",omitempty,omitzero"`
 	// Determines whether the first search result returned is the highest number of matches (`desc`) or
 	// lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
-	Order OptOrder
+	Order OptOrder `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackSearchCodeParams(packed middleware.Parameters) (params SearchCodeParams) {
@@ -102672,7 +105182,7 @@ func decodeSearchCodeParams(args [0]string, argsEscaped bool, r *http.Request) (
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -102898,20 +105408,23 @@ func decodeSearchCodeParams(args [0]string, argsEscaped bool, r *http.Request) (
 type SearchCommitsParams struct {
 	// The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your
 	// search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To
-	// learn more about the format of the query, see [Constructing a search query](https://docs.github.
-	// com/rest/reference/search#constructing-a-search-query). See "[Searching commits](https://help.
-	// github.com/articles/searching-commits/)" for a detailed list of qualifiers.
+	// learn more about the format of the query, see [Constructing a search query]. See
+	// "[Searching commits]" for a detailed list of qualifiers.
+	//
+	// [Constructing a search query]: https://docs.github.com/rest/reference/search#constructing-a-search-query
+	// [Searching commits]: https://help.github.com/articles/searching-commits/
 	Q string
-	// Sorts the results of your query by `author-date` or `committer-date`. Default: [best
-	// match](https://docs.github.com/rest/reference/search#ranking-search-results).
-	Sort OptSearchCommitsSort
+	// Sorts the results of your query by `author-date` or `committer-date`. Default: [best match].
+	//
+	// [best match]: https://docs.github.com/rest/reference/search#ranking-search-results
+	Sort OptSearchCommitsSort `json:",omitempty,omitzero"`
 	// Determines whether the first search result returned is the highest number of matches (`desc`) or
 	// lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
-	Order OptOrder
+	Order OptOrder `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackSearchCommitsParams(packed middleware.Parameters) (params SearchCommitsParams) {
@@ -102989,7 +105502,7 @@ func decodeSearchCommitsParams(args [0]string, argsEscaped bool, r *http.Request
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -103215,23 +105728,26 @@ func decodeSearchCommitsParams(args [0]string, argsEscaped bool, r *http.Request
 type SearchIssuesAndPullRequestsParams struct {
 	// The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your
 	// search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To
-	// learn more about the format of the query, see [Constructing a search query](https://docs.github.
-	// com/rest/reference/search#constructing-a-search-query). See "[Searching issues and pull
-	// requests](https://help.github.com/articles/searching-issues-and-pull-requests/)" for a detailed
-	// list of qualifiers.
+	// learn more about the format of the query, see [Constructing a search query]. See
+	// "[Searching issues and pull requests]" for a detailed list of qualifiers.
+	//
+	// [Constructing a search query]: https://docs.github.com/rest/reference/search#constructing-a-search-query
+	// [Searching issues and pull requests]: https://help.github.com/articles/searching-issues-and-pull-requests/
 	Q string
 	// Sorts the results of your query by the number of `comments`, `reactions`, `reactions-+1`,
 	// `reactions--1`, `reactions-smile`, `reactions-thinking_face`, `reactions-heart`, `reactions-tada`,
 	// or `interactions`. You can also sort results by how recently the items were `created` or `updated`,
-	//  Default: [best match](https://docs.github.com/rest/reference/search#ranking-search-results).
-	Sort OptSearchIssuesAndPullRequestsSort
+	// Default: [best match].
+	//
+	// [best match]: https://docs.github.com/rest/reference/search#ranking-search-results
+	Sort OptSearchIssuesAndPullRequestsSort `json:",omitempty,omitzero"`
 	// Determines whether the first search result returned is the highest number of matches (`desc`) or
 	// lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
-	Order OptOrder
+	Order OptOrder `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackSearchIssuesAndPullRequestsParams(packed middleware.Parameters) (params SearchIssuesAndPullRequestsParams) {
@@ -103309,7 +105825,7 @@ func decodeSearchIssuesAndPullRequestsParams(args [0]string, argsEscaped bool, r
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -103535,20 +106051,22 @@ func decodeSearchIssuesAndPullRequestsParams(args [0]string, argsEscaped bool, r
 type SearchLabelsParams struct {
 	// The id of the repository.
 	RepositoryID int
-	// The search keywords. This endpoint does not accept qualifiers in the query. To learn more about
-	// the format of the query, see [Constructing a search query](https://docs.github.
-	// com/rest/reference/search#constructing-a-search-query).
+	// The search keywords. This endpoint does not accept qualifiers in the query. To learn more about the
+	// format of the query, see [Constructing a search query].
+	//
+	// [Constructing a search query]: https://docs.github.com/rest/reference/search#constructing-a-search-query
 	Q string
-	// Sorts the results of your query by when the label was `created` or `updated`. Default: [best
-	// match](https://docs.github.com/rest/reference/search#ranking-search-results).
-	Sort OptSearchLabelsSort
+	// Sorts the results of your query by when the label was `created` or `updated`. Default: [best match].
+	//
+	// [best match]: https://docs.github.com/rest/reference/search#ranking-search-results
+	Sort OptSearchLabelsSort `json:",omitempty,omitzero"`
 	// Determines whether the first search result returned is the highest number of matches (`desc`) or
 	// lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
-	Order OptOrder
+	Order OptOrder `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackSearchLabelsParams(packed middleware.Parameters) (params SearchLabelsParams) {
@@ -103633,7 +106151,7 @@ func decodeSearchLabelsParams(args [0]string, argsEscaped bool, r *http.Request)
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -103669,7 +106187,7 @@ func decodeSearchLabelsParams(args [0]string, argsEscaped bool, r *http.Request)
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -103895,22 +106413,24 @@ func decodeSearchLabelsParams(args [0]string, argsEscaped bool, r *http.Request)
 type SearchReposParams struct {
 	// The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your
 	// search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To
-	// learn more about the format of the query, see [Constructing a search query](https://docs.github.
-	// com/rest/reference/search#constructing-a-search-query). See "[Searching for
-	// repositories](https://help.github.com/articles/searching-for-repositories/)" for a detailed list
-	// of qualifiers.
+	// learn more about the format of the query, see [Constructing a search query]. See
+	// "[Searching for repositories]" for a detailed list of qualifiers.
+	//
+	// [Constructing a search query]: https://docs.github.com/rest/reference/search#constructing-a-search-query
+	// [Searching for repositories]: https://help.github.com/articles/searching-for-repositories/
 	Q string
 	// Sorts the results of your query by number of `stars`, `forks`, or `help-wanted-issues` or how
-	// recently the items were `updated`. Default: [best match](https://docs.github.
-	// com/rest/reference/search#ranking-search-results).
-	Sort OptSearchReposSort
+	// recently the items were `updated`. Default: [best match].
+	//
+	// [best match]: https://docs.github.com/rest/reference/search#ranking-search-results
+	Sort OptSearchReposSort `json:",omitempty,omitzero"`
 	// Determines whether the first search result returned is the highest number of matches (`desc`) or
 	// lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
-	Order OptOrder
+	Order OptOrder `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackSearchReposParams(packed middleware.Parameters) (params SearchReposParams) {
@@ -103988,7 +106508,7 @@ func decodeSearchReposParams(args [0]string, argsEscaped bool, r *http.Request) 
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -104214,13 +106734,14 @@ func decodeSearchReposParams(args [0]string, argsEscaped bool, r *http.Request) 
 type SearchTopicsParams struct {
 	// The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your
 	// search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To
-	// learn more about the format of the query, see [Constructing a search query](https://docs.github.
-	// com/rest/reference/search#constructing-a-search-query).
+	// learn more about the format of the query, see [Constructing a search query].
+	//
+	// [Constructing a search query]: https://docs.github.com/rest/reference/search#constructing-a-search-query
 	Q string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackSearchTopicsParams(packed middleware.Parameters) (params SearchTopicsParams) {
@@ -104280,7 +106801,7 @@ func decodeSearchTopicsParams(args [0]string, argsEscaped bool, r *http.Request)
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -104389,21 +106910,24 @@ func decodeSearchTopicsParams(args [0]string, argsEscaped bool, r *http.Request)
 type SearchUsersParams struct {
 	// The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your
 	// search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To
-	// learn more about the format of the query, see [Constructing a search query](https://docs.github.
-	// com/rest/reference/search#constructing-a-search-query). See "[Searching users](https://help.github.
-	// com/articles/searching-users/)" for a detailed list of qualifiers.
+	// learn more about the format of the query, see [Constructing a search query]. See "[Searching users]"
+	// for a detailed list of qualifiers.
+	//
+	// [Constructing a search query]: https://docs.github.com/rest/reference/search#constructing-a-search-query
+	// [Searching users]: https://help.github.com/articles/searching-users/
 	Q string
 	// Sorts the results of your query by number of `followers` or `repositories`, or when the person
-	// `joined` GitHub. Default: [best match](https://docs.github.
-	// com/rest/reference/search#ranking-search-results).
-	Sort OptSearchUsersSort
+	// `joined` GitHub. Default: [best match].
+	//
+	// [best match]: https://docs.github.com/rest/reference/search#ranking-search-results
+	Sort OptSearchUsersSort `json:",omitempty,omitzero"`
 	// Determines whether the first search result returned is the highest number of matches (`desc`) or
 	// lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.
-	Order OptOrder
+	Order OptOrder `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackSearchUsersParams(packed middleware.Parameters) (params SearchUsersParams) {
@@ -104481,7 +107005,7 @@ func decodeSearchUsersParams(args [0]string, argsEscaped bool, r *http.Request) 
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -104708,8 +107232,8 @@ type SecretScanningGetAlertParams struct {
 	Owner string
 	Repo  string
 	// The number that identifies an alert. You can find this at the end of the URL for a code scanning
-	// alert within GitHub, and in the `number` field in the response from the `GET
-	// /repos/{owner}/{repo}/code-scanning/alerts` operation.
+	// alert within GitHub, and in the `number` field in the response from the
+	// `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.
 	AlertNumber AlertNumber
 }
 
@@ -104888,13 +107412,13 @@ func decodeSecretScanningGetAlertParams(args [3]string, argsEscaped bool, r *htt
 type SecretScanningListAlertsForOrgParams struct {
 	Org string
 	// Set to `open` or `resolved` to only list secret scanning alerts in a specific state.
-	State OptSecretScanningListAlertsForOrgState
+	State OptSecretScanningListAlertsForOrgState `json:",omitempty,omitzero"`
 	// A comma separated list of secret types to return. By default all secret types are returned.
-	SecretType OptString
+	SecretType OptString `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackSecretScanningListAlertsForOrgParams(packed middleware.Parameters) (params SecretScanningListAlertsForOrgParams) {
@@ -105188,15 +107712,16 @@ type SecretScanningListAlertsForRepoParams struct {
 	Owner string
 	Repo  string
 	// Set to `open` or `resolved` to only list secret scanning alerts in a specific state.
-	State OptSecretScanningListAlertsForRepoState
+	State OptSecretScanningListAlertsForRepoState `json:",omitempty,omitzero"`
 	// A comma separated list of secret types to return. By default all secret types are returned. See
-	// "[About secret scanning for private repositories](https://docs.github.
-	// com/code-security/secret-security/about-secret-scanning#about-secret-scanning-for-private-repositories)" for a complete list of secret types (API slug).
-	SecretType OptString
+	// "[About secret scanning for private repositories]" for a complete list of secret types (API slug).
+	//
+	// [About secret scanning for private repositories]: https://docs.github.com/code-security/secret-security/about-secret-scanning#about-secret-scanning-for-private-repositories
+	SecretType OptString `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackSecretScanningListAlertsForRepoParams(packed middleware.Parameters) (params SecretScanningListAlertsForRepoParams) {
@@ -105542,8 +108067,8 @@ type SecretScanningUpdateAlertParams struct {
 	Owner string
 	Repo  string
 	// The number that identifies an alert. You can find this at the end of the URL for a code scanning
-	// alert within GitHub, and in the `number` field in the response from the `GET
-	// /repos/{owner}/{repo}/code-scanning/alerts` operation.
+	// alert within GitHub, and in the `number` field in the response from the
+	// `GET /repos/{owner}/{repo}/code-scanning/alerts` operation.
 	AlertNumber AlertNumber
 }
 
@@ -110373,9 +112898,9 @@ func decodeTeamsGetMembershipForUserLegacyParams(args [2]string, argsEscaped boo
 type TeamsListParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListParams(packed middleware.Parameters) (params TeamsListParams) {
@@ -110555,9 +113080,9 @@ type TeamsListChildInOrgParams struct {
 	// Team_slug parameter.
 	TeamSlug string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListChildInOrgParams(packed middleware.Parameters) (params TeamsListChildInOrgParams) {
@@ -110787,9 +113312,9 @@ func decodeTeamsListChildInOrgParams(args [2]string, argsEscaped bool, r *http.R
 type TeamsListChildLegacyParams struct {
 	TeamID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListChildLegacyParams(packed middleware.Parameters) (params TeamsListChildLegacyParams) {
@@ -110970,11 +113495,11 @@ type TeamsListDiscussionCommentsInOrgParams struct {
 	TeamSlug         string
 	DiscussionNumber int
 	// One of `asc` (ascending) or `desc` (descending).
-	Direction OptDirection
+	Direction OptDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListDiscussionCommentsInOrgParams(packed middleware.Parameters) (params TeamsListDiscussionCommentsInOrgParams) {
@@ -111327,11 +113852,11 @@ type TeamsListDiscussionCommentsLegacyParams struct {
 	TeamID           int
 	DiscussionNumber int
 	// One of `asc` (ascending) or `desc` (descending).
-	Direction OptDirection
+	Direction OptDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListDiscussionCommentsLegacyParams(packed middleware.Parameters) (params TeamsListDiscussionCommentsLegacyParams) {
@@ -111633,13 +114158,13 @@ type TeamsListDiscussionsInOrgParams struct {
 	// Team_slug parameter.
 	TeamSlug string
 	// One of `asc` (ascending) or `desc` (descending).
-	Direction OptDirection
+	Direction OptDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 	// Pinned discussions only filter.
-	Pinned OptString
+	Pinned OptString `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListDiscussionsInOrgParams(packed middleware.Parameters) (params TeamsListDiscussionsInOrgParams) {
@@ -111989,11 +114514,11 @@ func decodeTeamsListDiscussionsInOrgParams(args [2]string, argsEscaped bool, r *
 type TeamsListDiscussionsLegacyParams struct {
 	TeamID int
 	// One of `asc` (ascending) or `desc` (descending).
-	Direction OptDirection
+	Direction OptDirection `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListDiscussionsLegacyParams(packed middleware.Parameters) (params TeamsListDiscussionsLegacyParams) {
@@ -112240,9 +114765,9 @@ func decodeTeamsListDiscussionsLegacyParams(args [1]string, argsEscaped bool, r 
 // TeamsListForAuthenticatedUserParams is parameters of teams/list-for-authenticated-user operation.
 type TeamsListForAuthenticatedUserParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListForAuthenticatedUserParams(packed middleware.Parameters) (params TeamsListForAuthenticatedUserParams) {
@@ -112433,9 +114958,9 @@ func decodeTeamsListIdpGroupsForLegacyParams(args [1]string, argsEscaped bool, r
 type TeamsListIdpGroupsForOrgParams struct {
 	Org string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page token.
-	Page OptString
+	Page OptString `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListIdpGroupsForOrgParams(packed middleware.Parameters) (params TeamsListIdpGroupsForOrgParams) {
@@ -112728,15 +115253,13 @@ type TeamsListMembersInOrgParams struct {
 	Org string
 	// Team_slug parameter.
 	TeamSlug string
-	// Filters members returned by their role in the team. Can be one of:
-	// \* `member` - normal members of the team.
-	// \* `maintainer` - team maintainers.
-	// \* `all` - all members of the team.
-	Role OptTeamsListMembersInOrgRole
+	// Filters members returned by their role in the team. Can be one of: \* `member` - normal members of
+	// the team. \* `maintainer` - team maintainers. \* `all` - all members of the team.
+	Role OptTeamsListMembersInOrgRole `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListMembersInOrgParams(packed middleware.Parameters) (params TeamsListMembersInOrgParams) {
@@ -113035,15 +115558,13 @@ func decodeTeamsListMembersInOrgParams(args [2]string, argsEscaped bool, r *http
 // TeamsListMembersLegacyParams is parameters of teams/list-members-legacy operation.
 type TeamsListMembersLegacyParams struct {
 	TeamID int
-	// Filters members returned by their role in the team. Can be one of:
-	// \* `member` - normal members of the team.
-	// \* `maintainer` - team maintainers.
-	// \* `all` - all members of the team.
-	Role OptTeamsListMembersLegacyRole
+	// Filters members returned by their role in the team. Can be one of: \* `member` - normal members of
+	// the team. \* `maintainer` - team maintainers. \* `all` - all members of the team.
+	Role OptTeamsListMembersLegacyRole `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListMembersLegacyParams(packed middleware.Parameters) (params TeamsListMembersLegacyParams) {
@@ -113293,9 +115814,9 @@ type TeamsListPendingInvitationsInOrgParams struct {
 	// Team_slug parameter.
 	TeamSlug string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListPendingInvitationsInOrgParams(packed middleware.Parameters) (params TeamsListPendingInvitationsInOrgParams) {
@@ -113525,9 +116046,9 @@ func decodeTeamsListPendingInvitationsInOrgParams(args [2]string, argsEscaped bo
 type TeamsListPendingInvitationsLegacyParams struct {
 	TeamID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListPendingInvitationsLegacyParams(packed middleware.Parameters) (params TeamsListPendingInvitationsLegacyParams) {
@@ -113707,9 +116228,9 @@ type TeamsListProjectsInOrgParams struct {
 	// Team_slug parameter.
 	TeamSlug string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListProjectsInOrgParams(packed middleware.Parameters) (params TeamsListProjectsInOrgParams) {
@@ -113939,9 +116460,9 @@ func decodeTeamsListProjectsInOrgParams(args [2]string, argsEscaped bool, r *htt
 type TeamsListProjectsLegacyParams struct {
 	TeamID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListProjectsLegacyParams(packed middleware.Parameters) (params TeamsListProjectsLegacyParams) {
@@ -114121,9 +116642,9 @@ type TeamsListReposInOrgParams struct {
 	// Team_slug parameter.
 	TeamSlug string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListReposInOrgParams(packed middleware.Parameters) (params TeamsListReposInOrgParams) {
@@ -114353,9 +116874,9 @@ func decodeTeamsListReposInOrgParams(args [2]string, argsEscaped bool, r *http.R
 type TeamsListReposLegacyParams struct {
 	TeamID int
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackTeamsListReposLegacyParams(packed middleware.Parameters) (params TeamsListReposLegacyParams) {
@@ -117072,10 +119593,10 @@ func decodeUsersGetByUsernameParams(args [1]string, argsEscaped bool, r *http.Re
 type UsersGetContextForUserParams struct {
 	Username string
 	// Identifies which additional information you'd like to receive about the person's hovercard. Can be
-	// `organization`, `repository`, `issue`, `pull_request`. **Required** when using `subject_id`.
-	SubjectType OptUsersGetContextForUserSubjectType
-	// Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`.
-	SubjectID OptString
+	// `organization`, `repository`, `issue`, `pull_request`. Required when using `subject_id`.
+	SubjectType OptUsersGetContextForUserSubjectType `json:",omitempty,omitzero"`
+	// Uses the ID for the `subject_type` you specified. Required when using `subject_type`.
+	SubjectID OptString `json:",omitempty,omitzero"`
 }
 
 func unpackUsersGetContextForUserParams(packed middleware.Parameters) (params UsersGetContextForUserParams) {
@@ -117389,9 +119910,9 @@ func decodeUsersGetPublicSSHKeyForAuthenticatedParams(args [1]string, argsEscape
 // UsersListParams is parameters of users/list operation.
 type UsersListParams struct {
 	// A user ID. Only return users with an ID greater than this ID.
-	Since OptInt
+	Since OptInt `json:",omitempty,omitzero"`
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackUsersListParams(packed middleware.Parameters) (params UsersListParams) {
@@ -117511,9 +120032,9 @@ func decodeUsersListParams(args [0]string, argsEscaped bool, r *http.Request) (p
 // UsersListEmailsForAuthenticatedParams is parameters of users/list-emails-for-authenticated operation.
 type UsersListEmailsForAuthenticatedParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackUsersListEmailsForAuthenticatedParams(packed middleware.Parameters) (params UsersListEmailsForAuthenticatedParams) {
@@ -117638,9 +120159,9 @@ func decodeUsersListEmailsForAuthenticatedParams(args [0]string, argsEscaped boo
 // UsersListFollowedByAuthenticatedParams is parameters of users/list-followed-by-authenticated operation.
 type UsersListFollowedByAuthenticatedParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackUsersListFollowedByAuthenticatedParams(packed middleware.Parameters) (params UsersListFollowedByAuthenticatedParams) {
@@ -117765,9 +120286,9 @@ func decodeUsersListFollowedByAuthenticatedParams(args [0]string, argsEscaped bo
 // UsersListFollowersForAuthenticatedUserParams is parameters of users/list-followers-for-authenticated-user operation.
 type UsersListFollowersForAuthenticatedUserParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackUsersListFollowersForAuthenticatedUserParams(packed middleware.Parameters) (params UsersListFollowersForAuthenticatedUserParams) {
@@ -117893,9 +120414,9 @@ func decodeUsersListFollowersForAuthenticatedUserParams(args [0]string, argsEsca
 type UsersListFollowersForUserParams struct {
 	Username string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackUsersListFollowersForUserParams(packed middleware.Parameters) (params UsersListFollowersForUserParams) {
@@ -118073,9 +120594,9 @@ func decodeUsersListFollowersForUserParams(args [1]string, argsEscaped bool, r *
 type UsersListFollowingForUserParams struct {
 	Username string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackUsersListFollowingForUserParams(packed middleware.Parameters) (params UsersListFollowingForUserParams) {
@@ -118252,9 +120773,9 @@ func decodeUsersListFollowingForUserParams(args [1]string, argsEscaped bool, r *
 // UsersListGpgKeysForAuthenticatedParams is parameters of users/list-gpg-keys-for-authenticated operation.
 type UsersListGpgKeysForAuthenticatedParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackUsersListGpgKeysForAuthenticatedParams(packed middleware.Parameters) (params UsersListGpgKeysForAuthenticatedParams) {
@@ -118380,9 +120901,9 @@ func decodeUsersListGpgKeysForAuthenticatedParams(args [0]string, argsEscaped bo
 type UsersListGpgKeysForUserParams struct {
 	Username string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackUsersListGpgKeysForUserParams(packed middleware.Parameters) (params UsersListGpgKeysForUserParams) {
@@ -118559,9 +121080,9 @@ func decodeUsersListGpgKeysForUserParams(args [1]string, argsEscaped bool, r *ht
 // UsersListPublicEmailsForAuthenticatedParams is parameters of users/list-public-emails-for-authenticated operation.
 type UsersListPublicEmailsForAuthenticatedParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackUsersListPublicEmailsForAuthenticatedParams(packed middleware.Parameters) (params UsersListPublicEmailsForAuthenticatedParams) {
@@ -118687,9 +121208,9 @@ func decodeUsersListPublicEmailsForAuthenticatedParams(args [0]string, argsEscap
 type UsersListPublicKeysForUserParams struct {
 	Username string
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackUsersListPublicKeysForUserParams(packed middleware.Parameters) (params UsersListPublicKeysForUserParams) {
@@ -118866,9 +121387,9 @@ func decodeUsersListPublicKeysForUserParams(args [1]string, argsEscaped bool, r 
 // UsersListPublicSSHKeysForAuthenticatedParams is parameters of users/list-public-ssh-keys-for-authenticated operation.
 type UsersListPublicSSHKeysForAuthenticatedParams struct {
 	// Results per page (max 100).
-	PerPage OptInt
+	PerPage OptInt `json:",omitempty,omitzero"`
 	// Page number of the results to fetch.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackUsersListPublicSSHKeysForAuthenticatedParams(packed middleware.Parameters) (params UsersListPublicSSHKeysForAuthenticatedParams) {

@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/go-faster/jx"
-
 	ht "github.com/ogen-go/ogen/http"
 )
 
@@ -126,6 +125,20 @@ func encodePetUploadAvatarByIDRequest(
 	const contentType = "application/octet-stream"
 	body := req
 	ht.SetBody(r, body, contentType)
+	return nil
+}
+
+func encodeTestDecimalValidationRequest(
+	req *TestDecimalValidation,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
 	return nil
 }
 

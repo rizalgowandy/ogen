@@ -11,8 +11,8 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
-
 	ht "github.com/ogen-go/ogen/http"
+	"github.com/shopspring/decimal"
 )
 
 // UnimplementedHandler is no-op Handler which returns http.ErrNotImplemented.
@@ -780,6 +780,48 @@ func (UnimplementedHandler) TestRequestNumberArray(ctx context.Context, req []fl
 //
 // POST /test_request_number_array_array
 func (UnimplementedHandler) TestRequestNumberArrayArray(ctx context.Context, req [][]float64) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestNumberDecimal implements test_request_number_decimal operation.
+//
+// POST /test_request_number_decimal
+func (UnimplementedHandler) TestRequestNumberDecimal(ctx context.Context, req OptDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestNumberDecimalArray implements test_request_number_decimal_array operation.
+//
+// POST /test_request_number_decimal_array
+func (UnimplementedHandler) TestRequestNumberDecimalArray(ctx context.Context, req []decimal.Decimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestNumberDecimalArrayArray implements test_request_number_decimal_array_array operation.
+//
+// POST /test_request_number_decimal_array_array
+func (UnimplementedHandler) TestRequestNumberDecimalArrayArray(ctx context.Context, req [][]decimal.Decimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestNumberDecimalNullable implements test_request_number_decimal_nullable operation.
+//
+// POST /test_request_number_decimal_nullable
+func (UnimplementedHandler) TestRequestNumberDecimalNullable(ctx context.Context, req OptNilDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestNumberDecimalNullableArray implements test_request_number_decimal_nullable_array operation.
+//
+// POST /test_request_number_decimal_nullable_array
+func (UnimplementedHandler) TestRequestNumberDecimalNullableArray(ctx context.Context, req []NilDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestNumberDecimalNullableArrayArray implements test_request_number_decimal_nullable_array_array operation.
+//
+// POST /test_request_number_decimal_nullable_array_array
+func (UnimplementedHandler) TestRequestNumberDecimalNullableArrayArray(ctx context.Context, req [][]NilDecimal) (r *Error, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
@@ -1728,6 +1770,48 @@ func (UnimplementedHandler) TestRequestRequiredNumberArrayArray(ctx context.Cont
 	return r, ht.ErrNotImplemented
 }
 
+// TestRequestRequiredNumberDecimal implements test_request_required_number_decimal operation.
+//
+// POST /test_request_required_number_decimal
+func (UnimplementedHandler) TestRequestRequiredNumberDecimal(ctx context.Context, req decimal.Decimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredNumberDecimalArray implements test_request_required_number_decimal_array operation.
+//
+// POST /test_request_required_number_decimal_array
+func (UnimplementedHandler) TestRequestRequiredNumberDecimalArray(ctx context.Context, req []decimal.Decimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredNumberDecimalArrayArray implements test_request_required_number_decimal_array_array operation.
+//
+// POST /test_request_required_number_decimal_array_array
+func (UnimplementedHandler) TestRequestRequiredNumberDecimalArrayArray(ctx context.Context, req [][]decimal.Decimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredNumberDecimalNullable implements test_request_required_number_decimal_nullable operation.
+//
+// POST /test_request_required_number_decimal_nullable
+func (UnimplementedHandler) TestRequestRequiredNumberDecimalNullable(ctx context.Context, req NilDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredNumberDecimalNullableArray implements test_request_required_number_decimal_nullable_array operation.
+//
+// POST /test_request_required_number_decimal_nullable_array
+func (UnimplementedHandler) TestRequestRequiredNumberDecimalNullableArray(ctx context.Context, req []NilDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredNumberDecimalNullableArrayArray implements test_request_required_number_decimal_nullable_array_array operation.
+//
+// POST /test_request_required_number_decimal_nullable_array_array
+func (UnimplementedHandler) TestRequestRequiredNumberDecimalNullableArrayArray(ctx context.Context, req [][]NilDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // TestRequestRequiredNumberDouble implements test_request_required_number_double operation.
 //
 // POST /test_request_required_number_double
@@ -2148,6 +2232,48 @@ func (UnimplementedHandler) TestRequestRequiredStringDateTimeNullableArrayArray(
 	return r, ht.ErrNotImplemented
 }
 
+// TestRequestRequiredStringDecimal implements test_request_required_string_decimal operation.
+//
+// POST /test_request_required_string_decimal
+func (UnimplementedHandler) TestRequestRequiredStringDecimal(ctx context.Context, req decimal.Decimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredStringDecimalArray implements test_request_required_string_decimal_array operation.
+//
+// POST /test_request_required_string_decimal_array
+func (UnimplementedHandler) TestRequestRequiredStringDecimalArray(ctx context.Context, req []decimal.Decimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredStringDecimalArrayArray implements test_request_required_string_decimal_array_array operation.
+//
+// POST /test_request_required_string_decimal_array_array
+func (UnimplementedHandler) TestRequestRequiredStringDecimalArrayArray(ctx context.Context, req [][]decimal.Decimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredStringDecimalNullable implements test_request_required_string_decimal_nullable operation.
+//
+// POST /test_request_required_string_decimal_nullable
+func (UnimplementedHandler) TestRequestRequiredStringDecimalNullable(ctx context.Context, req NilStringDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredStringDecimalNullableArray implements test_request_required_string_decimal_nullable_array operation.
+//
+// POST /test_request_required_string_decimal_nullable_array
+func (UnimplementedHandler) TestRequestRequiredStringDecimalNullableArray(ctx context.Context, req []NilStringDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredStringDecimalNullableArrayArray implements test_request_required_string_decimal_nullable_array_array operation.
+//
+// POST /test_request_required_string_decimal_nullable_array_array
+func (UnimplementedHandler) TestRequestRequiredStringDecimalNullableArrayArray(ctx context.Context, req [][]NilStringDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // TestRequestRequiredStringDuration implements test_request_required_string_duration operation.
 //
 // POST /test_request_required_string_duration
@@ -2313,6 +2439,48 @@ func (UnimplementedHandler) TestRequestRequiredStringFloat64NullableArray(ctx co
 //
 // POST /test_request_required_string_float64_nullable_array_array
 func (UnimplementedHandler) TestRequestRequiredStringFloat64NullableArrayArray(ctx context.Context, req [][]NilStringFloat64) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredStringHTTPDate implements test_request_required_string_http-date operation.
+//
+// POST /test_request_required_string_http-date
+func (UnimplementedHandler) TestRequestRequiredStringHTTPDate(ctx context.Context, req time.Time) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredStringHTTPDateArray implements test_request_required_string_http-date_array operation.
+//
+// POST /test_request_required_string_http-date_array
+func (UnimplementedHandler) TestRequestRequiredStringHTTPDateArray(ctx context.Context, req []time.Time) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredStringHTTPDateArrayArray implements test_request_required_string_http-date_array_array operation.
+//
+// POST /test_request_required_string_http-date_array_array
+func (UnimplementedHandler) TestRequestRequiredStringHTTPDateArrayArray(ctx context.Context, req [][]time.Time) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredStringHTTPDateNullable implements test_request_required_string_http-date_nullable operation.
+//
+// POST /test_request_required_string_http-date_nullable
+func (UnimplementedHandler) TestRequestRequiredStringHTTPDateNullable(ctx context.Context, req NilHTTPDate) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredStringHTTPDateNullableArray implements test_request_required_string_http-date_nullable_array operation.
+//
+// POST /test_request_required_string_http-date_nullable_array
+func (UnimplementedHandler) TestRequestRequiredStringHTTPDateNullableArray(ctx context.Context, req []NilHTTPDate) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestRequiredStringHTTPDateNullableArrayArray implements test_request_required_string_http-date_nullable_array_array operation.
+//
+// POST /test_request_required_string_http-date_nullable_array_array
+func (UnimplementedHandler) TestRequestRequiredStringHTTPDateNullableArrayArray(ctx context.Context, req [][]NilHTTPDate) (r *Error, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
@@ -3576,6 +3744,48 @@ func (UnimplementedHandler) TestRequestStringDateTimeNullableArrayArray(ctx cont
 	return r, ht.ErrNotImplemented
 }
 
+// TestRequestStringDecimal implements test_request_string_decimal operation.
+//
+// POST /test_request_string_decimal
+func (UnimplementedHandler) TestRequestStringDecimal(ctx context.Context, req OptStringDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestStringDecimalArray implements test_request_string_decimal_array operation.
+//
+// POST /test_request_string_decimal_array
+func (UnimplementedHandler) TestRequestStringDecimalArray(ctx context.Context, req []decimal.Decimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestStringDecimalArrayArray implements test_request_string_decimal_array_array operation.
+//
+// POST /test_request_string_decimal_array_array
+func (UnimplementedHandler) TestRequestStringDecimalArrayArray(ctx context.Context, req [][]decimal.Decimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestStringDecimalNullable implements test_request_string_decimal_nullable operation.
+//
+// POST /test_request_string_decimal_nullable
+func (UnimplementedHandler) TestRequestStringDecimalNullable(ctx context.Context, req OptNilStringDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestStringDecimalNullableArray implements test_request_string_decimal_nullable_array operation.
+//
+// POST /test_request_string_decimal_nullable_array
+func (UnimplementedHandler) TestRequestStringDecimalNullableArray(ctx context.Context, req []NilStringDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestStringDecimalNullableArrayArray implements test_request_string_decimal_nullable_array_array operation.
+//
+// POST /test_request_string_decimal_nullable_array_array
+func (UnimplementedHandler) TestRequestStringDecimalNullableArrayArray(ctx context.Context, req [][]NilStringDecimal) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // TestRequestStringDuration implements test_request_string_duration operation.
 //
 // POST /test_request_string_duration
@@ -3741,6 +3951,48 @@ func (UnimplementedHandler) TestRequestStringFloat64NullableArray(ctx context.Co
 //
 // POST /test_request_string_float64_nullable_array_array
 func (UnimplementedHandler) TestRequestStringFloat64NullableArrayArray(ctx context.Context, req [][]NilStringFloat64) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestStringHTTPDate implements test_request_string_http-date operation.
+//
+// POST /test_request_string_http-date
+func (UnimplementedHandler) TestRequestStringHTTPDate(ctx context.Context, req OptHTTPDate) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestStringHTTPDateArray implements test_request_string_http-date_array operation.
+//
+// POST /test_request_string_http-date_array
+func (UnimplementedHandler) TestRequestStringHTTPDateArray(ctx context.Context, req []time.Time) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestStringHTTPDateArrayArray implements test_request_string_http-date_array_array operation.
+//
+// POST /test_request_string_http-date_array_array
+func (UnimplementedHandler) TestRequestStringHTTPDateArrayArray(ctx context.Context, req [][]time.Time) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestStringHTTPDateNullable implements test_request_string_http-date_nullable operation.
+//
+// POST /test_request_string_http-date_nullable
+func (UnimplementedHandler) TestRequestStringHTTPDateNullable(ctx context.Context, req OptNilHTTPDate) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestStringHTTPDateNullableArray implements test_request_string_http-date_nullable_array operation.
+//
+// POST /test_request_string_http-date_nullable_array
+func (UnimplementedHandler) TestRequestStringHTTPDateNullableArray(ctx context.Context, req []NilHTTPDate) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestRequestStringHTTPDateNullableArrayArray implements test_request_string_http-date_nullable_array_array operation.
+//
+// POST /test_request_string_http-date_nullable_array_array
+func (UnimplementedHandler) TestRequestStringHTTPDateNullableArrayArray(ctx context.Context, req [][]NilHTTPDate) (r *Error, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
@@ -5529,6 +5781,48 @@ func (UnimplementedHandler) TestResponseNumberArrayArray(ctx context.Context, re
 	return r, ht.ErrNotImplemented
 }
 
+// TestResponseNumberDecimal implements test_response_number_decimal operation.
+//
+// POST /test_response_number_decimal
+func (UnimplementedHandler) TestResponseNumberDecimal(ctx context.Context, req string) (r decimal.Decimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseNumberDecimalArray implements test_response_number_decimal_array operation.
+//
+// POST /test_response_number_decimal_array
+func (UnimplementedHandler) TestResponseNumberDecimalArray(ctx context.Context, req string) (r []decimal.Decimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseNumberDecimalArrayArray implements test_response_number_decimal_array_array operation.
+//
+// POST /test_response_number_decimal_array_array
+func (UnimplementedHandler) TestResponseNumberDecimalArrayArray(ctx context.Context, req string) (r [][]decimal.Decimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseNumberDecimalNullable implements test_response_number_decimal_nullable operation.
+//
+// POST /test_response_number_decimal_nullable
+func (UnimplementedHandler) TestResponseNumberDecimalNullable(ctx context.Context, req string) (r NilDecimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseNumberDecimalNullableArray implements test_response_number_decimal_nullable_array operation.
+//
+// POST /test_response_number_decimal_nullable_array
+func (UnimplementedHandler) TestResponseNumberDecimalNullableArray(ctx context.Context, req string) (r []NilDecimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseNumberDecimalNullableArrayArray implements test_response_number_decimal_nullable_array_array operation.
+//
+// POST /test_response_number_decimal_nullable_array_array
+func (UnimplementedHandler) TestResponseNumberDecimalNullableArrayArray(ctx context.Context, req string) (r [][]NilDecimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // TestResponseNumberDouble implements test_response_number_double operation.
 //
 // POST /test_response_number_double
@@ -5949,6 +6243,48 @@ func (UnimplementedHandler) TestResponseStringDateTimeNullableArrayArray(ctx con
 	return r, ht.ErrNotImplemented
 }
 
+// TestResponseStringDecimal implements test_response_string_decimal operation.
+//
+// POST /test_response_string_decimal
+func (UnimplementedHandler) TestResponseStringDecimal(ctx context.Context, req string) (r decimal.Decimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseStringDecimalArray implements test_response_string_decimal_array operation.
+//
+// POST /test_response_string_decimal_array
+func (UnimplementedHandler) TestResponseStringDecimalArray(ctx context.Context, req string) (r []decimal.Decimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseStringDecimalArrayArray implements test_response_string_decimal_array_array operation.
+//
+// POST /test_response_string_decimal_array_array
+func (UnimplementedHandler) TestResponseStringDecimalArrayArray(ctx context.Context, req string) (r [][]decimal.Decimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseStringDecimalNullable implements test_response_string_decimal_nullable operation.
+//
+// POST /test_response_string_decimal_nullable
+func (UnimplementedHandler) TestResponseStringDecimalNullable(ctx context.Context, req string) (r NilStringDecimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseStringDecimalNullableArray implements test_response_string_decimal_nullable_array operation.
+//
+// POST /test_response_string_decimal_nullable_array
+func (UnimplementedHandler) TestResponseStringDecimalNullableArray(ctx context.Context, req string) (r []NilStringDecimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseStringDecimalNullableArrayArray implements test_response_string_decimal_nullable_array_array operation.
+//
+// POST /test_response_string_decimal_nullable_array_array
+func (UnimplementedHandler) TestResponseStringDecimalNullableArrayArray(ctx context.Context, req string) (r [][]NilStringDecimal, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // TestResponseStringDuration implements test_response_string_duration operation.
 //
 // POST /test_response_string_duration
@@ -6114,6 +6450,48 @@ func (UnimplementedHandler) TestResponseStringFloat64NullableArray(ctx context.C
 //
 // POST /test_response_string_float64_nullable_array_array
 func (UnimplementedHandler) TestResponseStringFloat64NullableArrayArray(ctx context.Context, req string) (r [][]NilStringFloat64, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseStringHTTPDate implements test_response_string_http-date operation.
+//
+// POST /test_response_string_http-date
+func (UnimplementedHandler) TestResponseStringHTTPDate(ctx context.Context, req string) (r time.Time, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseStringHTTPDateArray implements test_response_string_http-date_array operation.
+//
+// POST /test_response_string_http-date_array
+func (UnimplementedHandler) TestResponseStringHTTPDateArray(ctx context.Context, req string) (r []time.Time, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseStringHTTPDateArrayArray implements test_response_string_http-date_array_array operation.
+//
+// POST /test_response_string_http-date_array_array
+func (UnimplementedHandler) TestResponseStringHTTPDateArrayArray(ctx context.Context, req string) (r [][]time.Time, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseStringHTTPDateNullable implements test_response_string_http-date_nullable operation.
+//
+// POST /test_response_string_http-date_nullable
+func (UnimplementedHandler) TestResponseStringHTTPDateNullable(ctx context.Context, req string) (r NilHTTPDate, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseStringHTTPDateNullableArray implements test_response_string_http-date_nullable_array operation.
+//
+// POST /test_response_string_http-date_nullable_array
+func (UnimplementedHandler) TestResponseStringHTTPDateNullableArray(ctx context.Context, req string) (r []NilHTTPDate, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TestResponseStringHTTPDateNullableArrayArray implements test_response_string_http-date_nullable_array_array operation.
+//
+// POST /test_response_string_http-date_nullable_array_array
+func (UnimplementedHandler) TestResponseStringHTTPDateNullableArrayArray(ctx context.Context, req string) (r [][]NilHTTPDate, _ error) {
 	return r, ht.ErrNotImplemented
 }
 

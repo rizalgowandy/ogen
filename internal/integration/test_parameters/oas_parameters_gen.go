@@ -5,10 +5,10 @@ package api
 import (
 	"net/http"
 	"net/url"
+	"time"
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -92,7 +92,7 @@ func decodeComplicatedParameterNameGetParams(args [0]string, argsEscaped bool, r
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -128,7 +128,7 @@ func decodeComplicatedParameterNameGetParams(args [0]string, argsEscaped bool, r
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -164,7 +164,7 @@ func decodeComplicatedParameterNameGetParams(args [0]string, argsEscaped bool, r
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -200,7 +200,7 @@ func decodeComplicatedParameterNameGetParams(args [0]string, argsEscaped bool, r
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -236,7 +236,7 @@ func decodeComplicatedParameterNameGetParams(args [0]string, argsEscaped bool, r
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -328,7 +328,7 @@ func decodeContentParametersParams(args [1]string, argsEscaped bool, r *http.Req
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -425,7 +425,7 @@ func decodeContentParametersParams(args [1]string, argsEscaped bool, r *http.Req
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -468,7 +468,7 @@ func decodeContentParametersParams(args [1]string, argsEscaped bool, r *http.Req
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -483,7 +483,7 @@ func decodeContentParametersParams(args [1]string, argsEscaped bool, r *http.Req
 
 // CookieParameterParams is parameters of cookieParameter operation.
 type CookieParameterParams struct {
-	Value string
+	Value string `customTag:"test"`
 }
 
 func unpackCookieParameterParams(packed middleware.Parameters) (params CookieParameterParams) {
@@ -523,7 +523,7 @@ func decodeCookieParameterParams(args [0]string, argsEscaped bool, r *http.Reque
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -538,7 +538,7 @@ func decodeCookieParameterParams(args [0]string, argsEscaped bool, r *http.Reque
 
 // HeaderParameterParams is parameters of headerParameter operation.
 type HeaderParameterParams struct {
-	XValue string
+	XValue string `customTag:"test"`
 }
 
 func unpackHeaderParameterParams(packed middleware.Parameters) (params HeaderParameterParams) {
@@ -578,7 +578,7 @@ func decodeHeaderParameterParams(args [0]string, argsEscaped bool, r *http.Reque
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -593,7 +593,7 @@ func decodeHeaderParameterParams(args [0]string, argsEscaped bool, r *http.Reque
 
 // ObjectCookieParameterParams is parameters of objectCookieParameter operation.
 type ObjectCookieParameterParams struct {
-	Value OneLevelObject
+	Value OneLevelObject `customTag:"test"`
 }
 
 func unpackObjectCookieParameterParams(packed middleware.Parameters) (params ObjectCookieParameterParams) {
@@ -622,7 +622,7 @@ func decodeObjectCookieParameterParams(args [0]string, argsEscaped bool, r *http
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -637,8 +637,8 @@ func decodeObjectCookieParameterParams(args [0]string, argsEscaped bool, r *http
 
 // ObjectQueryParameterParams is parameters of objectQueryParameter operation.
 type ObjectQueryParameterParams struct {
-	FormObject OptOneLevelObject
-	DeepObject OptOneLevelObject
+	FormObject OptOneLevelObject `json:",omitempty,omitzero" customTag:"test"`
+	DeepObject OptOneLevelObject `json:",omitempty,omitzero" customTag:"test"`
 }
 
 func unpackObjectQueryParameterParams(packed middleware.Parameters) (params ObjectQueryParameterParams) {
@@ -732,8 +732,8 @@ func decodeObjectQueryParameterParams(args [0]string, argsEscaped bool, r *http.
 
 // OptionalArrayParameterParams is parameters of optionalArrayParameter operation.
 type OptionalArrayParameterParams struct {
-	Query  []string
-	Header []string
+	Query  []string `json:",omitempty" customTag:"test"`
+	Header []string `json:",omitempty" customTag:"test"`
 }
 
 func unpackOptionalArrayParameterParams(packed middleware.Parameters) (params OptionalArrayParameterParams) {
@@ -771,6 +771,7 @@ func decodeOptionalArrayParameterParams(args [0]string, argsEscaped bool, r *htt
 
 		if err := q.HasParam(cfg); err == nil {
 			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.Query = nil
 				return d.DecodeArray(func(d uri.Decoder) error {
 					var paramsDotQueryVal string
 					if err := func() error {
@@ -812,6 +813,7 @@ func decodeOptionalArrayParameterParams(args [0]string, argsEscaped bool, r *htt
 		}
 		if err := h.HasParam(cfg); err == nil {
 			if err := h.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.Header = nil
 				return d.DecodeArray(func(d uri.Decoder) error {
 					var paramsDotHeaderVal string
 					if err := func() error {
@@ -848,9 +850,321 @@ func decodeOptionalArrayParameterParams(args [0]string, argsEscaped bool, r *htt
 	return params, nil
 }
 
+// OptionalParametersParams is parameters of optionalParameters operation.
+type OptionalParametersParams struct {
+	Integer   OptInt                      `json:",omitempty,omitzero"`
+	String    OptString                   `json:",omitempty,omitzero"`
+	Boolean   OptBool                     `json:",omitempty,omitzero"`
+	Object    OptOptionalParametersObject `json:",omitempty,omitzero"`
+	Timestamp OptDateTime                 `json:",omitempty,omitzero"`
+	Array     []string                    `json:",omitempty"`
+}
+
+func unpackOptionalParametersParams(packed middleware.Parameters) (params OptionalParametersParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "integer",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Integer = v.(OptInt)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "string",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.String = v.(OptString)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "boolean",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Boolean = v.(OptBool)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "object",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Object = v.(OptOptionalParametersObject)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "timestamp",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Timestamp = v.(OptDateTime)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "array",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Array = v.([]string)
+		}
+	}
+	return params
+}
+
+func decodeOptionalParametersParams(args [0]string, argsEscaped bool, r *http.Request) (params OptionalParametersParams, _ error) {
+	q := uri.NewQueryDecoder(r.URL.Query())
+	// Decode query: integer.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "integer",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotIntegerVal int
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToInt(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotIntegerVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Integer.SetTo(paramsDotIntegerVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "integer",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: string.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "string",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotStringVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotStringVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.String.SetTo(paramsDotStringVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "string",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: boolean.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "boolean",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotBooleanVal bool
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToBool(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotBooleanVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Boolean.SetTo(paramsDotBooleanVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "boolean",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: object.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "object",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+			Fields:  []uri.QueryParameterObjectField{{Name: "key", Required: false}},
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotObjectVal OptionalParametersObject
+				if err := func() error {
+					return paramsDotObjectVal.DecodeURI(d)
+				}(); err != nil {
+					return err
+				}
+				params.Object.SetTo(paramsDotObjectVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "object",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: timestamp.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "timestamp",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotTimestampVal time.Time
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToDateTime(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotTimestampVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Timestamp.SetTo(paramsDotTimestampVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "timestamp",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: array.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "array",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.Array = nil
+				return d.DecodeArray(func(d uri.Decoder) error {
+					var paramsDotArrayVal string
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToString(val)
+						if err != nil {
+							return err
+						}
+
+						paramsDotArrayVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.Array = append(params.Array, paramsDotArrayVal)
+					return nil
+				})
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "array",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
 // PathParameterParams is parameters of pathParameter operation.
 type PathParameterParams struct {
-	Value string
+	Value string `customTag:"test"`
 }
 
 func unpackPathParameterParams(packed middleware.Parameters) (params PathParameterParams) {
@@ -1010,7 +1324,7 @@ func decodeSameNameParams(args [1]string, argsEscaped bool, r *http.Request) (pa
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -1076,7 +1390,7 @@ func decodeSimilarNamesParams(args [0]string, argsEscaped bool, r *http.Request)
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -1110,13 +1424,150 @@ func decodeSimilarNamesParams(args [0]string, argsEscaped bool, r *http.Request)
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
 		return params, &ogenerrors.DecodeParamError{
 			Name: "X-Param",
 			In:   "header",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
+// SpaceDelimitedParameterParams is parameters of spaceDelimitedParameter operation.
+type SpaceDelimitedParameterParams struct {
+	Exploded []string `json:",omitempty"`
+	Joined   []string `json:",omitempty"`
+}
+
+func unpackSpaceDelimitedParameterParams(packed middleware.Parameters) (params SpaceDelimitedParameterParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "exploded",
+			In:   "query",
+		}
+		params.Exploded = packed[key].([]string)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "joined",
+			In:   "query",
+		}
+		params.Joined = packed[key].([]string)
+	}
+	return params
+}
+
+func decodeSpaceDelimitedParameterParams(args [0]string, argsEscaped bool, r *http.Request) (params SpaceDelimitedParameterParams, _ error) {
+	q := uri.NewQueryDecoder(r.URL.Query())
+	// Decode query: exploded.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "exploded",
+			Style:   uri.QueryStyleSpaceDelimited,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.Exploded = nil
+				return d.DecodeArray(func(d uri.Decoder) error {
+					var paramsDotExplodedVal string
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToString(val)
+						if err != nil {
+							return err
+						}
+
+						paramsDotExplodedVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.Exploded = append(params.Exploded, paramsDotExplodedVal)
+					return nil
+				})
+			}); err != nil {
+				return err
+			}
+			if err := func() error {
+				if params.Exploded == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "exploded",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: joined.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "joined",
+			Style:   uri.QueryStyleSpaceDelimited,
+			Explode: false,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.Joined = nil
+				return d.DecodeArray(func(d uri.Decoder) error {
+					var paramsDotJoinedVal string
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToString(val)
+						if err != nil {
+							return err
+						}
+
+						paramsDotJoinedVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.Joined = append(params.Joined, paramsDotJoinedVal)
+					return nil
+				})
+			}); err != nil {
+				return err
+			}
+			if err := func() error {
+				if params.Joined == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "joined",
+			In:   "query",
 			Err:  err,
 		}
 	}

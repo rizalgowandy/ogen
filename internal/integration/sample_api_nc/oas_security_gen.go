@@ -8,14 +8,13 @@ import (
 	"strings"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/ogenerrors"
 )
 
 // SecurityHandler is handler for security parameters.
 type SecurityHandler interface {
 	// HandleAPIKey handles api_key security.
-	HandleAPIKey(ctx context.Context, operationName string, t APIKey) (context.Context, error)
+	HandleAPIKey(ctx context.Context, operationName OperationName, t APIKey) (context.Context, error)
 }
 
 func findAuthorization(h http.Header, prefix string) (string, bool) {
@@ -33,7 +32,33 @@ func findAuthorization(h http.Header, prefix string) (string, bool) {
 	return "", false
 }
 
-func (s *Server) securityAPIKey(ctx context.Context, operationName string, req *http.Request) (context.Context, bool, error) {
+// operationRolesAPIKey is a private map storing roles per operation.
+var operationRolesAPIKey = map[string][]string{
+	SecurityTestOperation: []string{},
+}
+
+// GetRolesForAPIKey returns the required roles for the given operation.
+//
+// This is useful for authorization scenarios where you need to know which roles
+// are required for an operation.
+//
+// Example:
+//
+//	requiredRoles := GetRolesForAPIKey(AddPetOperation)
+//
+// Returns nil if the operation has no role requirements or if the operation is unknown.
+func GetRolesForAPIKey(operation string) []string {
+	roles, ok := operationRolesAPIKey[operation]
+	if !ok {
+		return nil
+	}
+	// Return a copy to prevent external modification
+	result := make([]string, len(roles))
+	copy(result, roles)
+	return result
+}
+
+func (s *Server) securityAPIKey(ctx context.Context, operationName OperationName, req *http.Request) (context.Context, bool, error) {
 	var t APIKey
 	const parameterName = "Api_key"
 	value := req.Header.Get(parameterName)
@@ -41,6 +66,7 @@ func (s *Server) securityAPIKey(ctx context.Context, operationName string, req *
 		return ctx, false, nil
 	}
 	t.APIKey = value
+	t.Roles = operationRolesAPIKey[operationName]
 	rctx, err := s.sec.HandleAPIKey(ctx, operationName, t)
 	if errors.Is(err, ogenerrors.ErrSkipServerSecurity) {
 		return nil, false, nil

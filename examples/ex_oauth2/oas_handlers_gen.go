@@ -8,17 +8,30 @@ import (
 	"time"
 
 	"github.com/go-faster/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
-	"go.opentelemetry.io/otel/trace"
-
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/otelogen"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
+	"go.opentelemetry.io/otel/trace"
 )
+
+type codeRecorder struct {
+	http.ResponseWriter
+	status int
+}
+
+func (c *codeRecorder) WriteHeader(status int) {
+	c.status = status
+	c.ResponseWriter.WriteHeader(status)
+}
+
+func (c *codeRecorder) Unwrap() http.ResponseWriter {
+	return c.ResponseWriter
+}
 
 // handleAddPetRequest handles addPet operation.
 //
@@ -26,14 +39,18 @@ import (
 //
 // POST /pets
 func (s *Server) handleAddPetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("addPet"),
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/pets"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "AddPet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), AddPetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -47,24 +64,48 @@ func (s *Server) handleAddPetRequest(args [0]string, argsEscaped bool, w http.Re
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "AddPet",
+			Name: AddPetOperation,
 			ID:   "addPet",
 		}
 	)
@@ -72,7 +113,7 @@ func (s *Server) handleAddPetRequest(args [0]string, argsEscaped bool, w http.Re
 		type bitset = [1]uint8
 		var satisfied bitset
 		{
-			sctx, ok, err := s.securityOAuth2(ctx, "AddPet", r)
+			sctx, ok, err := s.securityOAuth2(ctx, AddPetOperation, r)
 			if err != nil {
 				err = &ogenerrors.SecurityError{
 					OperationContext: opErrContext,
@@ -114,7 +155,9 @@ func (s *Server) handleAddPetRequest(args [0]string, argsEscaped bool, w http.Re
 			return
 		}
 	}
-	request, close, err := s.decodeAddPetRequest(r)
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeAddPetRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -134,10 +177,11 @@ func (s *Server) handleAddPetRequest(args [0]string, argsEscaped bool, w http.Re
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "AddPet",
+			OperationName:    AddPetOperation,
 			OperationSummary: "",
 			OperationID:      "addPet",
 			Body:             request,
+			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
 			Raw:              r,
 		}
@@ -195,14 +239,18 @@ func (s *Server) handleAddPetRequest(args [0]string, argsEscaped bool, w http.Re
 //
 // DELETE /pets/{id}
 func (s *Server) handleDeletePetRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("deletePet"),
 		semconv.HTTPRequestMethodKey.String("DELETE"),
 		semconv.HTTPRouteKey.String("/pets/{id}"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "DeletePet",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), DeletePetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -216,24 +264,48 @@ func (s *Server) handleDeletePetRequest(args [1]string, argsEscaped bool, w http
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "DeletePet",
+			Name: DeletePetOperation,
 			ID:   "deletePet",
 		}
 	)
@@ -241,7 +313,7 @@ func (s *Server) handleDeletePetRequest(args [1]string, argsEscaped bool, w http
 		type bitset = [1]uint8
 		var satisfied bitset
 		{
-			sctx, ok, err := s.securityOAuth2(ctx, "DeletePet", r)
+			sctx, ok, err := s.securityOAuth2(ctx, DeletePetOperation, r)
 			if err != nil {
 				err = &ogenerrors.SecurityError{
 					OperationContext: opErrContext,
@@ -294,14 +366,17 @@ func (s *Server) handleDeletePetRequest(args [1]string, argsEscaped bool, w http
 		return
 	}
 
+	var rawBody []byte
+
 	var response *DeletePetNoContent
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "DeletePet",
+			OperationName:    DeletePetOperation,
 			OperationSummary: "",
 			OperationID:      "deletePet",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "id",
@@ -364,14 +439,18 @@ func (s *Server) handleDeletePetRequest(args [1]string, argsEscaped bool, w http
 //
 // GET /pets/{id}
 func (s *Server) handleFindPetByIDRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("find pet by id"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/pets/{id}"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "FindPetByID",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), FindPetByIDOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -385,24 +464,48 @@ func (s *Server) handleFindPetByIDRequest(args [1]string, argsEscaped bool, w ht
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "FindPetByID",
+			Name: FindPetByIDOperation,
 			ID:   "find pet by id",
 		}
 	)
@@ -410,7 +513,7 @@ func (s *Server) handleFindPetByIDRequest(args [1]string, argsEscaped bool, w ht
 		type bitset = [1]uint8
 		var satisfied bitset
 		{
-			sctx, ok, err := s.securityOAuth2(ctx, "FindPetByID", r)
+			sctx, ok, err := s.securityOAuth2(ctx, FindPetByIDOperation, r)
 			if err != nil {
 				err = &ogenerrors.SecurityError{
 					OperationContext: opErrContext,
@@ -463,14 +566,17 @@ func (s *Server) handleFindPetByIDRequest(args [1]string, argsEscaped bool, w ht
 		return
 	}
 
+	var rawBody []byte
+
 	var response *Pet
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "FindPetByID",
+			OperationName:    FindPetByIDOperation,
 			OperationSummary: "",
 			OperationID:      "find pet by id",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "id",
@@ -529,36 +635,39 @@ func (s *Server) handleFindPetByIDRequest(args [1]string, argsEscaped bool, w ht
 
 // handleFindPetsRequest handles findPets operation.
 //
-// Returns all pets from the system that the user has access to
-// Nam sed condimentum est. Maecenas tempor sagittis sapien, nec rhoncus sem sagittis sit amet.
-// Aenean at gravida augue, ac iaculis sem. Curabitur odio lorem, ornare eget elementum nec, cursus
-// id lectus. Duis mi turpis, pulvinar ac eros ac, tincidunt varius justo. In hac habitasse platea
-// dictumst. Integer at adipiscing ante, a sagittis ligula. Aenean pharetra tempor ante molestie
-// imperdiet. Vivamus id aliquam diam. Cras quis velit non tortor eleifend sagittis. Praesent at enim
-// pharetra urna volutpat venenatis eget eget mauris. In eleifend fermentum facilisis. Praesent enim
-// enim, gravida ac sodales sed, placerat id erat. Suspendisse lacus dolor, consectetur non augue vel,
-//
-//	vehicula interdum libero. Morbi euismod sagittis libero sed lacinia.
+// Returns all pets from the system that the user has access to Nam sed condimentum est. Maecenas
+// tempor sagittis sapien, nec rhoncus sem sagittis sit amet. Aenean at gravida augue, ac iaculis sem.
+// Curabitur odio lorem, ornare eget elementum nec, cursus id lectus. Duis mi turpis, pulvinar ac eros
+// ac, tincidunt varius justo. In hac habitasse platea dictumst. Integer at adipiscing ante, a sagittis
+// ligula. Aenean pharetra tempor ante molestie imperdiet. Vivamus id aliquam diam. Cras quis velit non
+// tortor eleifend sagittis. Praesent at enim pharetra urna volutpat venenatis eget eget mauris. In
+// eleifend fermentum facilisis. Praesent enim enim, gravida ac sodales sed, placerat id erat.
+// Suspendisse lacus dolor, consectetur non augue vel, vehicula interdum libero. Morbi euismod sagittis
+// libero sed lacinia.
 //
 // Sed tempus felis lobortis leo pulvinar rutrum. Nam mattis velit nisl, eu condimentum ligula luctus
 // nec. Phasellus semper velit eget aliquet faucibus. In a mattis elit. Phasellus vel urna viverra,
 // condimentum lorem id, rhoncus nibh. Ut pellentesque posuere elementum. Sed a varius odio. Morbi
 // rhoncus ligula libero, vel eleifend nunc tristique vitae. Fusce et sem dui. Aenean nec scelerisque
-// tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit
-// amet auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce
+// tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit amet
+// auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce
 // sollicitudin massa ut lacinia mattis. Sed vel eleifend lorem. Pellentesque vitae felis pretium,
 // pulvinar elit eu, euismod sapien.
 //
 // GET /pets
 func (s *Server) handleFindPetsRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("findPets"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/pets"),
 	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "FindPets",
+	ctx, span := s.cfg.Tracer.Start(r.Context(), FindPetsOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -572,24 +681,48 @@ func (s *Server) handleFindPetsRequest(args [0]string, argsEscaped bool, w http.
 	startTime := time.Now()
 	defer func() {
 		elapsedDuration := time.Since(startTime)
-		attrOpt := metric.WithAttributeSet(labeler.AttributeSet())
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(attrs...)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
 
 		// Increment request counter.
 		s.requests.Add(ctx, 1, attrOpt)
 
 		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), attrOpt)
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
 	}()
 
 	var (
 		recordError = func(stage string, err error) {
 			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, metric.WithAttributeSet(labeler.AttributeSet()))
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "FindPets",
+			Name: FindPetsOperation,
 			ID:   "findPets",
 		}
 	)
@@ -597,7 +730,7 @@ func (s *Server) handleFindPetsRequest(args [0]string, argsEscaped bool, w http.
 		type bitset = [1]uint8
 		var satisfied bitset
 		{
-			sctx, ok, err := s.securityOAuth2(ctx, "FindPets", r)
+			sctx, ok, err := s.securityOAuth2(ctx, FindPetsOperation, r)
 			if err != nil {
 				err = &ogenerrors.SecurityError{
 					OperationContext: opErrContext,
@@ -650,14 +783,17 @@ func (s *Server) handleFindPetsRequest(args [0]string, argsEscaped bool, w http.
 		return
 	}
 
+	var rawBody []byte
+
 	var response []Pet
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "FindPets",
+			OperationName:    FindPetsOperation,
 			OperationSummary: "",
 			OperationID:      "findPets",
 			Body:             nil,
+			RawBody:          rawBody,
 			Params: middleware.Parameters{
 				{
 					Name: "tags",

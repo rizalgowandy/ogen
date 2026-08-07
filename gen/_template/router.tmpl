@@ -4,6 +4,19 @@
 {{- $router := $.Router }}
 
 {{- if and $.PathsServerEnabled $.Operations }}
+
+{{- with $nodes := $router.NodesWithAllowedHeaders }}
+var (
+	{{- range $n := $nodes }}
+	rn{{ $n.ID }}AllowedHeaders = map[string]string{
+		{{- range $kv := $n.AllowedHeaders }}
+		{{ quote (index $kv 0) }}: {{ quote (index $kv 1) }},
+		{{- end }}
+	}
+	{{- end }}
+)
+{{- end }}
+
 func (s *Server) cutPrefix(path string) (string, bool) {
 	prefix := s.cfg.Prefix
 	if prefix == "" {
@@ -54,6 +67,7 @@ type Route struct {
 	name string
 	summary string
 	operationID string
+	operationGroup string
 	pathPattern string
 	count int
 	args [{{ $router.MaxParametersCount }}]string
@@ -74,6 +88,11 @@ func (r Route) Summary() string {
 // OperationID returns OpenAPI operationId.
 func (r Route) OperationID() string {
 	return r.operationID
+}
+
+// OperationGroup returns the x-ogen-operation-group value.
+func (r Route) OperationGroup() string {
+	return r.operationGroup
 }
 
 // PathPattern returns OpenAPI path.
@@ -129,6 +148,19 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 {{- end }}
 
 {{- if and $.WebhookServerEnabled $.Webhooks }}
+
+{{- with $hooks := $.WebhookRouter.WebhooksWithAllowedHeaders }}
+var (
+	{{- range $h := $hooks }}
+	wh{{ $h.ID }}AllowedHeaders = map[string]string{
+		{{- range $kv := $h.AllowedHeaders }}
+		{{ quote (index $kv 0) }}: {{ quote (index $kv 1) }},
+		{{- end }}
+	}
+	{{- end }}
+)
+{{- end }}
+
 // Handle handles webhook request.
 //
 // Returns true if there is a webhook handler for given name and requested method.
@@ -163,7 +195,12 @@ func (s *WebhookServer) Handler(webhookName string) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// We know that webhook exists, so false means wrong method.
 			if !s.Handle(webhookName, w, r) {
-				s.notAllowed(w, r, {{ quote $methods.AllowedMethods }})
+				s.notAllowed(w, r, notAllowedParams{
+					allowedMethods: {{ quote $methods.AllowedMethods }},
+					allowedHeaders: {{ if $methods.WithAllowedHeaders }}wh{{ $methods.ID }}AllowedHeaders{{ else }}nil{{ end }},
+					acceptPost:     {{ quote $methods.PostContentTypes }},
+					acceptPatch:    {{ quote $methods.PatchContentTypes }},
+				})
 			}
 		})
 	{{- end }}
@@ -188,7 +225,12 @@ func (s *WebhookServer) Handler(webhookName string) http.Handler {
 		}, elemIsEscaped, w, r)
 	{{- end }}
 	default:
-		s.notAllowed(w, r, {{ quote $.AllowedMethods }})
+		s.notAllowed(w, r, notAllowedParams{
+			allowedMethods: {{ quote $.AllowedMethods }},
+			allowedHeaders: {{ if $.WithAllowedHeaders }}rn{{ $.ID }}AllowedHeaders{{ else }}nil{{ end }},
+			acceptPost:     {{ quote $.PostContentTypes }},
+			acceptPatch:    {{ quote $.PatchContentTypes }},
+		})
 	}
 {{ end }}
 
@@ -217,7 +259,7 @@ func (s *WebhookServer) Handler(webhookName string) http.Handler {
 		switch elem[0] {
 		{{- range $c := $child }}
 		case {{ quote $c.Head }}: // Prefix: {{ quote $c.Prefix }}
-			origElem := elem
+			{{ if $r.ParamChildren -}} origElem := elem {{- end }}
 			if l := len({{ quote $c.Prefix }}); len(elem) >= l && elem[0:l] == {{ quote $c.Prefix }} {
 				elem = elem[l:]
 			} else {
@@ -225,7 +267,7 @@ func (s *WebhookServer) Handler(webhookName string) http.Handler {
 			}
 			{{ template "route_edge" router_elem $c $.ParameterIndex }}
 
-			elem = origElem
+			{{ if $r.ParamChildren -}} elem = origElem {{- end }}
 		{{- end }}
 		}
 	{{- end }}
@@ -248,7 +290,11 @@ func (s *WebhookServer) Handler(webhookName string) http.Handler {
 			elem = elem[idx:]
 			{{ template "route_edge" router_elem $c $.ParameterIndex }}
 			{{- else }}
-			// Leaf parameter
+			// Leaf parameter, slashes are prohibited
+			idx := strings.IndexByte(elem, '/')
+			if (idx >= 0) {
+				break
+			}
 			args[{{ $.ParameterIndex }}] = elem
 			elem = ""
 			{{ template "route_edge" router_elem $c $.ParameterIndex }}
@@ -266,9 +312,10 @@ func (s *WebhookServer) Handler(webhookName string) http.Handler {
 	{{- range $route := $r.Routes }}
 	case {{ quote $route.Method }}:
 		{{- $op := $route.Operation }}
-		r.name = {{ quote $op.Name }}
+		r.name = {{ $op.Name }}Operation
 		r.summary = {{ quote $op.Summary }}
 		r.operationID = {{ quote $op.Spec.OperationID }}
+		r.operationGroup = {{ quote $op.OperationGroup }}
 		r.pathPattern = {{ quote $route.Path }}
 		r.args = args
 		r.count = {{ $.ParameterIndex }}
@@ -302,7 +349,7 @@ func (s *WebhookServer) Handler(webhookName string) http.Handler {
 		switch elem[0] {
 		{{- range $c := $child }}
 		case {{ quote $c.Head }}: // Prefix: {{ quote $c.Prefix }}
-			origElem := elem
+			{{ if $r.ParamChildren -}} origElem := elem {{- end }}
 			if l := len({{ quote $c.Prefix }}); len(elem) >= l && elem[0:l] == {{ quote $c.Prefix }} {
 				elem = elem[l:]
 			} else {
@@ -310,7 +357,7 @@ func (s *WebhookServer) Handler(webhookName string) http.Handler {
 			}
 			{{ template "find_edge" router_elem $c $.ParameterIndex }}
 
-			elem = origElem
+			{{ if $r.ParamChildren -}} elem = origElem {{- end }}
 		{{- end }}
 		}
 	{{- end }}
@@ -333,7 +380,11 @@ func (s *WebhookServer) Handler(webhookName string) http.Handler {
 			elem = elem[idx:]
 			{{ template "find_edge" router_elem $c $.ParameterIndex }}
 			{{- else }}
-			// Leaf parameter
+			// Leaf parameter, slashes are prohibited
+			idx := strings.IndexByte(elem, '/')
+			if (idx >= 0) {
+				break
+			}
 			args[{{ $.ParameterIndex }}] = elem
 			elem = ""
 			{{ template "find_edge" router_elem $c $.ParameterIndex }}

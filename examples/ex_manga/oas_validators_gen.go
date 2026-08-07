@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/validate"
 )
 
@@ -28,6 +27,7 @@ func (s *Book) Validate() error {
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(value)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -55,6 +55,7 @@ func (s *Book) Validate() error {
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(value)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -125,6 +126,7 @@ func (s *Book) Validate() error {
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(value)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -152,6 +154,7 @@ func (s *Book) Validate() error {
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(value)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -191,6 +194,7 @@ func (s *Image) Validate() error {
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(value)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -218,6 +222,7 @@ func (s *Image) Validate() error {
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(value)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -417,6 +422,7 @@ func (s *Tag) Validate() error {
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(value)); err != nil {
 					return errors.Wrap(err, "int")
 				}

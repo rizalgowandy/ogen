@@ -8,7 +8,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/google/uuid"
-
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -109,6 +108,7 @@ func decodeDataGetFormatParams(args [5]string, argsEscaped bool, r *http.Request
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.ID)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -163,13 +163,17 @@ func decodeDataGetFormatParams(args [5]string, argsEscaped bool, r *http.Request
 			}
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    1,
-					MinLengthSet: true,
-					MaxLength:    0,
-					MaxLengthSet: false,
-					Email:        false,
-					Hostname:     false,
-					Regex:        nil,
+					MinLength:     1,
+					MinLengthSet:  true,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         false,
+					Hostname:      false,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(params.Foo)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -224,13 +228,17 @@ func decodeDataGetFormatParams(args [5]string, argsEscaped bool, r *http.Request
 			}
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    1,
-					MinLengthSet: true,
-					MaxLength:    0,
-					MaxLengthSet: false,
-					Email:        false,
-					Hostname:     false,
-					Regex:        nil,
+					MinLength:     1,
+					MinLengthSet:  true,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         false,
+					Hostname:      false,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(params.Bar)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -285,13 +293,17 @@ func decodeDataGetFormatParams(args [5]string, argsEscaped bool, r *http.Request
 			}
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    1,
-					MinLengthSet: true,
-					MaxLength:    0,
-					MaxLengthSet: false,
-					Email:        false,
-					Hostname:     false,
-					Regex:        nil,
+					MinLength:     1,
+					MinLengthSet:  true,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         false,
+					Hostname:      false,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(params.Baz)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -346,13 +358,17 @@ func decodeDataGetFormatParams(args [5]string, argsEscaped bool, r *http.Request
 			}
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    1,
-					MinLengthSet: true,
-					MaxLength:    0,
-					MaxLengthSet: false,
-					Email:        false,
-					Hostname:     false,
-					Regex:        nil,
+					MinLength:     1,
+					MinLengthSet:  true,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         false,
+					Hostname:      false,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(params.Kek)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -376,7 +392,8 @@ func decodeDataGetFormatParams(args [5]string, argsEscaped bool, r *http.Request
 
 // DefaultTestParams is parameters of defaultTest operation.
 type DefaultTestParams struct {
-	Default OptInt32
+	Default      OptInt32 `json:",omitempty,omitzero"`
+	ArrayDefault []string `json:",omitempty"`
 }
 
 func unpackDefaultTestParams(packed middleware.Parameters) (params DefaultTestParams) {
@@ -387,6 +404,15 @@ func unpackDefaultTestParams(packed middleware.Parameters) (params DefaultTestPa
 		}
 		if v, ok := packed[key]; ok {
 			params.Default = v.(OptInt32)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "arrayDefault",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.ArrayDefault = v.([]string)
 		}
 	}
 	return params
@@ -436,6 +462,69 @@ func decodeDefaultTestParams(args [0]string, argsEscaped bool, r *http.Request) 
 	}(); err != nil {
 		return params, &ogenerrors.DecodeParamError{
 			Name: "default",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Set default value for query: arrayDefault.
+	{
+		var defaultVal0 []string
+		{
+			var defaultVal0Elem string
+
+			val := string("a")
+			defaultVal0Elem = val
+			defaultVal0 = append(defaultVal0, defaultVal0Elem)
+		}
+		{
+			var defaultVal0Elem string
+
+			val := string("b")
+			defaultVal0Elem = val
+			defaultVal0 = append(defaultVal0, defaultVal0Elem)
+		}
+		params.ArrayDefault = defaultVal0
+	}
+	// Decode query: arrayDefault.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "arrayDefault",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.ArrayDefault = nil
+				return d.DecodeArray(func(d uri.Decoder) error {
+					var paramsDotArrayDefaultVal string
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToString(val)
+						if err != nil {
+							return err
+						}
+
+						paramsDotArrayDefaultVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					params.ArrayDefault = append(params.ArrayDefault, paramsDotArrayDefaultVal)
+					return nil
+				})
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "arrayDefault",
 			In:   "query",
 			Err:  err,
 		}
@@ -497,7 +586,7 @@ func decodeFoobarGetParams(args [0]string, argsEscaped bool, r *http.Request) (p
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -533,7 +622,7 @@ func decodeFoobarGetParams(args [0]string, argsEscaped bool, r *http.Request) (p
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -617,9 +706,9 @@ type PetGetParams struct {
 	// ID of pet.
 	PetID int64
 	// Tags of pets.
-	XTags []uuid.UUID
+	XTags []uuid.UUID `json:",omitempty"`
 	// Pet scopes.
-	XScope []string
+	XScope []string `json:",omitempty"`
 	// Token.
 	Token string
 }
@@ -694,6 +783,7 @@ func decodePetGetParams(args [0]string, argsEscaped bool, r *http.Request) (para
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.PetID)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -702,7 +792,7 @@ func decodePetGetParams(args [0]string, argsEscaped bool, r *http.Request) (para
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -720,6 +810,7 @@ func decodePetGetParams(args [0]string, argsEscaped bool, r *http.Request) (para
 		}
 		if err := h.HasParam(cfg); err == nil {
 			if err := h.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.XTags = nil
 				return d.DecodeArray(func(d uri.Decoder) error {
 					var paramsDotXTagsVal uuid.UUID
 					if err := func() error {
@@ -753,7 +844,7 @@ func decodePetGetParams(args [0]string, argsEscaped bool, r *http.Request) (para
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -771,6 +862,7 @@ func decodePetGetParams(args [0]string, argsEscaped bool, r *http.Request) (para
 		}
 		if err := h.HasParam(cfg); err == nil {
 			if err := h.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.XScope = nil
 				return d.DecodeArray(func(d uri.Decoder) error {
 					var paramsDotXScopeVal string
 					if err := func() error {
@@ -804,7 +896,7 @@ func decodePetGetParams(args [0]string, argsEscaped bool, r *http.Request) (para
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -840,7 +932,7 @@ func decodePetGetParams(args [0]string, argsEscaped bool, r *http.Request) (para
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -898,7 +990,7 @@ func decodePetGetAvatarByIDParams(args [0]string, argsEscaped bool, r *http.Requ
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -1154,7 +1246,7 @@ func decodePetUploadAvatarByIDParams(args [0]string, argsEscaped bool, r *http.R
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {

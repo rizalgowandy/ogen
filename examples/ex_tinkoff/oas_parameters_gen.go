@@ -10,7 +10,6 @@ import (
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/uri"
-	"github.com/ogen-go/ogen/validate"
 )
 
 // MarketCandlesGetParams is parameters of GET /market/candles operation.
@@ -85,7 +84,7 @@ func decodeMarketCandlesGetParams(args [0]string, argsEscaped bool, r *http.Requ
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -121,7 +120,7 @@ func decodeMarketCandlesGetParams(args [0]string, argsEscaped bool, r *http.Requ
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -157,7 +156,7 @@ func decodeMarketCandlesGetParams(args [0]string, argsEscaped bool, r *http.Requ
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -201,7 +200,7 @@ func decodeMarketCandlesGetParams(args [0]string, argsEscaped bool, r *http.Requ
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -268,7 +267,7 @@ func decodeMarketOrderbookGetParams(args [0]string, argsEscaped bool, r *http.Re
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -304,7 +303,7 @@ func decodeMarketOrderbookGetParams(args [0]string, argsEscaped bool, r *http.Re
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -362,7 +361,7 @@ func decodeMarketSearchByFigiGetParams(args [0]string, argsEscaped bool, r *http
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -420,7 +419,7 @@ func decodeMarketSearchByTickerGetParams(args [0]string, argsEscaped bool, r *ht
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -440,9 +439,9 @@ type OperationsGetParams struct {
 	// Конец временного промежутка.
 	To time.Time
 	// Figi инструмента для фильтрации.
-	Figi OptString
+	Figi OptString `json:",omitempty,omitzero"`
 	// Номер счета (по умолчанию - Тинькофф).
-	BrokerAccountId OptString
+	BrokerAccountId OptString `json:",omitempty,omitzero"`
 }
 
 func unpackOperationsGetParams(packed middleware.Parameters) (params OperationsGetParams) {
@@ -509,7 +508,7 @@ func decodeOperationsGetParams(args [0]string, argsEscaped bool, r *http.Request
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -545,7 +544,7 @@ func decodeOperationsGetParams(args [0]string, argsEscaped bool, r *http.Request
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -645,7 +644,7 @@ type OrdersCancelPostParams struct {
 	// ID заявки.
 	OrderId string
 	// Номер счета (по умолчанию - Тинькофф).
-	BrokerAccountId OptString
+	BrokerAccountId OptString `json:",omitempty,omitzero"`
 }
 
 func unpackOrdersCancelPostParams(packed middleware.Parameters) (params OrdersCancelPostParams) {
@@ -696,7 +695,7 @@ func decodeOrdersCancelPostParams(args [0]string, argsEscaped bool, r *http.Requ
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -753,7 +752,7 @@ func decodeOrdersCancelPostParams(args [0]string, argsEscaped bool, r *http.Requ
 // OrdersGetParams is parameters of GET /orders operation.
 type OrdersGetParams struct {
 	// Номер счета (по умолчанию - Тинькофф).
-	BrokerAccountId OptString
+	BrokerAccountId OptString `json:",omitempty,omitzero"`
 }
 
 func unpackOrdersGetParams(packed middleware.Parameters) (params OrdersGetParams) {
@@ -820,7 +819,7 @@ type OrdersLimitOrderPostParams struct {
 	// FIGI инструмента.
 	Figi string
 	// Номер счета (по умолчанию - Тинькофф).
-	BrokerAccountId OptString
+	BrokerAccountId OptString `json:",omitempty,omitzero"`
 }
 
 func unpackOrdersLimitOrderPostParams(packed middleware.Parameters) (params OrdersLimitOrderPostParams) {
@@ -871,7 +870,7 @@ func decodeOrdersLimitOrderPostParams(args [0]string, argsEscaped bool, r *http.
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -931,7 +930,7 @@ type OrdersMarketOrderPostParams struct {
 	Figi string
 	// Уникальный идентификатор счета (по умолчанию -
 	// Тинькофф).
-	BrokerAccountId OptString
+	BrokerAccountId OptString `json:",omitempty,omitzero"`
 }
 
 func unpackOrdersMarketOrderPostParams(packed middleware.Parameters) (params OrdersMarketOrderPostParams) {
@@ -982,7 +981,7 @@ func decodeOrdersMarketOrderPostParams(args [0]string, argsEscaped bool, r *http
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -1039,7 +1038,7 @@ func decodeOrdersMarketOrderPostParams(args [0]string, argsEscaped bool, r *http
 // PortfolioCurrenciesGetParams is parameters of GET /portfolio/currencies operation.
 type PortfolioCurrenciesGetParams struct {
 	// Номер счета (по умолчанию - Тинькофф).
-	BrokerAccountId OptString
+	BrokerAccountId OptString `json:",omitempty,omitzero"`
 }
 
 func unpackPortfolioCurrenciesGetParams(packed middleware.Parameters) (params PortfolioCurrenciesGetParams) {
@@ -1104,7 +1103,7 @@ func decodePortfolioCurrenciesGetParams(args [0]string, argsEscaped bool, r *htt
 // PortfolioGetParams is parameters of GET /portfolio operation.
 type PortfolioGetParams struct {
 	// Номер счета (по умолчанию - Тинькофф).
-	BrokerAccountId OptString
+	BrokerAccountId OptString `json:",omitempty,omitzero"`
 }
 
 func unpackPortfolioGetParams(packed middleware.Parameters) (params PortfolioGetParams) {
@@ -1169,7 +1168,7 @@ func decodePortfolioGetParams(args [0]string, argsEscaped bool, r *http.Request)
 // SandboxClearPostParams is parameters of POST /sandbox/clear operation.
 type SandboxClearPostParams struct {
 	// Номер счета (по умолчанию - Тинькофф).
-	BrokerAccountId OptString
+	BrokerAccountId OptString `json:",omitempty,omitzero"`
 }
 
 func unpackSandboxClearPostParams(packed middleware.Parameters) (params SandboxClearPostParams) {
@@ -1234,7 +1233,7 @@ func decodeSandboxClearPostParams(args [0]string, argsEscaped bool, r *http.Requ
 // SandboxCurrenciesBalancePostParams is parameters of POST /sandbox/currencies/balance operation.
 type SandboxCurrenciesBalancePostParams struct {
 	// Номер счета (по умолчанию - Тинькофф).
-	BrokerAccountId OptString
+	BrokerAccountId OptString `json:",omitempty,omitzero"`
 }
 
 func unpackSandboxCurrenciesBalancePostParams(packed middleware.Parameters) (params SandboxCurrenciesBalancePostParams) {
@@ -1299,7 +1298,7 @@ func decodeSandboxCurrenciesBalancePostParams(args [0]string, argsEscaped bool, 
 // SandboxPositionsBalancePostParams is parameters of POST /sandbox/positions/balance operation.
 type SandboxPositionsBalancePostParams struct {
 	// Номер счета (по умолчанию - Тинькофф).
-	BrokerAccountId OptString
+	BrokerAccountId OptString `json:",omitempty,omitzero"`
 }
 
 func unpackSandboxPositionsBalancePostParams(packed middleware.Parameters) (params SandboxPositionsBalancePostParams) {
@@ -1364,7 +1363,7 @@ func decodeSandboxPositionsBalancePostParams(args [0]string, argsEscaped bool, r
 // SandboxRemovePostParams is parameters of POST /sandbox/remove operation.
 type SandboxRemovePostParams struct {
 	// Номер счета (по умолчанию - Тинькофф).
-	BrokerAccountId OptString
+	BrokerAccountId OptString `json:",omitempty,omitzero"`
 }
 
 func unpackSandboxRemovePostParams(packed middleware.Parameters) (params SandboxRemovePostParams) {

@@ -49,7 +49,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -61,7 +61,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 			switch elem[0] {
 			case 'a': // Prefix: "anyContentTypeBinaryStringSchema"
-				origElem := elem
+
 				if l := len("anyContentTypeBinaryStringSchema"); len(elem) >= l && elem[0:l] == "anyContentTypeBinaryStringSchema" {
 					elem = elem[l:]
 				} else {
@@ -73,14 +73,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleAnyContentTypeBinaryStringSchemaRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 				switch elem[0] {
 				case 'D': // Prefix: "Default"
-					origElem := elem
+
 					if l := len("Default"); len(elem) >= l && elem[0:l] == "Default" {
 						elem = elem[l:]
 					} else {
@@ -93,18 +98,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleAnyContentTypeBinaryStringSchemaDefaultRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'c': // Prefix: "combined"
-				origElem := elem
+
 				if l := len("combined"); len(elem) >= l && elem[0:l] == "combined" {
 					elem = elem[l:]
 				} else {
@@ -117,15 +125,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleCombinedRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 'h': // Prefix: "headers"
-				origElem := elem
+
 				if l := len("headers"); len(elem) >= l && elem[0:l] == "headers" {
 					elem = elem[l:]
 				} else {
@@ -137,7 +149,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 				switch elem[0] {
 				case '2': // Prefix: "200"
-					origElem := elem
+
 					if l := len("200"); len(elem) >= l && elem[0:l] == "200" {
 						elem = elem[l:]
 					} else {
@@ -150,15 +162,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleHeaders200Request([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'C': // Prefix: "Combined"
-					origElem := elem
+
 					if l := len("Combined"); len(elem) >= l && elem[0:l] == "Combined" {
 						elem = elem[l:]
 					} else {
@@ -171,15 +187,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleHeadersCombinedRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'D': // Prefix: "Default"
-					origElem := elem
+
 					if l := len("Default"); len(elem) >= l && elem[0:l] == "Default" {
 						elem = elem[l:]
 					} else {
@@ -192,15 +212,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleHeadersDefaultRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'J': // Prefix: "JSON"
-					origElem := elem
+
 					if l := len("JSON"); len(elem) >= l && elem[0:l] == "JSON" {
 						elem = elem[l:]
 					} else {
@@ -213,15 +237,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleHeadersJSONRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'P': // Prefix: "Pattern"
-					origElem := elem
+
 					if l := len("Pattern"); len(elem) >= l && elem[0:l] == "Pattern" {
 						elem = elem[l:]
 					} else {
@@ -234,18 +262,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleHeadersPatternRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'i': // Prefix: "intersectPatternCode"
-				origElem := elem
+
 				if l := len("intersectPatternCode"); len(elem) >= l && elem[0:l] == "intersectPatternCode" {
 					elem = elem[l:]
 				} else {
@@ -258,15 +289,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleIntersectPatternCodeRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 'm': // Prefix: "multipleGenericResponses"
-				origElem := elem
+
 				if l := len("multipleGenericResponses"); len(elem) >= l && elem[0:l] == "multipleGenericResponses" {
 					elem = elem[l:]
 				} else {
@@ -279,15 +314,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleMultipleGenericResponsesRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "o"
-				origElem := elem
+
 				if l := len("o"); len(elem) >= l && elem[0:l] == "o" {
 					elem = elem[l:]
 				} else {
@@ -299,7 +338,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 				switch elem[0] {
 				case 'c': // Prefix: "ctetStream"
-					origElem := elem
+
 					if l := len("ctetStream"); len(elem) >= l && elem[0:l] == "ctetStream" {
 						elem = elem[l:]
 					} else {
@@ -311,7 +350,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					}
 					switch elem[0] {
 					case 'B': // Prefix: "BinaryStringSchema"
-						origElem := elem
+
 						if l := len("BinaryStringSchema"); len(elem) >= l && elem[0:l] == "BinaryStringSchema" {
 							elem = elem[l:]
 						} else {
@@ -324,15 +363,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "GET":
 								s.handleOctetStreamBinaryStringSchemaRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "GET")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "GET",
+									allowedHeaders: nil,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					case 'E': // Prefix: "EmptySchema"
-						origElem := elem
+
 						if l := len("EmptySchema"); len(elem) >= l && elem[0:l] == "EmptySchema" {
 							elem = elem[l:]
 						} else {
@@ -345,18 +388,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "GET":
 								s.handleOctetStreamEmptySchemaRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "GET")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "GET",
+									allowedHeaders: nil,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				case 'p': // Prefix: "ptionalHeaders"
-					origElem := elem
+
 					if l := len("ptionalHeaders"); len(elem) >= l && elem[0:l] == "ptionalHeaders" {
 						elem = elem[l:]
 					} else {
@@ -369,18 +415,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleOptionalHeadersRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 's': // Prefix: "streamJSON"
-				origElem := elem
+
 				if l := len("streamJSON"); len(elem) >= l && elem[0:l] == "streamJSON" {
 					elem = elem[l:]
 				} else {
@@ -393,15 +442,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "POST":
 						s.handleStreamJSONRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "POST")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "POST",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 't': // Prefix: "textPlainBinaryStringSchema"
-				origElem := elem
+
 				if l := len("textPlainBinaryStringSchema"); len(elem) >= l && elem[0:l] == "textPlainBinaryStringSchema" {
 					elem = elem[l:]
 				} else {
@@ -414,16 +467,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleTextPlainBinaryStringSchemaRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	s.notFound(w, r)
@@ -431,12 +487,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Route is route object.
 type Route struct {
-	name        string
-	summary     string
-	operationID string
-	pathPattern string
-	count       int
-	args        [0]string
+	name           string
+	summary        string
+	operationID    string
+	operationGroup string
+	pathPattern    string
+	count          int
+	args           [0]string
 }
 
 // Name returns ogen operation name.
@@ -454,6 +511,11 @@ func (r Route) Summary() string {
 // OperationID returns OpenAPI operationId.
 func (r Route) OperationID() string {
 	return r.operationID
+}
+
+// OperationGroup returns the x-ogen-operation-group value.
+func (r Route) OperationGroup() string {
+	return r.operationGroup
 }
 
 // PathPattern returns OpenAPI path.
@@ -505,7 +567,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -517,7 +579,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			}
 			switch elem[0] {
 			case 'a': // Prefix: "anyContentTypeBinaryStringSchema"
-				origElem := elem
+
 				if l := len("anyContentTypeBinaryStringSchema"); len(elem) >= l && elem[0:l] == "anyContentTypeBinaryStringSchema" {
 					elem = elem[l:]
 				} else {
@@ -527,9 +589,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				if len(elem) == 0 {
 					switch method {
 					case "GET":
-						r.name = "AnyContentTypeBinaryStringSchema"
+						r.name = AnyContentTypeBinaryStringSchemaOperation
 						r.summary = ""
 						r.operationID = "anyContentTypeBinaryStringSchema"
+						r.operationGroup = ""
 						r.pathPattern = "/anyContentTypeBinaryStringSchema"
 						r.args = args
 						r.count = 0
@@ -540,7 +603,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'D': // Prefix: "Default"
-					origElem := elem
+
 					if l := len("Default"); len(elem) >= l && elem[0:l] == "Default" {
 						elem = elem[l:]
 					} else {
@@ -551,9 +614,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "AnyContentTypeBinaryStringSchemaDefault"
+							r.name = AnyContentTypeBinaryStringSchemaDefaultOperation
 							r.summary = ""
 							r.operationID = "anyContentTypeBinaryStringSchemaDefault"
+							r.operationGroup = ""
 							r.pathPattern = "/anyContentTypeBinaryStringSchemaDefault"
 							r.args = args
 							r.count = 0
@@ -563,12 +627,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'c': // Prefix: "combined"
-				origElem := elem
+
 				if l := len("combined"); len(elem) >= l && elem[0:l] == "combined" {
 					elem = elem[l:]
 				} else {
@@ -579,9 +641,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "Combined"
+						r.name = CombinedOperation
 						r.summary = ""
 						r.operationID = "combined"
+						r.operationGroup = ""
 						r.pathPattern = "/combined"
 						r.args = args
 						r.count = 0
@@ -591,9 +654,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 'h': // Prefix: "headers"
-				origElem := elem
+
 				if l := len("headers"); len(elem) >= l && elem[0:l] == "headers" {
 					elem = elem[l:]
 				} else {
@@ -605,7 +667,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case '2': // Prefix: "200"
-					origElem := elem
+
 					if l := len("200"); len(elem) >= l && elem[0:l] == "200" {
 						elem = elem[l:]
 					} else {
@@ -616,9 +678,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "Headers200"
+							r.name = Headers200Operation
 							r.summary = ""
 							r.operationID = "headers200"
+							r.operationGroup = ""
 							r.pathPattern = "/headers200"
 							r.args = args
 							r.count = 0
@@ -628,9 +691,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'C': // Prefix: "Combined"
-					origElem := elem
+
 					if l := len("Combined"); len(elem) >= l && elem[0:l] == "Combined" {
 						elem = elem[l:]
 					} else {
@@ -641,9 +703,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "HeadersCombined"
+							r.name = HeadersCombinedOperation
 							r.summary = ""
 							r.operationID = "headersCombined"
+							r.operationGroup = ""
 							r.pathPattern = "/headersCombined"
 							r.args = args
 							r.count = 0
@@ -653,9 +716,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'D': // Prefix: "Default"
-					origElem := elem
+
 					if l := len("Default"); len(elem) >= l && elem[0:l] == "Default" {
 						elem = elem[l:]
 					} else {
@@ -666,9 +728,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "HeadersDefault"
+							r.name = HeadersDefaultOperation
 							r.summary = ""
 							r.operationID = "headersDefault"
+							r.operationGroup = ""
 							r.pathPattern = "/headersDefault"
 							r.args = args
 							r.count = 0
@@ -678,9 +741,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'J': // Prefix: "JSON"
-					origElem := elem
+
 					if l := len("JSON"); len(elem) >= l && elem[0:l] == "JSON" {
 						elem = elem[l:]
 					} else {
@@ -691,9 +753,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "HeadersJSON"
+							r.name = HeadersJSONOperation
 							r.summary = ""
 							r.operationID = "headersJSON"
+							r.operationGroup = ""
 							r.pathPattern = "/headersJSON"
 							r.args = args
 							r.count = 0
@@ -703,9 +766,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'P': // Prefix: "Pattern"
-					origElem := elem
+
 					if l := len("Pattern"); len(elem) >= l && elem[0:l] == "Pattern" {
 						elem = elem[l:]
 					} else {
@@ -716,9 +778,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "HeadersPattern"
+							r.name = HeadersPatternOperation
 							r.summary = ""
 							r.operationID = "headersPattern"
+							r.operationGroup = ""
 							r.pathPattern = "/headersPattern"
 							r.args = args
 							r.count = 0
@@ -728,12 +791,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'i': // Prefix: "intersectPatternCode"
-				origElem := elem
+
 				if l := len("intersectPatternCode"); len(elem) >= l && elem[0:l] == "intersectPatternCode" {
 					elem = elem[l:]
 				} else {
@@ -744,9 +805,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "IntersectPatternCode"
+						r.name = IntersectPatternCodeOperation
 						r.summary = ""
 						r.operationID = "intersectPatternCode"
+						r.operationGroup = ""
 						r.pathPattern = "/intersectPatternCode"
 						r.args = args
 						r.count = 0
@@ -756,9 +818,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 'm': // Prefix: "multipleGenericResponses"
-				origElem := elem
+
 				if l := len("multipleGenericResponses"); len(elem) >= l && elem[0:l] == "multipleGenericResponses" {
 					elem = elem[l:]
 				} else {
@@ -769,9 +830,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "MultipleGenericResponses"
+						r.name = MultipleGenericResponsesOperation
 						r.summary = ""
 						r.operationID = "multipleGenericResponses"
+						r.operationGroup = ""
 						r.pathPattern = "/multipleGenericResponses"
 						r.args = args
 						r.count = 0
@@ -781,9 +843,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "o"
-				origElem := elem
+
 				if l := len("o"); len(elem) >= l && elem[0:l] == "o" {
 					elem = elem[l:]
 				} else {
@@ -795,7 +856,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'c': // Prefix: "ctetStream"
-					origElem := elem
+
 					if l := len("ctetStream"); len(elem) >= l && elem[0:l] == "ctetStream" {
 						elem = elem[l:]
 					} else {
@@ -807,7 +868,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 					switch elem[0] {
 					case 'B': // Prefix: "BinaryStringSchema"
-						origElem := elem
+
 						if l := len("BinaryStringSchema"); len(elem) >= l && elem[0:l] == "BinaryStringSchema" {
 							elem = elem[l:]
 						} else {
@@ -818,9 +879,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "GET":
-								r.name = "OctetStreamBinaryStringSchema"
+								r.name = OctetStreamBinaryStringSchemaOperation
 								r.summary = ""
 								r.operationID = "octetStreamBinaryStringSchema"
+								r.operationGroup = ""
 								r.pathPattern = "/octetStreamBinaryStringSchema"
 								r.args = args
 								r.count = 0
@@ -830,9 +892,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					case 'E': // Prefix: "EmptySchema"
-						origElem := elem
+
 						if l := len("EmptySchema"); len(elem) >= l && elem[0:l] == "EmptySchema" {
 							elem = elem[l:]
 						} else {
@@ -843,9 +904,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "GET":
-								r.name = "OctetStreamEmptySchema"
+								r.name = OctetStreamEmptySchemaOperation
 								r.summary = ""
 								r.operationID = "octetStreamEmptySchema"
+								r.operationGroup = ""
 								r.pathPattern = "/octetStreamEmptySchema"
 								r.args = args
 								r.count = 0
@@ -855,12 +917,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				case 'p': // Prefix: "ptionalHeaders"
-					origElem := elem
+
 					if l := len("ptionalHeaders"); len(elem) >= l && elem[0:l] == "ptionalHeaders" {
 						elem = elem[l:]
 					} else {
@@ -871,9 +931,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "OptionalHeaders"
+							r.name = OptionalHeadersOperation
 							r.summary = ""
 							r.operationID = "optionalHeaders"
+							r.operationGroup = ""
 							r.pathPattern = "/optionalHeaders"
 							r.args = args
 							r.count = 0
@@ -883,12 +944,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 's': // Prefix: "streamJSON"
-				origElem := elem
+
 				if l := len("streamJSON"); len(elem) >= l && elem[0:l] == "streamJSON" {
 					elem = elem[l:]
 				} else {
@@ -899,9 +958,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "POST":
-						r.name = "StreamJSON"
+						r.name = StreamJSONOperation
 						r.summary = ""
 						r.operationID = "streamJSON"
+						r.operationGroup = ""
 						r.pathPattern = "/streamJSON"
 						r.args = args
 						r.count = 0
@@ -911,9 +971,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 't': // Prefix: "textPlainBinaryStringSchema"
-				origElem := elem
+
 				if l := len("textPlainBinaryStringSchema"); len(elem) >= l && elem[0:l] == "textPlainBinaryStringSchema" {
 					elem = elem[l:]
 				} else {
@@ -924,9 +983,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "TextPlainBinaryStringSchema"
+						r.name = TextPlainBinaryStringSchemaOperation
 						r.summary = ""
 						r.operationID = "textPlainBinaryStringSchema"
+						r.operationGroup = ""
 						r.pathPattern = "/textPlainBinaryStringSchema"
 						r.args = args
 						r.count = 0
@@ -936,10 +996,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	return r, false

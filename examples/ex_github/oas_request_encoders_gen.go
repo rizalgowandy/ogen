@@ -8,7 +8,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	ht "github.com/ogen-go/ogen/http"
 )
 
@@ -56,6 +55,20 @@ func encodeActionsCreateOrUpdateRepoSecretRequest(
 
 func encodeActionsCreateSelfHostedRunnerGroupForOrgRequest(
 	req *ActionsCreateSelfHostedRunnerGroupForOrgReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeActionsCreateWorkflowDispatchRequest(
+	req *ActionsCreateWorkflowDispatchReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -434,6 +447,20 @@ func encodeAppsUpdateWebhookConfigForAppRequest(
 		if req.Set {
 			req.Encode(e)
 		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeChecksCreateRequest(
+	req *ChecksCreateReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
 	}
 	encoded := e.Bytes()
 	ht.SetBody(r, bytes.NewReader(encoded), contentType)
@@ -2601,6 +2628,48 @@ func encodeReposUploadReleaseAssetRequest(
 		ht.SetBody(r, body, contentType)
 		return nil
 	}
+}
+
+func encodeScimProvisionAndInviteUserRequest(
+	req *ScimProvisionAndInviteUserReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeScimSetInformationForProvisionedUserRequest(
+	req *ScimSetInformationForProvisionedUserReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeScimUpdateAttributeForUserRequest(
+	req *ScimUpdateAttributeForUserReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
 }
 
 func encodeSecretScanningUpdateAlertRequest(

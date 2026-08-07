@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
 )
 
 // SetFake set fake values.
@@ -144,6 +145,44 @@ func (s *DataDescription) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *DefaultCircle) SetFake() {
+	{
+		{
+			s.Kind = "string"
+		}
+	}
+	{
+		{
+			s.Radius = int(0)
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *DefaultShape) SetFake() {
+	var variant DefaultCircle
+
+	{
+		variant.SetFake()
+	}
+	s.SetDefaultCircle(variant)
+}
+
+// SetFake set fake values.
+func (s *DefaultSquare) SetFake() {
+	{
+		{
+			s.Kind = "string"
+		}
+	}
+	{
+		{
+			s.Side = int(0)
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *DefaultTest) SetFake() {
 	{
 		{
@@ -220,11 +259,120 @@ func (s *DefaultTest) SetFake() {
 			s.Base64 = []byte("[]byte")
 		}
 	}
+	{
+		{
+			s.Strings = nil
+			for i := 0; i < 0; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.Strings = append(s.Strings, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Priorities = nil
+			for i := 0; i < 0; i++ {
+				var elem DefaultTestPrioritiesItem
+				{
+					elem.SetFake()
+				}
+				s.Priorities = append(s.Priorities, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Nested = nil
+			for i := 0; i < 0; i++ {
+				var elem []int
+				{
+					elem = nil
+					for i := 0; i < 0; i++ {
+						var elemElem int
+						{
+							elemElem = int(0)
+						}
+						elem = append(elem, elemElem)
+					}
+				}
+				s.Nested = append(s.Nested, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Objs = nil
+			for i := 0; i < 0; i++ {
+				var elem DefaultTestObjsItem
+				{
+					elem.SetFake()
+				}
+				s.Objs = append(s.Objs, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Shapes = nil
+			for i := 0; i < 0; i++ {
+				var elem DefaultShape
+				{
+					elem.SetFake()
+				}
+				s.Shapes = append(s.Shapes, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Labels = nil
+			for i := 0; i < 0; i++ {
+				var elem DefaultTestLabelsItem
+				{
+					elem.SetFake()
+				}
+				s.Labels = append(s.Labels, elem)
+			}
+		}
+	}
 }
 
 // SetFake set fake values.
 func (s *DefaultTestEnum) SetFake() {
 	*s = DefaultTestEnumBig
+}
+
+// SetFake set fake values.
+func (s *DefaultTestLabelsItem) SetFake() {
+	var (
+		elem string
+		m    map[string]string = s.init()
+	)
+	for i := 0; i < 0; i++ {
+		m[fmt.Sprintf("fake%d", i)] = elem
+	}
+}
+
+// SetFake set fake values.
+func (s *DefaultTestObjsItem) SetFake() {
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.Count.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *DefaultTestPrioritiesItem) SetFake() {
+	*s = DefaultTestPrioritiesItemLow
 }
 
 // SetFake set fake values.
@@ -356,6 +504,29 @@ func (s *InlineUniqueFieldsOneOfSum) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *Issue1310) SetFake() {
+	{
+		{
+			s.Title.SetFake()
+		}
+	}
+	{
+		{
+			s.Details.SetFake()
+		}
+	}
+	{
+		{
+			s.Properties.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *Issue1310Properties) SetFake() {
+}
+
+// SetFake set fake values.
 func (s *Issue143) SetFake() {
 	var variant Issue1430
 
@@ -437,6 +608,87 @@ func (s *Issue1433) SetFake() {
 	{
 		{
 			s.UniqueMinus4 = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *Issue1461) SetFake() {
+	{
+		{
+			s.RequiredTest.SetFake()
+		}
+	}
+	{
+		{
+			s.OptionalTest.SetFake()
+		}
+	}
+	{
+		{
+			s.NullableTest.SetFake()
+		}
+	}
+	{
+		{
+			s.NullableOptionalTest.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *Issue1461NullableOptionalTest) SetFake() {
+	{
+		{
+			s.Banana.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *Issue1461NullableTest) SetFake() {
+	{
+		{
+			s.Banana = nil
+			for i := 0; i < 2; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.Banana = append(s.Banana, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *Issue1461OptionalTest) SetFake() {
+	{
+		{
+			s.Banana = nil
+			for i := 0; i < 2; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.Banana = append(s.Banana, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *Issue1461RequiredTest) SetFake() {
+	{
+		{
+			s.Banana = nil
+			for i := 0; i < 2; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.Banana = append(s.Banana, elem)
+			}
 		}
 	}
 }
@@ -1061,6 +1313,51 @@ func (s *OptInt32) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *OptIssue1310Properties) SetFake() {
+	var elem *Issue1310Properties
+	{ // Keep pointer nil to prevent infinite recursion.
+		elem = nil
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptIssue1461NullableOptionalTest) SetFake() {
+	var elem Issue1461NullableOptionalTest
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptIssue1461NullableTest) SetFake() {
+	var elem Issue1461NullableTest
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptIssue1461OptionalTest) SetFake() {
+	var elem Issue1461OptionalTest
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptIssue1461RequiredTest) SetFake() {
+	var elem Issue1461RequiredTest
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
 func (s *OptIssue943) SetFake() {
 	var elem Issue943
 	{
@@ -1585,6 +1882,20 @@ func (s *StringStringMap) SetFake() {
 	)
 	for i := 0; i < 0; i++ {
 		m[fmt.Sprintf("fake%d", i)] = elem
+	}
+}
+
+// SetFake set fake values.
+func (s *TestDecimalValidation) SetFake() {
+	{
+		{
+			s.Minmax = decimal.Zero
+		}
+	}
+	{
+		{
+			s.MultipleOf = decimal.Zero
+		}
 	}
 }
 

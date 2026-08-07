@@ -144,17 +144,19 @@ func (s *Candle) SetTime(val time.Time) {
 }
 
 // Интервал свечи и допустимый промежуток запроса:
-// - 1min [1 minute, 1 day]
-// - 2min [2 minutes, 1 day]
-// - 3min [3 minutes, 1 day]
-// - 5min [5 minutes, 1 day]
-// - 10min [10 minutes, 1 day]
-// - 15min [15 minutes, 1 day]
-// - 30min [30 minutes, 1 day]
-// - hour [1 hour, 7 days]
-// - day [1 day, 1 year]
-// - week [7 days, 2 years]
-// - month [1 month, 10 years].
+//
+//   - 1min [1 minute, 1 day]
+//   - 2min [2 minutes, 1 day]
+//   - 3min [3 minutes, 1 day]
+//   - 5min [5 minutes, 1 day]
+//   - 10min [10 minutes, 1 day]
+//   - 15min [15 minutes, 1 day]
+//   - 30min [30 minutes, 1 day]
+//   - hour [1 hour, 7 days]
+//   - day [1 day, 1 year]
+//   - week [7 days, 2 years]
+//   - month [1 month, 10 years]
+//
 // Ref: #/components/schemas/CandleResolution
 type CandleResolution string
 
@@ -2817,6 +2819,7 @@ func (*PortfolioResponse) portfolioGetRes() {}
 
 type SSOAuth struct {
 	Token string
+	Roles []string
 }
 
 // GetToken returns the value of Token.
@@ -2824,9 +2827,19 @@ func (s *SSOAuth) GetToken() string {
 	return s.Token
 }
 
+// GetRoles returns the value of Roles.
+func (s *SSOAuth) GetRoles() []string {
+	return s.Roles
+}
+
 // SetToken sets the value of Token.
 func (s *SSOAuth) SetToken(val string) {
 	s.Token = val
+}
+
+// SetRoles sets the value of Roles.
+func (s *SSOAuth) SetRoles(val []string) {
+	s.Roles = val
 }
 
 // Ref: #/components/schemas/SandboxAccount

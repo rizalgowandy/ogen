@@ -4,9 +4,168 @@ package api
 
 import (
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/validate"
 )
+
+func (s *AllOfWithSiblingExtensionsReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := validate.Ogen("hasPrefix", s.Name, "Mr. "); err != nil {
+			return errors.Wrap(err, "hasPrefix")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "name",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *AllOfWithSiblingPropertiesReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Bar.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "bar",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *Bar) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Value)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "value",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s BazStatus) Validate() error {
+	switch s {
+	case "active":
+		return nil
+	case "inactive":
+		return nil
+	case "decommissioned":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *Foo) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Bar.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "bar",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *GetAdminFooOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Bar.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "bar",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.BazStatus.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "bazStatus",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 
 func (s *Location) Validate() error {
 	if s == nil {
@@ -77,6 +236,7 @@ func (s *ObjectsWithConflictingArrayPropertyReq) Validate() error {
 			MaxExclusive:  false,
 			MultipleOfSet: false,
 			MultipleOf:    0,
+			Pattern:       nil,
 		}).Validate(int64(s.Bar)); err != nil {
 			return errors.Wrap(err, "int")
 		}
@@ -101,13 +261,17 @@ func (s *ObjectsWithConflictingPropertiesReq) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.String{
-			MinLength:    10,
-			MinLengthSet: true,
-			MaxLength:    0,
-			MaxLengthSet: false,
-			Email:        false,
-			Hostname:     false,
-			Regex:        nil,
+			MinLength:     10,
+			MinLengthSet:  true,
+			MaxLength:     0,
+			MaxLengthSet:  false,
+			Email:         false,
+			Hostname:      false,
+			Regex:         nil,
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
 		}).Validate(string(s.Foo)); err != nil {
 			return errors.Wrap(err, "string")
 		}
@@ -130,6 +294,7 @@ func (s *ObjectsWithConflictingPropertiesReq) Validate() error {
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(value)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -142,6 +307,138 @@ func (s *ObjectsWithConflictingPropertiesReq) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "bar",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *ReferencedAllOfNullable) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Location.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "location",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.AllOfLocation.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "allOfLocation",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.NullableAllOfLocation.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "nullableAllOfLocation",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *ReferencedAllOfNullableMultipart) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Location.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "location",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.AllOfLocation.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "allOfLocation",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.NullableAllOfLocation.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "nullableAllOfLocation",
 			Error: err,
 		})
 	}

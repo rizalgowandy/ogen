@@ -7,7 +7,6 @@ import (
 	"net/url"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -77,6 +76,7 @@ func decodeGetBookParams(args [1]string, argsEscaped bool, r *http.Request) (par
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.BookID)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -169,6 +169,7 @@ func decodeGetPageCoverImageParams(args [2]string, argsEscaped bool, r *http.Req
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.MediaID)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -320,6 +321,7 @@ func decodeGetPageImageParams(args [3]string, argsEscaped bool, r *http.Request)
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.MediaID)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -382,6 +384,7 @@ func decodeGetPageImageParams(args [3]string, argsEscaped bool, r *http.Request)
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.Page)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -533,6 +536,7 @@ func decodeGetPageThumbnailImageParams(args [3]string, argsEscaped bool, r *http
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.MediaID)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -595,6 +599,7 @@ func decodeGetPageThumbnailImageParams(args [3]string, argsEscaped bool, r *http
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.Page)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -669,17 +674,18 @@ func decodeGetPageThumbnailImageParams(args [3]string, argsEscaped bool, r *http
 // SearchParams is parameters of search operation.
 type SearchParams struct {
 	// Search query.
-	// * You can search for multiple terms at the same time, and this will return only galleries that
-	// contain both terms. For example, rust cox finds all galleries that contain both rust and cox.
-	// * You can exclude terms by prefixing them with -. For example, rust cox -tokio matches all
-	// galleries matching rust and cox but not tokio.
-	// * Exact searches can be performed by wrapping terms in double quotes. For example, "big dogs" only
-	// matches galleries with "big dogs" somewhere in the title or in tags.
-	// * These can be combined with tag namespaces for finer control over the query: parodies:railgun
-	// -tag:"big dogs".
+	//
+	//  - You can search for multiple terms at the same time, and this will return only galleries that
+	//    contain both terms. For example, rust cox finds all galleries that contain both rust and cox.
+	//  - You can exclude terms by prefixing them with -. For example, rust cox -tokio matches all
+	//    galleries matching rust and cox but not tokio.
+	//  - Exact searches can be performed by wrapping terms in double quotes. For example, "big dogs" only
+	//    matches galleries with "big dogs" somewhere in the title or in tags.
+	//  - These can be combined with tag namespaces for finer control over the query: parodies:railgun
+	//    -tag:"big dogs".
 	Query string
 	// Number of result page.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackSearchParams(packed middleware.Parameters) (params SearchParams) {
@@ -730,7 +736,7 @@ func decodeSearchParams(args [0]string, argsEscaped bool, r *http.Request) (para
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -789,7 +795,7 @@ type SearchByTagIDParams struct {
 	// Tag ID.
 	TagID int
 	// Number of result page.
-	Page OptInt
+	Page OptInt `json:",omitempty,omitzero"`
 }
 
 func unpackSearchByTagIDParams(packed middleware.Parameters) (params SearchByTagIDParams) {
@@ -840,7 +846,7 @@ func decodeSearchByTagIDParams(args [0]string, argsEscaped bool, r *http.Request
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {

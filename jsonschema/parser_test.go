@@ -381,10 +381,25 @@ func TestSchemaExtensions(t *testing.T) {
 		{`{"type": "string", "x-ogen-name": "foo"}`, nil, true},
 		// Invalid type.
 		{`{"type": "string", "x-ogen-name": {}}`, nil, true},
+		{
+			`{"type": "string", "x-ogen-time-format": "2006-01-02T15:04:05.999999999Z07:00"}`,
+			&Schema{
+				Type:            String,
+				XOgenTimeFormat: "2006-01-02T15:04:05.999999999Z07:00",
+			},
+			false,
+		},
+		{
+			`{"type": "string", "x-ogen-type": "github.com/google/uuid.UUID"}`,
+			&Schema{
+				Type:      String,
+				XOgenType: "github.com/google/uuid.UUID",
+			},
+			false,
+		},
 	}
 
 	for i, tt := range tests {
-		tt := tt
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
 			a := require.New(t)
 			data := []byte(tt.raw)
@@ -417,7 +432,6 @@ func TestInvalidMultipleOf(t *testing.T) {
 		"integer",
 		"number",
 	} {
-		typ := typ
 		t.Run(typ, func(t *testing.T) {
 			for _, v := range values {
 				_, err := parser.Parse(&RawSchema{
@@ -432,5 +446,193 @@ func TestInvalidMultipleOf(t *testing.T) {
 			MultipleOf: []byte("true"),
 		}, testCtx())
 		require.Error(t, err)
+	}
+}
+
+func TestSchema_MinMaxObjectProp(t *testing.T) {
+	var minLength, maxLength uint64 = 1, 2
+
+	parser := NewParser(Settings{})
+
+	out, err := parser.Parse(&RawSchema{
+		Type:      "object",
+		MinLength: &minLength,
+		MaxLength: &maxLength,
+	}, testCtx())
+	require.NoError(t, err)
+
+	expect := &Schema{
+		Type:      Object,
+		MinLength: &minLength,
+		MaxLength: &maxLength,
+	}
+
+	require.Equal(t, expect, out)
+}
+
+func TestSchemaConst(t *testing.T) {
+	tests := []struct {
+		name      string
+		raw       *RawSchema
+		expect    *Schema
+		expectErr bool
+	}{
+		{
+			name: "integer const",
+			raw: &RawSchema{
+				Type:  "integer",
+				Const: []byte("400"),
+			},
+			expect: &Schema{
+				Type:     Integer,
+				Const:    int64(400),
+				ConstSet: true,
+			},
+			expectErr: false,
+		},
+		{
+			name: "string const",
+			raw: &RawSchema{
+				Type:  "string",
+				Const: []byte(`"hello"`),
+			},
+			expect: &Schema{
+				Type:     String,
+				Const:    "hello",
+				ConstSet: true,
+			},
+			expectErr: false,
+		},
+		{
+			name: "boolean const",
+			raw: &RawSchema{
+				Type:  "boolean",
+				Const: []byte("true"),
+			},
+			expect: &Schema{
+				Type:     Boolean,
+				Const:    true,
+				ConstSet: true,
+			},
+			expectErr: false,
+		},
+		{
+			name: "number const",
+			raw: &RawSchema{
+				Type:  "number",
+				Const: []byte("3.14"),
+			},
+			expect: &Schema{
+				Type:     Number,
+				Const:    float64(3.14),
+				ConstSet: true,
+			},
+			expectErr: false,
+		},
+		{
+			name: "invalid const",
+			raw: &RawSchema{
+				Type:  "integer",
+				Const: []byte("invalid"),
+			},
+			expect:    nil,
+			expectErr: true,
+		},
+	}
+
+	parser := NewParser(Settings{})
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			out, err := parser.Parse(tt.raw, testCtx())
+			if tt.expectErr {
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			// Zero locator to simplify comparison.
+			out.Pointer = location.Pointer{}
+			require.Equal(t, tt.expect, out)
+		})
+	}
+}
+
+func TestInferJSONType(t *testing.T) {
+	tests := []struct {
+		raw       string
+		expect    string
+		expectErr bool
+	}{
+		{`"foo"`, "string", false},
+		{`10`, "number", false},
+		{`3.14`, "number", false},
+		{`true`, "boolean", false},
+		{`false`, "boolean", false},
+		{`null`, "", true},
+		{`{}`, "", true},
+		{`[]`, "", true},
+	}
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			typ, err := inferJSONType([]byte(tt.raw))
+			if tt.expectErr {
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.Equal(t, tt.expect, typ)
+		})
+	}
+}
+
+func TestSchemaInferTypes(t *testing.T) {
+	tests := []struct {
+		name   string
+		raw    *RawSchema
+		expect *Schema
+	}{
+		{
+			name: "boolean default",
+			raw:  &RawSchema{Default: []byte("true")},
+			expect: &Schema{
+				Type:       Boolean,
+				Default:    true,
+				DefaultSet: true,
+			},
+		},
+		{
+			name: "boolean enum",
+			raw:  &RawSchema{Enum: Enum{[]byte("true"), []byte("false")}},
+			expect: &Schema{
+				Type: Boolean,
+				Enum: []any{true, false},
+			},
+		},
+		{
+			name: "string default",
+			raw:  &RawSchema{Default: []byte(`"foo"`)},
+			expect: &Schema{
+				Type:       String,
+				Default:    "foo",
+				DefaultSet: true,
+			},
+		},
+		{
+			name: "number default",
+			raw:  &RawSchema{Default: []byte("10")},
+			expect: &Schema{
+				Type:       Number,
+				Default:    int64(10),
+				DefaultSet: true,
+			},
+		},
+	}
+
+	parser := NewParser(Settings{InferTypes: true})
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			out, err := parser.Parse(tt.raw, testCtx())
+			require.NoError(t, err)
+			require.Equal(t, tt.expect, out)
+		})
 	}
 }

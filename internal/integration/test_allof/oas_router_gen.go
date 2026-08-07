@@ -10,6 +10,45 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
+var (
+	rn1AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn3AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn8AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn9AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn10AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn12AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn13AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn15AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn16AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn17AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn19AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+	rn21AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+)
+
 func (s *Server) cutPrefix(path string) (string, bool) {
 	prefix := s.cfg.Prefix
 	if prefix == "" {
@@ -49,7 +88,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -60,8 +99,161 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				break
 			}
 			switch elem[0] {
+			case 'a': // Prefix: "a"
+
+				if l := len("a"); len(elem) >= l && elem[0:l] == "a" {
+					elem = elem[l:]
+				} else {
+					break
+				}
+
+				if len(elem) == 0 {
+					break
+				}
+				switch elem[0] {
+				case 'd': // Prefix: "dmin/foo"
+
+					if l := len("dmin/foo"); len(elem) >= l && elem[0:l] == "dmin/foo" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						// Leaf node.
+						switch r.Method {
+						case "GET":
+							s.handleGetAdminFooRequest([0]string{}, elemIsEscaped, w, r)
+						default:
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
+						}
+
+						return
+					}
+
+				case 'l': // Prefix: "llOfWithSibling"
+
+					if l := len("llOfWithSibling"); len(elem) >= l && elem[0:l] == "llOfWithSibling" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						break
+					}
+					switch elem[0] {
+					case 'E': // Prefix: "Extensions"
+
+						if l := len("Extensions"); len(elem) >= l && elem[0:l] == "Extensions" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch r.Method {
+							case "POST":
+								s.handleAllOfWithSiblingExtensionsRequest([0]string{}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "POST",
+									allowedHeaders: rn1AllowedHeaders,
+									acceptPost:     "application/json",
+									acceptPatch:    "",
+								})
+							}
+
+							return
+						}
+
+					case 'P': // Prefix: "Properties"
+
+						if l := len("Properties"); len(elem) >= l && elem[0:l] == "Properties" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch r.Method {
+							case "POST":
+								s.handleAllOfWithSiblingPropertiesRequest([0]string{}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "POST",
+									allowedHeaders: rn3AllowedHeaders,
+									acceptPost:     "application/json",
+									acceptPatch:    "",
+								})
+							}
+
+							return
+						}
+
+					}
+
+				}
+
+			case 'f': // Prefix: "foo"
+
+				if l := len("foo"); len(elem) >= l && elem[0:l] == "foo" {
+					elem = elem[l:]
+				} else {
+					break
+				}
+
+				if len(elem) == 0 {
+					// Leaf node.
+					switch r.Method {
+					case "GET":
+						s.handleGetFooRequest([0]string{}, elemIsEscaped, w, r)
+					default:
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
+					}
+
+					return
+				}
+
+			case 'm': // Prefix: "multiAllOfWithSiblingProperties"
+
+				if l := len("multiAllOfWithSiblingProperties"); len(elem) >= l && elem[0:l] == "multiAllOfWithSiblingProperties" {
+					elem = elem[l:]
+				} else {
+					break
+				}
+
+				if len(elem) == 0 {
+					// Leaf node.
+					switch r.Method {
+					case "POST":
+						s.handleMultiAllOfWithSiblingPropertiesRequest([0]string{}, elemIsEscaped, w, r)
+					default:
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "POST",
+							allowedHeaders: rn8AllowedHeaders,
+							acceptPost:     "application/json",
+							acceptPatch:    "",
+						})
+					}
+
+					return
+				}
+
 			case 'n': // Prefix: "nullableStrings"
-				origElem := elem
+
 				if l := len("nullableStrings"); len(elem) >= l && elem[0:l] == "nullableStrings" {
 					elem = elem[l:]
 				} else {
@@ -74,15 +266,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "POST":
 						s.handleNullableStringsRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "POST")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "POST",
+							allowedHeaders: rn9AllowedHeaders,
+							acceptPost:     "application/json",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "objectsWithConflicting"
-				origElem := elem
+
 				if l := len("objectsWithConflicting"); len(elem) >= l && elem[0:l] == "objectsWithConflicting" {
 					elem = elem[l:]
 				} else {
@@ -94,7 +290,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 				switch elem[0] {
 				case 'A': // Prefix: "ArrayProperty"
-					origElem := elem
+
 					if l := len("ArrayProperty"); len(elem) >= l && elem[0:l] == "ArrayProperty" {
 						elem = elem[l:]
 					} else {
@@ -107,15 +303,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "POST":
 							s.handleObjectsWithConflictingArrayPropertyRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "POST")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "POST",
+								allowedHeaders: rn10AllowedHeaders,
+								acceptPost:     "application/json",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'P': // Prefix: "Properties"
-					origElem := elem
+
 					if l := len("Properties"); len(elem) >= l && elem[0:l] == "Properties" {
 						elem = elem[l:]
 					} else {
@@ -128,38 +328,34 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "POST":
 							s.handleObjectsWithConflictingPropertiesRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "POST")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "POST",
+								allowedHeaders: rn12AllowedHeaders,
+								acceptPost:     "application/json",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
-			case 'r': // Prefix: "referencedAllof"
-				origElem := elem
-				if l := len("referencedAllof"); len(elem) >= l && elem[0:l] == "referencedAllof" {
+			case 'r': // Prefix: "referencedAll"
+
+				if l := len("referencedAll"); len(elem) >= l && elem[0:l] == "referencedAll" {
 					elem = elem[l:]
 				} else {
 					break
 				}
 
 				if len(elem) == 0 {
-					switch r.Method {
-					case "POST":
-						s.handleReferencedAllofRequest([0]string{}, elemIsEscaped, w, r)
-					default:
-						s.notAllowed(w, r, "POST")
-					}
-
-					return
+					break
 				}
 				switch elem[0] {
-				case 'O': // Prefix: "Optional"
-					origElem := elem
-					if l := len("Optional"); len(elem) >= l && elem[0:l] == "Optional" {
+				case 'O': // Prefix: "OfNullable"
+
+					if l := len("OfNullable"); len(elem) >= l && elem[0:l] == "OfNullable" {
 						elem = elem[l:]
 					} else {
 						break
@@ -169,20 +365,74 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						// Leaf node.
 						switch r.Method {
 						case "POST":
-							s.handleReferencedAllofOptionalRequest([0]string{}, elemIsEscaped, w, r)
+							s.handleReferencedAllOfNullableRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "POST")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "POST",
+								allowedHeaders: rn13AllowedHeaders,
+								acceptPost:     "application/json,multipart/form-data",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
+				case 'o': // Prefix: "of"
+
+					if l := len("of"); len(elem) >= l && elem[0:l] == "of" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						switch r.Method {
+						case "POST":
+							s.handleReferencedAllofRequest([0]string{}, elemIsEscaped, w, r)
+						default:
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "POST",
+								allowedHeaders: rn15AllowedHeaders,
+								acceptPost:     "application/json,multipart/form-data",
+								acceptPatch:    "",
+							})
+						}
+
+						return
+					}
+					switch elem[0] {
+					case 'O': // Prefix: "Optional"
+
+						if l := len("Optional"); len(elem) >= l && elem[0:l] == "Optional" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch r.Method {
+							case "POST":
+								s.handleReferencedAllofOptionalRequest([0]string{}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "POST",
+									allowedHeaders: rn16AllowedHeaders,
+									acceptPost:     "application/json,multipart/form-data",
+									acceptPatch:    "",
+								})
+							}
+
+							return
+						}
+
+					}
+
 				}
 
-				elem = origElem
 			case 's': // Prefix: "s"
-				origElem := elem
+
 				if l := len("s"); len(elem) >= l && elem[0:l] == "s" {
 					elem = elem[l:]
 				} else {
@@ -194,7 +444,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 				switch elem[0] {
 				case 'i': // Prefix: "imple"
-					origElem := elem
+
 					if l := len("imple"); len(elem) >= l && elem[0:l] == "imple" {
 						elem = elem[l:]
 					} else {
@@ -206,7 +456,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					}
 					switch elem[0] {
 					case 'I': // Prefix: "Integer"
-						origElem := elem
+
 						if l := len("Integer"); len(elem) >= l && elem[0:l] == "Integer" {
 							elem = elem[l:]
 						} else {
@@ -219,15 +469,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "POST":
 								s.handleSimpleIntegerRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "POST")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "POST",
+									allowedHeaders: rn17AllowedHeaders,
+									acceptPost:     "application/json",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					case 'O': // Prefix: "Objects"
-						origElem := elem
+
 						if l := len("Objects"); len(elem) >= l && elem[0:l] == "Objects" {
 							elem = elem[l:]
 						} else {
@@ -240,18 +494,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "POST":
 								s.handleSimpleObjectsRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "POST")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "POST",
+									allowedHeaders: rn19AllowedHeaders,
+									acceptPost:     "application/json",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				case 't': // Prefix: "tringsNotype"
-					origElem := elem
+
 					if l := len("tringsNotype"); len(elem) >= l && elem[0:l] == "tringsNotype" {
 						elem = elem[l:]
 					} else {
@@ -264,19 +521,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "POST":
 							s.handleStringsNotypeRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "POST")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "POST",
+								allowedHeaders: rn21AllowedHeaders,
+								acceptPost:     "application/json",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	s.notFound(w, r)
@@ -284,12 +543,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Route is route object.
 type Route struct {
-	name        string
-	summary     string
-	operationID string
-	pathPattern string
-	count       int
-	args        [0]string
+	name           string
+	summary        string
+	operationID    string
+	operationGroup string
+	pathPattern    string
+	count          int
+	args           [0]string
 }
 
 // Name returns ogen operation name.
@@ -307,6 +567,11 @@ func (r Route) Summary() string {
 // OperationID returns OpenAPI operationId.
 func (r Route) OperationID() string {
 	return r.operationID
+}
+
+// OperationGroup returns the x-ogen-operation-group value.
+func (r Route) OperationGroup() string {
+	return r.operationGroup
 }
 
 // PathPattern returns OpenAPI path.
@@ -358,7 +623,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -369,8 +634,161 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				break
 			}
 			switch elem[0] {
+			case 'a': // Prefix: "a"
+
+				if l := len("a"); len(elem) >= l && elem[0:l] == "a" {
+					elem = elem[l:]
+				} else {
+					break
+				}
+
+				if len(elem) == 0 {
+					break
+				}
+				switch elem[0] {
+				case 'd': // Prefix: "dmin/foo"
+
+					if l := len("dmin/foo"); len(elem) >= l && elem[0:l] == "dmin/foo" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						// Leaf node.
+						switch method {
+						case "GET":
+							r.name = GetAdminFooOperation
+							r.summary = ""
+							r.operationID = "getAdminFoo"
+							r.operationGroup = ""
+							r.pathPattern = "/admin/foo"
+							r.args = args
+							r.count = 0
+							return r, true
+						default:
+							return
+						}
+					}
+
+				case 'l': // Prefix: "llOfWithSibling"
+
+					if l := len("llOfWithSibling"); len(elem) >= l && elem[0:l] == "llOfWithSibling" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						break
+					}
+					switch elem[0] {
+					case 'E': // Prefix: "Extensions"
+
+						if l := len("Extensions"); len(elem) >= l && elem[0:l] == "Extensions" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch method {
+							case "POST":
+								r.name = AllOfWithSiblingExtensionsOperation
+								r.summary = ""
+								r.operationID = "allOfWithSiblingExtensions"
+								r.operationGroup = ""
+								r.pathPattern = "/allOfWithSiblingExtensions"
+								r.args = args
+								r.count = 0
+								return r, true
+							default:
+								return
+							}
+						}
+
+					case 'P': // Prefix: "Properties"
+
+						if l := len("Properties"); len(elem) >= l && elem[0:l] == "Properties" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch method {
+							case "POST":
+								r.name = AllOfWithSiblingPropertiesOperation
+								r.summary = ""
+								r.operationID = "allOfWithSiblingProperties"
+								r.operationGroup = ""
+								r.pathPattern = "/allOfWithSiblingProperties"
+								r.args = args
+								r.count = 0
+								return r, true
+							default:
+								return
+							}
+						}
+
+					}
+
+				}
+
+			case 'f': // Prefix: "foo"
+
+				if l := len("foo"); len(elem) >= l && elem[0:l] == "foo" {
+					elem = elem[l:]
+				} else {
+					break
+				}
+
+				if len(elem) == 0 {
+					// Leaf node.
+					switch method {
+					case "GET":
+						r.name = GetFooOperation
+						r.summary = ""
+						r.operationID = "getFoo"
+						r.operationGroup = ""
+						r.pathPattern = "/foo"
+						r.args = args
+						r.count = 0
+						return r, true
+					default:
+						return
+					}
+				}
+
+			case 'm': // Prefix: "multiAllOfWithSiblingProperties"
+
+				if l := len("multiAllOfWithSiblingProperties"); len(elem) >= l && elem[0:l] == "multiAllOfWithSiblingProperties" {
+					elem = elem[l:]
+				} else {
+					break
+				}
+
+				if len(elem) == 0 {
+					// Leaf node.
+					switch method {
+					case "POST":
+						r.name = MultiAllOfWithSiblingPropertiesOperation
+						r.summary = ""
+						r.operationID = "multiAllOfWithSiblingProperties"
+						r.operationGroup = ""
+						r.pathPattern = "/multiAllOfWithSiblingProperties"
+						r.args = args
+						r.count = 0
+						return r, true
+					default:
+						return
+					}
+				}
+
 			case 'n': // Prefix: "nullableStrings"
-				origElem := elem
+
 				if l := len("nullableStrings"); len(elem) >= l && elem[0:l] == "nullableStrings" {
 					elem = elem[l:]
 				} else {
@@ -381,9 +799,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "POST":
-						r.name = "NullableStrings"
+						r.name = NullableStringsOperation
 						r.summary = ""
 						r.operationID = "nullableStrings"
+						r.operationGroup = ""
 						r.pathPattern = "/nullableStrings"
 						r.args = args
 						r.count = 0
@@ -393,9 +812,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "objectsWithConflicting"
-				origElem := elem
+
 				if l := len("objectsWithConflicting"); len(elem) >= l && elem[0:l] == "objectsWithConflicting" {
 					elem = elem[l:]
 				} else {
@@ -407,7 +825,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'A': // Prefix: "ArrayProperty"
-					origElem := elem
+
 					if l := len("ArrayProperty"); len(elem) >= l && elem[0:l] == "ArrayProperty" {
 						elem = elem[l:]
 					} else {
@@ -418,9 +836,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "POST":
-							r.name = "ObjectsWithConflictingArrayProperty"
+							r.name = ObjectsWithConflictingArrayPropertyOperation
 							r.summary = ""
 							r.operationID = "objectsWithConflictingArrayProperty"
+							r.operationGroup = ""
 							r.pathPattern = "/objectsWithConflictingArrayProperty"
 							r.args = args
 							r.count = 0
@@ -430,9 +849,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'P': // Prefix: "Properties"
-					origElem := elem
+
 					if l := len("Properties"); len(elem) >= l && elem[0:l] == "Properties" {
 						elem = elem[l:]
 					} else {
@@ -443,9 +861,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "POST":
-							r.name = "ObjectsWithConflictingProperties"
+							r.name = ObjectsWithConflictingPropertiesOperation
 							r.summary = ""
 							r.operationID = "objectsWithConflictingProperties"
+							r.operationGroup = ""
 							r.pathPattern = "/objectsWithConflictingProperties"
 							r.args = args
 							r.count = 0
@@ -455,36 +874,23 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
-			case 'r': // Prefix: "referencedAllof"
-				origElem := elem
-				if l := len("referencedAllof"); len(elem) >= l && elem[0:l] == "referencedAllof" {
+			case 'r': // Prefix: "referencedAll"
+
+				if l := len("referencedAll"); len(elem) >= l && elem[0:l] == "referencedAll" {
 					elem = elem[l:]
 				} else {
 					break
 				}
 
 				if len(elem) == 0 {
-					switch method {
-					case "POST":
-						r.name = "ReferencedAllof"
-						r.summary = ""
-						r.operationID = "referencedAllof"
-						r.pathPattern = "/referencedAllof"
-						r.args = args
-						r.count = 0
-						return r, true
-					default:
-						return
-					}
+					break
 				}
 				switch elem[0] {
-				case 'O': // Prefix: "Optional"
-					origElem := elem
-					if l := len("Optional"); len(elem) >= l && elem[0:l] == "Optional" {
+				case 'O': // Prefix: "OfNullable"
+
+					if l := len("OfNullable"); len(elem) >= l && elem[0:l] == "OfNullable" {
 						elem = elem[l:]
 					} else {
 						break
@@ -494,10 +900,11 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "POST":
-							r.name = "ReferencedAllofOptional"
+							r.name = ReferencedAllOfNullableOperation
 							r.summary = ""
-							r.operationID = "referencedAllofOptional"
-							r.pathPattern = "/referencedAllofOptional"
+							r.operationID = "referencedAllOfNullable"
+							r.operationGroup = ""
+							r.pathPattern = "/referencedAllOfNullable"
 							r.args = args
 							r.count = 0
 							return r, true
@@ -506,12 +913,61 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
+				case 'o': // Prefix: "of"
+
+					if l := len("of"); len(elem) >= l && elem[0:l] == "of" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						switch method {
+						case "POST":
+							r.name = ReferencedAllofOperation
+							r.summary = ""
+							r.operationID = "referencedAllof"
+							r.operationGroup = ""
+							r.pathPattern = "/referencedAllof"
+							r.args = args
+							r.count = 0
+							return r, true
+						default:
+							return
+						}
+					}
+					switch elem[0] {
+					case 'O': // Prefix: "Optional"
+
+						if l := len("Optional"); len(elem) >= l && elem[0:l] == "Optional" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch method {
+							case "POST":
+								r.name = ReferencedAllofOptionalOperation
+								r.summary = ""
+								r.operationID = "referencedAllofOptional"
+								r.operationGroup = ""
+								r.pathPattern = "/referencedAllofOptional"
+								r.args = args
+								r.count = 0
+								return r, true
+							default:
+								return
+							}
+						}
+
+					}
+
 				}
 
-				elem = origElem
 			case 's': // Prefix: "s"
-				origElem := elem
+
 				if l := len("s"); len(elem) >= l && elem[0:l] == "s" {
 					elem = elem[l:]
 				} else {
@@ -523,7 +979,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'i': // Prefix: "imple"
-					origElem := elem
+
 					if l := len("imple"); len(elem) >= l && elem[0:l] == "imple" {
 						elem = elem[l:]
 					} else {
@@ -535,7 +991,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 					switch elem[0] {
 					case 'I': // Prefix: "Integer"
-						origElem := elem
+
 						if l := len("Integer"); len(elem) >= l && elem[0:l] == "Integer" {
 							elem = elem[l:]
 						} else {
@@ -546,9 +1002,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "POST":
-								r.name = "SimpleInteger"
+								r.name = SimpleIntegerOperation
 								r.summary = ""
 								r.operationID = "simpleInteger"
+								r.operationGroup = ""
 								r.pathPattern = "/simpleInteger"
 								r.args = args
 								r.count = 0
@@ -558,9 +1015,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					case 'O': // Prefix: "Objects"
-						origElem := elem
+
 						if l := len("Objects"); len(elem) >= l && elem[0:l] == "Objects" {
 							elem = elem[l:]
 						} else {
@@ -571,9 +1027,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "POST":
-								r.name = "SimpleObjects"
+								r.name = SimpleObjectsOperation
 								r.summary = ""
 								r.operationID = "simpleObjects"
+								r.operationGroup = ""
 								r.pathPattern = "/simpleObjects"
 								r.args = args
 								r.count = 0
@@ -583,12 +1040,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
 				case 't': // Prefix: "tringsNotype"
-					origElem := elem
+
 					if l := len("tringsNotype"); len(elem) >= l && elem[0:l] == "tringsNotype" {
 						elem = elem[l:]
 					} else {
@@ -599,9 +1054,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "POST":
-							r.name = "StringsNotype"
+							r.name = StringsNotypeOperation
 							r.summary = ""
 							r.operationID = "stringsNotype"
+							r.operationGroup = ""
 							r.pathPattern = "/stringsNotype"
 							r.args = args
 							r.count = 0
@@ -611,13 +1067,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	return r, false

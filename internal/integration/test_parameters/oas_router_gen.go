@@ -10,6 +10,21 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
+var (
+	rn4AllowedHeaders = map[string]string{
+		"GET": "X-Header",
+	}
+	rn7AllowedHeaders = map[string]string{
+		"GET": "X-Value",
+	}
+	rn12AllowedHeaders = map[string]string{
+		"GET": "Header",
+	}
+	rn20AllowedHeaders = map[string]string{
+		"GET": "X-Param",
+	}
+)
+
 func (s *Server) cutPrefix(path string) (string, bool) {
 	prefix := s.cfg.Prefix
 	if prefix == "" {
@@ -50,7 +65,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -62,7 +77,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 			switch elem[0] {
 			case 'c': // Prefix: "co"
-				origElem := elem
+
 				if l := len("co"); len(elem) >= l && elem[0:l] == "co" {
 					elem = elem[l:]
 				} else {
@@ -74,7 +89,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 				switch elem[0] {
 				case 'm': // Prefix: "mplicatedParameterName"
-					origElem := elem
+
 					if l := len("mplicatedParameterName"); len(elem) >= l && elem[0:l] == "mplicatedParameterName" {
 						elem = elem[l:]
 					} else {
@@ -87,15 +102,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleComplicatedParameterNameGetRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'n': // Prefix: "ntentParameters/"
-					origElem := elem
+
 					if l := len("ntentParameters/"); len(elem) >= l && elem[0:l] == "ntentParameters/" {
 						elem = elem[l:]
 					} else {
@@ -103,7 +122,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					}
 
 					// Param: "path"
-					// Leaf parameter
+					// Leaf parameter, slashes are prohibited
+					idx := strings.IndexByte(elem, '/')
+					if idx >= 0 {
+						break
+					}
 					args[0] = elem
 					elem = ""
 
@@ -115,15 +138,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 								args[0],
 							}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: rn4AllowedHeaders,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'o': // Prefix: "okieParameter"
-					origElem := elem
+
 					if l := len("okieParameter"); len(elem) >= l && elem[0:l] == "okieParameter" {
 						elem = elem[l:]
 					} else {
@@ -136,18 +163,21 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleCookieParameterRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'h': // Prefix: "headerParameter"
-				origElem := elem
+
 				if l := len("headerParameter"); len(elem) >= l && elem[0:l] == "headerParameter" {
 					elem = elem[l:]
 				} else {
@@ -160,15 +190,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleHeaderParameterRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: rn7AllowedHeaders,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "o"
-				origElem := elem
+
 				if l := len("o"); len(elem) >= l && elem[0:l] == "o" {
 					elem = elem[l:]
 				} else {
@@ -180,7 +214,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 				switch elem[0] {
 				case 'b': // Prefix: "bject"
-					origElem := elem
+
 					if l := len("bject"); len(elem) >= l && elem[0:l] == "bject" {
 						elem = elem[l:]
 					} else {
@@ -192,7 +226,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					}
 					switch elem[0] {
 					case 'C': // Prefix: "CookieParameter"
-						origElem := elem
+
 						if l := len("CookieParameter"); len(elem) >= l && elem[0:l] == "CookieParameter" {
 							elem = elem[l:]
 						} else {
@@ -205,15 +239,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "GET":
 								s.handleObjectCookieParameterRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "GET")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "GET",
+									allowedHeaders: nil,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					case 'Q': // Prefix: "QueryParameter"
-						origElem := elem
+
 						if l := len("QueryParameter"); len(elem) >= l && elem[0:l] == "QueryParameter" {
 							elem = elem[l:]
 						} else {
@@ -226,42 +264,87 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							case "GET":
 								s.handleObjectQueryParameterRequest([0]string{}, elemIsEscaped, w, r)
 							default:
-								s.notAllowed(w, r, "GET")
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "GET",
+									allowedHeaders: nil,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
 							}
 
 							return
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
-				case 'p': // Prefix: "ptionalArrayParameter"
-					origElem := elem
-					if l := len("ptionalArrayParameter"); len(elem) >= l && elem[0:l] == "ptionalArrayParameter" {
+				case 'p': // Prefix: "ptional"
+
+					if l := len("ptional"); len(elem) >= l && elem[0:l] == "ptional" {
 						elem = elem[l:]
 					} else {
 						break
 					}
 
 					if len(elem) == 0 {
-						// Leaf node.
-						switch r.Method {
-						case "GET":
-							s.handleOptionalArrayParameterRequest([0]string{}, elemIsEscaped, w, r)
-						default:
-							s.notAllowed(w, r, "GET")
+						break
+					}
+					switch elem[0] {
+					case 'A': // Prefix: "ArrayParameter"
+
+						if l := len("ArrayParameter"); len(elem) >= l && elem[0:l] == "ArrayParameter" {
+							elem = elem[l:]
+						} else {
+							break
 						}
 
-						return
+						if len(elem) == 0 {
+							// Leaf node.
+							switch r.Method {
+							case "GET":
+								s.handleOptionalArrayParameterRequest([0]string{}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "GET",
+									allowedHeaders: rn12AllowedHeaders,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
+							}
+
+							return
+						}
+
+					case 'P': // Prefix: "Parameters"
+
+						if l := len("Parameters"); len(elem) >= l && elem[0:l] == "Parameters" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch r.Method {
+							case "GET":
+								s.handleOptionalParametersRequest([0]string{}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, notAllowedParams{
+									allowedMethods: "GET",
+									allowedHeaders: nil,
+									acceptPost:     "",
+									acceptPatch:    "",
+								})
+							}
+
+							return
+						}
+
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'p': // Prefix: "pathParameter/"
-				origElem := elem
+
 				if l := len("pathParameter/"); len(elem) >= l && elem[0:l] == "pathParameter/" {
 					elem = elem[l:]
 				} else {
@@ -269,7 +352,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 
 				// Param: "value"
-				// Leaf parameter
+				// Leaf parameter, slashes are prohibited
+				idx := strings.IndexByte(elem, '/')
+				if idx >= 0 {
+					break
+				}
 				args[0] = elem
 				elem = ""
 
@@ -281,15 +368,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							args[0],
 						}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 's': // Prefix: "s"
-				origElem := elem
+
 				if l := len("s"); len(elem) >= l && elem[0:l] == "s" {
 					elem = elem[l:]
 				} else {
@@ -301,7 +392,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 				switch elem[0] {
 				case 'a': // Prefix: "ame_name/"
-					origElem := elem
+
 					if l := len("ame_name/"); len(elem) >= l && elem[0:l] == "ame_name/" {
 						elem = elem[l:]
 					} else {
@@ -309,7 +400,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					}
 
 					// Param: "param"
-					// Leaf parameter
+					// Leaf parameter, slashes are prohibited
+					idx := strings.IndexByte(elem, '/')
+					if idx >= 0 {
+						break
+					}
 					args[0] = elem
 					elem = ""
 
@@ -321,15 +416,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 								args[0],
 							}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
 				case 'i': // Prefix: "imilarNames"
-					origElem := elem
+
 					if l := len("imilarNames"); len(elem) >= l && elem[0:l] == "imilarNames" {
 						elem = elem[l:]
 					} else {
@@ -342,19 +441,46 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						case "GET":
 							s.handleSimilarNamesRequest([0]string{}, elemIsEscaped, w, r)
 						default:
-							s.notAllowed(w, r, "GET")
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: rn20AllowedHeaders,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
 						}
 
 						return
 					}
 
-					elem = origElem
+				case 'p': // Prefix: "paceDelimitedParameter"
+
+					if l := len("paceDelimitedParameter"); len(elem) >= l && elem[0:l] == "paceDelimitedParameter" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						// Leaf node.
+						switch r.Method {
+						case "GET":
+							s.handleSpaceDelimitedParameterRequest([0]string{}, elemIsEscaped, w, r)
+						default:
+							s.notAllowed(w, r, notAllowedParams{
+								allowedMethods: "GET",
+								allowedHeaders: nil,
+								acceptPost:     "",
+								acceptPatch:    "",
+							})
+						}
+
+						return
+					}
+
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	s.notFound(w, r)
@@ -362,12 +488,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Route is route object.
 type Route struct {
-	name        string
-	summary     string
-	operationID string
-	pathPattern string
-	count       int
-	args        [1]string
+	name           string
+	summary        string
+	operationID    string
+	operationGroup string
+	pathPattern    string
+	count          int
+	args           [1]string
 }
 
 // Name returns ogen operation name.
@@ -385,6 +512,11 @@ func (r Route) Summary() string {
 // OperationID returns OpenAPI operationId.
 func (r Route) OperationID() string {
 	return r.operationID
+}
+
+// OperationGroup returns the x-ogen-operation-group value.
+func (r Route) OperationGroup() string {
+	return r.operationGroup
 }
 
 // PathPattern returns OpenAPI path.
@@ -436,7 +568,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -448,7 +580,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			}
 			switch elem[0] {
 			case 'c': // Prefix: "co"
-				origElem := elem
+
 				if l := len("co"); len(elem) >= l && elem[0:l] == "co" {
 					elem = elem[l:]
 				} else {
@@ -460,7 +592,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'm': // Prefix: "mplicatedParameterName"
-					origElem := elem
+
 					if l := len("mplicatedParameterName"); len(elem) >= l && elem[0:l] == "mplicatedParameterName" {
 						elem = elem[l:]
 					} else {
@@ -471,9 +603,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "ComplicatedParameterNameGet"
+							r.name = ComplicatedParameterNameGetOperation
 							r.summary = ""
 							r.operationID = ""
+							r.operationGroup = ""
 							r.pathPattern = "/complicatedParameterName"
 							r.args = args
 							r.count = 0
@@ -483,9 +616,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'n': // Prefix: "ntentParameters/"
-					origElem := elem
+
 					if l := len("ntentParameters/"); len(elem) >= l && elem[0:l] == "ntentParameters/" {
 						elem = elem[l:]
 					} else {
@@ -493,7 +625,11 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 
 					// Param: "path"
-					// Leaf parameter
+					// Leaf parameter, slashes are prohibited
+					idx := strings.IndexByte(elem, '/')
+					if idx >= 0 {
+						break
+					}
 					args[0] = elem
 					elem = ""
 
@@ -501,9 +637,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "ContentParameters"
+							r.name = ContentParametersOperation
 							r.summary = ""
 							r.operationID = "contentParameters"
+							r.operationGroup = ""
 							r.pathPattern = "/contentParameters/{path}"
 							r.args = args
 							r.count = 1
@@ -513,9 +650,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'o': // Prefix: "okieParameter"
-					origElem := elem
+
 					if l := len("okieParameter"); len(elem) >= l && elem[0:l] == "okieParameter" {
 						elem = elem[l:]
 					} else {
@@ -526,9 +662,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "CookieParameter"
+							r.name = CookieParameterOperation
 							r.summary = ""
 							r.operationID = "cookieParameter"
+							r.operationGroup = ""
 							r.pathPattern = "/cookieParameter"
 							r.args = args
 							r.count = 0
@@ -538,12 +675,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'h': // Prefix: "headerParameter"
-				origElem := elem
+
 				if l := len("headerParameter"); len(elem) >= l && elem[0:l] == "headerParameter" {
 					elem = elem[l:]
 				} else {
@@ -554,9 +689,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "HeaderParameter"
+						r.name = HeaderParameterOperation
 						r.summary = ""
 						r.operationID = "headerParameter"
+						r.operationGroup = ""
 						r.pathPattern = "/headerParameter"
 						r.args = args
 						r.count = 0
@@ -566,9 +702,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "o"
-				origElem := elem
+
 				if l := len("o"); len(elem) >= l && elem[0:l] == "o" {
 					elem = elem[l:]
 				} else {
@@ -580,7 +715,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'b': // Prefix: "bject"
-					origElem := elem
+
 					if l := len("bject"); len(elem) >= l && elem[0:l] == "bject" {
 						elem = elem[l:]
 					} else {
@@ -592,7 +727,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 					switch elem[0] {
 					case 'C': // Prefix: "CookieParameter"
-						origElem := elem
+
 						if l := len("CookieParameter"); len(elem) >= l && elem[0:l] == "CookieParameter" {
 							elem = elem[l:]
 						} else {
@@ -603,9 +738,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "GET":
-								r.name = "ObjectCookieParameter"
+								r.name = ObjectCookieParameterOperation
 								r.summary = ""
 								r.operationID = "objectCookieParameter"
+								r.operationGroup = ""
 								r.pathPattern = "/objectCookieParameter"
 								r.args = args
 								r.count = 0
@@ -615,9 +751,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					case 'Q': // Prefix: "QueryParameter"
-						origElem := elem
+
 						if l := len("QueryParameter"); len(elem) >= l && elem[0:l] == "QueryParameter" {
 							elem = elem[l:]
 						} else {
@@ -628,9 +763,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf node.
 							switch method {
 							case "GET":
-								r.name = "ObjectQueryParameter"
+								r.name = ObjectQueryParameterOperation
 								r.summary = ""
 								r.operationID = "objectQueryParameter"
+								r.operationGroup = ""
 								r.pathPattern = "/objectQueryParameter"
 								r.args = args
 								r.count = 0
@@ -640,40 +776,76 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 						}
 
-						elem = origElem
 					}
 
-					elem = origElem
-				case 'p': // Prefix: "ptionalArrayParameter"
-					origElem := elem
-					if l := len("ptionalArrayParameter"); len(elem) >= l && elem[0:l] == "ptionalArrayParameter" {
+				case 'p': // Prefix: "ptional"
+
+					if l := len("ptional"); len(elem) >= l && elem[0:l] == "ptional" {
 						elem = elem[l:]
 					} else {
 						break
 					}
 
 					if len(elem) == 0 {
-						// Leaf node.
-						switch method {
-						case "GET":
-							r.name = "OptionalArrayParameter"
-							r.summary = ""
-							r.operationID = "optionalArrayParameter"
-							r.pathPattern = "/optionalArrayParameter"
-							r.args = args
-							r.count = 0
-							return r, true
-						default:
-							return
+						break
+					}
+					switch elem[0] {
+					case 'A': // Prefix: "ArrayParameter"
+
+						if l := len("ArrayParameter"); len(elem) >= l && elem[0:l] == "ArrayParameter" {
+							elem = elem[l:]
+						} else {
+							break
 						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch method {
+							case "GET":
+								r.name = OptionalArrayParameterOperation
+								r.summary = ""
+								r.operationID = "optionalArrayParameter"
+								r.operationGroup = ""
+								r.pathPattern = "/optionalArrayParameter"
+								r.args = args
+								r.count = 0
+								return r, true
+							default:
+								return
+							}
+						}
+
+					case 'P': // Prefix: "Parameters"
+
+						if l := len("Parameters"); len(elem) >= l && elem[0:l] == "Parameters" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch method {
+							case "GET":
+								r.name = OptionalParametersOperation
+								r.summary = ""
+								r.operationID = "optionalParameters"
+								r.operationGroup = ""
+								r.pathPattern = "/optionalParameters"
+								r.args = args
+								r.count = 0
+								return r, true
+							default:
+								return
+							}
+						}
+
 					}
 
-					elem = origElem
 				}
 
-				elem = origElem
 			case 'p': // Prefix: "pathParameter/"
-				origElem := elem
+
 				if l := len("pathParameter/"); len(elem) >= l && elem[0:l] == "pathParameter/" {
 					elem = elem[l:]
 				} else {
@@ -681,7 +853,11 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 
 				// Param: "value"
-				// Leaf parameter
+				// Leaf parameter, slashes are prohibited
+				idx := strings.IndexByte(elem, '/')
+				if idx >= 0 {
+					break
+				}
 				args[0] = elem
 				elem = ""
 
@@ -689,9 +865,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "PathParameter"
+						r.name = PathParameterOperation
 						r.summary = ""
 						r.operationID = "pathParameter"
+						r.operationGroup = ""
 						r.pathPattern = "/pathParameter/{value}"
 						r.args = args
 						r.count = 1
@@ -701,9 +878,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 's': // Prefix: "s"
-				origElem := elem
+
 				if l := len("s"); len(elem) >= l && elem[0:l] == "s" {
 					elem = elem[l:]
 				} else {
@@ -715,7 +891,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 				switch elem[0] {
 				case 'a': // Prefix: "ame_name/"
-					origElem := elem
+
 					if l := len("ame_name/"); len(elem) >= l && elem[0:l] == "ame_name/" {
 						elem = elem[l:]
 					} else {
@@ -723,7 +899,11 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 
 					// Param: "param"
-					// Leaf parameter
+					// Leaf parameter, slashes are prohibited
+					idx := strings.IndexByte(elem, '/')
+					if idx >= 0 {
+						break
+					}
 					args[0] = elem
 					elem = ""
 
@@ -731,9 +911,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "SameName"
+							r.name = SameNameOperation
 							r.summary = "parameters with different location, but with the same name"
 							r.operationID = "sameName"
+							r.operationGroup = ""
 							r.pathPattern = "/same_name/{param}"
 							r.args = args
 							r.count = 1
@@ -743,9 +924,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
 				case 'i': // Prefix: "imilarNames"
-					origElem := elem
+
 					if l := len("imilarNames"); len(elem) >= l && elem[0:l] == "imilarNames" {
 						elem = elem[l:]
 					} else {
@@ -756,9 +936,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						// Leaf node.
 						switch method {
 						case "GET":
-							r.name = "SimilarNames"
+							r.name = SimilarNamesOperation
 							r.summary = "parameters with different location, but with similar names"
 							r.operationID = "similarNames"
+							r.operationGroup = ""
 							r.pathPattern = "/similarNames"
 							r.args = args
 							r.count = 0
@@ -768,13 +949,35 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 					}
 
-					elem = origElem
+				case 'p': // Prefix: "paceDelimitedParameter"
+
+					if l := len("paceDelimitedParameter"); len(elem) >= l && elem[0:l] == "paceDelimitedParameter" {
+						elem = elem[l:]
+					} else {
+						break
+					}
+
+					if len(elem) == 0 {
+						// Leaf node.
+						switch method {
+						case "GET":
+							r.name = SpaceDelimitedParameterOperation
+							r.summary = "Test for spaceDelimited style query array parameters"
+							r.operationID = "spaceDelimitedParameter"
+							r.operationGroup = ""
+							r.pathPattern = "/spaceDelimitedParameter"
+							r.args = args
+							r.count = 0
+							return r, true
+						default:
+							return
+						}
+					}
+
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	return r, false

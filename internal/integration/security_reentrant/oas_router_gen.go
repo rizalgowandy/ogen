@@ -10,6 +10,18 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
+var (
+	rn1AllowedHeaders = map[string]string{
+		"GET": "Authorization",
+	}
+	rn3AllowedHeaders = map[string]string{
+		"GET": "Authorization,X-Api-Key",
+	}
+	rn4AllowedHeaders = map[string]string{
+		"GET": "Authorization,X-Api-Key",
+	}
+)
+
 func (s *Server) cutPrefix(path string) (string, bool) {
 	prefix := s.cfg.Prefix
 	if prefix == "" {
@@ -49,7 +61,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -61,7 +73,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 			switch elem[0] {
 			case 'c': // Prefix: "customSecurity"
-				origElem := elem
+
 				if l := len("customSecurity"); len(elem) >= l && elem[0:l] == "customSecurity" {
 					elem = elem[l:]
 				} else {
@@ -74,15 +86,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleCustomSecurityRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: rn1AllowedHeaders,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 'd': // Prefix: "disjointSecurity"
-				origElem := elem
+
 				if l := len("disjointSecurity"); len(elem) >= l && elem[0:l] == "disjointSecurity" {
 					elem = elem[l:]
 				} else {
@@ -95,15 +111,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleDisjointSecurityRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: rn3AllowedHeaders,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 'i': // Prefix: "intersectSecurity"
-				origElem := elem
+
 				if l := len("intersectSecurity"); len(elem) >= l && elem[0:l] == "intersectSecurity" {
 					elem = elem[l:]
 				} else {
@@ -116,15 +136,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleIntersectSecurityRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: rn4AllowedHeaders,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "optionalSecurity"
-				origElem := elem
+
 				if l := len("optionalSecurity"); len(elem) >= l && elem[0:l] == "optionalSecurity" {
 					elem = elem[l:]
 				} else {
@@ -137,16 +161,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					case "GET":
 						s.handleOptionalSecurityRequest([0]string{}, elemIsEscaped, w, r)
 					default:
-						s.notAllowed(w, r, "GET")
+						s.notAllowed(w, r, notAllowedParams{
+							allowedMethods: "GET",
+							allowedHeaders: nil,
+							acceptPost:     "",
+							acceptPatch:    "",
+						})
 					}
 
 					return
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	s.notFound(w, r)
@@ -154,12 +181,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Route is route object.
 type Route struct {
-	name        string
-	summary     string
-	operationID string
-	pathPattern string
-	count       int
-	args        [0]string
+	name           string
+	summary        string
+	operationID    string
+	operationGroup string
+	pathPattern    string
+	count          int
+	args           [0]string
 }
 
 // Name returns ogen operation name.
@@ -177,6 +205,11 @@ func (r Route) Summary() string {
 // OperationID returns OpenAPI operationId.
 func (r Route) OperationID() string {
 	return r.operationID
+}
+
+// OperationGroup returns the x-ogen-operation-group value.
+func (r Route) OperationGroup() string {
+	return r.operationGroup
 }
 
 // PathPattern returns OpenAPI path.
@@ -228,7 +261,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/"
-			origElem := elem
+
 			if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 				elem = elem[l:]
 			} else {
@@ -240,7 +273,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			}
 			switch elem[0] {
 			case 'c': // Prefix: "customSecurity"
-				origElem := elem
+
 				if l := len("customSecurity"); len(elem) >= l && elem[0:l] == "customSecurity" {
 					elem = elem[l:]
 				} else {
@@ -251,9 +284,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "CustomSecurity"
+						r.name = CustomSecurityOperation
 						r.summary = ""
 						r.operationID = "customSecurity"
+						r.operationGroup = ""
 						r.pathPattern = "/customSecurity"
 						r.args = args
 						r.count = 0
@@ -263,9 +297,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 'd': // Prefix: "disjointSecurity"
-				origElem := elem
+
 				if l := len("disjointSecurity"); len(elem) >= l && elem[0:l] == "disjointSecurity" {
 					elem = elem[l:]
 				} else {
@@ -276,9 +309,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "DisjointSecurity"
+						r.name = DisjointSecurityOperation
 						r.summary = ""
 						r.operationID = "disjointSecurity"
+						r.operationGroup = ""
 						r.pathPattern = "/disjointSecurity"
 						r.args = args
 						r.count = 0
@@ -288,9 +322,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 'i': // Prefix: "intersectSecurity"
-				origElem := elem
+
 				if l := len("intersectSecurity"); len(elem) >= l && elem[0:l] == "intersectSecurity" {
 					elem = elem[l:]
 				} else {
@@ -301,9 +334,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "IntersectSecurity"
+						r.name = IntersectSecurityOperation
 						r.summary = ""
 						r.operationID = "intersectSecurity"
+						r.operationGroup = ""
 						r.pathPattern = "/intersectSecurity"
 						r.args = args
 						r.count = 0
@@ -313,9 +347,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			case 'o': // Prefix: "optionalSecurity"
-				origElem := elem
+
 				if l := len("optionalSecurity"); len(elem) >= l && elem[0:l] == "optionalSecurity" {
 					elem = elem[l:]
 				} else {
@@ -326,9 +359,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					// Leaf node.
 					switch method {
 					case "GET":
-						r.name = "OptionalSecurity"
+						r.name = OptionalSecurityOperation
 						r.summary = ""
 						r.operationID = "optionalSecurity"
+						r.operationGroup = ""
 						r.pathPattern = "/optionalSecurity"
 						r.args = args
 						r.count = 0
@@ -338,10 +372,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 				}
 
-				elem = origElem
 			}
 
-			elem = origElem
 		}
 	}
 	return r, false

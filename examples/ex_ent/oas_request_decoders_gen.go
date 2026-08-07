@@ -3,20 +3,20 @@
 package api
 
 import (
+	"bytes"
 	"io"
 	"mime"
 	"net/http"
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-	"go.uber.org/multierr"
-
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/validate"
 )
 
 func (s *Server) decodeCreatePetRequest(r *http.Request) (
 	req *CreatePetReq,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -26,33 +26,40 @@ func (s *Server) decodeCreatePetRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "application/json":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		buf, err := io.ReadAll(r.Body)
+		defer func() {
+			_ = r.Body.Close()
+		}()
 		if err != nil {
-			return req, close, err
+			return req, rawBody, close, err
 		}
+
+		// Reset the body to allow for downstream reading.
+		r.Body = io.NopCloser(bytes.NewBuffer(buf))
 
 		if len(buf) == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 
+		rawBody = append(rawBody, buf...)
 		d := jx.DecodeBytes(buf)
 
 		var request CreatePetReq
@@ -70,16 +77,17 @@ func (s *Server) decodeCreatePetRequest(r *http.Request) (
 				Body:        buf,
 				Err:         err,
 			}
-			return req, close, err
+			return req, rawBody, close, err
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeCreatePetCategoriesRequest(r *http.Request) (
 	req *CreatePetCategoriesReq,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -89,33 +97,40 @@ func (s *Server) decodeCreatePetCategoriesRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "application/json":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		buf, err := io.ReadAll(r.Body)
+		defer func() {
+			_ = r.Body.Close()
+		}()
 		if err != nil {
-			return req, close, err
+			return req, rawBody, close, err
 		}
+
+		// Reset the body to allow for downstream reading.
+		r.Body = io.NopCloser(bytes.NewBuffer(buf))
 
 		if len(buf) == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 
+		rawBody = append(rawBody, buf...)
 		d := jx.DecodeBytes(buf)
 
 		var request CreatePetCategoriesReq
@@ -133,16 +148,17 @@ func (s *Server) decodeCreatePetCategoriesRequest(r *http.Request) (
 				Body:        buf,
 				Err:         err,
 			}
-			return req, close, err
+			return req, rawBody, close, err
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeCreatePetFriendsRequest(r *http.Request) (
 	req *CreatePetFriendsReq,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -152,33 +168,40 @@ func (s *Server) decodeCreatePetFriendsRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "application/json":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		buf, err := io.ReadAll(r.Body)
+		defer func() {
+			_ = r.Body.Close()
+		}()
 		if err != nil {
-			return req, close, err
+			return req, rawBody, close, err
 		}
+
+		// Reset the body to allow for downstream reading.
+		r.Body = io.NopCloser(bytes.NewBuffer(buf))
 
 		if len(buf) == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 
+		rawBody = append(rawBody, buf...)
 		d := jx.DecodeBytes(buf)
 
 		var request CreatePetFriendsReq
@@ -196,16 +219,17 @@ func (s *Server) decodeCreatePetFriendsRequest(r *http.Request) (
 				Body:        buf,
 				Err:         err,
 			}
-			return req, close, err
+			return req, rawBody, close, err
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeCreatePetOwnerRequest(r *http.Request) (
 	req *CreatePetOwnerReq,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -215,33 +239,40 @@ func (s *Server) decodeCreatePetOwnerRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "application/json":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		buf, err := io.ReadAll(r.Body)
+		defer func() {
+			_ = r.Body.Close()
+		}()
 		if err != nil {
-			return req, close, err
+			return req, rawBody, close, err
 		}
+
+		// Reset the body to allow for downstream reading.
+		r.Body = io.NopCloser(bytes.NewBuffer(buf))
 
 		if len(buf) == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 
+		rawBody = append(rawBody, buf...)
 		d := jx.DecodeBytes(buf)
 
 		var request CreatePetOwnerReq
@@ -259,16 +290,17 @@ func (s *Server) decodeCreatePetOwnerRequest(r *http.Request) (
 				Body:        buf,
 				Err:         err,
 			}
-			return req, close, err
+			return req, rawBody, close, err
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeUpdatePetRequest(r *http.Request) (
 	req *UpdatePetReq,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -278,33 +310,40 @@ func (s *Server) decodeUpdatePetRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "application/json":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		buf, err := io.ReadAll(r.Body)
+		defer func() {
+			_ = r.Body.Close()
+		}()
 		if err != nil {
-			return req, close, err
+			return req, rawBody, close, err
 		}
+
+		// Reset the body to allow for downstream reading.
+		r.Body = io.NopCloser(bytes.NewBuffer(buf))
 
 		if len(buf) == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 
+		rawBody = append(rawBody, buf...)
 		d := jx.DecodeBytes(buf)
 
 		var request UpdatePetReq
@@ -322,10 +361,10 @@ func (s *Server) decodeUpdatePetRequest(r *http.Request) (
 				Body:        buf,
 				Err:         err,
 			}
-			return req, close, err
+			return req, rawBody, close, err
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }

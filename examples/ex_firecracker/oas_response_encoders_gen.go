@@ -7,24 +7,21 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
+	ht "github.com/ogen-go/ogen/http"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
-
-	ht "github.com/ogen-go/ogen/http"
 )
 
 func encodeCreateSnapshotResponse(response CreateSnapshotRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
 	case *CreateSnapshotNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -43,14 +40,12 @@ func encodeCreateSyncActionResponse(response CreateSyncActionRes, w http.Respons
 	switch response := response.(type) {
 	case *CreateSyncActionNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -70,7 +65,6 @@ func encodeDescribeBalloonConfigResponse(response DescribeBalloonConfigRes, w ht
 	case *Balloon:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -83,7 +77,6 @@ func encodeDescribeBalloonConfigResponse(response DescribeBalloonConfigRes, w ht
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -103,7 +96,6 @@ func encodeDescribeBalloonStatsResponse(response DescribeBalloonStatsRes, w http
 	case *BalloonStats:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -116,7 +108,6 @@ func encodeDescribeBalloonStatsResponse(response DescribeBalloonStatsRes, w http
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -134,7 +125,6 @@ func encodeDescribeBalloonStatsResponse(response DescribeBalloonStatsRes, w http
 func encodeDescribeInstanceResponse(response *InstanceInfo, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -148,7 +138,6 @@ func encodeDescribeInstanceResponse(response *InstanceInfo, w http.ResponseWrite
 func encodeGetExportVmConfigResponse(response *FullVmConfiguration, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -162,7 +151,6 @@ func encodeGetExportVmConfigResponse(response *FullVmConfiguration, w http.Respo
 func encodeGetMachineConfigurationResponse(response *MachineConfiguration, w http.ResponseWriter, span trace.Span) error {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	span.SetStatus(codes.Ok, http.StatusText(200))
 
 	e := new(jx.Encoder)
 	response.Encode(e)
@@ -177,14 +165,12 @@ func encodeLoadSnapshotResponse(response LoadSnapshotRes, w http.ResponseWriter,
 	switch response := response.(type) {
 	case *LoadSnapshotNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -203,14 +189,12 @@ func encodeMmdsConfigPutResponse(response MmdsConfigPutRes, w http.ResponseWrite
 	switch response := response.(type) {
 	case *MmdsConfigPutNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -230,7 +214,6 @@ func encodeMmdsGetResponse(response MmdsGetRes, w http.ResponseWriter, span trac
 	case *MmdsGetOK:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -243,7 +226,6 @@ func encodeMmdsGetResponse(response MmdsGetRes, w http.ResponseWriter, span trac
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(404)
-		span.SetStatus(codes.Error, http.StatusText(404))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -262,14 +244,12 @@ func encodeMmdsPatchResponse(response MmdsPatchRes, w http.ResponseWriter, span 
 	switch response := response.(type) {
 	case *MmdsPatchNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -288,14 +268,12 @@ func encodeMmdsPutResponse(response MmdsPutRes, w http.ResponseWriter, span trac
 	switch response := response.(type) {
 	case *MmdsPutNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -314,14 +292,12 @@ func encodePatchBalloonResponse(response PatchBalloonRes, w http.ResponseWriter,
 	switch response := response.(type) {
 	case *PatchBalloonNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -340,14 +316,12 @@ func encodePatchBalloonStatsIntervalResponse(response PatchBalloonStatsIntervalR
 	switch response := response.(type) {
 	case *PatchBalloonStatsIntervalNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -366,14 +340,12 @@ func encodePatchGuestDriveByIDResponse(response PatchGuestDriveByIDRes, w http.R
 	switch response := response.(type) {
 	case *PatchGuestDriveByIDNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -392,14 +364,12 @@ func encodePatchGuestNetworkInterfaceByIDResponse(response PatchGuestNetworkInte
 	switch response := response.(type) {
 	case *PatchGuestNetworkInterfaceByIDNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -418,14 +388,12 @@ func encodePatchMachineConfigurationResponse(response PatchMachineConfigurationR
 	switch response := response.(type) {
 	case *PatchMachineConfigurationNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -444,14 +412,12 @@ func encodePatchVmResponse(response PatchVmRes, w http.ResponseWriter, span trac
 	switch response := response.(type) {
 	case *PatchVmNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -470,14 +436,12 @@ func encodePutBalloonResponse(response PutBalloonRes, w http.ResponseWriter, spa
 	switch response := response.(type) {
 	case *PutBalloonNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -496,14 +460,12 @@ func encodePutGuestBootSourceResponse(response PutGuestBootSourceRes, w http.Res
 	switch response := response.(type) {
 	case *PutGuestBootSourceNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -522,14 +484,12 @@ func encodePutGuestDriveByIDResponse(response PutGuestDriveByIDRes, w http.Respo
 	switch response := response.(type) {
 	case *PutGuestDriveByIDNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -548,14 +508,12 @@ func encodePutGuestNetworkInterfaceByIDResponse(response PutGuestNetworkInterfac
 	switch response := response.(type) {
 	case *PutGuestNetworkInterfaceByIDNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -574,14 +532,12 @@ func encodePutGuestVsockResponse(response PutGuestVsockRes, w http.ResponseWrite
 	switch response := response.(type) {
 	case *PutGuestVsockNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -600,14 +556,12 @@ func encodePutLoggerResponse(response PutLoggerRes, w http.ResponseWriter, span 
 	switch response := response.(type) {
 	case *PutLoggerNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -626,14 +580,12 @@ func encodePutMachineConfigurationResponse(response PutMachineConfigurationRes, 
 	switch response := response.(type) {
 	case *PutMachineConfigurationNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -652,14 +604,12 @@ func encodePutMetricsResponse(response PutMetricsRes, w http.ResponseWriter, spa
 	switch response := response.(type) {
 	case *PutMetricsNoContent:
 		w.WriteHeader(204)
-		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
 	case *Error:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -682,10 +632,8 @@ func encodeErrorResponse(response *ErrorStatusCode, w http.ResponseWriter, span 
 		code = http.StatusOK
 	}
 	w.WriteHeader(code)
-	if st := http.StatusText(code); code >= http.StatusBadRequest {
-		span.SetStatus(codes.Error, st)
-	} else {
-		span.SetStatus(codes.Ok, st)
+	if code >= http.StatusInternalServerError {
+		span.SetStatus(codes.Error, http.StatusText(code))
 	}
 
 	e := new(jx.Encoder)

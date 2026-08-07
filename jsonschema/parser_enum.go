@@ -2,10 +2,10 @@ package jsonschema
 
 import (
 	"encoding/json"
+	"slices"
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-	"golang.org/x/exp/slices"
 
 	"github.com/ogen-go/ogen/internal/xslices"
 )
@@ -18,7 +18,7 @@ func inferJSONType(v json.RawMessage) (string, error) {
 	case jx.Number:
 		return "number", nil
 	case jx.Bool:
-		return "bool", nil
+		return "boolean", nil
 	case jx.Null:
 		return "", errors.Errorf("cannot infer type from %q", v)
 	default:

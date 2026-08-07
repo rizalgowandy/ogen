@@ -5,24 +5,59 @@
     "version": "0.1.0"
   },
   "paths": {
-    "/optionalArrayParameter": {
+    "/optionalParameters": {
       "get": {
-        "operationId": "optionalArrayParameter",
+        "operationId": "optionalParameters",
         "parameters": [
           {
-            "name": "query",
+            "name": "integer",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
+              "type": "integer"
+            }
+          },
+          {
+            "name": "string",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "boolean",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "object",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string"
+                }
               }
             }
           },
           {
-            "name": "header",
-            "in": "header",
+            "name": "timestamp",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "array",
+            "in": "query",
             "required": false,
             "schema": {
               "type": "array",
@@ -38,7 +73,118 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "$ref": "#/components/schemas/OptionalQueryParametersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/optionalArrayParameter": {
+      "get": {
+        "operationId": "optionalArrayParameter",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "x-oapi-codegen-extra-tags": {
+                "customTag": "test"
+              }
+            }
+          },
+          {
+            "name": "header",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "x-oapi-codegen-extra-tags": {
+                "customTag": "test"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
                   "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/spaceDelimitedParameter": {
+      "get": {
+        "operationId": "spaceDelimitedParameter",
+        "summary": "Test for spaceDelimited style query array parameters",
+        "parameters": [
+          {
+            "name": "exploded",
+            "in": "query",
+            "required": true,
+            "style": "spaceDelimited",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "joined",
+            "in": "query",
+            "required": true,
+            "style": "spaceDelimited",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "exploded",
+                    "joined"
+                  ],
+                  "properties": {
+                    "exploded": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "joined": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -192,7 +338,10 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-oapi-codegen-extra-tags": {
+                "customTag": "test"
+              }
             }
           }
         ],
@@ -220,7 +369,10 @@
             "in": "header",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-oapi-codegen-extra-tags": {
+                "customTag": "test"
+              }
             }
           }
         ],
@@ -248,7 +400,10 @@
             "in": "cookie",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-oapi-codegen-extra-tags": {
+                "customTag": "test"
+              }
             }
           }
         ],
@@ -378,6 +533,39 @@
   },
   "components": {
     "schemas": {
+      "OptionalQueryParametersResponse": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "integer": {
+            "type": "integer"
+          },
+          "string": {
+            "type": "string"
+          },
+          "boolean": {
+            "type": "boolean"
+          },
+          "object": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              }
+            }
+          },
+          "timestamp": {
+              "type": "string",
+              "format": "date-time"
+          },
+          "array": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "Value": {
         "type": "object",
         "required": [
@@ -387,6 +575,9 @@
           "value": {
             "type": "string"
           }
+        },
+        "x-oapi-codegen-extra-tags": {
+          "customTag": "test"
         }
       },
       "User": {
@@ -396,6 +587,9 @@
           "username",
           "role"
         ],
+        "x-oapi-codegen-extra-tags": {
+          "customTag": "test"
+        },
         "properties": {
           "id": {
             "type": "integer"
@@ -436,6 +630,9 @@
           "filter": {
             "type": "string"
           }
+        },
+        "x-oapi-codegen-extra-tags": {
+          "customTag": "test"
         }
       }
     },

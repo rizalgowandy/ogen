@@ -3,10 +3,142 @@
 package api
 
 import (
+	"io"
+	"mime"
 	"net/http"
 
+	"github.com/go-faster/errors"
+	"github.com/go-faster/jx"
+	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/validate"
 )
+
+func decodeAllOfWithSiblingExtensionsResponse(resp *http.Response) (res *AllOfWithSiblingExtensionsOK, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		return &AllOfWithSiblingExtensionsOK{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeAllOfWithSiblingPropertiesResponse(resp *http.Response) (res *AllOfWithSiblingPropertiesOK, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		return &AllOfWithSiblingPropertiesOK{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeGetAdminFooResponse(resp *http.Response) (res *GetAdminFooOK, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response GetAdminFooOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeGetFooResponse(resp *http.Response) (res *Foo, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Foo
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeMultiAllOfWithSiblingPropertiesResponse(resp *http.Response) (res *MultiAllOfWithSiblingPropertiesOK, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		return &MultiAllOfWithSiblingPropertiesOK{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
 
 func decodeNullableStringsResponse(resp *http.Response) (res *NullableStringsOK, _ error) {
 	switch resp.StatusCode {
@@ -14,7 +146,7 @@ func decodeNullableStringsResponse(resp *http.Response) (res *NullableStringsOK,
 		// Code 200.
 		return &NullableStringsOK{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeObjectsWithConflictingArrayPropertyResponse(resp *http.Response) (res *ObjectsWithConflictingArrayPropertyOK, _ error) {
@@ -23,7 +155,7 @@ func decodeObjectsWithConflictingArrayPropertyResponse(resp *http.Response) (res
 		// Code 200.
 		return &ObjectsWithConflictingArrayPropertyOK{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeObjectsWithConflictingPropertiesResponse(resp *http.Response) (res *ObjectsWithConflictingPropertiesOK, _ error) {
@@ -32,7 +164,16 @@ func decodeObjectsWithConflictingPropertiesResponse(resp *http.Response) (res *O
 		// Code 200.
 		return &ObjectsWithConflictingPropertiesOK{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeReferencedAllOfNullableResponse(resp *http.Response) (res *ReferencedAllOfNullableOK, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		return &ReferencedAllOfNullableOK{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReferencedAllofResponse(resp *http.Response) (res *ReferencedAllofOK, _ error) {
@@ -41,7 +182,7 @@ func decodeReferencedAllofResponse(resp *http.Response) (res *ReferencedAllofOK,
 		// Code 200.
 		return &ReferencedAllofOK{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeReferencedAllofOptionalResponse(resp *http.Response) (res *ReferencedAllofOptionalOK, _ error) {
@@ -50,7 +191,7 @@ func decodeReferencedAllofOptionalResponse(resp *http.Response) (res *Referenced
 		// Code 200.
 		return &ReferencedAllofOptionalOK{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSimpleIntegerResponse(resp *http.Response) (res *SimpleIntegerOK, _ error) {
@@ -59,7 +200,7 @@ func decodeSimpleIntegerResponse(resp *http.Response) (res *SimpleIntegerOK, _ e
 		// Code 200.
 		return &SimpleIntegerOK{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeSimpleObjectsResponse(resp *http.Response) (res *SimpleObjectsOK, _ error) {
@@ -68,7 +209,7 @@ func decodeSimpleObjectsResponse(resp *http.Response) (res *SimpleObjectsOK, _ e
 		// Code 200.
 		return &SimpleObjectsOK{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeStringsNotypeResponse(resp *http.Response) (res *StringsNotypeOK, _ error) {
@@ -77,5 +218,5 @@ func decodeStringsNotypeResponse(resp *http.Response) (res *StringsNotypeOK, _ e
 		// Code 200.
 		return &StringsNotypeOK{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }

@@ -1234,6 +1234,588 @@ type Handler interface {
 	//
 	// GET /logs/
 	LogFileListHandler(ctx context.Context) error
+	// PatchAdmissionregistrationV1MutatingWebhookConfiguration implements patchAdmissionregistrationV1MutatingWebhookConfiguration operation.
+	//
+	// Partially update the specified MutatingWebhookConfiguration.
+	//
+	// PATCH /apis/admissionregistration.k8s.io/v1/mutatingwebhookconfigurations/{name}
+	PatchAdmissionregistrationV1MutatingWebhookConfiguration(ctx context.Context, req PatchAdmissionregistrationV1MutatingWebhookConfigurationReq, params PatchAdmissionregistrationV1MutatingWebhookConfigurationParams) (PatchAdmissionregistrationV1MutatingWebhookConfigurationRes, error)
+	// PatchAdmissionregistrationV1ValidatingWebhookConfiguration implements patchAdmissionregistrationV1ValidatingWebhookConfiguration operation.
+	//
+	// Partially update the specified ValidatingWebhookConfiguration.
+	//
+	// PATCH /apis/admissionregistration.k8s.io/v1/validatingwebhookconfigurations/{name}
+	PatchAdmissionregistrationV1ValidatingWebhookConfiguration(ctx context.Context, req PatchAdmissionregistrationV1ValidatingWebhookConfigurationReq, params PatchAdmissionregistrationV1ValidatingWebhookConfigurationParams) (PatchAdmissionregistrationV1ValidatingWebhookConfigurationRes, error)
+	// PatchApiextensionsV1CustomResourceDefinition implements patchApiextensionsV1CustomResourceDefinition operation.
+	//
+	// Partially update the specified CustomResourceDefinition.
+	//
+	// PATCH /apis/apiextensions.k8s.io/v1/customresourcedefinitions/{name}
+	PatchApiextensionsV1CustomResourceDefinition(ctx context.Context, req PatchApiextensionsV1CustomResourceDefinitionReq, params PatchApiextensionsV1CustomResourceDefinitionParams) (PatchApiextensionsV1CustomResourceDefinitionRes, error)
+	// PatchApiextensionsV1CustomResourceDefinitionStatus implements patchApiextensionsV1CustomResourceDefinitionStatus operation.
+	//
+	// Partially update status of the specified CustomResourceDefinition.
+	//
+	// PATCH /apis/apiextensions.k8s.io/v1/customresourcedefinitions/{name}/status
+	PatchApiextensionsV1CustomResourceDefinitionStatus(ctx context.Context, req PatchApiextensionsV1CustomResourceDefinitionStatusReq, params PatchApiextensionsV1CustomResourceDefinitionStatusParams) (PatchApiextensionsV1CustomResourceDefinitionStatusRes, error)
+	// PatchApiregistrationV1APIService implements patchApiregistrationV1APIService operation.
+	//
+	// Partially update the specified APIService.
+	//
+	// PATCH /apis/apiregistration.k8s.io/v1/apiservices/{name}
+	PatchApiregistrationV1APIService(ctx context.Context, req PatchApiregistrationV1APIServiceReq, params PatchApiregistrationV1APIServiceParams) (PatchApiregistrationV1APIServiceRes, error)
+	// PatchApiregistrationV1APIServiceStatus implements patchApiregistrationV1APIServiceStatus operation.
+	//
+	// Partially update status of the specified APIService.
+	//
+	// PATCH /apis/apiregistration.k8s.io/v1/apiservices/{name}/status
+	PatchApiregistrationV1APIServiceStatus(ctx context.Context, req PatchApiregistrationV1APIServiceStatusReq, params PatchApiregistrationV1APIServiceStatusParams) (PatchApiregistrationV1APIServiceStatusRes, error)
+	// PatchAppsV1NamespacedControllerRevision implements patchAppsV1NamespacedControllerRevision operation.
+	//
+	// Partially update the specified ControllerRevision.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/controllerrevisions/{name}
+	PatchAppsV1NamespacedControllerRevision(ctx context.Context, req PatchAppsV1NamespacedControllerRevisionReq, params PatchAppsV1NamespacedControllerRevisionParams) (PatchAppsV1NamespacedControllerRevisionRes, error)
+	// PatchAppsV1NamespacedDaemonSet implements patchAppsV1NamespacedDaemonSet operation.
+	//
+	// Partially update the specified DaemonSet.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/daemonsets/{name}
+	PatchAppsV1NamespacedDaemonSet(ctx context.Context, req PatchAppsV1NamespacedDaemonSetReq, params PatchAppsV1NamespacedDaemonSetParams) (PatchAppsV1NamespacedDaemonSetRes, error)
+	// PatchAppsV1NamespacedDaemonSetStatus implements patchAppsV1NamespacedDaemonSetStatus operation.
+	//
+	// Partially update status of the specified DaemonSet.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/daemonsets/{name}/status
+	PatchAppsV1NamespacedDaemonSetStatus(ctx context.Context, req PatchAppsV1NamespacedDaemonSetStatusReq, params PatchAppsV1NamespacedDaemonSetStatusParams) (PatchAppsV1NamespacedDaemonSetStatusRes, error)
+	// PatchAppsV1NamespacedDeployment implements patchAppsV1NamespacedDeployment operation.
+	//
+	// Partially update the specified Deployment.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/deployments/{name}
+	PatchAppsV1NamespacedDeployment(ctx context.Context, req PatchAppsV1NamespacedDeploymentReq, params PatchAppsV1NamespacedDeploymentParams) (PatchAppsV1NamespacedDeploymentRes, error)
+	// PatchAppsV1NamespacedDeploymentScale implements patchAppsV1NamespacedDeploymentScale operation.
+	//
+	// Partially update scale of the specified Deployment.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/deployments/{name}/scale
+	PatchAppsV1NamespacedDeploymentScale(ctx context.Context, req PatchAppsV1NamespacedDeploymentScaleReq, params PatchAppsV1NamespacedDeploymentScaleParams) (PatchAppsV1NamespacedDeploymentScaleRes, error)
+	// PatchAppsV1NamespacedDeploymentStatus implements patchAppsV1NamespacedDeploymentStatus operation.
+	//
+	// Partially update status of the specified Deployment.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/deployments/{name}/status
+	PatchAppsV1NamespacedDeploymentStatus(ctx context.Context, req PatchAppsV1NamespacedDeploymentStatusReq, params PatchAppsV1NamespacedDeploymentStatusParams) (PatchAppsV1NamespacedDeploymentStatusRes, error)
+	// PatchAppsV1NamespacedReplicaSet implements patchAppsV1NamespacedReplicaSet operation.
+	//
+	// Partially update the specified ReplicaSet.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/replicasets/{name}
+	PatchAppsV1NamespacedReplicaSet(ctx context.Context, req PatchAppsV1NamespacedReplicaSetReq, params PatchAppsV1NamespacedReplicaSetParams) (PatchAppsV1NamespacedReplicaSetRes, error)
+	// PatchAppsV1NamespacedReplicaSetScale implements patchAppsV1NamespacedReplicaSetScale operation.
+	//
+	// Partially update scale of the specified ReplicaSet.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/replicasets/{name}/scale
+	PatchAppsV1NamespacedReplicaSetScale(ctx context.Context, req PatchAppsV1NamespacedReplicaSetScaleReq, params PatchAppsV1NamespacedReplicaSetScaleParams) (PatchAppsV1NamespacedReplicaSetScaleRes, error)
+	// PatchAppsV1NamespacedReplicaSetStatus implements patchAppsV1NamespacedReplicaSetStatus operation.
+	//
+	// Partially update status of the specified ReplicaSet.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/replicasets/{name}/status
+	PatchAppsV1NamespacedReplicaSetStatus(ctx context.Context, req PatchAppsV1NamespacedReplicaSetStatusReq, params PatchAppsV1NamespacedReplicaSetStatusParams) (PatchAppsV1NamespacedReplicaSetStatusRes, error)
+	// PatchAppsV1NamespacedStatefulSet implements patchAppsV1NamespacedStatefulSet operation.
+	//
+	// Partially update the specified StatefulSet.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/statefulsets/{name}
+	PatchAppsV1NamespacedStatefulSet(ctx context.Context, req PatchAppsV1NamespacedStatefulSetReq, params PatchAppsV1NamespacedStatefulSetParams) (PatchAppsV1NamespacedStatefulSetRes, error)
+	// PatchAppsV1NamespacedStatefulSetScale implements patchAppsV1NamespacedStatefulSetScale operation.
+	//
+	// Partially update scale of the specified StatefulSet.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/scale
+	PatchAppsV1NamespacedStatefulSetScale(ctx context.Context, req PatchAppsV1NamespacedStatefulSetScaleReq, params PatchAppsV1NamespacedStatefulSetScaleParams) (PatchAppsV1NamespacedStatefulSetScaleRes, error)
+	// PatchAppsV1NamespacedStatefulSetStatus implements patchAppsV1NamespacedStatefulSetStatus operation.
+	//
+	// Partially update status of the specified StatefulSet.
+	//
+	// PATCH /apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/status
+	PatchAppsV1NamespacedStatefulSetStatus(ctx context.Context, req PatchAppsV1NamespacedStatefulSetStatusReq, params PatchAppsV1NamespacedStatefulSetStatusParams) (PatchAppsV1NamespacedStatefulSetStatusRes, error)
+	// PatchAutoscalingV1NamespacedHorizontalPodAutoscaler implements patchAutoscalingV1NamespacedHorizontalPodAutoscaler operation.
+	//
+	// Partially update the specified HorizontalPodAutoscaler.
+	//
+	// PATCH /apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}
+	PatchAutoscalingV1NamespacedHorizontalPodAutoscaler(ctx context.Context, req PatchAutoscalingV1NamespacedHorizontalPodAutoscalerReq, params PatchAutoscalingV1NamespacedHorizontalPodAutoscalerParams) (PatchAutoscalingV1NamespacedHorizontalPodAutoscalerRes, error)
+	// PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatus implements patchAutoscalingV1NamespacedHorizontalPodAutoscalerStatus operation.
+	//
+	// Partially update status of the specified HorizontalPodAutoscaler.
+	//
+	// PATCH /apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status
+	PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatus(ctx context.Context, req PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusReq, params PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusParams) (PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusRes, error)
+	// PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscaler implements patchAutoscalingV2beta1NamespacedHorizontalPodAutoscaler operation.
+	//
+	// Partially update the specified HorizontalPodAutoscaler.
+	//
+	// PATCH /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers/{name}
+	PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscaler(ctx context.Context, req PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerReq, params PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerParams) (PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerRes, error)
+	// PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatus implements patchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatus operation.
+	//
+	// Partially update status of the specified HorizontalPodAutoscaler.
+	//
+	// PATCH /apis/autoscaling/v2beta1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status
+	PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatus(ctx context.Context, req PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusReq, params PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusParams) (PatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerStatusRes, error)
+	// PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscaler implements patchAutoscalingV2beta2NamespacedHorizontalPodAutoscaler operation.
+	//
+	// Partially update the specified HorizontalPodAutoscaler.
+	//
+	// PATCH /apis/autoscaling/v2beta2/namespaces/{namespace}/horizontalpodautoscalers/{name}
+	PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscaler(ctx context.Context, req PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerReq, params PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerParams) (PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerRes, error)
+	// PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatus implements patchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatus operation.
+	//
+	// Partially update status of the specified HorizontalPodAutoscaler.
+	//
+	// PATCH /apis/autoscaling/v2beta2/namespaces/{namespace}/horizontalpodautoscalers/{name}/status
+	PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatus(ctx context.Context, req PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusReq, params PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusParams) (PatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerStatusRes, error)
+	// PatchBatchV1NamespacedCronJob implements patchBatchV1NamespacedCronJob operation.
+	//
+	// Partially update the specified CronJob.
+	//
+	// PATCH /apis/batch/v1/namespaces/{namespace}/cronjobs/{name}
+	PatchBatchV1NamespacedCronJob(ctx context.Context, req PatchBatchV1NamespacedCronJobReq, params PatchBatchV1NamespacedCronJobParams) (PatchBatchV1NamespacedCronJobRes, error)
+	// PatchBatchV1NamespacedCronJobStatus implements patchBatchV1NamespacedCronJobStatus operation.
+	//
+	// Partially update status of the specified CronJob.
+	//
+	// PATCH /apis/batch/v1/namespaces/{namespace}/cronjobs/{name}/status
+	PatchBatchV1NamespacedCronJobStatus(ctx context.Context, req PatchBatchV1NamespacedCronJobStatusReq, params PatchBatchV1NamespacedCronJobStatusParams) (PatchBatchV1NamespacedCronJobStatusRes, error)
+	// PatchBatchV1NamespacedJob implements patchBatchV1NamespacedJob operation.
+	//
+	// Partially update the specified Job.
+	//
+	// PATCH /apis/batch/v1/namespaces/{namespace}/jobs/{name}
+	PatchBatchV1NamespacedJob(ctx context.Context, req PatchBatchV1NamespacedJobReq, params PatchBatchV1NamespacedJobParams) (PatchBatchV1NamespacedJobRes, error)
+	// PatchBatchV1NamespacedJobStatus implements patchBatchV1NamespacedJobStatus operation.
+	//
+	// Partially update status of the specified Job.
+	//
+	// PATCH /apis/batch/v1/namespaces/{namespace}/jobs/{name}/status
+	PatchBatchV1NamespacedJobStatus(ctx context.Context, req PatchBatchV1NamespacedJobStatusReq, params PatchBatchV1NamespacedJobStatusParams) (PatchBatchV1NamespacedJobStatusRes, error)
+	// PatchBatchV1beta1NamespacedCronJob implements patchBatchV1beta1NamespacedCronJob operation.
+	//
+	// Partially update the specified CronJob.
+	//
+	// PATCH /apis/batch/v1beta1/namespaces/{namespace}/cronjobs/{name}
+	PatchBatchV1beta1NamespacedCronJob(ctx context.Context, req PatchBatchV1beta1NamespacedCronJobReq, params PatchBatchV1beta1NamespacedCronJobParams) (PatchBatchV1beta1NamespacedCronJobRes, error)
+	// PatchBatchV1beta1NamespacedCronJobStatus implements patchBatchV1beta1NamespacedCronJobStatus operation.
+	//
+	// Partially update status of the specified CronJob.
+	//
+	// PATCH /apis/batch/v1beta1/namespaces/{namespace}/cronjobs/{name}/status
+	PatchBatchV1beta1NamespacedCronJobStatus(ctx context.Context, req PatchBatchV1beta1NamespacedCronJobStatusReq, params PatchBatchV1beta1NamespacedCronJobStatusParams) (PatchBatchV1beta1NamespacedCronJobStatusRes, error)
+	// PatchCertificatesV1CertificateSigningRequest implements patchCertificatesV1CertificateSigningRequest operation.
+	//
+	// Partially update the specified CertificateSigningRequest.
+	//
+	// PATCH /apis/certificates.k8s.io/v1/certificatesigningrequests/{name}
+	PatchCertificatesV1CertificateSigningRequest(ctx context.Context, req PatchCertificatesV1CertificateSigningRequestReq, params PatchCertificatesV1CertificateSigningRequestParams) (PatchCertificatesV1CertificateSigningRequestRes, error)
+	// PatchCertificatesV1CertificateSigningRequestApproval implements patchCertificatesV1CertificateSigningRequestApproval operation.
+	//
+	// Partially update approval of the specified CertificateSigningRequest.
+	//
+	// PATCH /apis/certificates.k8s.io/v1/certificatesigningrequests/{name}/approval
+	PatchCertificatesV1CertificateSigningRequestApproval(ctx context.Context, req PatchCertificatesV1CertificateSigningRequestApprovalReq, params PatchCertificatesV1CertificateSigningRequestApprovalParams) (PatchCertificatesV1CertificateSigningRequestApprovalRes, error)
+	// PatchCertificatesV1CertificateSigningRequestStatus implements patchCertificatesV1CertificateSigningRequestStatus operation.
+	//
+	// Partially update status of the specified CertificateSigningRequest.
+	//
+	// PATCH /apis/certificates.k8s.io/v1/certificatesigningrequests/{name}/status
+	PatchCertificatesV1CertificateSigningRequestStatus(ctx context.Context, req PatchCertificatesV1CertificateSigningRequestStatusReq, params PatchCertificatesV1CertificateSigningRequestStatusParams) (PatchCertificatesV1CertificateSigningRequestStatusRes, error)
+	// PatchCoordinationV1NamespacedLease implements patchCoordinationV1NamespacedLease operation.
+	//
+	// Partially update the specified Lease.
+	//
+	// PATCH /apis/coordination.k8s.io/v1/namespaces/{namespace}/leases/{name}
+	PatchCoordinationV1NamespacedLease(ctx context.Context, req PatchCoordinationV1NamespacedLeaseReq, params PatchCoordinationV1NamespacedLeaseParams) (PatchCoordinationV1NamespacedLeaseRes, error)
+	// PatchCoreV1Namespace implements patchCoreV1Namespace operation.
+	//
+	// Partially update the specified Namespace.
+	//
+	// PATCH /api/v1/namespaces/{name}
+	PatchCoreV1Namespace(ctx context.Context, req PatchCoreV1NamespaceReq, params PatchCoreV1NamespaceParams) (PatchCoreV1NamespaceRes, error)
+	// PatchCoreV1NamespaceStatus implements patchCoreV1NamespaceStatus operation.
+	//
+	// Partially update status of the specified Namespace.
+	//
+	// PATCH /api/v1/namespaces/{name}/status
+	PatchCoreV1NamespaceStatus(ctx context.Context, req PatchCoreV1NamespaceStatusReq, params PatchCoreV1NamespaceStatusParams) (PatchCoreV1NamespaceStatusRes, error)
+	// PatchCoreV1NamespacedConfigMap implements patchCoreV1NamespacedConfigMap operation.
+	//
+	// Partially update the specified ConfigMap.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/configmaps/{name}
+	PatchCoreV1NamespacedConfigMap(ctx context.Context, req PatchCoreV1NamespacedConfigMapReq, params PatchCoreV1NamespacedConfigMapParams) (PatchCoreV1NamespacedConfigMapRes, error)
+	// PatchCoreV1NamespacedEndpoints implements patchCoreV1NamespacedEndpoints operation.
+	//
+	// Partially update the specified Endpoints.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/endpoints/{name}
+	PatchCoreV1NamespacedEndpoints(ctx context.Context, req PatchCoreV1NamespacedEndpointsReq, params PatchCoreV1NamespacedEndpointsParams) (PatchCoreV1NamespacedEndpointsRes, error)
+	// PatchCoreV1NamespacedEvent implements patchCoreV1NamespacedEvent operation.
+	//
+	// Partially update the specified Event.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/events/{name}
+	PatchCoreV1NamespacedEvent(ctx context.Context, req PatchCoreV1NamespacedEventReq, params PatchCoreV1NamespacedEventParams) (PatchCoreV1NamespacedEventRes, error)
+	// PatchCoreV1NamespacedLimitRange implements patchCoreV1NamespacedLimitRange operation.
+	//
+	// Partially update the specified LimitRange.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/limitranges/{name}
+	PatchCoreV1NamespacedLimitRange(ctx context.Context, req PatchCoreV1NamespacedLimitRangeReq, params PatchCoreV1NamespacedLimitRangeParams) (PatchCoreV1NamespacedLimitRangeRes, error)
+	// PatchCoreV1NamespacedPersistentVolumeClaim implements patchCoreV1NamespacedPersistentVolumeClaim operation.
+	//
+	// Partially update the specified PersistentVolumeClaim.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}
+	PatchCoreV1NamespacedPersistentVolumeClaim(ctx context.Context, req PatchCoreV1NamespacedPersistentVolumeClaimReq, params PatchCoreV1NamespacedPersistentVolumeClaimParams) (PatchCoreV1NamespacedPersistentVolumeClaimRes, error)
+	// PatchCoreV1NamespacedPersistentVolumeClaimStatus implements patchCoreV1NamespacedPersistentVolumeClaimStatus operation.
+	//
+	// Partially update status of the specified PersistentVolumeClaim.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}/status
+	PatchCoreV1NamespacedPersistentVolumeClaimStatus(ctx context.Context, req PatchCoreV1NamespacedPersistentVolumeClaimStatusReq, params PatchCoreV1NamespacedPersistentVolumeClaimStatusParams) (PatchCoreV1NamespacedPersistentVolumeClaimStatusRes, error)
+	// PatchCoreV1NamespacedPod implements patchCoreV1NamespacedPod operation.
+	//
+	// Partially update the specified Pod.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/pods/{name}
+	PatchCoreV1NamespacedPod(ctx context.Context, req PatchCoreV1NamespacedPodReq, params PatchCoreV1NamespacedPodParams) (PatchCoreV1NamespacedPodRes, error)
+	// PatchCoreV1NamespacedPodEphemeralcontainers implements patchCoreV1NamespacedPodEphemeralcontainers operation.
+	//
+	// Partially update ephemeralcontainers of the specified Pod.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/pods/{name}/ephemeralcontainers
+	PatchCoreV1NamespacedPodEphemeralcontainers(ctx context.Context, req PatchCoreV1NamespacedPodEphemeralcontainersReq, params PatchCoreV1NamespacedPodEphemeralcontainersParams) (PatchCoreV1NamespacedPodEphemeralcontainersRes, error)
+	// PatchCoreV1NamespacedPodStatus implements patchCoreV1NamespacedPodStatus operation.
+	//
+	// Partially update status of the specified Pod.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/pods/{name}/status
+	PatchCoreV1NamespacedPodStatus(ctx context.Context, req PatchCoreV1NamespacedPodStatusReq, params PatchCoreV1NamespacedPodStatusParams) (PatchCoreV1NamespacedPodStatusRes, error)
+	// PatchCoreV1NamespacedPodTemplate implements patchCoreV1NamespacedPodTemplate operation.
+	//
+	// Partially update the specified PodTemplate.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/podtemplates/{name}
+	PatchCoreV1NamespacedPodTemplate(ctx context.Context, req PatchCoreV1NamespacedPodTemplateReq, params PatchCoreV1NamespacedPodTemplateParams) (PatchCoreV1NamespacedPodTemplateRes, error)
+	// PatchCoreV1NamespacedReplicationController implements patchCoreV1NamespacedReplicationController operation.
+	//
+	// Partially update the specified ReplicationController.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/replicationcontrollers/{name}
+	PatchCoreV1NamespacedReplicationController(ctx context.Context, req PatchCoreV1NamespacedReplicationControllerReq, params PatchCoreV1NamespacedReplicationControllerParams) (PatchCoreV1NamespacedReplicationControllerRes, error)
+	// PatchCoreV1NamespacedReplicationControllerScale implements patchCoreV1NamespacedReplicationControllerScale operation.
+	//
+	// Partially update scale of the specified ReplicationController.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/replicationcontrollers/{name}/scale
+	PatchCoreV1NamespacedReplicationControllerScale(ctx context.Context, req PatchCoreV1NamespacedReplicationControllerScaleReq, params PatchCoreV1NamespacedReplicationControllerScaleParams) (PatchCoreV1NamespacedReplicationControllerScaleRes, error)
+	// PatchCoreV1NamespacedReplicationControllerStatus implements patchCoreV1NamespacedReplicationControllerStatus operation.
+	//
+	// Partially update status of the specified ReplicationController.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/replicationcontrollers/{name}/status
+	PatchCoreV1NamespacedReplicationControllerStatus(ctx context.Context, req PatchCoreV1NamespacedReplicationControllerStatusReq, params PatchCoreV1NamespacedReplicationControllerStatusParams) (PatchCoreV1NamespacedReplicationControllerStatusRes, error)
+	// PatchCoreV1NamespacedResourceQuota implements patchCoreV1NamespacedResourceQuota operation.
+	//
+	// Partially update the specified ResourceQuota.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/resourcequotas/{name}
+	PatchCoreV1NamespacedResourceQuota(ctx context.Context, req PatchCoreV1NamespacedResourceQuotaReq, params PatchCoreV1NamespacedResourceQuotaParams) (PatchCoreV1NamespacedResourceQuotaRes, error)
+	// PatchCoreV1NamespacedResourceQuotaStatus implements patchCoreV1NamespacedResourceQuotaStatus operation.
+	//
+	// Partially update status of the specified ResourceQuota.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/resourcequotas/{name}/status
+	PatchCoreV1NamespacedResourceQuotaStatus(ctx context.Context, req PatchCoreV1NamespacedResourceQuotaStatusReq, params PatchCoreV1NamespacedResourceQuotaStatusParams) (PatchCoreV1NamespacedResourceQuotaStatusRes, error)
+	// PatchCoreV1NamespacedSecret implements patchCoreV1NamespacedSecret operation.
+	//
+	// Partially update the specified Secret.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/secrets/{name}
+	PatchCoreV1NamespacedSecret(ctx context.Context, req PatchCoreV1NamespacedSecretReq, params PatchCoreV1NamespacedSecretParams) (PatchCoreV1NamespacedSecretRes, error)
+	// PatchCoreV1NamespacedService implements patchCoreV1NamespacedService operation.
+	//
+	// Partially update the specified Service.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/services/{name}
+	PatchCoreV1NamespacedService(ctx context.Context, req PatchCoreV1NamespacedServiceReq, params PatchCoreV1NamespacedServiceParams) (PatchCoreV1NamespacedServiceRes, error)
+	// PatchCoreV1NamespacedServiceAccount implements patchCoreV1NamespacedServiceAccount operation.
+	//
+	// Partially update the specified ServiceAccount.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/serviceaccounts/{name}
+	PatchCoreV1NamespacedServiceAccount(ctx context.Context, req PatchCoreV1NamespacedServiceAccountReq, params PatchCoreV1NamespacedServiceAccountParams) (PatchCoreV1NamespacedServiceAccountRes, error)
+	// PatchCoreV1NamespacedServiceStatus implements patchCoreV1NamespacedServiceStatus operation.
+	//
+	// Partially update status of the specified Service.
+	//
+	// PATCH /api/v1/namespaces/{namespace}/services/{name}/status
+	PatchCoreV1NamespacedServiceStatus(ctx context.Context, req PatchCoreV1NamespacedServiceStatusReq, params PatchCoreV1NamespacedServiceStatusParams) (PatchCoreV1NamespacedServiceStatusRes, error)
+	// PatchCoreV1Node implements patchCoreV1Node operation.
+	//
+	// Partially update the specified Node.
+	//
+	// PATCH /api/v1/nodes/{name}
+	PatchCoreV1Node(ctx context.Context, req PatchCoreV1NodeReq, params PatchCoreV1NodeParams) (PatchCoreV1NodeRes, error)
+	// PatchCoreV1NodeStatus implements patchCoreV1NodeStatus operation.
+	//
+	// Partially update status of the specified Node.
+	//
+	// PATCH /api/v1/nodes/{name}/status
+	PatchCoreV1NodeStatus(ctx context.Context, req PatchCoreV1NodeStatusReq, params PatchCoreV1NodeStatusParams) (PatchCoreV1NodeStatusRes, error)
+	// PatchCoreV1PersistentVolume implements patchCoreV1PersistentVolume operation.
+	//
+	// Partially update the specified PersistentVolume.
+	//
+	// PATCH /api/v1/persistentvolumes/{name}
+	PatchCoreV1PersistentVolume(ctx context.Context, req PatchCoreV1PersistentVolumeReq, params PatchCoreV1PersistentVolumeParams) (PatchCoreV1PersistentVolumeRes, error)
+	// PatchCoreV1PersistentVolumeStatus implements patchCoreV1PersistentVolumeStatus operation.
+	//
+	// Partially update status of the specified PersistentVolume.
+	//
+	// PATCH /api/v1/persistentvolumes/{name}/status
+	PatchCoreV1PersistentVolumeStatus(ctx context.Context, req PatchCoreV1PersistentVolumeStatusReq, params PatchCoreV1PersistentVolumeStatusParams) (PatchCoreV1PersistentVolumeStatusRes, error)
+	// PatchDiscoveryV1NamespacedEndpointSlice implements patchDiscoveryV1NamespacedEndpointSlice operation.
+	//
+	// Partially update the specified EndpointSlice.
+	//
+	// PATCH /apis/discovery.k8s.io/v1/namespaces/{namespace}/endpointslices/{name}
+	PatchDiscoveryV1NamespacedEndpointSlice(ctx context.Context, req PatchDiscoveryV1NamespacedEndpointSliceReq, params PatchDiscoveryV1NamespacedEndpointSliceParams) (PatchDiscoveryV1NamespacedEndpointSliceRes, error)
+	// PatchDiscoveryV1beta1NamespacedEndpointSlice implements patchDiscoveryV1beta1NamespacedEndpointSlice operation.
+	//
+	// Partially update the specified EndpointSlice.
+	//
+	// PATCH /apis/discovery.k8s.io/v1beta1/namespaces/{namespace}/endpointslices/{name}
+	PatchDiscoveryV1beta1NamespacedEndpointSlice(ctx context.Context, req PatchDiscoveryV1beta1NamespacedEndpointSliceReq, params PatchDiscoveryV1beta1NamespacedEndpointSliceParams) (PatchDiscoveryV1beta1NamespacedEndpointSliceRes, error)
+	// PatchEventsV1NamespacedEvent implements patchEventsV1NamespacedEvent operation.
+	//
+	// Partially update the specified Event.
+	//
+	// PATCH /apis/events.k8s.io/v1/namespaces/{namespace}/events/{name}
+	PatchEventsV1NamespacedEvent(ctx context.Context, req PatchEventsV1NamespacedEventReq, params PatchEventsV1NamespacedEventParams) (PatchEventsV1NamespacedEventRes, error)
+	// PatchEventsV1beta1NamespacedEvent implements patchEventsV1beta1NamespacedEvent operation.
+	//
+	// Partially update the specified Event.
+	//
+	// PATCH /apis/events.k8s.io/v1beta1/namespaces/{namespace}/events/{name}
+	PatchEventsV1beta1NamespacedEvent(ctx context.Context, req PatchEventsV1beta1NamespacedEventReq, params PatchEventsV1beta1NamespacedEventParams) (PatchEventsV1beta1NamespacedEventRes, error)
+	// PatchFlowcontrolApiserverV1beta1FlowSchema implements patchFlowcontrolApiserverV1beta1FlowSchema operation.
+	//
+	// Partially update the specified FlowSchema.
+	//
+	// PATCH /apis/flowcontrol.apiserver.k8s.io/v1beta1/flowschemas/{name}
+	PatchFlowcontrolApiserverV1beta1FlowSchema(ctx context.Context, req PatchFlowcontrolApiserverV1beta1FlowSchemaReq, params PatchFlowcontrolApiserverV1beta1FlowSchemaParams) (PatchFlowcontrolApiserverV1beta1FlowSchemaRes, error)
+	// PatchFlowcontrolApiserverV1beta1FlowSchemaStatus implements patchFlowcontrolApiserverV1beta1FlowSchemaStatus operation.
+	//
+	// Partially update status of the specified FlowSchema.
+	//
+	// PATCH /apis/flowcontrol.apiserver.k8s.io/v1beta1/flowschemas/{name}/status
+	PatchFlowcontrolApiserverV1beta1FlowSchemaStatus(ctx context.Context, req PatchFlowcontrolApiserverV1beta1FlowSchemaStatusReq, params PatchFlowcontrolApiserverV1beta1FlowSchemaStatusParams) (PatchFlowcontrolApiserverV1beta1FlowSchemaStatusRes, error)
+	// PatchFlowcontrolApiserverV1beta1PriorityLevelConfiguration implements patchFlowcontrolApiserverV1beta1PriorityLevelConfiguration operation.
+	//
+	// Partially update the specified PriorityLevelConfiguration.
+	//
+	// PATCH /apis/flowcontrol.apiserver.k8s.io/v1beta1/prioritylevelconfigurations/{name}
+	PatchFlowcontrolApiserverV1beta1PriorityLevelConfiguration(ctx context.Context, req PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationReq, params PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationParams) (PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationRes, error)
+	// PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatus implements patchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatus operation.
+	//
+	// Partially update status of the specified PriorityLevelConfiguration.
+	//
+	// PATCH /apis/flowcontrol.apiserver.k8s.io/v1beta1/prioritylevelconfigurations/{name}/status
+	PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatus(ctx context.Context, req PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusReq, params PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusParams) (PatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationStatusRes, error)
+	// PatchFlowcontrolApiserverV1beta2FlowSchema implements patchFlowcontrolApiserverV1beta2FlowSchema operation.
+	//
+	// Partially update the specified FlowSchema.
+	//
+	// PATCH /apis/flowcontrol.apiserver.k8s.io/v1beta2/flowschemas/{name}
+	PatchFlowcontrolApiserverV1beta2FlowSchema(ctx context.Context, req PatchFlowcontrolApiserverV1beta2FlowSchemaReq, params PatchFlowcontrolApiserverV1beta2FlowSchemaParams) (PatchFlowcontrolApiserverV1beta2FlowSchemaRes, error)
+	// PatchFlowcontrolApiserverV1beta2FlowSchemaStatus implements patchFlowcontrolApiserverV1beta2FlowSchemaStatus operation.
+	//
+	// Partially update status of the specified FlowSchema.
+	//
+	// PATCH /apis/flowcontrol.apiserver.k8s.io/v1beta2/flowschemas/{name}/status
+	PatchFlowcontrolApiserverV1beta2FlowSchemaStatus(ctx context.Context, req PatchFlowcontrolApiserverV1beta2FlowSchemaStatusReq, params PatchFlowcontrolApiserverV1beta2FlowSchemaStatusParams) (PatchFlowcontrolApiserverV1beta2FlowSchemaStatusRes, error)
+	// PatchFlowcontrolApiserverV1beta2PriorityLevelConfiguration implements patchFlowcontrolApiserverV1beta2PriorityLevelConfiguration operation.
+	//
+	// Partially update the specified PriorityLevelConfiguration.
+	//
+	// PATCH /apis/flowcontrol.apiserver.k8s.io/v1beta2/prioritylevelconfigurations/{name}
+	PatchFlowcontrolApiserverV1beta2PriorityLevelConfiguration(ctx context.Context, req PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationReq, params PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationParams) (PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationRes, error)
+	// PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatus implements patchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatus operation.
+	//
+	// Partially update status of the specified PriorityLevelConfiguration.
+	//
+	// PATCH /apis/flowcontrol.apiserver.k8s.io/v1beta2/prioritylevelconfigurations/{name}/status
+	PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatus(ctx context.Context, req PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusReq, params PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusParams) (PatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationStatusRes, error)
+	// PatchInternalApiserverV1alpha1StorageVersion implements patchInternalApiserverV1alpha1StorageVersion operation.
+	//
+	// Partially update the specified StorageVersion.
+	//
+	// PATCH /apis/internal.apiserver.k8s.io/v1alpha1/storageversions/{name}
+	PatchInternalApiserverV1alpha1StorageVersion(ctx context.Context, req PatchInternalApiserverV1alpha1StorageVersionReq, params PatchInternalApiserverV1alpha1StorageVersionParams) (PatchInternalApiserverV1alpha1StorageVersionRes, error)
+	// PatchInternalApiserverV1alpha1StorageVersionStatus implements patchInternalApiserverV1alpha1StorageVersionStatus operation.
+	//
+	// Partially update status of the specified StorageVersion.
+	//
+	// PATCH /apis/internal.apiserver.k8s.io/v1alpha1/storageversions/{name}/status
+	PatchInternalApiserverV1alpha1StorageVersionStatus(ctx context.Context, req PatchInternalApiserverV1alpha1StorageVersionStatusReq, params PatchInternalApiserverV1alpha1StorageVersionStatusParams) (PatchInternalApiserverV1alpha1StorageVersionStatusRes, error)
+	// PatchNetworkingV1IngressClass implements patchNetworkingV1IngressClass operation.
+	//
+	// Partially update the specified IngressClass.
+	//
+	// PATCH /apis/networking.k8s.io/v1/ingressclasses/{name}
+	PatchNetworkingV1IngressClass(ctx context.Context, req PatchNetworkingV1IngressClassReq, params PatchNetworkingV1IngressClassParams) (PatchNetworkingV1IngressClassRes, error)
+	// PatchNetworkingV1NamespacedIngress implements patchNetworkingV1NamespacedIngress operation.
+	//
+	// Partially update the specified Ingress.
+	//
+	// PATCH /apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}
+	PatchNetworkingV1NamespacedIngress(ctx context.Context, req PatchNetworkingV1NamespacedIngressReq, params PatchNetworkingV1NamespacedIngressParams) (PatchNetworkingV1NamespacedIngressRes, error)
+	// PatchNetworkingV1NamespacedIngressStatus implements patchNetworkingV1NamespacedIngressStatus operation.
+	//
+	// Partially update status of the specified Ingress.
+	//
+	// PATCH /apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}/status
+	PatchNetworkingV1NamespacedIngressStatus(ctx context.Context, req PatchNetworkingV1NamespacedIngressStatusReq, params PatchNetworkingV1NamespacedIngressStatusParams) (PatchNetworkingV1NamespacedIngressStatusRes, error)
+	// PatchNetworkingV1NamespacedNetworkPolicy implements patchNetworkingV1NamespacedNetworkPolicy operation.
+	//
+	// Partially update the specified NetworkPolicy.
+	//
+	// PATCH /apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies/{name}
+	PatchNetworkingV1NamespacedNetworkPolicy(ctx context.Context, req PatchNetworkingV1NamespacedNetworkPolicyReq, params PatchNetworkingV1NamespacedNetworkPolicyParams) (PatchNetworkingV1NamespacedNetworkPolicyRes, error)
+	// PatchNodeV1RuntimeClass implements patchNodeV1RuntimeClass operation.
+	//
+	// Partially update the specified RuntimeClass.
+	//
+	// PATCH /apis/node.k8s.io/v1/runtimeclasses/{name}
+	PatchNodeV1RuntimeClass(ctx context.Context, req PatchNodeV1RuntimeClassReq, params PatchNodeV1RuntimeClassParams) (PatchNodeV1RuntimeClassRes, error)
+	// PatchNodeV1alpha1RuntimeClass implements patchNodeV1alpha1RuntimeClass operation.
+	//
+	// Partially update the specified RuntimeClass.
+	//
+	// PATCH /apis/node.k8s.io/v1alpha1/runtimeclasses/{name}
+	PatchNodeV1alpha1RuntimeClass(ctx context.Context, req PatchNodeV1alpha1RuntimeClassReq, params PatchNodeV1alpha1RuntimeClassParams) (PatchNodeV1alpha1RuntimeClassRes, error)
+	// PatchNodeV1beta1RuntimeClass implements patchNodeV1beta1RuntimeClass operation.
+	//
+	// Partially update the specified RuntimeClass.
+	//
+	// PATCH /apis/node.k8s.io/v1beta1/runtimeclasses/{name}
+	PatchNodeV1beta1RuntimeClass(ctx context.Context, req PatchNodeV1beta1RuntimeClassReq, params PatchNodeV1beta1RuntimeClassParams) (PatchNodeV1beta1RuntimeClassRes, error)
+	// PatchPolicyV1NamespacedPodDisruptionBudget implements patchPolicyV1NamespacedPodDisruptionBudget operation.
+	//
+	// Partially update the specified PodDisruptionBudget.
+	//
+	// PATCH /apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets/{name}
+	PatchPolicyV1NamespacedPodDisruptionBudget(ctx context.Context, req PatchPolicyV1NamespacedPodDisruptionBudgetReq, params PatchPolicyV1NamespacedPodDisruptionBudgetParams) (PatchPolicyV1NamespacedPodDisruptionBudgetRes, error)
+	// PatchPolicyV1NamespacedPodDisruptionBudgetStatus implements patchPolicyV1NamespacedPodDisruptionBudgetStatus operation.
+	//
+	// Partially update status of the specified PodDisruptionBudget.
+	//
+	// PATCH /apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets/{name}/status
+	PatchPolicyV1NamespacedPodDisruptionBudgetStatus(ctx context.Context, req PatchPolicyV1NamespacedPodDisruptionBudgetStatusReq, params PatchPolicyV1NamespacedPodDisruptionBudgetStatusParams) (PatchPolicyV1NamespacedPodDisruptionBudgetStatusRes, error)
+	// PatchPolicyV1beta1NamespacedPodDisruptionBudget implements patchPolicyV1beta1NamespacedPodDisruptionBudget operation.
+	//
+	// Partially update the specified PodDisruptionBudget.
+	//
+	// PATCH /apis/policy/v1beta1/namespaces/{namespace}/poddisruptionbudgets/{name}
+	PatchPolicyV1beta1NamespacedPodDisruptionBudget(ctx context.Context, req PatchPolicyV1beta1NamespacedPodDisruptionBudgetReq, params PatchPolicyV1beta1NamespacedPodDisruptionBudgetParams) (PatchPolicyV1beta1NamespacedPodDisruptionBudgetRes, error)
+	// PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatus implements patchPolicyV1beta1NamespacedPodDisruptionBudgetStatus operation.
+	//
+	// Partially update status of the specified PodDisruptionBudget.
+	//
+	// PATCH /apis/policy/v1beta1/namespaces/{namespace}/poddisruptionbudgets/{name}/status
+	PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatus(ctx context.Context, req PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusReq, params PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusParams) (PatchPolicyV1beta1NamespacedPodDisruptionBudgetStatusRes, error)
+	// PatchPolicyV1beta1PodSecurityPolicy implements patchPolicyV1beta1PodSecurityPolicy operation.
+	//
+	// Partially update the specified PodSecurityPolicy.
+	//
+	// PATCH /apis/policy/v1beta1/podsecuritypolicies/{name}
+	PatchPolicyV1beta1PodSecurityPolicy(ctx context.Context, req PatchPolicyV1beta1PodSecurityPolicyReq, params PatchPolicyV1beta1PodSecurityPolicyParams) (PatchPolicyV1beta1PodSecurityPolicyRes, error)
+	// PatchRbacAuthorizationV1ClusterRole implements patchRbacAuthorizationV1ClusterRole operation.
+	//
+	// Partially update the specified ClusterRole.
+	//
+	// PATCH /apis/rbac.authorization.k8s.io/v1/clusterroles/{name}
+	PatchRbacAuthorizationV1ClusterRole(ctx context.Context, req PatchRbacAuthorizationV1ClusterRoleReq, params PatchRbacAuthorizationV1ClusterRoleParams) (PatchRbacAuthorizationV1ClusterRoleRes, error)
+	// PatchRbacAuthorizationV1ClusterRoleBinding implements patchRbacAuthorizationV1ClusterRoleBinding operation.
+	//
+	// Partially update the specified ClusterRoleBinding.
+	//
+	// PATCH /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name}
+	PatchRbacAuthorizationV1ClusterRoleBinding(ctx context.Context, req PatchRbacAuthorizationV1ClusterRoleBindingReq, params PatchRbacAuthorizationV1ClusterRoleBindingParams) (PatchRbacAuthorizationV1ClusterRoleBindingRes, error)
+	// PatchRbacAuthorizationV1NamespacedRole implements patchRbacAuthorizationV1NamespacedRole operation.
+	//
+	// Partially update the specified Role.
+	//
+	// PATCH /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name}
+	PatchRbacAuthorizationV1NamespacedRole(ctx context.Context, req PatchRbacAuthorizationV1NamespacedRoleReq, params PatchRbacAuthorizationV1NamespacedRoleParams) (PatchRbacAuthorizationV1NamespacedRoleRes, error)
+	// PatchRbacAuthorizationV1NamespacedRoleBinding implements patchRbacAuthorizationV1NamespacedRoleBinding operation.
+	//
+	// Partially update the specified RoleBinding.
+	//
+	// PATCH /apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name}
+	PatchRbacAuthorizationV1NamespacedRoleBinding(ctx context.Context, req PatchRbacAuthorizationV1NamespacedRoleBindingReq, params PatchRbacAuthorizationV1NamespacedRoleBindingParams) (PatchRbacAuthorizationV1NamespacedRoleBindingRes, error)
+	// PatchSchedulingV1PriorityClass implements patchSchedulingV1PriorityClass operation.
+	//
+	// Partially update the specified PriorityClass.
+	//
+	// PATCH /apis/scheduling.k8s.io/v1/priorityclasses/{name}
+	PatchSchedulingV1PriorityClass(ctx context.Context, req PatchSchedulingV1PriorityClassReq, params PatchSchedulingV1PriorityClassParams) (PatchSchedulingV1PriorityClassRes, error)
+	// PatchStorageV1CSIDriver implements patchStorageV1CSIDriver operation.
+	//
+	// Partially update the specified CSIDriver.
+	//
+	// PATCH /apis/storage.k8s.io/v1/csidrivers/{name}
+	PatchStorageV1CSIDriver(ctx context.Context, req PatchStorageV1CSIDriverReq, params PatchStorageV1CSIDriverParams) (PatchStorageV1CSIDriverRes, error)
+	// PatchStorageV1CSINode implements patchStorageV1CSINode operation.
+	//
+	// Partially update the specified CSINode.
+	//
+	// PATCH /apis/storage.k8s.io/v1/csinodes/{name}
+	PatchStorageV1CSINode(ctx context.Context, req PatchStorageV1CSINodeReq, params PatchStorageV1CSINodeParams) (PatchStorageV1CSINodeRes, error)
+	// PatchStorageV1StorageClass implements patchStorageV1StorageClass operation.
+	//
+	// Partially update the specified StorageClass.
+	//
+	// PATCH /apis/storage.k8s.io/v1/storageclasses/{name}
+	PatchStorageV1StorageClass(ctx context.Context, req PatchStorageV1StorageClassReq, params PatchStorageV1StorageClassParams) (PatchStorageV1StorageClassRes, error)
+	// PatchStorageV1VolumeAttachment implements patchStorageV1VolumeAttachment operation.
+	//
+	// Partially update the specified VolumeAttachment.
+	//
+	// PATCH /apis/storage.k8s.io/v1/volumeattachments/{name}
+	PatchStorageV1VolumeAttachment(ctx context.Context, req PatchStorageV1VolumeAttachmentReq, params PatchStorageV1VolumeAttachmentParams) (PatchStorageV1VolumeAttachmentRes, error)
+	// PatchStorageV1VolumeAttachmentStatus implements patchStorageV1VolumeAttachmentStatus operation.
+	//
+	// Partially update status of the specified VolumeAttachment.
+	//
+	// PATCH /apis/storage.k8s.io/v1/volumeattachments/{name}/status
+	PatchStorageV1VolumeAttachmentStatus(ctx context.Context, req PatchStorageV1VolumeAttachmentStatusReq, params PatchStorageV1VolumeAttachmentStatusParams) (PatchStorageV1VolumeAttachmentStatusRes, error)
+	// PatchStorageV1alpha1NamespacedCSIStorageCapacity implements patchStorageV1alpha1NamespacedCSIStorageCapacity operation.
+	//
+	// Partially update the specified CSIStorageCapacity.
+	//
+	// PATCH /apis/storage.k8s.io/v1alpha1/namespaces/{namespace}/csistoragecapacities/{name}
+	PatchStorageV1alpha1NamespacedCSIStorageCapacity(ctx context.Context, req PatchStorageV1alpha1NamespacedCSIStorageCapacityReq, params PatchStorageV1alpha1NamespacedCSIStorageCapacityParams) (PatchStorageV1alpha1NamespacedCSIStorageCapacityRes, error)
+	// PatchStorageV1beta1NamespacedCSIStorageCapacity implements patchStorageV1beta1NamespacedCSIStorageCapacity operation.
+	//
+	// Partially update the specified CSIStorageCapacity.
+	//
+	// PATCH /apis/storage.k8s.io/v1beta1/namespaces/{namespace}/csistoragecapacities/{name}
+	PatchStorageV1beta1NamespacedCSIStorageCapacity(ctx context.Context, req PatchStorageV1beta1NamespacedCSIStorageCapacityReq, params PatchStorageV1beta1NamespacedCSIStorageCapacityParams) (PatchStorageV1beta1NamespacedCSIStorageCapacityRes, error)
 	// ReadAdmissionregistrationV1MutatingWebhookConfiguration implements readAdmissionregistrationV1MutatingWebhookConfiguration operation.
 	//
 	// Read the specified MutatingWebhookConfiguration.
@@ -1881,15 +2463,15 @@ type Handler interface {
 	WatchApiregistrationV1APIService(ctx context.Context, params WatchApiregistrationV1APIServiceParams) (WatchApiregistrationV1APIServiceRes, error)
 	// WatchApiregistrationV1APIServiceList implements watchApiregistrationV1APIServiceList operation.
 	//
-	// Watch individual changes to a list of APIService. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of APIService. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/apiregistration.k8s.io/v1/watch/apiservices
 	WatchApiregistrationV1APIServiceList(ctx context.Context, params WatchApiregistrationV1APIServiceListParams) (WatchApiregistrationV1APIServiceListRes, error)
 	// WatchAppsV1ControllerRevisionListForAllNamespaces implements watchAppsV1ControllerRevisionListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of ControllerRevision. deprecated: use the 'watch' parameter
-	// with a list operation instead.
+	// Watch individual changes to a list of ControllerRevision. deprecated: use the 'watch' parameter with
+	// a list operation instead.
 	//
 	// GET /apis/apps/v1/watch/controllerrevisions
 	WatchAppsV1ControllerRevisionListForAllNamespaces(ctx context.Context, params WatchAppsV1ControllerRevisionListForAllNamespacesParams) (WatchAppsV1ControllerRevisionListForAllNamespacesRes, error)
@@ -1902,22 +2484,22 @@ type Handler interface {
 	WatchAppsV1DaemonSetListForAllNamespaces(ctx context.Context, params WatchAppsV1DaemonSetListForAllNamespacesParams) (WatchAppsV1DaemonSetListForAllNamespacesRes, error)
 	// WatchAppsV1DeploymentListForAllNamespaces implements watchAppsV1DeploymentListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of Deployment. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of Deployment. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/apps/v1/watch/deployments
 	WatchAppsV1DeploymentListForAllNamespaces(ctx context.Context, params WatchAppsV1DeploymentListForAllNamespacesParams) (WatchAppsV1DeploymentListForAllNamespacesRes, error)
 	// WatchAppsV1NamespacedControllerRevision implements watchAppsV1NamespacedControllerRevision operation.
 	//
-	// Watch changes to an object of kind ControllerRevision. deprecated: use the 'watch' parameter with
-	// a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind ControllerRevision. deprecated: use the 'watch' parameter with a
+	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/apps/v1/watch/namespaces/{namespace}/controllerrevisions/{name}
 	WatchAppsV1NamespacedControllerRevision(ctx context.Context, params WatchAppsV1NamespacedControllerRevisionParams) (WatchAppsV1NamespacedControllerRevisionRes, error)
 	// WatchAppsV1NamespacedControllerRevisionList implements watchAppsV1NamespacedControllerRevisionList operation.
 	//
-	// Watch individual changes to a list of ControllerRevision. deprecated: use the 'watch' parameter
-	// with a list operation instead.
+	// Watch individual changes to a list of ControllerRevision. deprecated: use the 'watch' parameter with
+	// a list operation instead.
 	//
 	// GET /apis/apps/v1/watch/namespaces/{namespace}/controllerrevisions
 	WatchAppsV1NamespacedControllerRevisionList(ctx context.Context, params WatchAppsV1NamespacedControllerRevisionListParams) (WatchAppsV1NamespacedControllerRevisionListRes, error)
@@ -1944,8 +2526,8 @@ type Handler interface {
 	WatchAppsV1NamespacedDeployment(ctx context.Context, params WatchAppsV1NamespacedDeploymentParams) (WatchAppsV1NamespacedDeploymentRes, error)
 	// WatchAppsV1NamespacedDeploymentList implements watchAppsV1NamespacedDeploymentList operation.
 	//
-	// Watch individual changes to a list of Deployment. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of Deployment. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/apps/v1/watch/namespaces/{namespace}/deployments
 	WatchAppsV1NamespacedDeploymentList(ctx context.Context, params WatchAppsV1NamespacedDeploymentListParams) (WatchAppsV1NamespacedDeploymentListRes, error)
@@ -1958,8 +2540,8 @@ type Handler interface {
 	WatchAppsV1NamespacedReplicaSet(ctx context.Context, params WatchAppsV1NamespacedReplicaSetParams) (WatchAppsV1NamespacedReplicaSetRes, error)
 	// WatchAppsV1NamespacedReplicaSetList implements watchAppsV1NamespacedReplicaSetList operation.
 	//
-	// Watch individual changes to a list of ReplicaSet. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of ReplicaSet. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/apps/v1/watch/namespaces/{namespace}/replicasets
 	WatchAppsV1NamespacedReplicaSetList(ctx context.Context, params WatchAppsV1NamespacedReplicaSetListParams) (WatchAppsV1NamespacedReplicaSetListRes, error)
@@ -1972,29 +2554,29 @@ type Handler interface {
 	WatchAppsV1NamespacedStatefulSet(ctx context.Context, params WatchAppsV1NamespacedStatefulSetParams) (WatchAppsV1NamespacedStatefulSetRes, error)
 	// WatchAppsV1NamespacedStatefulSetList implements watchAppsV1NamespacedStatefulSetList operation.
 	//
-	// Watch individual changes to a list of StatefulSet. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of StatefulSet. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/apps/v1/watch/namespaces/{namespace}/statefulsets
 	WatchAppsV1NamespacedStatefulSetList(ctx context.Context, params WatchAppsV1NamespacedStatefulSetListParams) (WatchAppsV1NamespacedStatefulSetListRes, error)
 	// WatchAppsV1ReplicaSetListForAllNamespaces implements watchAppsV1ReplicaSetListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of ReplicaSet. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of ReplicaSet. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/apps/v1/watch/replicasets
 	WatchAppsV1ReplicaSetListForAllNamespaces(ctx context.Context, params WatchAppsV1ReplicaSetListForAllNamespacesParams) (WatchAppsV1ReplicaSetListForAllNamespacesRes, error)
 	// WatchAppsV1StatefulSetListForAllNamespaces implements watchAppsV1StatefulSetListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of StatefulSet. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of StatefulSet. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/apps/v1/watch/statefulsets
 	WatchAppsV1StatefulSetListForAllNamespaces(ctx context.Context, params WatchAppsV1StatefulSetListForAllNamespacesParams) (WatchAppsV1StatefulSetListForAllNamespacesRes, error)
 	// WatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespaces implements watchAutoscalingV1HorizontalPodAutoscalerListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch'
-	// parameter with a list operation instead.
+	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch' parameter
+	// with a list operation instead.
 	//
 	// GET /apis/autoscaling/v1/watch/horizontalpodautoscalers
 	WatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespaces(ctx context.Context, params WatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespacesParams) (WatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespacesRes, error)
@@ -2007,15 +2589,15 @@ type Handler interface {
 	WatchAutoscalingV1NamespacedHorizontalPodAutoscaler(ctx context.Context, params WatchAutoscalingV1NamespacedHorizontalPodAutoscalerParams) (WatchAutoscalingV1NamespacedHorizontalPodAutoscalerRes, error)
 	// WatchAutoscalingV1NamespacedHorizontalPodAutoscalerList implements watchAutoscalingV1NamespacedHorizontalPodAutoscalerList operation.
 	//
-	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch'
-	// parameter with a list operation instead.
+	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch' parameter
+	// with a list operation instead.
 	//
 	// GET /apis/autoscaling/v1/watch/namespaces/{namespace}/horizontalpodautoscalers
 	WatchAutoscalingV1NamespacedHorizontalPodAutoscalerList(ctx context.Context, params WatchAutoscalingV1NamespacedHorizontalPodAutoscalerListParams) (WatchAutoscalingV1NamespacedHorizontalPodAutoscalerListRes, error)
 	// WatchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespaces implements watchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch'
-	// parameter with a list operation instead.
+	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch' parameter
+	// with a list operation instead.
 	//
 	// GET /apis/autoscaling/v2beta1/watch/horizontalpodautoscalers
 	WatchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespaces(ctx context.Context, params WatchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespacesParams) (WatchAutoscalingV2beta1HorizontalPodAutoscalerListForAllNamespacesRes, error)
@@ -2028,15 +2610,15 @@ type Handler interface {
 	WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscaler(ctx context.Context, params WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerParams) (WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerRes, error)
 	// WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerList implements watchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerList operation.
 	//
-	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch'
-	// parameter with a list operation instead.
+	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch' parameter
+	// with a list operation instead.
 	//
 	// GET /apis/autoscaling/v2beta1/watch/namespaces/{namespace}/horizontalpodautoscalers
 	WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerList(ctx context.Context, params WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerListParams) (WatchAutoscalingV2beta1NamespacedHorizontalPodAutoscalerListRes, error)
 	// WatchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespaces implements watchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch'
-	// parameter with a list operation instead.
+	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch' parameter
+	// with a list operation instead.
 	//
 	// GET /apis/autoscaling/v2beta2/watch/horizontalpodautoscalers
 	WatchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespaces(ctx context.Context, params WatchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespacesParams) (WatchAutoscalingV2beta2HorizontalPodAutoscalerListForAllNamespacesRes, error)
@@ -2049,8 +2631,8 @@ type Handler interface {
 	WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscaler(ctx context.Context, params WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerParams) (WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerRes, error)
 	// WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerList implements watchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerList operation.
 	//
-	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch'
-	// parameter with a list operation instead.
+	// Watch individual changes to a list of HorizontalPodAutoscaler. deprecated: use the 'watch' parameter
+	// with a list operation instead.
 	//
 	// GET /apis/autoscaling/v2beta2/watch/namespaces/{namespace}/horizontalpodautoscalers
 	WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerList(ctx context.Context, params WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerListParams) (WatchAutoscalingV2beta2NamespacedHorizontalPodAutoscalerListRes, error)
@@ -2084,8 +2666,8 @@ type Handler interface {
 	WatchBatchV1NamespacedCronJobList(ctx context.Context, params WatchBatchV1NamespacedCronJobListParams) (WatchBatchV1NamespacedCronJobListRes, error)
 	// WatchBatchV1NamespacedJob implements watchBatchV1NamespacedJob operation.
 	//
-	// Watch changes to an object of kind Job. deprecated: use the 'watch' parameter with a list
-	// operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind Job. deprecated: use the 'watch' parameter with a list operation
+	// instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/batch/v1/watch/namespaces/{namespace}/jobs/{name}
 	WatchBatchV1NamespacedJob(ctx context.Context, params WatchBatchV1NamespacedJobParams) (WatchBatchV1NamespacedJobRes, error)
@@ -2119,9 +2701,8 @@ type Handler interface {
 	WatchBatchV1beta1NamespacedCronJobList(ctx context.Context, params WatchBatchV1beta1NamespacedCronJobListParams) (WatchBatchV1beta1NamespacedCronJobListRes, error)
 	// WatchCertificatesV1CertificateSigningRequest implements watchCertificatesV1CertificateSigningRequest operation.
 	//
-	// Watch changes to an object of kind CertificateSigningRequest. deprecated: use the 'watch'
-	// parameter with a list operation instead, filtered to a single item with the 'fieldSelector'
-	// parameter.
+	// Watch changes to an object of kind CertificateSigningRequest. deprecated: use the 'watch' parameter
+	// with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/certificates.k8s.io/v1/watch/certificatesigningrequests/{name}
 	WatchCertificatesV1CertificateSigningRequest(ctx context.Context, params WatchCertificatesV1CertificateSigningRequestParams) (WatchCertificatesV1CertificateSigningRequestRes, error)
@@ -2176,8 +2757,8 @@ type Handler interface {
 	WatchCoreV1EventListForAllNamespaces(ctx context.Context, params WatchCoreV1EventListForAllNamespacesParams) (WatchCoreV1EventListForAllNamespacesRes, error)
 	// WatchCoreV1LimitRangeListForAllNamespaces implements watchCoreV1LimitRangeListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of LimitRange. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of LimitRange. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /api/v1/watch/limitranges
 	WatchCoreV1LimitRangeListForAllNamespaces(ctx context.Context, params WatchCoreV1LimitRangeListForAllNamespacesParams) (WatchCoreV1LimitRangeListForAllNamespacesRes, error)
@@ -2246,15 +2827,15 @@ type Handler interface {
 	WatchCoreV1NamespacedLimitRange(ctx context.Context, params WatchCoreV1NamespacedLimitRangeParams) (WatchCoreV1NamespacedLimitRangeRes, error)
 	// WatchCoreV1NamespacedLimitRangeList implements watchCoreV1NamespacedLimitRangeList operation.
 	//
-	// Watch individual changes to a list of LimitRange. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of LimitRange. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /api/v1/watch/namespaces/{namespace}/limitranges
 	WatchCoreV1NamespacedLimitRangeList(ctx context.Context, params WatchCoreV1NamespacedLimitRangeListParams) (WatchCoreV1NamespacedLimitRangeListRes, error)
 	// WatchCoreV1NamespacedPersistentVolumeClaim implements watchCoreV1NamespacedPersistentVolumeClaim operation.
 	//
-	// Watch changes to an object of kind PersistentVolumeClaim. deprecated: use the 'watch' parameter
-	// with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind PersistentVolumeClaim. deprecated: use the 'watch' parameter with
+	// a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /api/v1/watch/namespaces/{namespace}/persistentvolumeclaims/{name}
 	WatchCoreV1NamespacedPersistentVolumeClaim(ctx context.Context, params WatchCoreV1NamespacedPersistentVolumeClaimParams) (WatchCoreV1NamespacedPersistentVolumeClaimRes, error)
@@ -2267,8 +2848,8 @@ type Handler interface {
 	WatchCoreV1NamespacedPersistentVolumeClaimList(ctx context.Context, params WatchCoreV1NamespacedPersistentVolumeClaimListParams) (WatchCoreV1NamespacedPersistentVolumeClaimListRes, error)
 	// WatchCoreV1NamespacedPod implements watchCoreV1NamespacedPod operation.
 	//
-	// Watch changes to an object of kind Pod. deprecated: use the 'watch' parameter with a list
-	// operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind Pod. deprecated: use the 'watch' parameter with a list operation
+	// instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /api/v1/watch/namespaces/{namespace}/pods/{name}
 	WatchCoreV1NamespacedPod(ctx context.Context, params WatchCoreV1NamespacedPodParams) (WatchCoreV1NamespacedPodRes, error)
@@ -2288,15 +2869,15 @@ type Handler interface {
 	WatchCoreV1NamespacedPodTemplate(ctx context.Context, params WatchCoreV1NamespacedPodTemplateParams) (WatchCoreV1NamespacedPodTemplateRes, error)
 	// WatchCoreV1NamespacedPodTemplateList implements watchCoreV1NamespacedPodTemplateList operation.
 	//
-	// Watch individual changes to a list of PodTemplate. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of PodTemplate. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /api/v1/watch/namespaces/{namespace}/podtemplates
 	WatchCoreV1NamespacedPodTemplateList(ctx context.Context, params WatchCoreV1NamespacedPodTemplateListParams) (WatchCoreV1NamespacedPodTemplateListRes, error)
 	// WatchCoreV1NamespacedReplicationController implements watchCoreV1NamespacedReplicationController operation.
 	//
-	// Watch changes to an object of kind ReplicationController. deprecated: use the 'watch' parameter
-	// with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind ReplicationController. deprecated: use the 'watch' parameter with
+	// a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /api/v1/watch/namespaces/{namespace}/replicationcontrollers/{name}
 	WatchCoreV1NamespacedReplicationController(ctx context.Context, params WatchCoreV1NamespacedReplicationControllerParams) (WatchCoreV1NamespacedReplicationControllerRes, error)
@@ -2309,8 +2890,8 @@ type Handler interface {
 	WatchCoreV1NamespacedReplicationControllerList(ctx context.Context, params WatchCoreV1NamespacedReplicationControllerListParams) (WatchCoreV1NamespacedReplicationControllerListRes, error)
 	// WatchCoreV1NamespacedResourceQuota implements watchCoreV1NamespacedResourceQuota operation.
 	//
-	// Watch changes to an object of kind ResourceQuota. deprecated: use the 'watch' parameter with a
-	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind ResourceQuota. deprecated: use the 'watch' parameter with a list
+	// operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /api/v1/watch/namespaces/{namespace}/resourcequotas/{name}
 	WatchCoreV1NamespacedResourceQuota(ctx context.Context, params WatchCoreV1NamespacedResourceQuotaParams) (WatchCoreV1NamespacedResourceQuotaRes, error)
@@ -2344,8 +2925,8 @@ type Handler interface {
 	WatchCoreV1NamespacedService(ctx context.Context, params WatchCoreV1NamespacedServiceParams) (WatchCoreV1NamespacedServiceRes, error)
 	// WatchCoreV1NamespacedServiceAccount implements watchCoreV1NamespacedServiceAccount operation.
 	//
-	// Watch changes to an object of kind ServiceAccount. deprecated: use the 'watch' parameter with a
-	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind ServiceAccount. deprecated: use the 'watch' parameter with a list
+	// operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /api/v1/watch/namespaces/{namespace}/serviceaccounts/{name}
 	WatchCoreV1NamespacedServiceAccount(ctx context.Context, params WatchCoreV1NamespacedServiceAccountParams) (WatchCoreV1NamespacedServiceAccountRes, error)
@@ -2365,8 +2946,8 @@ type Handler interface {
 	WatchCoreV1NamespacedServiceList(ctx context.Context, params WatchCoreV1NamespacedServiceListParams) (WatchCoreV1NamespacedServiceListRes, error)
 	// WatchCoreV1Node implements watchCoreV1Node operation.
 	//
-	// Watch changes to an object of kind Node. deprecated: use the 'watch' parameter with a list
-	// operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind Node. deprecated: use the 'watch' parameter with a list operation
+	// instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /api/v1/watch/nodes/{name}
 	WatchCoreV1Node(ctx context.Context, params WatchCoreV1NodeParams) (WatchCoreV1NodeRes, error)
@@ -2393,8 +2974,8 @@ type Handler interface {
 	WatchCoreV1PersistentVolumeClaimListForAllNamespaces(ctx context.Context, params WatchCoreV1PersistentVolumeClaimListForAllNamespacesParams) (WatchCoreV1PersistentVolumeClaimListForAllNamespacesRes, error)
 	// WatchCoreV1PersistentVolumeList implements watchCoreV1PersistentVolumeList operation.
 	//
-	// Watch individual changes to a list of PersistentVolume. deprecated: use the 'watch' parameter with
-	// a list operation instead.
+	// Watch individual changes to a list of PersistentVolume. deprecated: use the 'watch' parameter with a
+	// list operation instead.
 	//
 	// GET /api/v1/watch/persistentvolumes
 	WatchCoreV1PersistentVolumeList(ctx context.Context, params WatchCoreV1PersistentVolumeListParams) (WatchCoreV1PersistentVolumeListRes, error)
@@ -2407,8 +2988,8 @@ type Handler interface {
 	WatchCoreV1PodListForAllNamespaces(ctx context.Context, params WatchCoreV1PodListForAllNamespacesParams) (WatchCoreV1PodListForAllNamespacesRes, error)
 	// WatchCoreV1PodTemplateListForAllNamespaces implements watchCoreV1PodTemplateListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of PodTemplate. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of PodTemplate. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /api/v1/watch/podtemplates
 	WatchCoreV1PodTemplateListForAllNamespaces(ctx context.Context, params WatchCoreV1PodTemplateListForAllNamespacesParams) (WatchCoreV1PodTemplateListForAllNamespacesRes, error)
@@ -2456,8 +3037,8 @@ type Handler interface {
 	WatchDiscoveryV1EndpointSliceListForAllNamespaces(ctx context.Context, params WatchDiscoveryV1EndpointSliceListForAllNamespacesParams) (WatchDiscoveryV1EndpointSliceListForAllNamespacesRes, error)
 	// WatchDiscoveryV1NamespacedEndpointSlice implements watchDiscoveryV1NamespacedEndpointSlice operation.
 	//
-	// Watch changes to an object of kind EndpointSlice. deprecated: use the 'watch' parameter with a
-	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind EndpointSlice. deprecated: use the 'watch' parameter with a list
+	// operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/discovery.k8s.io/v1/watch/namespaces/{namespace}/endpointslices/{name}
 	WatchDiscoveryV1NamespacedEndpointSlice(ctx context.Context, params WatchDiscoveryV1NamespacedEndpointSliceParams) (WatchDiscoveryV1NamespacedEndpointSliceRes, error)
@@ -2477,8 +3058,8 @@ type Handler interface {
 	WatchDiscoveryV1beta1EndpointSliceListForAllNamespaces(ctx context.Context, params WatchDiscoveryV1beta1EndpointSliceListForAllNamespacesParams) (WatchDiscoveryV1beta1EndpointSliceListForAllNamespacesRes, error)
 	// WatchDiscoveryV1beta1NamespacedEndpointSlice implements watchDiscoveryV1beta1NamespacedEndpointSlice operation.
 	//
-	// Watch changes to an object of kind EndpointSlice. deprecated: use the 'watch' parameter with a
-	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind EndpointSlice. deprecated: use the 'watch' parameter with a list
+	// operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/discovery.k8s.io/v1beta1/watch/namespaces/{namespace}/endpointslices/{name}
 	WatchDiscoveryV1beta1NamespacedEndpointSlice(ctx context.Context, params WatchDiscoveryV1beta1NamespacedEndpointSliceParams) (WatchDiscoveryV1beta1NamespacedEndpointSliceRes, error)
@@ -2540,16 +3121,15 @@ type Handler interface {
 	WatchFlowcontrolApiserverV1beta1FlowSchema(ctx context.Context, params WatchFlowcontrolApiserverV1beta1FlowSchemaParams) (WatchFlowcontrolApiserverV1beta1FlowSchemaRes, error)
 	// WatchFlowcontrolApiserverV1beta1FlowSchemaList implements watchFlowcontrolApiserverV1beta1FlowSchemaList operation.
 	//
-	// Watch individual changes to a list of FlowSchema. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of FlowSchema. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/flowcontrol.apiserver.k8s.io/v1beta1/watch/flowschemas
 	WatchFlowcontrolApiserverV1beta1FlowSchemaList(ctx context.Context, params WatchFlowcontrolApiserverV1beta1FlowSchemaListParams) (WatchFlowcontrolApiserverV1beta1FlowSchemaListRes, error)
 	// WatchFlowcontrolApiserverV1beta1PriorityLevelConfiguration implements watchFlowcontrolApiserverV1beta1PriorityLevelConfiguration operation.
 	//
-	// Watch changes to an object of kind PriorityLevelConfiguration. deprecated: use the 'watch'
-	// parameter with a list operation instead, filtered to a single item with the 'fieldSelector'
-	// parameter.
+	// Watch changes to an object of kind PriorityLevelConfiguration. deprecated: use the 'watch' parameter
+	// with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/flowcontrol.apiserver.k8s.io/v1beta1/watch/prioritylevelconfigurations/{name}
 	WatchFlowcontrolApiserverV1beta1PriorityLevelConfiguration(ctx context.Context, params WatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationParams) (WatchFlowcontrolApiserverV1beta1PriorityLevelConfigurationRes, error)
@@ -2569,16 +3149,15 @@ type Handler interface {
 	WatchFlowcontrolApiserverV1beta2FlowSchema(ctx context.Context, params WatchFlowcontrolApiserverV1beta2FlowSchemaParams) (WatchFlowcontrolApiserverV1beta2FlowSchemaRes, error)
 	// WatchFlowcontrolApiserverV1beta2FlowSchemaList implements watchFlowcontrolApiserverV1beta2FlowSchemaList operation.
 	//
-	// Watch individual changes to a list of FlowSchema. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of FlowSchema. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/flowcontrol.apiserver.k8s.io/v1beta2/watch/flowschemas
 	WatchFlowcontrolApiserverV1beta2FlowSchemaList(ctx context.Context, params WatchFlowcontrolApiserverV1beta2FlowSchemaListParams) (WatchFlowcontrolApiserverV1beta2FlowSchemaListRes, error)
 	// WatchFlowcontrolApiserverV1beta2PriorityLevelConfiguration implements watchFlowcontrolApiserverV1beta2PriorityLevelConfiguration operation.
 	//
-	// Watch changes to an object of kind PriorityLevelConfiguration. deprecated: use the 'watch'
-	// parameter with a list operation instead, filtered to a single item with the 'fieldSelector'
-	// parameter.
+	// Watch changes to an object of kind PriorityLevelConfiguration. deprecated: use the 'watch' parameter
+	// with a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/flowcontrol.apiserver.k8s.io/v1beta2/watch/prioritylevelconfigurations/{name}
 	WatchFlowcontrolApiserverV1beta2PriorityLevelConfiguration(ctx context.Context, params WatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationParams) (WatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationRes, error)
@@ -2591,8 +3170,8 @@ type Handler interface {
 	WatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationList(ctx context.Context, params WatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationListParams) (WatchFlowcontrolApiserverV1beta2PriorityLevelConfigurationListRes, error)
 	// WatchInternalApiserverV1alpha1StorageVersion implements watchInternalApiserverV1alpha1StorageVersion operation.
 	//
-	// Watch changes to an object of kind StorageVersion. deprecated: use the 'watch' parameter with a
-	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind StorageVersion. deprecated: use the 'watch' parameter with a list
+	// operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/internal.apiserver.k8s.io/v1alpha1/watch/storageversions/{name}
 	WatchInternalApiserverV1alpha1StorageVersion(ctx context.Context, params WatchInternalApiserverV1alpha1StorageVersionParams) (WatchInternalApiserverV1alpha1StorageVersionRes, error)
@@ -2640,8 +3219,8 @@ type Handler interface {
 	WatchNetworkingV1NamespacedIngressList(ctx context.Context, params WatchNetworkingV1NamespacedIngressListParams) (WatchNetworkingV1NamespacedIngressListRes, error)
 	// WatchNetworkingV1NamespacedNetworkPolicy implements watchNetworkingV1NamespacedNetworkPolicy operation.
 	//
-	// Watch changes to an object of kind NetworkPolicy. deprecated: use the 'watch' parameter with a
-	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind NetworkPolicy. deprecated: use the 'watch' parameter with a list
+	// operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/networking.k8s.io/v1/watch/namespaces/{namespace}/networkpolicies/{name}
 	WatchNetworkingV1NamespacedNetworkPolicy(ctx context.Context, params WatchNetworkingV1NamespacedNetworkPolicyParams) (WatchNetworkingV1NamespacedNetworkPolicyRes, error)
@@ -2703,8 +3282,8 @@ type Handler interface {
 	WatchNodeV1beta1RuntimeClassList(ctx context.Context, params WatchNodeV1beta1RuntimeClassListParams) (WatchNodeV1beta1RuntimeClassListRes, error)
 	// WatchPolicyV1NamespacedPodDisruptionBudget implements watchPolicyV1NamespacedPodDisruptionBudget operation.
 	//
-	// Watch changes to an object of kind PodDisruptionBudget. deprecated: use the 'watch' parameter with
-	// a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind PodDisruptionBudget. deprecated: use the 'watch' parameter with a
+	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/policy/v1/watch/namespaces/{namespace}/poddisruptionbudgets/{name}
 	WatchPolicyV1NamespacedPodDisruptionBudget(ctx context.Context, params WatchPolicyV1NamespacedPodDisruptionBudgetParams) (WatchPolicyV1NamespacedPodDisruptionBudgetRes, error)
@@ -2724,8 +3303,8 @@ type Handler interface {
 	WatchPolicyV1PodDisruptionBudgetListForAllNamespaces(ctx context.Context, params WatchPolicyV1PodDisruptionBudgetListForAllNamespacesParams) (WatchPolicyV1PodDisruptionBudgetListForAllNamespacesRes, error)
 	// WatchPolicyV1beta1NamespacedPodDisruptionBudget implements watchPolicyV1beta1NamespacedPodDisruptionBudget operation.
 	//
-	// Watch changes to an object of kind PodDisruptionBudget. deprecated: use the 'watch' parameter with
-	// a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind PodDisruptionBudget. deprecated: use the 'watch' parameter with a
+	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/policy/v1beta1/watch/namespaces/{namespace}/poddisruptionbudgets/{name}
 	WatchPolicyV1beta1NamespacedPodDisruptionBudget(ctx context.Context, params WatchPolicyV1beta1NamespacedPodDisruptionBudgetParams) (WatchPolicyV1beta1NamespacedPodDisruptionBudgetRes, error)
@@ -2752,8 +3331,8 @@ type Handler interface {
 	WatchPolicyV1beta1PodSecurityPolicy(ctx context.Context, params WatchPolicyV1beta1PodSecurityPolicyParams) (WatchPolicyV1beta1PodSecurityPolicyRes, error)
 	// WatchPolicyV1beta1PodSecurityPolicyList implements watchPolicyV1beta1PodSecurityPolicyList operation.
 	//
-	// Watch individual changes to a list of PodSecurityPolicy. deprecated: use the 'watch' parameter
-	// with a list operation instead.
+	// Watch individual changes to a list of PodSecurityPolicy. deprecated: use the 'watch' parameter with
+	// a list operation instead.
 	//
 	// GET /apis/policy/v1beta1/watch/podsecuritypolicies
 	WatchPolicyV1beta1PodSecurityPolicyList(ctx context.Context, params WatchPolicyV1beta1PodSecurityPolicyListParams) (WatchPolicyV1beta1PodSecurityPolicyListRes, error)
@@ -2766,29 +3345,29 @@ type Handler interface {
 	WatchRbacAuthorizationV1ClusterRole(ctx context.Context, params WatchRbacAuthorizationV1ClusterRoleParams) (WatchRbacAuthorizationV1ClusterRoleRes, error)
 	// WatchRbacAuthorizationV1ClusterRoleBinding implements watchRbacAuthorizationV1ClusterRoleBinding operation.
 	//
-	// Watch changes to an object of kind ClusterRoleBinding. deprecated: use the 'watch' parameter with
-	// a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind ClusterRoleBinding. deprecated: use the 'watch' parameter with a
+	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/rbac.authorization.k8s.io/v1/watch/clusterrolebindings/{name}
 	WatchRbacAuthorizationV1ClusterRoleBinding(ctx context.Context, params WatchRbacAuthorizationV1ClusterRoleBindingParams) (WatchRbacAuthorizationV1ClusterRoleBindingRes, error)
 	// WatchRbacAuthorizationV1ClusterRoleBindingList implements watchRbacAuthorizationV1ClusterRoleBindingList operation.
 	//
-	// Watch individual changes to a list of ClusterRoleBinding. deprecated: use the 'watch' parameter
-	// with a list operation instead.
+	// Watch individual changes to a list of ClusterRoleBinding. deprecated: use the 'watch' parameter with
+	// a list operation instead.
 	//
 	// GET /apis/rbac.authorization.k8s.io/v1/watch/clusterrolebindings
 	WatchRbacAuthorizationV1ClusterRoleBindingList(ctx context.Context, params WatchRbacAuthorizationV1ClusterRoleBindingListParams) (WatchRbacAuthorizationV1ClusterRoleBindingListRes, error)
 	// WatchRbacAuthorizationV1ClusterRoleList implements watchRbacAuthorizationV1ClusterRoleList operation.
 	//
-	// Watch individual changes to a list of ClusterRole. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of ClusterRole. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/rbac.authorization.k8s.io/v1/watch/clusterroles
 	WatchRbacAuthorizationV1ClusterRoleList(ctx context.Context, params WatchRbacAuthorizationV1ClusterRoleListParams) (WatchRbacAuthorizationV1ClusterRoleListRes, error)
 	// WatchRbacAuthorizationV1NamespacedRole implements watchRbacAuthorizationV1NamespacedRole operation.
 	//
-	// Watch changes to an object of kind Role. deprecated: use the 'watch' parameter with a list
-	// operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind Role. deprecated: use the 'watch' parameter with a list operation
+	// instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/rbac.authorization.k8s.io/v1/watch/namespaces/{namespace}/roles/{name}
 	WatchRbacAuthorizationV1NamespacedRole(ctx context.Context, params WatchRbacAuthorizationV1NamespacedRoleParams) (WatchRbacAuthorizationV1NamespacedRoleRes, error)
@@ -2801,8 +3380,8 @@ type Handler interface {
 	WatchRbacAuthorizationV1NamespacedRoleBinding(ctx context.Context, params WatchRbacAuthorizationV1NamespacedRoleBindingParams) (WatchRbacAuthorizationV1NamespacedRoleBindingRes, error)
 	// WatchRbacAuthorizationV1NamespacedRoleBindingList implements watchRbacAuthorizationV1NamespacedRoleBindingList operation.
 	//
-	// Watch individual changes to a list of RoleBinding. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of RoleBinding. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/rbac.authorization.k8s.io/v1/watch/namespaces/{namespace}/rolebindings
 	WatchRbacAuthorizationV1NamespacedRoleBindingList(ctx context.Context, params WatchRbacAuthorizationV1NamespacedRoleBindingListParams) (WatchRbacAuthorizationV1NamespacedRoleBindingListRes, error)
@@ -2815,8 +3394,8 @@ type Handler interface {
 	WatchRbacAuthorizationV1NamespacedRoleList(ctx context.Context, params WatchRbacAuthorizationV1NamespacedRoleListParams) (WatchRbacAuthorizationV1NamespacedRoleListRes, error)
 	// WatchRbacAuthorizationV1RoleBindingListForAllNamespaces implements watchRbacAuthorizationV1RoleBindingListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of RoleBinding. deprecated: use the 'watch' parameter with a
-	// list operation instead.
+	// Watch individual changes to a list of RoleBinding. deprecated: use the 'watch' parameter with a list
+	// operation instead.
 	//
 	// GET /apis/rbac.authorization.k8s.io/v1/watch/rolebindings
 	WatchRbacAuthorizationV1RoleBindingListForAllNamespaces(ctx context.Context, params WatchRbacAuthorizationV1RoleBindingListForAllNamespacesParams) (WatchRbacAuthorizationV1RoleBindingListForAllNamespacesRes, error)
@@ -2829,8 +3408,8 @@ type Handler interface {
 	WatchRbacAuthorizationV1RoleListForAllNamespaces(ctx context.Context, params WatchRbacAuthorizationV1RoleListForAllNamespacesParams) (WatchRbacAuthorizationV1RoleListForAllNamespacesRes, error)
 	// WatchSchedulingV1PriorityClass implements watchSchedulingV1PriorityClass operation.
 	//
-	// Watch changes to an object of kind PriorityClass. deprecated: use the 'watch' parameter with a
-	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind PriorityClass. deprecated: use the 'watch' parameter with a list
+	// operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/scheduling.k8s.io/v1/watch/priorityclasses/{name}
 	WatchSchedulingV1PriorityClass(ctx context.Context, params WatchSchedulingV1PriorityClassParams) (WatchSchedulingV1PriorityClassRes, error)
@@ -2892,50 +3471,50 @@ type Handler interface {
 	WatchStorageV1VolumeAttachment(ctx context.Context, params WatchStorageV1VolumeAttachmentParams) (WatchStorageV1VolumeAttachmentRes, error)
 	// WatchStorageV1VolumeAttachmentList implements watchStorageV1VolumeAttachmentList operation.
 	//
-	// Watch individual changes to a list of VolumeAttachment. deprecated: use the 'watch' parameter with
-	// a list operation instead.
+	// Watch individual changes to a list of VolumeAttachment. deprecated: use the 'watch' parameter with a
+	// list operation instead.
 	//
 	// GET /apis/storage.k8s.io/v1/watch/volumeattachments
 	WatchStorageV1VolumeAttachmentList(ctx context.Context, params WatchStorageV1VolumeAttachmentListParams) (WatchStorageV1VolumeAttachmentListRes, error)
 	// WatchStorageV1alpha1CSIStorageCapacityListForAllNamespaces implements watchStorageV1alpha1CSIStorageCapacityListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of CSIStorageCapacity. deprecated: use the 'watch' parameter
-	// with a list operation instead.
+	// Watch individual changes to a list of CSIStorageCapacity. deprecated: use the 'watch' parameter with
+	// a list operation instead.
 	//
 	// GET /apis/storage.k8s.io/v1alpha1/watch/csistoragecapacities
 	WatchStorageV1alpha1CSIStorageCapacityListForAllNamespaces(ctx context.Context, params WatchStorageV1alpha1CSIStorageCapacityListForAllNamespacesParams) (WatchStorageV1alpha1CSIStorageCapacityListForAllNamespacesRes, error)
 	// WatchStorageV1alpha1NamespacedCSIStorageCapacity implements watchStorageV1alpha1NamespacedCSIStorageCapacity operation.
 	//
-	// Watch changes to an object of kind CSIStorageCapacity. deprecated: use the 'watch' parameter with
-	// a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind CSIStorageCapacity. deprecated: use the 'watch' parameter with a
+	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/storage.k8s.io/v1alpha1/watch/namespaces/{namespace}/csistoragecapacities/{name}
 	WatchStorageV1alpha1NamespacedCSIStorageCapacity(ctx context.Context, params WatchStorageV1alpha1NamespacedCSIStorageCapacityParams) (WatchStorageV1alpha1NamespacedCSIStorageCapacityRes, error)
 	// WatchStorageV1alpha1NamespacedCSIStorageCapacityList implements watchStorageV1alpha1NamespacedCSIStorageCapacityList operation.
 	//
-	// Watch individual changes to a list of CSIStorageCapacity. deprecated: use the 'watch' parameter
-	// with a list operation instead.
+	// Watch individual changes to a list of CSIStorageCapacity. deprecated: use the 'watch' parameter with
+	// a list operation instead.
 	//
 	// GET /apis/storage.k8s.io/v1alpha1/watch/namespaces/{namespace}/csistoragecapacities
 	WatchStorageV1alpha1NamespacedCSIStorageCapacityList(ctx context.Context, params WatchStorageV1alpha1NamespacedCSIStorageCapacityListParams) (WatchStorageV1alpha1NamespacedCSIStorageCapacityListRes, error)
 	// WatchStorageV1beta1CSIStorageCapacityListForAllNamespaces implements watchStorageV1beta1CSIStorageCapacityListForAllNamespaces operation.
 	//
-	// Watch individual changes to a list of CSIStorageCapacity. deprecated: use the 'watch' parameter
-	// with a list operation instead.
+	// Watch individual changes to a list of CSIStorageCapacity. deprecated: use the 'watch' parameter with
+	// a list operation instead.
 	//
 	// GET /apis/storage.k8s.io/v1beta1/watch/csistoragecapacities
 	WatchStorageV1beta1CSIStorageCapacityListForAllNamespaces(ctx context.Context, params WatchStorageV1beta1CSIStorageCapacityListForAllNamespacesParams) (WatchStorageV1beta1CSIStorageCapacityListForAllNamespacesRes, error)
 	// WatchStorageV1beta1NamespacedCSIStorageCapacity implements watchStorageV1beta1NamespacedCSIStorageCapacity operation.
 	//
-	// Watch changes to an object of kind CSIStorageCapacity. deprecated: use the 'watch' parameter with
-	// a list operation instead, filtered to a single item with the 'fieldSelector' parameter.
+	// Watch changes to an object of kind CSIStorageCapacity. deprecated: use the 'watch' parameter with a
+	// list operation instead, filtered to a single item with the 'fieldSelector' parameter.
 	//
 	// GET /apis/storage.k8s.io/v1beta1/watch/namespaces/{namespace}/csistoragecapacities/{name}
 	WatchStorageV1beta1NamespacedCSIStorageCapacity(ctx context.Context, params WatchStorageV1beta1NamespacedCSIStorageCapacityParams) (WatchStorageV1beta1NamespacedCSIStorageCapacityRes, error)
 	// WatchStorageV1beta1NamespacedCSIStorageCapacityList implements watchStorageV1beta1NamespacedCSIStorageCapacityList operation.
 	//
-	// Watch individual changes to a list of CSIStorageCapacity. deprecated: use the 'watch' parameter
-	// with a list operation instead.
+	// Watch individual changes to a list of CSIStorageCapacity. deprecated: use the 'watch' parameter with
+	// a list operation instead.
 	//
 	// GET /apis/storage.k8s.io/v1beta1/watch/namespaces/{namespace}/csistoragecapacities
 	WatchStorageV1beta1NamespacedCSIStorageCapacityList(ctx context.Context, params WatchStorageV1beta1NamespacedCSIStorageCapacityListParams) (WatchStorageV1beta1NamespacedCSIStorageCapacityListRes, error)

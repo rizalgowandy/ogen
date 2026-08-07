@@ -3,6 +3,7 @@
 package api
 
 import (
+	"bytes"
 	"io"
 	"mime"
 	"net/http"
@@ -11,8 +12,6 @@ import (
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
-	"go.uber.org/multierr"
-
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -22,6 +21,7 @@ import (
 
 func (s *Server) decodeOnlyFormRequest(r *http.Request) (
 	req *OnlyFormReq,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -31,27 +31,27 @@ func (s *Server) decodeOnlyFormRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "application/x-www-form-urlencoded":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		form, err := ht.ParseForm(r)
 		if err != nil {
-			return req, close, errors.Wrap(err, "parse form")
+			return req, rawBody, close, errors.Wrap(err, "parse form")
 		}
 
 		var request OnlyFormReq
@@ -67,7 +67,7 @@ func (s *Server) decodeOnlyFormRequest(r *http.Request) (
 
 		for k := range form {
 			if !defined(k) {
-				return req, close, errors.Errorf("unexpected field %q", k)
+				return req, rawBody, close, errors.Errorf("unexpected field %q", k)
 			}
 		}
 		q := uri.NewQueryDecoder(form)
@@ -92,20 +92,21 @@ func (s *Server) decodeOnlyFormRequest(r *http.Request) (
 					request.Field = c
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"field\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"field\"")
 				}
 			} else {
-				return req, close, errors.Wrap(err, "query")
+				return req, rawBody, close, errors.Wrap(err, "query")
 			}
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeOnlyMultipartFileRequest(r *http.Request) (
 	req *OnlyMultipartFileReq,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -115,26 +116,26 @@ func (s *Server) decodeOnlyMultipartFileRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "multipart/form-data":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		if err := r.ParseMultipartForm(s.cfg.MaxMultipartMemory); err != nil {
-			return req, close, errors.Wrap(err, "parse multipart form")
+			return req, rawBody, close, errors.Wrap(err, "parse multipart form")
 		}
 		// Remove all temporary files created by ParseMultipartForm when the request is done.
 		//
@@ -158,12 +159,12 @@ func (s *Server) decodeOnlyMultipartFileRequest(r *http.Request) (
 
 		for k := range form {
 			if !defined(k) {
-				return req, close, errors.Errorf("unexpected field %q", k)
+				return req, rawBody, close, errors.Errorf("unexpected field %q", k)
 			}
 		}
 		for k := range r.MultipartForm.File {
 			if !defined(k) {
-				return req, close, errors.Errorf("unexpected field %q", k)
+				return req, rawBody, close, errors.Errorf("unexpected field %q", k)
 			}
 		}
 		{
@@ -187,17 +188,18 @@ func (s *Server) decodeOnlyMultipartFileRequest(r *http.Request) (
 				}
 				return nil
 			}(); err != nil {
-				return req, close, errors.Wrap(err, "decode \"file\"")
+				return req, rawBody, close, errors.Wrap(err, "decode \"file\"")
 			}
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeOnlyMultipartFormRequest(r *http.Request) (
 	req *OnlyMultipartFormReq,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -207,26 +209,26 @@ func (s *Server) decodeOnlyMultipartFormRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "multipart/form-data":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		if err := r.ParseMultipartForm(s.cfg.MaxMultipartMemory); err != nil {
-			return req, close, errors.Wrap(err, "parse multipart form")
+			return req, rawBody, close, errors.Wrap(err, "parse multipart form")
 		}
 		// Remove all temporary files created by ParseMultipartForm when the request is done.
 		//
@@ -250,7 +252,7 @@ func (s *Server) decodeOnlyMultipartFormRequest(r *http.Request) (
 
 		for k := range form {
 			if !defined(k) {
-				return req, close, errors.Errorf("unexpected field %q", k)
+				return req, rawBody, close, errors.Errorf("unexpected field %q", k)
 			}
 		}
 		q := uri.NewQueryDecoder(form)
@@ -275,20 +277,21 @@ func (s *Server) decodeOnlyMultipartFormRequest(r *http.Request) (
 					request.Field = c
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"field\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"field\"")
 				}
 			} else {
-				return req, close, errors.Wrap(err, "query")
+				return req, rawBody, close, errors.Wrap(err, "query")
 			}
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeTestFormURLEncodedRequest(r *http.Request) (
 	req *TestForm,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -298,27 +301,27 @@ func (s *Server) decodeTestFormURLEncodedRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "application/x-www-form-urlencoded":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		form, err := ht.ParseForm(r)
 		if err != nil {
-			return req, close, errors.Wrap(err, "parse form")
+			return req, rawBody, close, errors.Wrap(err, "parse form")
 		}
 
 		var request TestForm
@@ -351,7 +354,7 @@ func (s *Server) decodeTestFormURLEncodedRequest(r *http.Request) (
 					request.ID.SetTo(requestDotIDVal)
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"id\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"id\"")
 				}
 			}
 		}
@@ -383,7 +386,7 @@ func (s *Server) decodeTestFormURLEncodedRequest(r *http.Request) (
 					request.UUID.SetTo(requestDotUUIDVal)
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"uuid\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"uuid\"")
 				}
 			}
 		}
@@ -408,10 +411,10 @@ func (s *Server) decodeTestFormURLEncodedRequest(r *http.Request) (
 					request.Description = c
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"description\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"description\"")
 				}
 			} else {
-				return req, close, errors.Wrap(err, "query")
+				return req, rawBody, close, errors.Wrap(err, "query")
 			}
 		}
 		{
@@ -422,6 +425,7 @@ func (s *Server) decodeTestFormURLEncodedRequest(r *http.Request) (
 			}
 			if err := q.HasParam(cfg); err == nil {
 				if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+					request.Array = nil
 					return d.DecodeArray(func(d uri.Decoder) error {
 						var requestDotArrayVal string
 						if err := func() error {
@@ -444,7 +448,7 @@ func (s *Server) decodeTestFormURLEncodedRequest(r *http.Request) (
 						return nil
 					})
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"array\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"array\"")
 				}
 			}
 		}
@@ -466,7 +470,7 @@ func (s *Server) decodeTestFormURLEncodedRequest(r *http.Request) (
 					request.Object.SetTo(requestDotObjectVal)
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"object\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"object\"")
 				}
 			}
 		}
@@ -488,18 +492,19 @@ func (s *Server) decodeTestFormURLEncodedRequest(r *http.Request) (
 					request.DeepObject.SetTo(requestDotDeepObjectVal)
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"deepObject\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"deepObject\"")
 				}
 			}
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeTestMultipartRequest(r *http.Request) (
 	req *TestFormMultipart,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -509,26 +514,26 @@ func (s *Server) decodeTestMultipartRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "multipart/form-data":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		if err := r.ParseMultipartForm(s.cfg.MaxMultipartMemory); err != nil {
-			return req, close, errors.Wrap(err, "parse multipart form")
+			return req, rawBody, close, errors.Wrap(err, "parse multipart form")
 		}
 		// Remove all temporary files created by ParseMultipartForm when the request is done.
 		//
@@ -569,7 +574,7 @@ func (s *Server) decodeTestMultipartRequest(r *http.Request) (
 					request.ID.SetTo(requestDotIDVal)
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"id\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"id\"")
 				}
 			}
 		}
@@ -601,7 +606,7 @@ func (s *Server) decodeTestMultipartRequest(r *http.Request) (
 					request.UUID.SetTo(requestDotUUIDVal)
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"uuid\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"uuid\"")
 				}
 			}
 		}
@@ -626,10 +631,10 @@ func (s *Server) decodeTestMultipartRequest(r *http.Request) (
 					request.Description = c
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"description\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"description\"")
 				}
 			} else {
-				return req, close, errors.Wrap(err, "query")
+				return req, rawBody, close, errors.Wrap(err, "query")
 			}
 		}
 		{
@@ -640,6 +645,7 @@ func (s *Server) decodeTestMultipartRequest(r *http.Request) (
 			}
 			if err := q.HasParam(cfg); err == nil {
 				if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+					request.Array = nil
 					return d.DecodeArray(func(d uri.Decoder) error {
 						var requestDotArrayVal string
 						if err := func() error {
@@ -662,7 +668,7 @@ func (s *Server) decodeTestMultipartRequest(r *http.Request) (
 						return nil
 					})
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"array\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"array\"")
 				}
 			}
 		}
@@ -689,7 +695,7 @@ func (s *Server) decodeTestMultipartRequest(r *http.Request) (
 					}
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"object\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"object\"")
 				}
 			}
 		}
@@ -711,18 +717,19 @@ func (s *Server) decodeTestMultipartRequest(r *http.Request) (
 					request.DeepObject.SetTo(requestDotDeepObjectVal)
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"deepObject\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"deepObject\"")
 				}
 			}
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeTestMultipartUploadRequest(r *http.Request) (
 	req *TestMultipartUploadReq,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -732,26 +739,26 @@ func (s *Server) decodeTestMultipartUploadRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "multipart/form-data":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		if err := r.ParseMultipartForm(s.cfg.MaxMultipartMemory); err != nil {
-			return req, close, errors.Wrap(err, "parse multipart form")
+			return req, rawBody, close, errors.Wrap(err, "parse multipart form")
 		}
 		// Remove all temporary files created by ParseMultipartForm when the request is done.
 		//
@@ -787,12 +794,12 @@ func (s *Server) decodeTestMultipartUploadRequest(r *http.Request) (
 
 		for k := range form {
 			if !defined(k) {
-				return req, close, errors.Errorf("unexpected field %q", k)
+				return req, rawBody, close, errors.Errorf("unexpected field %q", k)
 			}
 		}
 		for k := range r.MultipartForm.File {
 			if !defined(k) {
-				return req, close, errors.Errorf("unexpected field %q", k)
+				return req, rawBody, close, errors.Errorf("unexpected field %q", k)
 			}
 		}
 		q := uri.NewQueryDecoder(form)
@@ -824,7 +831,7 @@ func (s *Server) decodeTestMultipartUploadRequest(r *http.Request) (
 					request.OrderId.SetTo(requestDotOrderIdVal)
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"orderId\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"orderId\"")
 				}
 			}
 		}
@@ -856,7 +863,7 @@ func (s *Server) decodeTestMultipartUploadRequest(r *http.Request) (
 					request.UserId.SetTo(requestDotUserIdVal)
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"userId\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"userId\"")
 				}
 			}
 		}
@@ -881,7 +888,7 @@ func (s *Server) decodeTestMultipartUploadRequest(r *http.Request) (
 				}
 				return nil
 			}(); err != nil {
-				return req, close, errors.Wrap(err, "decode \"file\"")
+				return req, rawBody, close, errors.Wrap(err, "decode \"file\"")
 			}
 		}
 		{
@@ -905,7 +912,7 @@ func (s *Server) decodeTestMultipartUploadRequest(r *http.Request) (
 				})
 				return nil
 			}(); err != nil {
-				return req, close, errors.Wrap(err, "decode \"optional_file\"")
+				return req, rawBody, close, errors.Wrap(err, "decode \"optional_file\"")
 			}
 		}
 		{
@@ -928,6 +935,9 @@ func (s *Server) decodeTestMultipartUploadRequest(r *http.Request) (
 					})
 				}
 				if err := func() error {
+					if request.Files == nil {
+						return nil // null
+					}
 					if err := (validate.Array{
 						MinLength:    0,
 						MinLengthSet: false,
@@ -942,17 +952,18 @@ func (s *Server) decodeTestMultipartUploadRequest(r *http.Request) (
 				}
 				return nil
 			}(); err != nil {
-				return req, close, errors.Wrap(err, "decode \"files\"")
+				return req, rawBody, close, errors.Wrap(err, "decode \"files\"")
 			}
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeTestReuseFormOptionalSchemaRequest(r *http.Request) (
 	req OptSharedRequestMultipart,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -962,29 +973,29 @@ func (s *Server) decodeTestReuseFormOptionalSchemaRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	if _, ok := r.Header["Content-Type"]; !ok && r.ContentLength == 0 {
-		return req, close, nil
+		return req, rawBody, close, nil
 	}
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "multipart/form-data":
 		if r.ContentLength == 0 {
-			return req, close, nil
+			return req, rawBody, close, nil
 		}
 		if err := r.ParseMultipartForm(s.cfg.MaxMultipartMemory); err != nil {
-			return req, close, errors.Wrap(err, "parse multipart form")
+			return req, rawBody, close, errors.Wrap(err, "parse multipart form")
 		}
 		// Remove all temporary files created by ParseMultipartForm when the request is done.
 		//
@@ -1027,7 +1038,7 @@ func (s *Server) decodeTestReuseFormOptionalSchemaRequest(r *http.Request) (
 						optForm.Filename.SetTo(optFormDotFilenameVal)
 						return nil
 					}); err != nil {
-						return req, close, errors.Wrap(err, "decode \"filename\"")
+						return req, rawBody, close, errors.Wrap(err, "decode \"filename\"")
 					}
 				}
 			}
@@ -1052,7 +1063,7 @@ func (s *Server) decodeTestReuseFormOptionalSchemaRequest(r *http.Request) (
 					})
 					return nil
 				}(); err != nil {
-					return req, close, errors.Wrap(err, "decode \"file\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"file\"")
 				}
 			}
 			request = OptSharedRequestMultipart{
@@ -1060,14 +1071,15 @@ func (s *Server) decodeTestReuseFormOptionalSchemaRequest(r *http.Request) (
 				Set:   true,
 			}
 		}
-		return request, close, nil
+		return request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeTestReuseFormSchemaRequest(r *http.Request) (
 	req *SharedRequestMultipart,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -1077,26 +1089,26 @@ func (s *Server) decodeTestReuseFormSchemaRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "multipart/form-data":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		if err := r.ParseMultipartForm(s.cfg.MaxMultipartMemory); err != nil {
-			return req, close, errors.Wrap(err, "parse multipart form")
+			return req, rawBody, close, errors.Wrap(err, "parse multipart form")
 		}
 		// Remove all temporary files created by ParseMultipartForm when the request is done.
 		//
@@ -1137,7 +1149,7 @@ func (s *Server) decodeTestReuseFormSchemaRequest(r *http.Request) (
 					request.Filename.SetTo(requestDotFilenameVal)
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"filename\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"filename\"")
 				}
 			}
 		}
@@ -1162,17 +1174,18 @@ func (s *Server) decodeTestReuseFormSchemaRequest(r *http.Request) (
 				})
 				return nil
 			}(); err != nil {
-				return req, close, errors.Wrap(err, "decode \"file\"")
+				return req, rawBody, close, errors.Wrap(err, "decode \"file\"")
 			}
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
 func (s *Server) decodeTestShareFormSchemaRequest(r *http.Request) (
 	req TestShareFormSchemaReq,
+	rawBody []byte,
 	close func() error,
 	rerr error,
 ) {
@@ -1182,33 +1195,40 @@ func (s *Server) decodeTestShareFormSchemaRequest(r *http.Request) (
 		// Close in reverse order, to match defer behavior.
 		for i := len(closers) - 1; i >= 0; i-- {
 			c := closers[i]
-			merr = multierr.Append(merr, c())
+			merr = errors.Join(merr, c())
 		}
 		return merr
 	}
 	defer func() {
 		if rerr != nil {
-			rerr = multierr.Append(rerr, close())
+			rerr = errors.Join(rerr, close())
 		}
 	}()
 	ct, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil {
-		return req, close, errors.Wrap(err, "parse media type")
+		return req, rawBody, close, errors.Wrap(err, "parse media type")
 	}
 	switch {
 	case ct == "application/json":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		buf, err := io.ReadAll(r.Body)
+		defer func() {
+			_ = r.Body.Close()
+		}()
 		if err != nil {
-			return req, close, err
+			return req, rawBody, close, err
 		}
+
+		// Reset the body to allow for downstream reading.
+		r.Body = io.NopCloser(bytes.NewBuffer(buf))
 
 		if len(buf) == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 
+		rawBody = append(rawBody, buf...)
 		d := jx.DecodeBytes(buf)
 
 		var request SharedRequest
@@ -1226,15 +1246,15 @@ func (s *Server) decodeTestShareFormSchemaRequest(r *http.Request) (
 				Body:        buf,
 				Err:         err,
 			}
-			return req, close, err
+			return req, rawBody, close, err
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	case ct == "multipart/form-data":
 		if r.ContentLength == 0 {
-			return req, close, validate.ErrBodyRequired
+			return req, rawBody, close, validate.ErrBodyRequired
 		}
 		if err := r.ParseMultipartForm(s.cfg.MaxMultipartMemory); err != nil {
-			return req, close, errors.Wrap(err, "parse multipart form")
+			return req, rawBody, close, errors.Wrap(err, "parse multipart form")
 		}
 		// Remove all temporary files created by ParseMultipartForm when the request is done.
 		//
@@ -1275,7 +1295,7 @@ func (s *Server) decodeTestShareFormSchemaRequest(r *http.Request) (
 					request.Filename.SetTo(requestDotFilenameVal)
 					return nil
 				}); err != nil {
-					return req, close, errors.Wrap(err, "decode \"filename\"")
+					return req, rawBody, close, errors.Wrap(err, "decode \"filename\"")
 				}
 			}
 		}
@@ -1300,11 +1320,11 @@ func (s *Server) decodeTestShareFormSchemaRequest(r *http.Request) (
 				})
 				return nil
 			}(); err != nil {
-				return req, close, errors.Wrap(err, "decode \"file\"")
+				return req, rawBody, close, errors.Wrap(err, "decode \"file\"")
 			}
 		}
-		return &request, close, nil
+		return &request, rawBody, close, nil
 	default:
-		return req, close, validate.InvalidContentType(ct)
+		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }

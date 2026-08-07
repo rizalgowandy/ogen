@@ -504,6 +504,26 @@
         }
       }
     },
+    "/testDecimalValidation": {
+      "post": {
+        "operationId": "testDecimalValidation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestDecimalValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
     "/oneofBug": {
       "post": {
         "operationId": "oneofBug",
@@ -627,6 +647,9 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/defaultQueryParameter"
+          },
+          {
+            "$ref": "#/components/parameters/defaultArrayQueryParameter"
           }
         ],
         "requestBody": {
@@ -792,6 +815,40 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TestInlineOneOf"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/testIssue1310": {
+      "get": {
+        "operationId": "testIssue1310",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Issue1310"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/testIssue1461": {
+      "get": {
+        "operationId": "testIssue1461",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Issue1461"
                 }
               }
             }
@@ -1622,6 +1679,26 @@
           }
         }
       },
+      "TestDecimalValidation": {
+        "type": "object",
+        "required": [
+          "minmax",
+          "multipleOf"
+        ],
+        "properties": {
+          "minmax": {
+            "type": "number",
+            "format": "decimal",
+            "minimum": 1.5,
+            "maximum": 2.0
+          },
+          "multipleOf": {
+            "type": "number",
+            "format": "decimal",
+            "multipleOf": 5.0
+          }
+        }
+      },
       "AnyTest": {
         "type": "object",
         "properties": {
@@ -1716,6 +1793,61 @@
             "type": "string",
             "format": "byte",
             "default": "aGVsbG8sIHdvcmxkIQ=="
+          },
+          "strings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": ["all"]
+          },
+          "priorities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["low", "medium", "high"]
+            },
+            "default": ["medium", "high"]
+          },
+          "nested": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "default": [[1, 2], [3]]
+          },
+          "objs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "count": {
+                  "type": "integer"
+                }
+              }
+            },
+            "default": [
+              {
+                "name": "x",
+                "count": 5
+              }
+            ]
+          },
+          "shapes": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/DefaultShape" },
+            "default": [ { "kind": "circle", "radius": 5 } ]
+          },
+          "labels": {
+            "type": "array",
+            "items": { "type": "object", "additionalProperties": { "type": "string" } },
+            "default": [ { "a": "x" } ]
           }
         }
       },
@@ -1973,6 +2105,111 @@
             "type": "string"
           }
         }
+      },
+      "Issue1310": {
+        "description": "An API error",
+        "type": "object",
+        "properties": {
+          "title": {
+            "description": "A short, human-readable summary of the problem type. This value should not change between occurrences of the error.",
+            "example": "Bad Request",
+            "type": "string"
+          },
+          "details": {
+            "description": "A human-readable explanation specific to this occurrence of the problem.",
+            "example": "Property foo is required but is missing.",
+            "type": "string"
+          },
+          "properties": {
+            "description": "Optional map of properties",
+            "nullable": true,
+            "type": "object"
+          }
+        }
+      },
+      "DefaultShape": {
+        "oneOf": [
+          { "$ref": "#/components/schemas/DefaultCircle" },
+          { "$ref": "#/components/schemas/DefaultSquare" }
+        ],
+        "discriminator": {
+          "propertyName": "kind",
+          "mapping": {
+            "circle": "#/components/schemas/DefaultCircle",
+            "square": "#/components/schemas/DefaultSquare"
+          }
+        }
+      },
+      "DefaultCircle": {
+        "type": "object",
+        "required": ["kind", "radius"],
+        "properties": { "kind": { "type": "string" }, "radius": { "type": "integer" } }
+      },
+      "DefaultSquare": {
+        "type": "object",
+        "required": ["kind", "side"],
+        "properties": { "kind": { "type": "string" }, "side": { "type": "integer" } }
+      },
+      "Issue1461": {
+        "type": "object",
+        "properties": {
+          "requiredTest": {
+            "type": "object",
+            "required": [
+              "banana"
+            ],
+            "properties": {
+              "banana": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "optionalTest": {
+            "type": "object",
+            "properties": {
+              "banana": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "nullableTest": {
+            "type": "object",
+            "required": [
+              "banana"
+            ],
+            "properties": {
+              "banana": {
+                "type": "array",
+                "nullable": true,
+                "minItems": 2,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "nullableOptionalTest": {
+            "type": "object",
+            "properties": {
+              "banana": {
+                "type": "array",
+                "nullable": true,
+                "minItems": 2,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "parameters": {
@@ -1983,6 +2220,17 @@
           "type": "integer",
           "format": "int32",
           "default": 10
+        }
+      },
+      "defaultArrayQueryParameter": {
+        "name": "arrayDefault",
+        "in": "query",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["a", "b"]
         }
       },
       "skipParam": {

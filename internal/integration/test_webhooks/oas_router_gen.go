@@ -10,6 +10,12 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
+var (
+	rn1AllowedHeaders = map[string]string{
+		"POST": "Content-Type",
+	}
+)
+
 func (s *Server) cutPrefix(path string) (string, bool) {
 	prefix := s.cfg.Prefix
 	if prefix == "" {
@@ -49,7 +55,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/event"
-			origElem := elem
+
 			if l := len("/event"); len(elem) >= l && elem[0:l] == "/event" {
 				elem = elem[l:]
 			} else {
@@ -62,13 +68,17 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				case "POST":
 					s.handlePublishEventRequest([0]string{}, elemIsEscaped, w, r)
 				default:
-					s.notAllowed(w, r, "POST")
+					s.notAllowed(w, r, notAllowedParams{
+						allowedMethods: "POST",
+						allowedHeaders: rn1AllowedHeaders,
+						acceptPost:     "application/json",
+						acceptPatch:    "",
+					})
 				}
 
 				return
 			}
 
-			elem = origElem
 		}
 	}
 	s.notFound(w, r)
@@ -76,12 +86,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Route is route object.
 type Route struct {
-	name        string
-	summary     string
-	operationID string
-	pathPattern string
-	count       int
-	args        [0]string
+	name           string
+	summary        string
+	operationID    string
+	operationGroup string
+	pathPattern    string
+	count          int
+	args           [0]string
 }
 
 // Name returns ogen operation name.
@@ -99,6 +110,11 @@ func (r Route) Summary() string {
 // OperationID returns OpenAPI operationId.
 func (r Route) OperationID() string {
 	return r.operationID
+}
+
+// OperationGroup returns the x-ogen-operation-group value.
+func (r Route) OperationGroup() string {
+	return r.operationGroup
 }
 
 // PathPattern returns OpenAPI path.
@@ -150,7 +166,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 		}
 		switch elem[0] {
 		case '/': // Prefix: "/event"
-			origElem := elem
+
 			if l := len("/event"); len(elem) >= l && elem[0:l] == "/event" {
 				elem = elem[l:]
 			} else {
@@ -161,9 +177,10 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				// Leaf node.
 				switch method {
 				case "POST":
-					r.name = "PublishEvent"
+					r.name = PublishEventOperation
 					r.summary = ""
 					r.operationID = "publishEvent"
+					r.operationGroup = ""
 					r.pathPattern = "/event"
 					r.args = args
 					r.count = 0
@@ -173,11 +190,16 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 			}
 
-			elem = origElem
 		}
 	}
 	return r, false
 }
+
+var (
+	wh2AllowedHeaders = map[string]string{
+		"POST": "Content-Type,X-Webhook-Token",
+	}
+)
 
 // Handle handles webhook request.
 //
@@ -218,14 +240,24 @@ func (s *WebhookServer) Handler(webhookName string) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// We know that webhook exists, so false means wrong method.
 			if !s.Handle(webhookName, w, r) {
-				s.notAllowed(w, r, "GET")
+				s.notAllowed(w, r, notAllowedParams{
+					allowedMethods: "GET",
+					allowedHeaders: nil,
+					acceptPost:     "",
+					acceptPatch:    "",
+				})
 			}
 		})
 	case "update":
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// We know that webhook exists, so false means wrong method.
 			if !s.Handle(webhookName, w, r) {
-				s.notAllowed(w, r, "DELETE,POST")
+				s.notAllowed(w, r, notAllowedParams{
+					allowedMethods: "DELETE,POST",
+					allowedHeaders: wh2AllowedHeaders,
+					acceptPost:     "application/json",
+					acceptPatch:    "",
+				})
 			}
 		})
 	default:

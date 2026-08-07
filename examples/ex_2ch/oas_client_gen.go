@@ -4,21 +4,26 @@ package api
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 	"time"
 
 	"github.com/go-faster/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
-	"go.opentelemetry.io/otel/trace"
-
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/uri"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
+	"go.opentelemetry.io/otel/trace"
 )
+
+func trimTrailingSlashes(u *url.URL) {
+	u.Path = strings.TrimRight(u.Path, "/")
+	u.RawPath = strings.TrimRight(u.RawPath, "/")
+}
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
@@ -37,10 +42,8 @@ type Invoker interface {
 	// APICaptchaAppIDPublicKeyGet invokes GET /api/captcha/app/id/{public_key} operation.
 	//
 	// Полученный id вам нужно отправить вместе с постом как
-	// app_response_id.
-	// При этом нужно отправить app_response = sha256(app_response_id + '|' +
-	// private key).
-	// Срок жизни id: 180 секунд.
+	// app_response_id. При этом нужно отправить app_response = sha256(app_response_id
+	// + '|' + private key). Срок жизни id: 180 секунд.
 	//
 	// GET /api/captcha/app/id/{public_key}
 	APICaptchaAppIDPublicKeyGet(ctx context.Context, params APICaptchaAppIDPublicKeyGetParams) (*Captcha, error)
@@ -132,15 +135,6 @@ type Client struct {
 	baseClient
 }
 
-var _ Handler = struct {
-	*Client
-}{}
-
-func trimTrailingSlashes(u *url.URL) {
-	u.Path = strings.TrimRight(u.Path, "/")
-	u.RawPath = strings.TrimRight(u.RawPath, "/")
-}
-
 // NewClient initializes new Client defined by OAS.
 func NewClient(serverURL string, opts ...ClientOption) (*Client, error) {
 	u, err := url.Parse(serverURL)
@@ -187,22 +181,23 @@ func (c *Client) APICaptcha2chcaptchaIDGet(ctx context.Context, params APICaptch
 func (c *Client) sendAPICaptcha2chcaptchaIDGet(ctx context.Context, params APICaptcha2chcaptchaIDGetParams) (res *Captcha, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/captcha/2chcaptcha/id"),
+		semconv.URLTemplateKey.String("/api/captcha/2chcaptcha/id"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APICaptcha2chcaptchaIDGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APICaptcha2chcaptchaIDGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -272,7 +267,14 @@ func (c *Client) sendAPICaptcha2chcaptchaIDGet(ctx context.Context, params APICa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPICaptcha2chcaptchaIDGetResponse(resp)
@@ -296,22 +298,23 @@ func (c *Client) APICaptcha2chcaptchaShowGet(ctx context.Context, params APICapt
 func (c *Client) sendAPICaptcha2chcaptchaShowGet(ctx context.Context, params APICaptcha2chcaptchaShowGetParams) (res APICaptcha2chcaptchaShowGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/captcha/2chcaptcha/show"),
+		semconv.URLTemplateKey.String("/api/captcha/2chcaptcha/show"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APICaptcha2chcaptchaShowGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APICaptcha2chcaptchaShowGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -361,7 +364,14 @@ func (c *Client) sendAPICaptcha2chcaptchaShowGet(ctx context.Context, params API
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPICaptcha2chcaptchaShowGetResponse(resp)
@@ -375,10 +385,8 @@ func (c *Client) sendAPICaptcha2chcaptchaShowGet(ctx context.Context, params API
 // APICaptchaAppIDPublicKeyGet invokes GET /api/captcha/app/id/{public_key} operation.
 //
 // Полученный id вам нужно отправить вместе с постом как
-// app_response_id.
-// При этом нужно отправить app_response = sha256(app_response_id + '|' +
-// private key).
-// Срок жизни id: 180 секунд.
+// app_response_id. При этом нужно отправить app_response = sha256(app_response_id
+// + '|' + private key). Срок жизни id: 180 секунд.
 //
 // GET /api/captcha/app/id/{public_key}
 func (c *Client) APICaptchaAppIDPublicKeyGet(ctx context.Context, params APICaptchaAppIDPublicKeyGetParams) (*Captcha, error) {
@@ -389,22 +397,23 @@ func (c *Client) APICaptchaAppIDPublicKeyGet(ctx context.Context, params APICapt
 func (c *Client) sendAPICaptchaAppIDPublicKeyGet(ctx context.Context, params APICaptchaAppIDPublicKeyGetParams) (res *Captcha, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/captcha/app/id/{public_key}"),
+		semconv.URLTemplateKey.String("/api/captcha/app/id/{public_key}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APICaptchaAppIDPublicKeyGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APICaptchaAppIDPublicKeyGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -492,7 +501,14 @@ func (c *Client) sendAPICaptchaAppIDPublicKeyGet(ctx context.Context, params API
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPICaptchaAppIDPublicKeyGetResponse(resp)
@@ -516,22 +532,23 @@ func (c *Client) APICaptchaInvisibleRecaptchaIDGet(ctx context.Context, params A
 func (c *Client) sendAPICaptchaInvisibleRecaptchaIDGet(ctx context.Context, params APICaptchaInvisibleRecaptchaIDGetParams) (res *Captcha, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/captcha/invisible_recaptcha/id"),
+		semconv.URLTemplateKey.String("/api/captcha/invisible_recaptcha/id"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APICaptchaInvisibleRecaptchaIDGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APICaptchaInvisibleRecaptchaIDGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -601,7 +618,14 @@ func (c *Client) sendAPICaptchaInvisibleRecaptchaIDGet(ctx context.Context, para
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPICaptchaInvisibleRecaptchaIDGetResponse(resp)
@@ -625,22 +649,23 @@ func (c *Client) APICaptchaInvisibleRecaptchaMobileGet(ctx context.Context) erro
 func (c *Client) sendAPICaptchaInvisibleRecaptchaMobileGet(ctx context.Context) (res *APICaptchaInvisibleRecaptchaMobileGetOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/captcha/invisible_recaptcha/mobile"),
+		semconv.URLTemplateKey.String("/api/captcha/invisible_recaptcha/mobile"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APICaptchaInvisibleRecaptchaMobileGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APICaptchaInvisibleRecaptchaMobileGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -672,7 +697,14 @@ func (c *Client) sendAPICaptchaInvisibleRecaptchaMobileGet(ctx context.Context) 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPICaptchaInvisibleRecaptchaMobileGetResponse(resp)
@@ -696,22 +728,23 @@ func (c *Client) APICaptchaRecaptchaIDGet(ctx context.Context, params APICaptcha
 func (c *Client) sendAPICaptchaRecaptchaIDGet(ctx context.Context, params APICaptchaRecaptchaIDGetParams) (res *Captcha, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/captcha/recaptcha/id"),
+		semconv.URLTemplateKey.String("/api/captcha/recaptcha/id"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APICaptchaRecaptchaIDGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APICaptchaRecaptchaIDGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -781,7 +814,14 @@ func (c *Client) sendAPICaptchaRecaptchaIDGet(ctx context.Context, params APICap
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPICaptchaRecaptchaIDGetResponse(resp)
@@ -805,22 +845,23 @@ func (c *Client) APICaptchaRecaptchaMobileGet(ctx context.Context) error {
 func (c *Client) sendAPICaptchaRecaptchaMobileGet(ctx context.Context) (res *APICaptchaRecaptchaMobileGetOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/captcha/recaptcha/mobile"),
+		semconv.URLTemplateKey.String("/api/captcha/recaptcha/mobile"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APICaptchaRecaptchaMobileGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APICaptchaRecaptchaMobileGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -852,7 +893,14 @@ func (c *Client) sendAPICaptchaRecaptchaMobileGet(ctx context.Context) (res *API
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPICaptchaRecaptchaMobileGetResponse(resp)
@@ -876,22 +924,23 @@ func (c *Client) APIDislikeGet(ctx context.Context, params APIDislikeGetParams) 
 func (c *Client) sendAPIDislikeGet(ctx context.Context, params APIDislikeGetParams) (res *Like, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/dislike"),
+		semconv.URLTemplateKey.String("/api/dislike"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APIDislikeGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APIDislikeGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -955,7 +1004,14 @@ func (c *Client) sendAPIDislikeGet(ctx context.Context, params APIDislikeGetPara
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPIDislikeGetResponse(resp)
@@ -979,22 +1035,23 @@ func (c *Client) APILikeGet(ctx context.Context, params APILikeGetParams) (*Like
 func (c *Client) sendAPILikeGet(ctx context.Context, params APILikeGetParams) (res *Like, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/like"),
+		semconv.URLTemplateKey.String("/api/like"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APILikeGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APILikeGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1058,7 +1115,14 @@ func (c *Client) sendAPILikeGet(ctx context.Context, params APILikeGetParams) (r
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPILikeGetResponse(resp)
@@ -1084,22 +1148,23 @@ func (c *Client) APIMobileV2AfterBoardThreadNumGet(ctx context.Context, params A
 func (c *Client) sendAPIMobileV2AfterBoardThreadNumGet(ctx context.Context, params APIMobileV2AfterBoardThreadNumGetParams) (res *MobileThreadPostsAfter, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/mobile/v2/after/{board}/{thread}/{num}"),
+		semconv.URLTemplateKey.String("/api/mobile/v2/after/{board}/{thread}/{num}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APIMobileV2AfterBoardThreadNumGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APIMobileV2AfterBoardThreadNumGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1187,7 +1252,14 @@ func (c *Client) sendAPIMobileV2AfterBoardThreadNumGet(ctx context.Context, para
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPIMobileV2AfterBoardThreadNumGetResponse(resp)
@@ -1211,22 +1283,23 @@ func (c *Client) APIMobileV2BoardsGet(ctx context.Context) (Boards, error) {
 func (c *Client) sendAPIMobileV2BoardsGet(ctx context.Context) (res Boards, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/mobile/v2/boards"),
+		semconv.URLTemplateKey.String("/api/mobile/v2/boards"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APIMobileV2BoardsGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APIMobileV2BoardsGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1258,7 +1331,14 @@ func (c *Client) sendAPIMobileV2BoardsGet(ctx context.Context) (res Boards, err 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPIMobileV2BoardsGetResponse(resp)
@@ -1282,22 +1362,23 @@ func (c *Client) APIMobileV2InfoBoardThreadGet(ctx context.Context, params APIMo
 func (c *Client) sendAPIMobileV2InfoBoardThreadGet(ctx context.Context, params APIMobileV2InfoBoardThreadGetParams) (res *MobileThreadLastInfo, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/mobile/v2/info/{board}/{thread}"),
+		semconv.URLTemplateKey.String("/api/mobile/v2/info/{board}/{thread}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APIMobileV2InfoBoardThreadGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APIMobileV2InfoBoardThreadGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1366,7 +1447,14 @@ func (c *Client) sendAPIMobileV2InfoBoardThreadGet(ctx context.Context, params A
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPIMobileV2InfoBoardThreadGetResponse(resp)
@@ -1390,22 +1478,23 @@ func (c *Client) APIMobileV2PostBoardNumGet(ctx context.Context, params APIMobil
 func (c *Client) sendAPIMobileV2PostBoardNumGet(ctx context.Context, params APIMobileV2PostBoardNumGetParams) (res *MobilePost, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/api/mobile/v2/post/{board}/{num}"),
+		semconv.URLTemplateKey.String("/api/mobile/v2/post/{board}/{num}"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "APIMobileV2PostBoardNumGet",
+	ctx, span := c.cfg.Tracer.Start(ctx, APIMobileV2PostBoardNumGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1474,7 +1563,14 @@ func (c *Client) sendAPIMobileV2PostBoardNumGet(ctx context.Context, params APIM
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeAPIMobileV2PostBoardNumGetResponse(resp)
@@ -1498,22 +1594,23 @@ func (c *Client) UserPassloginPost(ctx context.Context, request OptUserPasslogin
 func (c *Client) sendUserPassloginPost(ctx context.Context, request OptUserPassloginPostReq, params UserPassloginPostParams) (res *Passcode, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/user/passlogin"),
+		semconv.URLTemplateKey.String("/user/passlogin"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "UserPassloginPost",
+	ctx, span := c.cfg.Tracer.Start(ctx, UserPassloginPostOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1566,7 +1663,14 @@ func (c *Client) sendUserPassloginPost(ctx context.Context, request OptUserPassl
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeUserPassloginPostResponse(resp)
@@ -1590,22 +1694,23 @@ func (c *Client) UserPostingPost(ctx context.Context, request OptUserPostingPost
 func (c *Client) sendUserPostingPost(ctx context.Context, request OptUserPostingPostReq) (res UserPostingPostOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/user/posting"),
+		semconv.URLTemplateKey.String("/user/posting"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "UserPostingPost",
+	ctx, span := c.cfg.Tracer.Start(ctx, UserPostingPostOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1640,7 +1745,14 @@ func (c *Client) sendUserPostingPost(ctx context.Context, request OptUserPosting
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeUserPostingPostResponse(resp)
@@ -1664,22 +1776,23 @@ func (c *Client) UserReportPost(ctx context.Context, request OptUserReportPostRe
 func (c *Client) sendUserReportPost(ctx context.Context, request OptUserReportPostReq) (res *Report, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/user/report"),
+		semconv.URLTemplateKey.String("/user/report"),
 	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
 
 	// Run stopwatch.
 	startTime := time.Now()
 	defer func() {
 		// Use floating point division here for higher precision (instead of Millisecond method).
 		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
 	}()
 
 	// Increment request counter.
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "UserReportPost",
+	ctx, span := c.cfg.Tracer.Start(ctx, UserReportPostOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1714,7 +1827,14 @@ func (c *Client) sendUserReportPost(ctx context.Context, request OptUserReportPo
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	stage = "DecodeResponse"
 	result, err := decodeUserReportPostResponse(resp)

@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/validate"
 )
 
@@ -318,6 +317,7 @@ func (s *MachineConfiguration) Validate() error {
 			MaxExclusive:  false,
 			MultipleOfSet: false,
 			MultipleOf:    0,
+			Pattern:       nil,
 		}).Validate(int64(s.VcpuCount)); err != nil {
 			return errors.Wrap(err, "int")
 		}
@@ -567,6 +567,7 @@ func (s *TokenBucket) Validate() error {
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(value)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -592,6 +593,7 @@ func (s *TokenBucket) Validate() error {
 			MaxExclusive:  false,
 			MultipleOfSet: false,
 			MultipleOf:    0,
+			Pattern:       nil,
 		}).Validate(int64(s.RefillTime)); err != nil {
 			return errors.Wrap(err, "int")
 		}
@@ -612,6 +614,7 @@ func (s *TokenBucket) Validate() error {
 			MaxExclusive:  false,
 			MultipleOfSet: false,
 			MultipleOf:    0,
+			Pattern:       nil,
 		}).Validate(int64(s.Size)); err != nil {
 			return errors.Wrap(err, "int")
 		}
@@ -678,6 +681,7 @@ func (s *Vsock) Validate() error {
 			MaxExclusive:  false,
 			MultipleOfSet: false,
 			MultipleOf:    0,
+			Pattern:       nil,
 		}).Validate(int64(s.GuestCid)); err != nil {
 			return errors.Wrap(err, "int")
 		}

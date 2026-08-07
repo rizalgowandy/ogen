@@ -18,6 +18,7 @@ package integration
 //go:generate go run ../../cmd/ogen -v --clean --target test_webhooks         ../../_testdata/positive/webhooks.json
 //go:generate go run ../../cmd/ogen -v --clean --target test_servers          ../../_testdata/positive/servers.json
 //go:generate go run ../../cmd/ogen -v --clean --target test_single_endpoint  ../../_testdata/positive/single_endpoint.json
+//go:generate go run ../../cmd/ogen -v --clean --target test_span_status      ../../_testdata/positive/span_status.yml
 //go:generate go run ../../cmd/ogen -v --clean --target test_http_responses   ../../_testdata/positive/http_responses.json
 //go:generate go run ../../cmd/ogen -v --clean --target test_http_requests    ../../_testdata/positive/http_requests.json
 //go:generate go run ../../cmd/ogen -v --clean --target test_form             ../../_testdata/positive/form.json
@@ -29,10 +30,31 @@ package integration
 //
 //go:generate go run ../../cmd/ogen -v --clean --config _config/allOf.yml --target test_allof ../../_testdata/positive/allOf.yml
 //go:generate go run ../../cmd/ogen -v --clean --config _config/anyOf.yml --target test_anyof ../../_testdata/positive/anyOf.json
+//go:generate go run ../../cmd/ogen -v --clean --target test_discriminator_mapping ../../_testdata/positive/discriminator_mapping.json
+//go:generate go run ../../cmd/ogen -v --clean --target test_nullable_type_discrimination ../../_testdata/positive/nullable_type_discrimination.json
+//go:generate go run ../../cmd/ogen -v --clean --target test_optional_type_discrimination ../../_testdata/positive/optional_type_discrimination.json
+//go:generate go run ../../cmd/ogen -v --clean --target test_array_object_type_discrimination ../../_testdata/positive/array_object_type_discrimination.json
+//go:generate go run ../../cmd/ogen -v --clean --target test_nested_type_discrimination ../../_testdata/positive/nested_type_discrimination.json
+//go:generate go run ../../cmd/ogen -v --clean --target test_mixed_discrimination ../../_testdata/positive/mixed_discrimination.json
+//go:generate go run ../../cmd/ogen -v --clean --target test_value_based_discrimination ../../_testdata/positive/value_based_discrimination.json
+//go:generate go run ../../cmd/ogen -v --clean --config _config/additionalPropertiesPatternProperties.yml --target test_additionalpropertiespatternproperties ../../_testdata/positive/additionalPropertiesPatternProperties.yml
+//go:generate go run ../../cmd/ogen -v --clean --target test_deep_object_additional_properties ../../_testdata/positive/deepObjectAdditionalProperties.yml
+//go:generate go run ../../cmd/ogen -v --clean --config _config/client_options.yml --target test_client_options ../../_testdata/positive/client_options.json
+//go:generate go run ../../cmd/ogen -v --clean --target test_cors ../../_testdata/positive/cors.yaml
+//go:generate go run ../../cmd/ogen -v --clean --target test_additional_operations ../../_testdata/positive/additional_operations.yml
 //
 //go:generate go run ../../cmd/ogen -v --clean -target test_enum_naming       ../../_testdata/positive/enum_naming.yml
 //go:generate go run ../../cmd/ogen -v --clean -target test_naming_extensions ../../_testdata/positive/naming_extensions.json
+//go:generate go run ../../cmd/ogen -v --clean -target test_param_naming_extensions ../../_testdata/positive/param_naming_extensions.json
+//go:generate go run ../../cmd/ogen -v --clean -target test_type_extension ../../_testdata/positive/type_extension.yml
+//go:generate go run ../../cmd/ogen -v --clean -target test_type_extension_name ../../_testdata/positive/type_extension_name.yml
+//go:generate go run ../../cmd/ogen -v --clean -target test_time_extension ../../_testdata/positive/time_extension.yml
+//go:generate go run ../../cmd/ogen -v --clean -target test_ogen_validate ../../_testdata/positive/ogen_validate.yaml
 //
 // Regression test.
 //
 //go:generate go run ../../cmd/ogen -v --clean --target test_issue1161 ../../_testdata/positive/issue1161.json
+//go:generate go run ../../cmd/ogen -v --clean --target test_issue1495 ../../_testdata/positive/issue1495.yml
+//go:generate go run ../../cmd/ogen -v --clean --target test_raw_response ../../_testdata/positive/raw_response.yml
+//go:generate go run ../../cmd/ogen -v --clean --target test_non_primitive_enum ../../_testdata/positive/non_primitive_enum.json
+//go:generate go run ../../cmd/ogen -v --clean --target test_nullable_anyof_params ../../_testdata/positive/nullable_anyof_params.json

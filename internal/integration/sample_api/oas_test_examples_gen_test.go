@@ -73,6 +73,42 @@ func TestDataDescription_EncodeDecode(t *testing.T) {
 	var typ2 DataDescription
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestDefaultCircle_EncodeDecode(t *testing.T) {
+	var typ DefaultCircle
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DefaultCircle
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDefaultShape_EncodeDecode(t *testing.T) {
+	var typ DefaultShape
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DefaultShape
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDefaultSquare_EncodeDecode(t *testing.T) {
+	var typ DefaultSquare
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DefaultSquare
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestDefaultTest_EncodeDecode(t *testing.T) {
 	var typ DefaultTest
 	typ.SetFake()
@@ -95,6 +131,44 @@ func TestDefaultTestEnum_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 DefaultTestEnum
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDefaultTestLabelsItem_EncodeDecode(t *testing.T) {
+	var typ DefaultTestLabelsItem
+	typ = make(DefaultTestLabelsItem)
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DefaultTestLabelsItem
+	typ2 = make(DefaultTestLabelsItem)
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDefaultTestObjsItem_EncodeDecode(t *testing.T) {
+	var typ DefaultTestObjsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DefaultTestObjsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDefaultTestPrioritiesItem_EncodeDecode(t *testing.T) {
+	var typ DefaultTestPrioritiesItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DefaultTestPrioritiesItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestDescriptionDetailed_EncodeDecode(t *testing.T) {
@@ -217,6 +291,30 @@ func TestInlineUniqueFieldsOneOfSum_EncodeDecode(t *testing.T) {
 	var typ2 InlineUniqueFieldsOneOfSum
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestIssue1310_EncodeDecode(t *testing.T) {
+	var typ Issue1310
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Issue1310
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestIssue1310Properties_EncodeDecode(t *testing.T) {
+	var typ Issue1310Properties
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Issue1310Properties
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestIssue143_EncodeDecode(t *testing.T) {
 	var typ Issue143
 	typ.SetFake()
@@ -275,6 +373,66 @@ func TestIssue1433_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 Issue1433
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestIssue1461_EncodeDecode(t *testing.T) {
+	var typ Issue1461
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Issue1461
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestIssue1461NullableOptionalTest_EncodeDecode(t *testing.T) {
+	var typ Issue1461NullableOptionalTest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Issue1461NullableOptionalTest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestIssue1461NullableTest_EncodeDecode(t *testing.T) {
+	var typ Issue1461NullableTest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Issue1461NullableTest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestIssue1461OptionalTest_EncodeDecode(t *testing.T) {
+	var typ Issue1461OptionalTest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Issue1461OptionalTest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestIssue1461RequiredTest_EncodeDecode(t *testing.T) {
+	var typ Issue1461RequiredTest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Issue1461RequiredTest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestIssue943_EncodeDecode(t *testing.T) {
@@ -883,6 +1041,18 @@ func TestStringStringMap_EncodeDecode(t *testing.T) {
 
 	var typ2 StringStringMap
 	typ2 = make(StringStringMap)
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestTestDecimalValidation_EncodeDecode(t *testing.T) {
+	var typ TestDecimalValidation
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 TestDecimalValidation
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestTestFloatValidation_EncodeDecode(t *testing.T) {

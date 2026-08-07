@@ -7,7 +7,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/validate"
 
 	std "encoding/json"
@@ -368,6 +367,61 @@ func TestActionsCreateSelfHostedRunnerGroupForOrgReqVisibility_EncodeDecode(t *t
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 ActionsCreateSelfHostedRunnerGroupForOrgReqVisibility
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestActionsCreateWorkflowDispatchReq_EncodeDecode(t *testing.T) {
+	var typ ActionsCreateWorkflowDispatchReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ActionsCreateWorkflowDispatchReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestActionsCreateWorkflowDispatchReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"inputs\":{\"home\":\"San Francisco, CA\",\"name\":\"Mona the Octocat\"},\"ref\":\"topic-branch\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ActionsCreateWorkflowDispatchReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ActionsCreateWorkflowDispatchReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestActionsCreateWorkflowDispatchReqInputs_EncodeDecode(t *testing.T) {
+	var typ ActionsCreateWorkflowDispatchReqInputs
+	typ = make(ActionsCreateWorkflowDispatchReqInputs)
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ActionsCreateWorkflowDispatchReqInputs
+	typ2 = make(ActionsCreateWorkflowDispatchReqInputs)
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestActionsEnabled_EncodeDecode(t *testing.T) {
@@ -1034,6 +1088,47 @@ func TestActionsListWorkflowRunsForRepoOK_Examples(t *testing.T) {
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
 			var typ2 ActionsListWorkflowRunsForRepoOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestActionsListWorkflowRunsOK_EncodeDecode(t *testing.T) {
+	var typ ActionsListWorkflowRunsOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ActionsListWorkflowRunsOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestActionsListWorkflowRunsOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"total_count\":1,\"workflow_runs\":[{\"artifacts_url\":\"https://api.github.com/repos/octo-org/octo-repo/actions/runs/30433642/artifacts\",\"cancel_url\":\"https://api.github.com/repos/octo-org/octo-repo/actions/runs/30433642/cancel\",\"check_suite_url\":\"https://api.github.com/repos/octo-org/octo-repo/check-suites/414944374\",\"conclusion\":null,\"created_at\":\"2020-01-22T19:33:08Z\",\"event\":\"push\",\"head_branch\":\"master\",\"head_commit\":{\"author\":{\"email\":\"octocat@github.com\",\"name\":\"Octo Cat\"},\"committer\":{\"email\":\"noreply@github.com\",\"name\":\"GitHub\"},\"id\":\"acb5820ced9479c074f688cc328bf03f341a511d\",\"message\":\"Create linter.yaml\",\"timestamp\":\"2020-01-22T19:33:05Z\",\"tree_id\":\"d23f6eedb1e1b9610bbc754ddb5197bfe7271223\"},\"head_repository\":{\"archive_url\":\"https://api.github.com/repos/octo-org/octo-repo/{archive_format}{/ref}\",\"assignees_url\":\"https://api.github.com/repos/octo-org/octo-repo/assignees{/user}\",\"blobs_url\":\"https://api.github.com/repos/octo-org/octo-repo/git/blobs{/sha}\",\"branches_url\":\"https://api.github.com/repos/octo-org/octo-repo/branches{/branch}\",\"collaborators_url\":\"https://api.github.com/repos/octo-org/octo-repo/collaborators{/collaborator}\",\"comments_url\":\"https://api.github.com/repos/octo-org/octo-repo/comments{/number}\",\"commits_url\":\"https://api.github.com/repos/octo-org/octo-repo/commits{/sha}\",\"compare_url\":\"https://api.github.com/repos/octo-org/octo-repo/compare/{base}...{head}\",\"contents_url\":\"https://api.github.com/repos/octo-org/octo-repo/contents/{+path}\",\"contributors_url\":\"https://api.github.com/repos/octo-org/octo-repo/contributors\",\"deployments_url\":\"https://api.github.com/repos/octo-org/octo-repo/deployments\",\"description\":null,\"downloads_url\":\"https://api.github.com/repos/octo-org/octo-repo/downloads\",\"events_url\":\"https://api.github.com/repos/octo-org/octo-repo/events\",\"fork\":false,\"forks_url\":\"https://api.github.com/repos/octo-org/octo-repo/forks\",\"full_name\":\"octo-org/octo-repo\",\"git_commits_url\":\"https://api.github.com/repos/octo-org/octo-repo/git/commits{/sha}\",\"git_refs_url\":\"https://api.github.com/repos/octo-org/octo-repo/git/refs{/sha}\",\"git_tags_url\":\"https://api.github.com/repos/octo-org/octo-repo/git/tags{/sha}\",\"hooks_url\":\"https://api.github.com/repos/octo-org/octo-repo/hooks\",\"html_url\":\"https://github.com/octo-org/octo-repo\",\"id\":217723378,\"issue_comment_url\":\"https://api.github.com/repos/octo-org/octo-repo/issues/comments{/number}\",\"issue_events_url\":\"https://api.github.com/repos/octo-org/octo-repo/issues/events{/number}\",\"issues_url\":\"https://api.github.com/repos/octo-org/octo-repo/issues{/number}\",\"keys_url\":\"https://api.github.com/repos/octo-org/octo-repo/keys{/key_id}\",\"labels_url\":\"https://api.github.com/repos/octo-org/octo-repo/labels{/name}\",\"languages_url\":\"https://api.github.com/repos/octo-org/octo-repo/languages\",\"merges_url\":\"https://api.github.com/repos/octo-org/octo-repo/merges\",\"milestones_url\":\"https://api.github.com/repos/octo-org/octo-repo/milestones{/number}\",\"name\":\"octo-repo\",\"node_id\":\"MDEwOlJlcG9zaXRvcnkyMTc3MjMzNzg=\",\"notifications_url\":\"https://api.github.com/repos/octo-org/octo-repo/notifications{?since,all,participating}\",\"owner\":{\"avatar_url\":\"https://github.com/images/error/octocat_happy.gif\",\"events_url\":\"https://api.github.com/users/octocat/events{/privacy}\",\"followers_url\":\"https://api.github.com/users/octocat/followers\",\"following_url\":\"https://api.github.com/users/octocat/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/octocat/gists{/gist_id}\",\"gravatar_id\":\"\",\"html_url\":\"https://github.com/octocat\",\"id\":1,\"login\":\"octocat\",\"node_id\":\"MDQ6VXNlcjE=\",\"organizations_url\":\"https://api.github.com/users/octocat/orgs\",\"received_events_url\":\"https://api.github.com/users/octocat/received_events\",\"repos_url\":\"https://api.github.com/users/octocat/repos\",\"site_admin\":false,\"starred_url\":\"https://api.github.com/users/octocat/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/octocat/subscriptions\",\"type\":\"User\",\"url\":\"https://api.github.com/users/octocat\"},\"private\":true,\"pulls_url\":\"https://api.github.com/repos/octo-org/octo-repo/pulls{/number}\",\"releases_url\":\"https://api.github.com/repos/octo-org/octo-repo/releases{/id}\",\"stargazers_url\":\"https://api.github.com/repos/octo-org/octo-repo/stargazers\",\"statuses_url\":\"https://api.github.com/repos/octo-org/octo-repo/statuses/{sha}\",\"subscribers_url\":\"https://api.github.com/repos/octo-org/octo-repo/subscribers\",\"subscription_url\":\"https://api.github.com/repos/octo-org/octo-repo/subscription\",\"tags_url\":\"https://api.github.com/repos/octo-org/octo-repo/tags\",\"teams_url\":\"https://api.github.com/repos/octo-org/octo-repo/teams\",\"trees_url\":\"https://api.github.com/repos/octo-org/octo-repo/git/trees{/sha}\",\"url\":\"https://api.github.com/repos/octo-org/octo-repo\"},\"head_sha\":\"acb5820ced9479c074f688cc328bf03f341a511d\",\"html_url\":\"https://github.com/octo-org/octo-repo/actions/runs/30433642\",\"id\":30433642,\"jobs_url\":\"https://api.github.com/repos/octo-org/octo-repo/actions/runs/30433642/jobs\",\"logs_url\":\"https://api.github.com/repos/octo-org/octo-repo/actions/runs/30433642/logs\",\"name\":\"Build\",\"node_id\":\"MDEyOldvcmtmbG93IFJ1bjI2OTI4OQ==\",\"pull_requests\":[],\"repository\":{\"archive_url\":\"https://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}\",\"assignees_url\":\"https://api.github.com/repos/octocat/Hello-World/assignees{/user}\",\"blobs_url\":\"https://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}\",\"branches_url\":\"https://api.github.com/repos/octocat/Hello-World/branches{/branch}\",\"collaborators_url\":\"https://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}\",\"comments_url\":\"https://api.github.com/repos/octocat/Hello-World/comments{/number}\",\"commits_url\":\"https://api.github.com/repos/octocat/Hello-World/commits{/sha}\",\"compare_url\":\"https://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}\",\"contents_url\":\"https://api.github.com/repos/octocat/Hello-World/contents/{+path}\",\"contributors_url\":\"https://api.github.com/repos/octocat/Hello-World/contributors\",\"deployments_url\":\"https://api.github.com/repos/octocat/Hello-World/deployments\",\"description\":\"This your first repo!\",\"downloads_url\":\"https://api.github.com/repos/octocat/Hello-World/downloads\",\"events_url\":\"https://api.github.com/repos/octocat/Hello-World/events\",\"fork\":false,\"forks_url\":\"https://api.github.com/repos/octocat/Hello-World/forks\",\"full_name\":\"octocat/Hello-World\",\"git_commits_url\":\"https://api.github.com/repos/octocat/Hello-World/git/commits{/sha}\",\"git_refs_url\":\"https://api.github.com/repos/octocat/Hello-World/git/refs{/sha}\",\"git_tags_url\":\"https://api.github.com/repos/octocat/Hello-World/git/tags{/sha}\",\"git_url\":\"git:github.com/octocat/Hello-World.git\",\"hooks_url\":\"http://api.github.com/repos/octocat/Hello-World/hooks\",\"html_url\":\"https://github.com/octocat/Hello-World\",\"id\":1296269,\"issue_comment_url\":\"https://api.github.com/repos/octocat/Hello-World/issues/comments{/number}\",\"issue_events_url\":\"https://api.github.com/repos/octocat/Hello-World/issues/events{/number}\",\"issues_url\":\"https://api.github.com/repos/octocat/Hello-World/issues{/number}\",\"keys_url\":\"https://api.github.com/repos/octocat/Hello-World/keys{/key_id}\",\"labels_url\":\"https://api.github.com/repos/octocat/Hello-World/labels{/name}\",\"languages_url\":\"https://api.github.com/repos/octocat/Hello-World/languages\",\"merges_url\":\"https://api.github.com/repos/octocat/Hello-World/merges\",\"milestones_url\":\"https://api.github.com/repos/octocat/Hello-World/milestones{/number}\",\"name\":\"Hello-World\",\"node_id\":\"MDEwOlJlcG9zaXRvcnkxMjk2MjY5\",\"notifications_url\":\"https://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}\",\"owner\":{\"avatar_url\":\"https://github.com/images/error/octocat_happy.gif\",\"events_url\":\"https://api.github.com/users/octocat/events{/privacy}\",\"followers_url\":\"https://api.github.com/users/octocat/followers\",\"following_url\":\"https://api.github.com/users/octocat/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/octocat/gists{/gist_id}\",\"gravatar_id\":\"\",\"html_url\":\"https://github.com/octocat\",\"id\":1,\"login\":\"octocat\",\"node_id\":\"MDQ6VXNlcjE=\",\"organizations_url\":\"https://api.github.com/users/octocat/orgs\",\"received_events_url\":\"https://api.github.com/users/octocat/received_events\",\"repos_url\":\"https://api.github.com/users/octocat/repos\",\"site_admin\":false,\"starred_url\":\"https://api.github.com/users/octocat/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/octocat/subscriptions\",\"type\":\"User\",\"url\":\"https://api.github.com/users/octocat\"},\"private\":false,\"pulls_url\":\"https://api.github.com/repos/octocat/Hello-World/pulls{/number}\",\"releases_url\":\"https://api.github.com/repos/octocat/Hello-World/releases{/id}\",\"ssh_url\":\"git@github.com:octocat/Hello-World.git\",\"stargazers_url\":\"https://api.github.com/repos/octocat/Hello-World/stargazers\",\"statuses_url\":\"https://api.github.com/repos/octocat/Hello-World/statuses/{sha}\",\"subscribers_url\":\"https://api.github.com/repos/octocat/Hello-World/subscribers\",\"subscription_url\":\"https://api.github.com/repos/octocat/Hello-World/subscription\",\"tags_url\":\"https://api.github.com/repos/octocat/Hello-World/tags\",\"teams_url\":\"https://api.github.com/repos/octocat/Hello-World/teams\",\"trees_url\":\"https://api.github.com/repos/octocat/Hello-World/git/trees{/sha}\",\"url\":\"https://api.github.com/repos/octocat/Hello-World\"},\"rerun_url\":\"https://api.github.com/repos/octo-org/octo-repo/actions/runs/30433642/rerun\",\"run_number\":562,\"status\":\"queued\",\"updated_at\":\"2020-01-22T19:33:08Z\",\"url\":\"https://api.github.com/repos/octo-org/octo-repo/actions/runs/30433642\",\"workflow_id\":159038,\"workflow_url\":\"https://api.github.com/repos/octo-org/octo-repo/actions/workflows/159038\"}]}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ActionsListWorkflowRunsOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ActionsListWorkflowRunsOK
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
@@ -4349,6 +4444,220 @@ func TestCheckSuiteStatus_Examples(t *testing.T) {
 		})
 	}
 }
+func TestChecksCreateReq_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestChecksCreateReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"actions\":[{\"description\":\"Allow us to fix these errors for you\",\"identifier\":\"fix_errors\",\"label\":\"Fix\"}],\"completed_at\":\"2017-11-30T19:49:10Z\",\"conclusion\":\"success\",\"head_sha\":\"ce587453ced02b1526dfb4cb910479d431683101\",\"name\":\"mighty_readme\",\"output\":{\"annotations\":[{\"annotation_level\":\"warning\",\"end_line\":2,\"message\":\"Check your spelling for 'banaas'.\",\"path\":\"README.md\",\"raw_details\":\"Do you mean 'bananas' or 'banana'?\",\"start_line\":2,\"title\":\"Spell Checker\"},{\"annotation_level\":\"warning\",\"end_line\":4,\"message\":\"Check your spelling for 'aples'\",\"path\":\"README.md\",\"raw_details\":\"Do you mean 'apples' or 'Naples'\",\"start_line\":4,\"title\":\"Spell Checker\"}],\"images\":[{\"alt\":\"Super bananas\",\"image_url\":\"http://example.com/images/42\"}],\"summary\":\"There are 0 failures, 2 warnings, and 1 notices.\",\"text\":\"You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app.\",\"title\":\"Mighty Readme report\"},\"started_at\":\"2017-11-30T19:39:10Z\",\"status\":\"completed\"}"},
+		{Input: "{\"external_id\":\"42\",\"head_sha\":\"ce587453ced02b1526dfb4cb910479d431683101\",\"name\":\"mighty_readme\",\"output\":{\"summary\":\"\",\"text\":\"\",\"title\":\"Mighty Readme report\"},\"started_at\":\"2018-05-04T01:14:52Z\",\"status\":\"in_progress\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ChecksCreateReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ChecksCreateReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestChecksCreateReqActionsItem_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqActionsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqActionsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqConclusion_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqConclusion
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqConclusion
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqOutput_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqOutput
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqOutput
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqOutputAnnotationsItem_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqOutputAnnotationsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqOutputAnnotationsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqOutputAnnotationsItemAnnotationLevel_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqOutputAnnotationsItemAnnotationLevel
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqOutputAnnotationsItemAnnotationLevel
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqOutputImagesItem_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqOutputImagesItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqOutputImagesItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqStatus_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqStatus
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqStatus
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqSum_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqSum
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqSum
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqSum0_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqSum0
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqSum0
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqSum0Additional_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqSum0Additional
+	typ = make(ChecksCreateReqSum0Additional)
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqSum0Additional
+	typ2 = make(ChecksCreateReqSum0Additional)
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqSum0Status_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqSum0Status
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqSum0Status
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqSum1_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqSum1
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqSum1
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqSum1Additional_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqSum1Additional
+	typ = make(ChecksCreateReqSum1Additional)
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqSum1Additional
+	typ2 = make(ChecksCreateReqSum1Additional)
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChecksCreateReqSum1Status_EncodeDecode(t *testing.T) {
+	var typ ChecksCreateReqSum1Status
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChecksCreateReqSum1Status
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestChecksCreateSuiteCreated_EncodeDecode(t *testing.T) {
 	var typ ChecksCreateSuiteCreated
 	typ.SetFake()
@@ -5156,8 +5465,8 @@ func TestCodeScanningAnalysisURL_EncodeDecode(t *testing.T) {
 	var typ2 CodeScanningAnalysisURL
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCodeScanningDeleteAnalysisBadRequest_EncodeDecode(t *testing.T) {
-	var typ CodeScanningDeleteAnalysisBadRequest
+func TestCodeScanningDeleteAnalysisApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ CodeScanningDeleteAnalysisApplicationJSONBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -5165,7 +5474,7 @@ func TestCodeScanningDeleteAnalysisBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CodeScanningDeleteAnalysisBadRequest
+	var typ2 CodeScanningDeleteAnalysisApplicationJSONBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCodeScanningDeleteAnalysisForbidden_EncodeDecode(t *testing.T) {
@@ -19890,8 +20199,8 @@ func TestReposCreateDispatchEventReqClientPayload_EncodeDecode(t *testing.T) {
 	typ2 = make(ReposCreateDispatchEventReqClientPayload)
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReposCreateForAuthenticatedUserBadRequest_EncodeDecode(t *testing.T) {
-	var typ ReposCreateForAuthenticatedUserBadRequest
+func TestReposCreateForAuthenticatedUserApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReposCreateForAuthenticatedUserApplicationJSONBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -19899,7 +20208,7 @@ func TestReposCreateForAuthenticatedUserBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReposCreateForAuthenticatedUserBadRequest
+	var typ2 ReposCreateForAuthenticatedUserApplicationJSONBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestReposCreateForAuthenticatedUserForbidden_EncodeDecode(t *testing.T) {
@@ -19950,8 +20259,8 @@ func TestReposCreateForAuthenticatedUserUnauthorized_EncodeDecode(t *testing.T) 
 	var typ2 ReposCreateForAuthenticatedUserUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReposCreateForkBadRequest_EncodeDecode(t *testing.T) {
-	var typ ReposCreateForkBadRequest
+func TestReposCreateForkApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReposCreateForkApplicationJSONBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -19959,7 +20268,7 @@ func TestReposCreateForkBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReposCreateForkBadRequest
+	var typ2 ReposCreateForkApplicationJSONBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestReposCreateForkForbidden_EncodeDecode(t *testing.T) {
@@ -20795,8 +21104,8 @@ func TestReposListBranchesForHeadCommitOKApplicationJSON_EncodeDecode(t *testing
 	var typ2 ReposListBranchesForHeadCommitOKApplicationJSON
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReposListCommitsBadRequest_EncodeDecode(t *testing.T) {
-	var typ ReposListCommitsBadRequest
+func TestReposListCommitsApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReposListCommitsApplicationJSONBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -20804,7 +21113,7 @@ func TestReposListCommitsBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReposListCommitsBadRequest
+	var typ2 ReposListCommitsApplicationJSONBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestReposListCommitsConflict_EncodeDecode(t *testing.T) {
@@ -22737,8 +23046,8 @@ func TestRunnerLabelsItemType_EncodeDecode(t *testing.T) {
 	var typ2 RunnerLabelsItemType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestScimDeleteUserFromOrgForbidden_EncodeDecode(t *testing.T) {
-	var typ ScimDeleteUserFromOrgForbidden
+func TestScimDeleteUserFromOrgApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimDeleteUserFromOrgApplicationJSONForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -22746,11 +23055,11 @@ func TestScimDeleteUserFromOrgForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ScimDeleteUserFromOrgForbidden
+	var typ2 ScimDeleteUserFromOrgApplicationJSONForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestScimDeleteUserFromOrgNotFound_EncodeDecode(t *testing.T) {
-	var typ ScimDeleteUserFromOrgNotFound
+func TestScimDeleteUserFromOrgApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimDeleteUserFromOrgApplicationJSONNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -22758,7 +23067,31 @@ func TestScimDeleteUserFromOrgNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ScimDeleteUserFromOrgNotFound
+	var typ2 ScimDeleteUserFromOrgApplicationJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimDeleteUserFromOrgApplicationScimJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimDeleteUserFromOrgApplicationScimJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimDeleteUserFromOrgApplicationScimJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimDeleteUserFromOrgApplicationScimJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimDeleteUserFromOrgApplicationScimJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimDeleteUserFromOrgApplicationScimJSONNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestScimEnterpriseGroup_EncodeDecode(t *testing.T) {
@@ -22929,6 +23262,54 @@ func TestScimError_EncodeDecode(t *testing.T) {
 	var typ2 ScimError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestScimGetProvisioningInformationForUserApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimGetProvisioningInformationForUserApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimGetProvisioningInformationForUserApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimGetProvisioningInformationForUserApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimGetProvisioningInformationForUserApplicationJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimGetProvisioningInformationForUserApplicationJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimGetProvisioningInformationForUserApplicationScimJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimGetProvisioningInformationForUserApplicationScimJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimGetProvisioningInformationForUserApplicationScimJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimGetProvisioningInformationForUserApplicationScimJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimGetProvisioningInformationForUserApplicationScimJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimGetProvisioningInformationForUserApplicationScimJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestScimGroupListEnterprise_EncodeDecode(t *testing.T) {
 	var typ ScimGroupListEnterprise
 	typ.SetFake()
@@ -23005,6 +23386,627 @@ func TestScimGroupListEnterpriseResourcesItemMeta_EncodeDecode(t *testing.T) {
 
 	var typ2 ScimGroupListEnterpriseResourcesItemMeta
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimListProvisionedIdentitiesApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ScimListProvisionedIdentitiesApplicationJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimListProvisionedIdentitiesApplicationJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimListProvisionedIdentitiesApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimListProvisionedIdentitiesApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimListProvisionedIdentitiesApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimListProvisionedIdentitiesApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimListProvisionedIdentitiesApplicationJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimListProvisionedIdentitiesApplicationJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimListProvisionedIdentitiesApplicationScimJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ScimListProvisionedIdentitiesApplicationScimJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimListProvisionedIdentitiesApplicationScimJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimListProvisionedIdentitiesApplicationScimJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimListProvisionedIdentitiesApplicationScimJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimListProvisionedIdentitiesApplicationScimJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimListProvisionedIdentitiesApplicationScimJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimListProvisionedIdentitiesApplicationScimJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimListProvisionedIdentitiesApplicationScimJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserApplicationJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserApplicationJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserApplicationJSONConflict_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserApplicationJSONConflict
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserApplicationJSONConflict
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserApplicationJSONInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserApplicationJSONInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserApplicationJSONInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserApplicationJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserApplicationJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserApplicationScimJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserApplicationScimJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserApplicationScimJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserApplicationScimJSONConflict_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserApplicationScimJSONConflict
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserApplicationScimJSONConflict
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserApplicationScimJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserApplicationScimJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserApplicationScimJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserApplicationScimJSONInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserApplicationScimJSONInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserApplicationScimJSONInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserApplicationScimJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserApplicationScimJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserApplicationScimJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserReq_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserReqEmailsItem_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserReqEmailsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserReqEmailsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimProvisionAndInviteUserReqName_EncodeDecode(t *testing.T) {
+	var typ ScimProvisionAndInviteUserReqName
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimProvisionAndInviteUserReqName
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestScimProvisionAndInviteUserReqName_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"familyName\":\"User\",\"givenName\":\"Jane\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ScimProvisionAndInviteUserReqName
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ScimProvisionAndInviteUserReqName
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestScimSetInformationForProvisionedUserApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimSetInformationForProvisionedUserApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimSetInformationForProvisionedUserApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimSetInformationForProvisionedUserApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimSetInformationForProvisionedUserApplicationJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimSetInformationForProvisionedUserApplicationJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimSetInformationForProvisionedUserApplicationScimJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimSetInformationForProvisionedUserApplicationScimJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimSetInformationForProvisionedUserApplicationScimJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimSetInformationForProvisionedUserApplicationScimJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimSetInformationForProvisionedUserApplicationScimJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimSetInformationForProvisionedUserApplicationScimJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimSetInformationForProvisionedUserReq_EncodeDecode(t *testing.T) {
+	var typ ScimSetInformationForProvisionedUserReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimSetInformationForProvisionedUserReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimSetInformationForProvisionedUserReqEmailsItem_EncodeDecode(t *testing.T) {
+	var typ ScimSetInformationForProvisionedUserReqEmailsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimSetInformationForProvisionedUserReqEmailsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimSetInformationForProvisionedUserReqName_EncodeDecode(t *testing.T) {
+	var typ ScimSetInformationForProvisionedUserReqName
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimSetInformationForProvisionedUserReqName
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestScimSetInformationForProvisionedUserReqName_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"familyName\":\"User\",\"givenName\":\"Jane\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ScimSetInformationForProvisionedUserReqName
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ScimSetInformationForProvisionedUserReqName
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestScimUpdateAttributeForUserApplicationJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserApplicationJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserApplicationJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUpdateAttributeForUserApplicationJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserApplicationJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserApplicationJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUpdateAttributeForUserApplicationJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserApplicationJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserApplicationJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUpdateAttributeForUserApplicationScimJSONBadRequest_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserApplicationScimJSONBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserApplicationScimJSONBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUpdateAttributeForUserApplicationScimJSONForbidden_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserApplicationScimJSONForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserApplicationScimJSONForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUpdateAttributeForUserApplicationScimJSONNotFound_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserApplicationScimJSONNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserApplicationScimJSONNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUpdateAttributeForUserReq_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUpdateAttributeForUserReqOperationsItem_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserReqOperationsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserReqOperationsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUpdateAttributeForUserReqOperationsItemOp_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserReqOperationsItemOp
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserReqOperationsItemOp
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUpdateAttributeForUserReqOperationsItemValue_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserReqOperationsItemValue
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserReqOperationsItemValue
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUpdateAttributeForUserReqOperationsItemValue0_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserReqOperationsItemValue0
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserReqOperationsItemValue0
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUpdateAttributeForUserReqOperationsItemValue1Item_EncodeDecode(t *testing.T) {
+	var typ ScimUpdateAttributeForUserReqOperationsItemValue1Item
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUpdateAttributeForUserReqOperationsItemValue1Item
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUser_EncodeDecode(t *testing.T) {
+	var typ ScimUser
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUser
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestScimUser_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"active\":true,\"displayName\":\"Monalisa Octocat\",\"emails\":[{\"primary\":true,\"value\":\"mona.octocat@okta.example.com\"},{\"value\":\"monalisa@octocat.github.com\"}],\"externalId\":\"a7d0f98382\",\"id\":\"edefdfedf-050c-11e7-8d32\",\"meta\":{\"created\":\"2017-03-09T16:11:13-05:00\",\"lastModified\":\"2017-03-09T16:11:13-05:00\",\"location\":\"https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32\",\"resourceType\":\"User\"},\"name\":{\"familyName\":\"Octocat\",\"formatted\":\"Monalisa Octocat\",\"givenName\":\"Monalisa\"},\"schemas\":[\"urn:ietf:params:scim:schemas:core:2.0:User\"],\"userName\":\"mona.octocat@okta.example.com\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ScimUser
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ScimUser
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestScimUserEmailsItem_EncodeDecode(t *testing.T) {
+	var typ ScimUserEmailsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUserEmailsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUserGroupsItem_EncodeDecode(t *testing.T) {
+	var typ ScimUserGroupsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUserGroupsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUserList_EncodeDecode(t *testing.T) {
+	var typ ScimUserList
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUserList
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestScimUserList_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Resources\":[{\"active\":true,\"displayName\":\"Mona Octocat\",\"emails\":[{\"primary\":true,\"value\":\"mona.octocat@okta.example.com\"}],\"externalId\":\"a7d0f98382\",\"id\":\"edefdfedf-050c-11e7-8d32\",\"meta\":{\"created\":\"2017-03-09T16:11:13-05:00\",\"lastModified\":\"2017-03-09T16:11:13-05:00\",\"location\":\"https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32\",\"resourceType\":\"User\"},\"name\":{\"familyName\":\"Octocat\",\"formatted\":\"Mona Octocat\",\"givenName\":\"Mona\"},\"schemas\":[\"urn:ietf:params:scim:schemas:core:2.0:User\"],\"userName\":\"mona.octocat@okta.example.com\"},{\"active\":true,\"displayName\":\"hu bot\",\"emails\":[{\"primary\":true,\"value\":\"hubot@example.com\"}],\"externalId\":\"sdfoiausdofiua\",\"id\":\"77563764-eb6-24-0598234-958243\",\"meta\":{\"created\":\"2017-03-09T16:11:13-05:00\",\"lastModified\":\"2017-03-09T16:11:13-05:00\",\"location\":\"https://api.github.com/scim/v2/organizations/octo-org/Users/77563764-eb6-24-0598234-958243\",\"resourceType\":\"User\"},\"name\":{\"familyName\":\"bot\",\"formatted\":\"hu bot\",\"givenName\":\"hu\"},\"schemas\":[\"urn:ietf:params:scim:schemas:core:2.0:User\"],\"userName\":\"hubot@example.com\"}],\"itemsPerPage\":2,\"schemas\":[\"urn:ietf:params:scim:api:messages:2.0:ListResponse\"],\"startIndex\":1,\"totalResults\":2}"},
+		{Input: "{\"Resources\":[{\"active\":true,\"displayName\":\"Mona Octocat\",\"emails\":[{\"primary\":true,\"value\":\"octocat@github.com\"}],\"externalId\":\"00u1dhhb1fkIGP7RL1d8\",\"id\":\"5fc0c238-1112-11e8-8e45-920c87bdbd75\",\"meta\":{\"created\":\"2018-02-13T15:05:24.000-08:00\",\"lastModified\":\"2018-02-13T15:05:55.000-08:00\",\"location\":\"https://api.github.com/scim/v2/organizations/octo-org/Users/5fc0c238-1112-11e8-8e45-920c87bdbd75\",\"resourceType\":\"User\"},\"name\":{\"familyName\":\"Octocat\",\"formatted\":\"Mona Octocat\",\"givenName\":\"Mona\"},\"schemas\":[\"urn:ietf:params:scim:schemas:core:2.0:User\"],\"userName\":\"octocat@github.com\"}],\"itemsPerPage\":1,\"schemas\":[\"urn:ietf:params:scim:api:messages:2.0:ListResponse\"],\"startIndex\":1,\"totalResults\":1}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ScimUserList
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ScimUserList
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestScimUserListEnterprise_EncodeDecode(t *testing.T) {
 	var typ ScimUserListEnterprise
@@ -23105,6 +24107,107 @@ func TestScimUserListEnterpriseResourcesItemName_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 ScimUserListEnterpriseResourcesItemName
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUserMeta_EncodeDecode(t *testing.T) {
+	var typ ScimUserMeta
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUserMeta
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUserName_EncodeDecode(t *testing.T) {
+	var typ ScimUserName
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUserName
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestScimUserName_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"familyName\":\"User\",\"givenName\":\"Jane\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ScimUserName
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ScimUserName
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestScimUserOperationsItem_EncodeDecode(t *testing.T) {
+	var typ ScimUserOperationsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUserOperationsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUserOperationsItemOp_EncodeDecode(t *testing.T) {
+	var typ ScimUserOperationsItemOp
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUserOperationsItemOp
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUserOperationsItemValue_EncodeDecode(t *testing.T) {
+	var typ ScimUserOperationsItemValue
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUserOperationsItemValue
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimUserOperationsItemValue1_EncodeDecode(t *testing.T) {
+	var typ ScimUserOperationsItemValue1
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimUserOperationsItemValue1
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestSearchCodeOK_EncodeDecode(t *testing.T) {
@@ -23761,6 +24864,18 @@ func TestSimpleUser_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 SimpleUser
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestStarredRepository_EncodeDecode(t *testing.T) {
+	var typ StarredRepository
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 StarredRepository
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestStatus_EncodeDecode(t *testing.T) {
@@ -26993,4 +28108,93 @@ func TestWorkflowState_Examples(t *testing.T) {
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
+}
+func TestWorkflowUsage_EncodeDecode(t *testing.T) {
+	var typ WorkflowUsage
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkflowUsage
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestWorkflowUsage_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"billable\":{\"MACOS\":{\"total_ms\":240000},\"UBUNTU\":{\"total_ms\":180000},\"WINDOWS\":{\"total_ms\":300000}}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ WorkflowUsage
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 WorkflowUsage
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestWorkflowUsageBillable_EncodeDecode(t *testing.T) {
+	var typ WorkflowUsageBillable
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkflowUsageBillable
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWorkflowUsageBillableMACOS_EncodeDecode(t *testing.T) {
+	var typ WorkflowUsageBillableMACOS
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkflowUsageBillableMACOS
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWorkflowUsageBillableUBUNTU_EncodeDecode(t *testing.T) {
+	var typ WorkflowUsageBillableUBUNTU
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkflowUsageBillableUBUNTU
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWorkflowUsageBillableWINDOWS_EncodeDecode(t *testing.T) {
+	var typ WorkflowUsageBillableWINDOWS
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkflowUsageBillableWINDOWS
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }

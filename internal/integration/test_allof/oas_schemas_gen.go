@@ -7,6 +7,293 @@ import (
 	"github.com/google/uuid"
 )
 
+// AllOfWithSiblingExtensionsOK is response for AllOfWithSiblingExtensions operation.
+type AllOfWithSiblingExtensionsOK struct{}
+
+type AllOfWithSiblingExtensionsReq struct {
+	Name string `json:"name"`
+}
+
+// GetName returns the value of Name.
+func (s *AllOfWithSiblingExtensionsReq) GetName() string {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *AllOfWithSiblingExtensionsReq) SetName(val string) {
+	s.Name = val
+}
+
+// AllOfWithSiblingPropertiesOK is response for AllOfWithSiblingProperties operation.
+type AllOfWithSiblingPropertiesOK struct{}
+
+// Merged schema.
+type AllOfWithSiblingPropertiesReq struct {
+	ID              string    `json:"id"`
+	Name            string    `json:"name"`
+	Config          FooConfig `json:"config"`
+	Bar             NilBar    `json:"bar"`
+	Sibling         string    `json:"sibling"`
+	OptionalSibling OptInt    `json:"optionalSibling"`
+}
+
+// GetID returns the value of ID.
+func (s *AllOfWithSiblingPropertiesReq) GetID() string {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *AllOfWithSiblingPropertiesReq) GetName() string {
+	return s.Name
+}
+
+// GetConfig returns the value of Config.
+func (s *AllOfWithSiblingPropertiesReq) GetConfig() FooConfig {
+	return s.Config
+}
+
+// GetBar returns the value of Bar.
+func (s *AllOfWithSiblingPropertiesReq) GetBar() NilBar {
+	return s.Bar
+}
+
+// GetSibling returns the value of Sibling.
+func (s *AllOfWithSiblingPropertiesReq) GetSibling() string {
+	return s.Sibling
+}
+
+// GetOptionalSibling returns the value of OptionalSibling.
+func (s *AllOfWithSiblingPropertiesReq) GetOptionalSibling() OptInt {
+	return s.OptionalSibling
+}
+
+// SetID sets the value of ID.
+func (s *AllOfWithSiblingPropertiesReq) SetID(val string) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *AllOfWithSiblingPropertiesReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetConfig sets the value of Config.
+func (s *AllOfWithSiblingPropertiesReq) SetConfig(val FooConfig) {
+	s.Config = val
+}
+
+// SetBar sets the value of Bar.
+func (s *AllOfWithSiblingPropertiesReq) SetBar(val NilBar) {
+	s.Bar = val
+}
+
+// SetSibling sets the value of Sibling.
+func (s *AllOfWithSiblingPropertiesReq) SetSibling(val string) {
+	s.Sibling = val
+}
+
+// SetOptionalSibling sets the value of OptionalSibling.
+func (s *AllOfWithSiblingPropertiesReq) SetOptionalSibling(val OptInt) {
+	s.OptionalSibling = val
+}
+
+// Ref: #/components/schemas/Bar
+type Bar struct {
+	UUID  uuid.UUID `json:"uuid"`
+	Value float64   `json:"value"`
+}
+
+// GetUUID returns the value of UUID.
+func (s *Bar) GetUUID() uuid.UUID {
+	return s.UUID
+}
+
+// GetValue returns the value of Value.
+func (s *Bar) GetValue() float64 {
+	return s.Value
+}
+
+// SetUUID sets the value of UUID.
+func (s *Bar) SetUUID(val uuid.UUID) {
+	s.UUID = val
+}
+
+// SetValue sets the value of Value.
+func (s *Bar) SetValue(val float64) {
+	s.Value = val
+}
+
+// Ref: #/components/schemas/BazStatus
+type BazStatus string
+
+const (
+	BazStatusActive         BazStatus = "active"
+	BazStatusInactive       BazStatus = "inactive"
+	BazStatusDecommissioned BazStatus = "decommissioned"
+)
+
+// AllValues returns all BazStatus values.
+func (BazStatus) AllValues() []BazStatus {
+	return []BazStatus{
+		BazStatusActive,
+		BazStatusInactive,
+		BazStatusDecommissioned,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s BazStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case BazStatusActive:
+		return []byte(s), nil
+	case BazStatusInactive:
+		return []byte(s), nil
+	case BazStatusDecommissioned:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *BazStatus) UnmarshalText(data []byte) error {
+	switch BazStatus(data) {
+	case BazStatusActive:
+		*s = BazStatusActive
+		return nil
+	case BazStatusInactive:
+		*s = BazStatusInactive
+		return nil
+	case BazStatusDecommissioned:
+		*s = BazStatusDecommissioned
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/Foo
+type Foo struct {
+	ID     string    `json:"id"`
+	Name   string    `json:"name"`
+	Config FooConfig `json:"config"`
+	Bar    NilBar    `json:"bar"`
+}
+
+// GetID returns the value of ID.
+func (s *Foo) GetID() string {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *Foo) GetName() string {
+	return s.Name
+}
+
+// GetConfig returns the value of Config.
+func (s *Foo) GetConfig() FooConfig {
+	return s.Config
+}
+
+// GetBar returns the value of Bar.
+func (s *Foo) GetBar() NilBar {
+	return s.Bar
+}
+
+// SetID sets the value of ID.
+func (s *Foo) SetID(val string) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *Foo) SetName(val string) {
+	s.Name = val
+}
+
+// SetConfig sets the value of Config.
+func (s *Foo) SetConfig(val FooConfig) {
+	s.Config = val
+}
+
+// SetBar sets the value of Bar.
+func (s *Foo) SetBar(val NilBar) {
+	s.Bar = val
+}
+
+// Ref: #/components/schemas/FooConfig
+type FooConfig struct {
+	Interval OptInt `json:"interval"`
+}
+
+// GetInterval returns the value of Interval.
+func (s *FooConfig) GetInterval() OptInt {
+	return s.Interval
+}
+
+// SetInterval sets the value of Interval.
+func (s *FooConfig) SetInterval(val OptInt) {
+	s.Interval = val
+}
+
+// Merged schema.
+type GetAdminFooOK struct {
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
+	Config    FooConfig `json:"config"`
+	Bar       NilBar    `json:"bar"`
+	BazStatus BazStatus `json:"bazStatus"`
+}
+
+// GetID returns the value of ID.
+func (s *GetAdminFooOK) GetID() string {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *GetAdminFooOK) GetName() string {
+	return s.Name
+}
+
+// GetConfig returns the value of Config.
+func (s *GetAdminFooOK) GetConfig() FooConfig {
+	return s.Config
+}
+
+// GetBar returns the value of Bar.
+func (s *GetAdminFooOK) GetBar() NilBar {
+	return s.Bar
+}
+
+// GetBazStatus returns the value of BazStatus.
+func (s *GetAdminFooOK) GetBazStatus() BazStatus {
+	return s.BazStatus
+}
+
+// SetID sets the value of ID.
+func (s *GetAdminFooOK) SetID(val string) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *GetAdminFooOK) SetName(val string) {
+	s.Name = val
+}
+
+// SetConfig sets the value of Config.
+func (s *GetAdminFooOK) SetConfig(val FooConfig) {
+	s.Config = val
+}
+
+// SetBar sets the value of Bar.
+func (s *GetAdminFooOK) SetBar(val NilBar) {
+	s.Bar = val
+}
+
+// SetBazStatus sets the value of BazStatus.
+func (s *GetAdminFooOK) SetBazStatus(val BazStatus) {
+	s.BazStatus = val
+}
+
 // Ref: #/components/schemas/Location
 type Location struct {
 	Lat float64 `json:"lat"`
@@ -33,6 +320,91 @@ func (s *Location) SetLon(val float64) {
 	s.Lon = val
 }
 
+// MultiAllOfWithSiblingPropertiesOK is response for MultiAllOfWithSiblingProperties operation.
+type MultiAllOfWithSiblingPropertiesOK struct{}
+
+// Merged schema.
+type MultiAllOfWithSiblingPropertiesReq struct {
+	A       string    `json:"a"`
+	B       OptBool   `json:"b"`
+	Sibling OptString `json:"sibling"`
+}
+
+// GetA returns the value of A.
+func (s *MultiAllOfWithSiblingPropertiesReq) GetA() string {
+	return s.A
+}
+
+// GetB returns the value of B.
+func (s *MultiAllOfWithSiblingPropertiesReq) GetB() OptBool {
+	return s.B
+}
+
+// GetSibling returns the value of Sibling.
+func (s *MultiAllOfWithSiblingPropertiesReq) GetSibling() OptString {
+	return s.Sibling
+}
+
+// SetA sets the value of A.
+func (s *MultiAllOfWithSiblingPropertiesReq) SetA(val string) {
+	s.A = val
+}
+
+// SetB sets the value of B.
+func (s *MultiAllOfWithSiblingPropertiesReq) SetB(val OptBool) {
+	s.B = val
+}
+
+// SetSibling sets the value of Sibling.
+func (s *MultiAllOfWithSiblingPropertiesReq) SetSibling(val OptString) {
+	s.Sibling = val
+}
+
+// NewNilBar returns new NilBar with value set to v.
+func NewNilBar(v Bar) NilBar {
+	return NilBar{
+		Value: v,
+	}
+}
+
+// NilBar is nullable Bar.
+type NilBar struct {
+	Value Bar
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilBar) SetTo(v Bar) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilBar) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilBar) SetToNull() {
+	o.Null = true
+	var v Bar
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilBar) Get() (v Bar, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilBar) Or(d Bar) Bar {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilString returns new NilString with value set to v.
 func NewNilString(v string) NilString {
 	return NilString{
@@ -52,10 +424,10 @@ func (o *NilString) SetTo(v string) {
 	o.Value = v
 }
 
-// IsSet returns true if value is Null.
+// IsNull returns true if value is Null.
 func (o NilString) IsNull() bool { return o.Null }
 
-// SetNull sets value to null.
+// SetToNull sets value to null.
 func (o *NilString) SetToNull() {
 	o.Null = true
 	var v string
@@ -233,6 +605,120 @@ func (o OptInt) Or(d int) int {
 	return d
 }
 
+// NewOptLocation returns new OptLocation with value set to v.
+func NewOptLocation(v Location) OptLocation {
+	return OptLocation{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLocation is optional Location.
+type OptLocation struct {
+	Value Location
+	Set   bool
+}
+
+// IsSet returns true if OptLocation was set.
+func (o OptLocation) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptLocation) Reset() {
+	var v Location
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLocation) SetTo(v Location) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLocation) Get() (v Location, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLocation) Or(d Location) Location {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilLocation returns new OptNilLocation with value set to v.
+func NewOptNilLocation(v Location) OptNilLocation {
+	return OptNilLocation{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilLocation is optional nullable Location.
+type OptNilLocation struct {
+	Value Location
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilLocation was set.
+func (o OptNilLocation) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilLocation) Reset() {
+	var v Location
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilLocation) SetTo(v Location) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilLocation) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilLocation) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v Location
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilLocation) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilLocation) Get() (v Location, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilLocation) Or(d Location) Location {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptString returns new OptString with value set to v.
 func NewOptString(v string) OptString {
 	return OptString{
@@ -278,6 +764,91 @@ func (o OptString) Or(d string) string {
 	}
 	return d
 }
+
+// Ref: #/components/schemas/ReferencedAllOfNullable
+type ReferencedAllOfNullable struct {
+	Location              OptLocation    `json:"location"`
+	AllOfLocation         OptLocation    `json:"allOfLocation"`
+	NullableAllOfLocation OptNilLocation `json:"nullableAllOfLocation"`
+}
+
+// GetLocation returns the value of Location.
+func (s *ReferencedAllOfNullable) GetLocation() OptLocation {
+	return s.Location
+}
+
+// GetAllOfLocation returns the value of AllOfLocation.
+func (s *ReferencedAllOfNullable) GetAllOfLocation() OptLocation {
+	return s.AllOfLocation
+}
+
+// GetNullableAllOfLocation returns the value of NullableAllOfLocation.
+func (s *ReferencedAllOfNullable) GetNullableAllOfLocation() OptNilLocation {
+	return s.NullableAllOfLocation
+}
+
+// SetLocation sets the value of Location.
+func (s *ReferencedAllOfNullable) SetLocation(val OptLocation) {
+	s.Location = val
+}
+
+// SetAllOfLocation sets the value of AllOfLocation.
+func (s *ReferencedAllOfNullable) SetAllOfLocation(val OptLocation) {
+	s.AllOfLocation = val
+}
+
+// SetNullableAllOfLocation sets the value of NullableAllOfLocation.
+func (s *ReferencedAllOfNullable) SetNullableAllOfLocation(val OptNilLocation) {
+	s.NullableAllOfLocation = val
+}
+
+func (*ReferencedAllOfNullable) referencedAllOfNullableReq() {}
+
+// Ref: #/components/schemas/ReferencedAllOfNullable
+type ReferencedAllOfNullableMultipart struct {
+	Location              OptLocation    `json:"location"`
+	AllOfLocation         OptLocation    `json:"allOfLocation"`
+	NullableAllOfLocation OptNilLocation `json:"nullableAllOfLocation"`
+}
+
+// GetLocation returns the value of Location.
+func (s *ReferencedAllOfNullableMultipart) GetLocation() OptLocation {
+	return s.Location
+}
+
+// GetAllOfLocation returns the value of AllOfLocation.
+func (s *ReferencedAllOfNullableMultipart) GetAllOfLocation() OptLocation {
+	return s.AllOfLocation
+}
+
+// GetNullableAllOfLocation returns the value of NullableAllOfLocation.
+func (s *ReferencedAllOfNullableMultipart) GetNullableAllOfLocation() OptNilLocation {
+	return s.NullableAllOfLocation
+}
+
+// SetLocation sets the value of Location.
+func (s *ReferencedAllOfNullableMultipart) SetLocation(val OptLocation) {
+	s.Location = val
+}
+
+// SetAllOfLocation sets the value of AllOfLocation.
+func (s *ReferencedAllOfNullableMultipart) SetAllOfLocation(val OptLocation) {
+	s.AllOfLocation = val
+}
+
+// SetNullableAllOfLocation sets the value of NullableAllOfLocation.
+func (s *ReferencedAllOfNullableMultipart) SetNullableAllOfLocation(val OptNilLocation) {
+	s.NullableAllOfLocation = val
+}
+
+func (*ReferencedAllOfNullableMultipart) referencedAllOfNullableReq() {}
+
+// ReferencedAllOfNullableOK is response for ReferencedAllOfNullable operation.
+type ReferencedAllOfNullableOK struct{}
+
+type ReferencedAllOfNullableReqEmptyBody struct{}
+
+func (*ReferencedAllOfNullableReqEmptyBody) referencedAllOfNullableReq() {}
 
 // ReferencedAllofOK is response for ReferencedAllof operation.
 type ReferencedAllofOK struct{}

@@ -7,7 +7,6 @@ import (
 	"net/url"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -150,9 +149,9 @@ func decodeFindPetByIDParams(args [1]string, argsEscaped bool, r *http.Request) 
 // FindPetsParams is parameters of findPets operation.
 type FindPetsParams struct {
 	// Tags to filter by.
-	Tags []string
+	Tags []string `json:",omitempty"`
 	// Maximum number of results to return.
-	Limit OptInt32
+	Limit OptInt32 `json:",omitempty,omitzero"`
 }
 
 func unpackFindPetsParams(packed middleware.Parameters) (params FindPetsParams) {
@@ -189,6 +188,7 @@ func decodeFindPetsParams(args [0]string, argsEscaped bool, r *http.Request) (pa
 
 		if err := q.HasParam(cfg); err == nil {
 			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				params.Tags = nil
 				return d.DecodeArray(func(d uri.Decoder) error {
 					var paramsDotTagsVal string
 					if err := func() error {

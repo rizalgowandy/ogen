@@ -83,6 +83,24 @@ func TestDefault(t *testing.T) {
 				}
 				return b
 			}(),
+			Strings: []string{"all"},
+			Priorities: []api.DefaultTestPrioritiesItem{
+				api.DefaultTestPrioritiesItemMedium,
+				api.DefaultTestPrioritiesItemHigh,
+			},
+			Nested: [][]int{{1, 2}, {3}},
+			Objs: []api.DefaultTestObjsItem{
+				{
+					Name:  api.NewOptString("x"),
+					Count: api.NewOptInt(5),
+				},
+			},
+			Shapes: []api.DefaultShape{
+				api.NewDefaultCircleDefaultShape(api.DefaultCircle{Kind: "circle", Radius: 5}),
+			},
+			Labels: []api.DefaultTestLabelsItem{
+				{"a": "x"},
+			},
 		}
 
 		cb(&defaultValue)
@@ -125,7 +143,6 @@ func TestDefault(t *testing.T) {
 		},
 	} {
 		// Make range value copy to prevent data races.
-		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
 			r := api.DefaultTest{}
 			if err := r.Decode(jx.DecodeStr(tc.Input)); tc.Error {

@@ -45,6 +45,7 @@ type XProperty struct {
 // Schema is a JSON Schema.
 type Schema struct {
 	XOgenName string // Annotation to set type name.
+	XOgenType string // Annotation to set custom type.
 
 	Ref Ref // Whether schema is referenced.
 
@@ -62,6 +63,8 @@ type Schema struct {
 	AdditionalProperties *bool             // Whether Object has additional properties.
 	PatternProperties    []PatternProperty // Only for Object.
 	Enum                 []any             // Only for Enum.
+	Const                any               // Only for Const.
+	ConstSet             bool              // Whether Const is set.
 	Properties           []Property        // Only for Object.
 	Required             []string
 
@@ -95,6 +98,9 @@ type Schema struct {
 	MaxProperties *uint64
 	MinProperties *uint64
 
+	// OgenValidate is a map of custom validation parameters.
+	OgenValidate map[string]any
+
 	Examples []Example
 	// Default schema value.
 	Default    any
@@ -102,6 +108,8 @@ type Schema struct {
 
 	// ExtraTags is a map of extra struct field tags
 	ExtraTags map[string]string
+
+	XOgenTimeFormat string // Time format for time.Time.
 
 	location.Pointer `json:"-" yaml:"-"`
 }

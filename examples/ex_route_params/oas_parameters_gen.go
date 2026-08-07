@@ -7,7 +7,6 @@ import (
 	"net/url"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/conv"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -84,6 +83,7 @@ func decodeDataGetParams(args [2]string, argsEscaped bool, r *http.Request) (par
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.ID)); err != nil {
 					return errors.Wrap(err, "int")
 				}
@@ -138,13 +138,17 @@ func decodeDataGetParams(args [2]string, argsEscaped bool, r *http.Request) (par
 			}
 			if err := func() error {
 				if err := (validate.String{
-					MinLength:    1,
-					MinLengthSet: true,
-					MaxLength:    0,
-					MaxLengthSet: false,
-					Email:        false,
-					Hostname:     false,
-					Regex:        nil,
+					MinLength:     1,
+					MinLengthSet:  true,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         false,
+					Hostname:      false,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
 				}).Validate(string(params.Key)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -227,6 +231,7 @@ func decodeDataGetIDParams(args [1]string, argsEscaped bool, r *http.Request) (p
 					MaxExclusive:  false,
 					MultipleOfSet: false,
 					MultipleOf:    0,
+					Pattern:       nil,
 				}).Validate(int64(params.ID)); err != nil {
 					return errors.Wrap(err, "int")
 				}

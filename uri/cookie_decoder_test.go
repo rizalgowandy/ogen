@@ -17,7 +17,7 @@ func TestCookieDecoder_HasParam(t *testing.T) {
 		{
 			Input:      http.Header{},
 			CookieName: "foo",
-			WantErr:    "cookie parameter \"foo\" not set",
+			WantErr:    "invalid: foo (field required)",
 		},
 		{
 			Input: http.Header{
@@ -27,7 +27,6 @@ func TestCookieDecoder_HasParam(t *testing.T) {
 		},
 	}
 	for i, tt := range tests {
-		tt := tt
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
 			req := &http.Request{
 				Header: tt.Input,

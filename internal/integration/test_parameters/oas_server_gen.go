@@ -40,6 +40,10 @@ type Handler interface {
 	//
 	// GET /optionalArrayParameter
 	OptionalArrayParameter(ctx context.Context, params OptionalArrayParameterParams) (string, error)
+	// OptionalParameters implements optionalParameters operation.
+	//
+	// GET /optionalParameters
+	OptionalParameters(ctx context.Context, params OptionalParametersParams) (*OptionalQueryParametersResponse, error)
 	// PathParameter implements pathParameter operation.
 	//
 	// Test for path param.
@@ -58,6 +62,12 @@ type Handler interface {
 	//
 	// GET /similarNames
 	SimilarNames(ctx context.Context, params SimilarNamesParams) error
+	// SpaceDelimitedParameter implements spaceDelimitedParameter operation.
+	//
+	// Test for spaceDelimited style query array parameters.
+	//
+	// GET /spaceDelimitedParameter
+	SpaceDelimitedParameter(ctx context.Context, params SpaceDelimitedParameterParams) (*SpaceDelimitedParameterOK, error)
 }
 
 // Server implements http server based on OpenAPI v3 specification and
